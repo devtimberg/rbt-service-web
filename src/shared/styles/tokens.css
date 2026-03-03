@@ -1,0 +1,126 @@
+:root {
+  /* Primitive palettes */
+  --primary-300: oklch(0.5712 0.1732 261.45);
+  --primary-500: oklch(0.5328 0.1897 261.32);
+  --primary-900: oklch(0.191 0.0689 258.91);
+
+  --secondary-500: oklch(0.62 0.2233 10.33);
+
+  /* Semantic tokens */
+  --surface-canvas: oklch(1 0 0);
+  --surface-default: oklch(1 0 0);
+  --surface-elevated: oklch(1 0 0);
+  --surface-overlay: oklch(1 0 0);
+  --surface-subtle: oklch(0.97 0 0);
+
+  --text-primary: oklch(0.145 0 0);
+  --text-muted: oklch(0.556 0 0);
+
+  --primary: oklch(0.145 0 0);
+  --secondary: oklch(0.205 0 0);
+  --muted: oklch(0.556 0 0);
+  --disabled: oklch(0.708 0 0);
+  --inverse: oklch(0.985 0 0);
+
+  --border-subtle: oklch(0.922 0 0);
+  --border-default: oklch(0.922 0 0);
+  --border-strong: oklch(0.708 0 0);
+
+  --input-default: oklch(0.922 0 0);
+  --input-placeholder: oklch(0.7335 0.0883 262.57);
+
+  --focus-ring: oklch(0.708 0 0);
+
+  --action-primary-bg: var(--primary-500);
+  --action-primary-fg: oklch(0.985 0 0);
+  --action-secondary-bg: oklch(0.97 0 0);
+  --action-secondary-fg: oklch(0.205 0 0);
+  --action-accent-bg: oklch(0.97 0 0);
+  --action-accent-fg: oklch(0.205 0 0);
+
+  --success-100: oklch(0.96 0.03 145);
+  --success-300: oklch(0.9 0.06 145);
+  --success-500: oklch(0.82 0.1 145);
+  --success-700: oklch(0.68 0.12 145);
+  --success-900: oklch(0.54 0.11 145);
+
+  --warning-100: oklch(0.97 0.03 85);
+  --warning-300: oklch(0.92 0.06 85);
+  --warning-500: oklch(0.85 0.11 85);
+  --warning-700: oklch(0.72 0.12 85);
+  --warning-900: oklch(0.58 0.1 85);
+
+  --danger-100: oklch(0.95 0.04 25);
+  --danger-300: oklch(0.88 0.08 25);
+  --danger-500: oklch(0.8 0.14 25);
+  --danger-700: oklch(0.68 0.17 25);
+  --danger-900: oklch(0.56 0.15 25);
+
+  --info-100: oklch(0.95 0.03 240);
+  --info-300: oklch(0.89 0.06 240);
+  --info-500: oklch(0.8 0.1 240);
+  --info-700: oklch(0.67 0.12 240);
+  --info-900: oklch(0.54 0.11 240);
+
+  --state-danger-bg: var(--danger-500);
+  --state-danger-fg: oklch(0.985 0 0);
+  --state-success-bg: var(--success-500);
+  --state-success-fg: oklch(0.205 0 0);
+  --state-warning-bg: var(--warning-500);
+  --state-warning-fg: oklch(0.205 0 0);
+  --state-info-bg: var(--info-500);
+  --state-info-fg: oklch(0.205 0 0);
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --radius: 0.625rem;
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(1 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* shadcn compatibility mapping to semantic tokens */
+  --background: var(--surface-canvas);
+  --foreground: var(--text-primary);
+  --card: var(--surface-default);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-overlay);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--action-primary-bg);
+  --primary-foreground: var(--action-primary-fg);
+  --secondary: var(--action-secondary-bg);
+  --secondary-foreground: var(--action-secondary-fg);
+  --muted: var(--surface-subtle);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--action-accent-bg);
+  --accent-foreground: var(--action-accent-fg);
+  --destructive: var(--state-danger-bg);
+  --border: var(--border-default);
+  --input: var(--input-default);
+  --ring: var(--focus-ring);
+}
