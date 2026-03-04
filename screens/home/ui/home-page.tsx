@@ -39,26 +39,36 @@ export function HomePage() {
 
   return (
     <div className="bg-primary-500 flex h-dvh flex-col rounded-none lg:h-[calc(100dvh-32px)] lg:rounded-[40px]">
-      <div className={cn("shrink-0", hasVerticalScroll && "border-b border-primary-300")}>
+      <div
+        className={cn(
+          "shrink-0",
+          hasVerticalScroll && "border-primary-300 border-b",
+        )}
+      >
         <Header />
       </div>
       <div
         ref={scrollRef}
         className="flex min-h-0 flex-1 flex-col overflow-y-auto"
       >
-        <div className="my-auto w-full py-[clamp(8px,2vh,36px)] [@media(max-height:860px)]:py-2 [@media(max-height:760px)]:py-1">
+        <div className="my-auto w-full py-[clamp(8px,2vh,36px)] [@media(max-height:760px)]:py-1 [@media(max-height:860px)]:py-2">
           <Container className="flex justify-center">
             <CatalogSearch />
           </Container>
-          <div className="mt-[clamp(28px,7.5vh,144px)] [@media(max-height:860px)]:mt-6 [@media(max-height:760px)]:mt-4">
+          <div className="mt-[clamp(28px,7.5vh,144px)] max-[1200px]:mt-12 [@media(max-height:760px)]:mt-10 [@media(max-height:860px)]:mt-10">
             <HomeQuickAction />
           </div>
-          <div className="mt-[clamp(40px,11vh,200px)] [@media(max-height:860px)]:mt-8 [@media(max-height:760px)]:mt-5">
+          <div className="mt-[clamp(40px,11vh,200px)] [@media(max-height:760px)]:mt-5 [@media(max-height:860px)]:mt-8">
             <HomeBenefitsStrip />
           </div>
         </div>
       </div>
-      <div className={cn("shrink-0", hasVerticalScroll && "border-t border-primary-300")}>
+      <div
+        className={cn(
+          "shrink-0",
+          hasVerticalScroll && "border-primary-300 border-t",
+        )}
+      >
         <Footer />
       </div>
     </div>

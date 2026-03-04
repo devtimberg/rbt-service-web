@@ -32,19 +32,19 @@ export function Footer() {
 
   return (
     <Container className="mt-auto py-[clamp(12px,2.5vh,24px)]">
-      <HStack className="justify-between">
+      <HStack className="items-end justify-between gap-4">
         <Text
           variant="secondary"
           size="xs"
-          className="leading-4 whitespace-pre-wrap"
+          className="min-w-0 flex-1 leading-4 whitespace-pre-wrap"
         >
           {`© 1995 — 2026 ТТЦ Рембыттехника.\nВсе права защищены. Условия использования. Политика конфиденциальности.\nАдрес: г. Челябинск, ул. Производственная д. 8Б, Тел.: +7(351)239-39-39 Email: service@rbt.ru`}
         </Text>
         <HStack
-          className="items-center"
+          className="w-[340px] shrink-0 items-center justify-end"
           gap={4}
         >
-          <Text className="text-right text-[18px] leading-5 font-semibold whitespace-pre-wrap">
+          <Text className="shrink-0 text-right text-[18px] leading-5 font-semibold whitespace-nowrap">
             {GREETINGS[greetingIndex].slice(0, typedLength)}
             <span
               aria-hidden
