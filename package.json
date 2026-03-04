@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "icons:build": "svgr --no-prettier --typescript --icon --expand-props end --filename-case kebab --out-dir src/shared/icons src/shared/icons/raw && node -e \"const fs=require('node:fs');const rawDir='src/shared/icons/raw';const outDir='src/shared/icons';const toKebab=(name)=>name.replace(/([a-z0-9])([A-Z])/g,'$1-$2').replace(/[ _]+/g,'-').toLowerCase();const toPascal=(name)=>name.split('-').filter(Boolean).map((part)=>part.charAt(0).toUpperCase()+part.slice(1)).join('');const files=fs.readdirSync(rawDir).filter((f)=>f.endsWith('.svg')).sort((a,b)=>a.localeCompare(b));const lines=files.map((f)=>{const base=toKebab(f.replace(/\\\\.svg$/,''));return \\\"export { default as \\\"+toPascal(base)+\\\"Icon } from './\\\"+base+\\\"';\\\";});fs.writeFileSync(outDir+'/index.ts',lines.join('\\\\n')+'\\\\n');\"",
-    "icons:format": "prettier --write \"src/shared/icons/**/*.{ts,tsx}\"",
+    "icons:build": "svgr --no-prettier --typescript --icon --expand-props end --filename-case kebab --out-dir shared/icons shared/icons/raw && node -e \"const fs=require('node:fs');const rawDir='shared/icons/raw';const outDir='shared/icons';const toKebab=(name)=>name.replace(/([a-z0-9])([A-Z])/g,'$1-$2').replace(/[ _]+/g,'-').toLowerCase();const toPascal=(name)=>name.split('-').filter(Boolean).map((part)=>part.charAt(0).toUpperCase()+part.slice(1)).join('');const files=fs.readdirSync(rawDir).filter((f)=>f.endsWith('.svg')).sort((a,b)=>a.localeCompare(b));const lines=files.map((f)=>{const base=toKebab(f.replace(/\\\\.svg$/,''));return \\\"export { default as \\\"+toPascal(base)+\\\"Icon } from './\\\"+base+\\\"';\\\";});fs.writeFileSync(outDir+'/index.ts',lines.join('\\\\n')+'\\\\n');\"",
+    "icons:format": "prettier --write \"shared/icons/**/*.{ts,tsx}\"",
     "icons:sync": "bun run icons:build && bun run icons:format"
   },
   "dependencies": {

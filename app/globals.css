@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "../src/shared/styles/tokens.css";
-@import "../src/shared/styles/theme-mapping.css";
-@import "../src/shared/styles/theme-dark.css";
+@import "../shared/styles/tokens.css";
+@import "../shared/styles/theme-mapping.css";
+@import "../shared/styles/theme-dark.css";
 
 @custom-variant dark (&:is(.dark *));
 

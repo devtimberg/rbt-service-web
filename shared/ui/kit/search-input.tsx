@@ -2,8 +2,8 @@
 
 import * as React from "react";
 
-import { SearchIcon } from "@/src/shared/icons";
-import { cn } from "@/src/shared/lib/utils";
+import { SearchIcon } from "@/shared/icons";
+import { cn } from "@/shared/lib/utils";
 
 type SearchInputProps = Omit<React.ComponentProps<"input">, "size"> & {
   rootClassName?: string;

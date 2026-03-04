@@ -1,12 +1,12 @@
 import type { CSSProperties, HTMLAttributes } from "react";
 
-import { cn } from "@/src/shared/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
-type HStackProps = HTMLAttributes<HTMLDivElement> & {
+type VStackProps = HTMLAttributes<HTMLDivElement> & {
   gap?: number | string;
 };
 
-export function HStack({ className, gap, style, ...props }: HStackProps) {
+export function VStack({ className, gap, style, ...props }: VStackProps) {
   const resolvedGap = typeof gap === "number" ? `${gap * 0.25}rem` : gap;
 
   const mergedStyle =
@@ -19,8 +19,8 @@ export function HStack({ className, gap, style, ...props }: HStackProps) {
 
   return (
     <div
-      data-slot="h-stack"
-      className={cn("flex flex-row", className)}
+      data-slot="v-stack"
+      className={cn("flex flex-col", className)}
       style={mergedStyle}
       {...props}
     />

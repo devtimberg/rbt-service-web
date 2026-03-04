@@ -6,3 +6,4 @@ export * from "./heading";
 export * from "./icon-button";
 export * from "./v-stack";
 export * from "./search-input";
+export * from "./text";

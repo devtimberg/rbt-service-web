@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import Link, { type LinkProps } from "next/link";
 import { Slot } from "radix-ui";
 
-import { cn } from "@/src/shared/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 type IconComponent = React.ElementType<React.SVGProps<SVGSVGElement>>;
 type ButtonProps = Omit<React.ComponentProps<"button">, "children">;
@@ -84,10 +84,15 @@ function IconButton({
   const hasCounter =
     typeof counter === "number" && Number.isFinite(counter) && counter > 0;
   const counterContent = hasCounter ? (counter > 99 ? "99+" : counter) : null;
+  const counterSizeClass =
+    size === "lg" ? "min-h-5 min-w-5 px-1.5 text-xs" : "min-h-4 min-w-4 px-1 text-[10px]";
   const counterBadge = hasCounter ? (
     <span
       aria-hidden
-      className="bg-destructive absolute top-0 right-0 inline-flex min-h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] leading-none font-semibold text-white"
+      className={cn(
+        "bg-destructive absolute top-0 right-0 inline-flex items-center justify-center rounded-full leading-none font-semibold text-white",
+        counterSizeClass,
+      )}
     >
       {counterContent}
     </span>
