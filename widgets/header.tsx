@@ -4,7 +4,7 @@ import { BagIcon, ChartIcon, ProfileIcon, HeartIcon } from "@/shared/icons";
 
 export function Header() {
   return (
-    <Container className="flex justify-between px-4 py-[clamp(16px,4vh,40px)] lg:px-0">
+    <Container className="flex justify-center px-4 py-[clamp(16px,4vh,40px)] sm:justify-between">
       <Image
         src="/brand/logo.svg"
         alt="ООО ТТЦ Рембыттехника"
@@ -12,7 +12,10 @@ export function Header() {
         height={40}
         priority
       />
-      <HStack gap={10}>
+      <HStack
+        className="hidden sm:flex"
+        gap={10}
+      >
         <IconButton
           size={"lg"}
           icon={HeartIcon}
