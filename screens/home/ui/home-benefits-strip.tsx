@@ -13,7 +13,7 @@ export function HomeBenefitsStrip() {
   const callBenefitParts = callBenefit?.text.split("\n") ?? [];
 
   return (
-    <Container className="md:px-0">
+    <Container>
       {callBenefit ? (
         <a
           href="tel:+78003335556"
@@ -29,7 +29,7 @@ export function HomeBenefitsStrip() {
               aria-hidden
             />
           </span>
-          <span className="text-center text-[14px] leading-tight font-semibold sm:text-xl">
+          <span className="text-sm leading-tight">
             {callBenefitParts[0]}
             {callBenefitParts[1] ? (
               <>
@@ -82,7 +82,7 @@ export function HomeBenefitsStrip() {
                 className="block"
                 aria-hidden
               />
-              <span className="text-primary text-sm font-medium whitespace-pre-wrap">
+              <span className="text-primary font-medium whitespace-pre-wrap">
                 {benefit.text}
               </span>
             </HStack>
@@ -106,7 +106,7 @@ export function HomeBenefitsStrip() {
                 className="block"
                 aria-hidden
               />
-              <span className="text-primary text-sm font-medium whitespace-pre-wrap">
+              <span className="text-primary font-medium whitespace-pre-wrap">
                 {benefit.text}
               </span>
             </HStack>
@@ -114,7 +114,7 @@ export function HomeBenefitsStrip() {
         </HStack>
       </div>
 
-      <div className="hidden grid-cols-5 gap-x-10 gap-y-8 xl:grid">
+      <div className="hidden xl:mx-auto xl:grid xl:w-max xl:grid-cols-[repeat(5,max-content)] xl:gap-x-10">
         {HOME_BENEFITS.map((benefit) => (
           <HStack
             key={benefit.key}
@@ -129,7 +129,7 @@ export function HomeBenefitsStrip() {
               className="block"
               aria-hidden
             />
-            <span className="text-primary text-sm font-medium whitespace-pre-wrap">
+            <span className="text-primary text-[16px] font-semibold whitespace-pre-wrap">
               {benefit.text}
             </span>
           </HStack>
