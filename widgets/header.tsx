@@ -4,6 +4,8 @@ import { Container, HStack, IconButton } from "@/shared/ui/kit";
 import { BagIcon, ChartIcon, ProfileIcon, HeartIcon } from "@/shared/icons";
 
 export function Header() {
+  const headerIconClassName = "text-white hover:text-white";
+
   return (
     <Container className="flex justify-center px-4 py-[clamp(16px,4vh,40px)] sm:justify-between">
       <Image
@@ -22,6 +24,7 @@ export function Header() {
           icon={HeartIcon}
           iconSize={28}
           counter={null}
+          className={headerIconClassName}
           aria-label="Избранное"
           href={ROUTES.FAVORITE}
         />
@@ -30,6 +33,7 @@ export function Header() {
           size={"lg"}
           iconSize={28}
           counter={null}
+          className={headerIconClassName}
           aria-label="Сравнение"
           href={ROUTES.COMPARE}
         />
@@ -38,6 +42,7 @@ export function Header() {
           size={"lg"}
           iconSize={28}
           counter={3}
+          className={headerIconClassName}
           aria-label="Корзина"
           href={ROUTES.CART}
         />
@@ -45,6 +50,7 @@ export function Header() {
           icon={ProfileIcon}
           size={"lg"}
           iconSize={28}
+          className={headerIconClassName}
           aria-label="Профиль"
           href={ROUTES.PROFILE}
         />
