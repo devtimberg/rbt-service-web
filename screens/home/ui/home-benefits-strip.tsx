@@ -4,44 +4,37 @@ import { Container, HStack } from "@/shared/ui/kit";
 import Image from "next/image";
 
 export function HomeBenefitsStrip() {
+  // Отдельный benefit с номером телефона для мобильного блока "Бесплатный звонок".
   const callBenefit = HOME_BENEFITS.find((benefit) => benefit.key === "call");
+  // Остальные преимущества, которые рендерятся в сетке/строках.
   const regularBenefits = HOME_BENEFITS.filter(
     (benefit) => benefit.key !== "call",
   );
+  // Разбиение списка для md..xl: первая строка (3 элемента), вторая строка (2 элемента).
   const desktopFirstRow = HOME_BENEFITS.slice(0, 3);
   const desktopSecondRow = HOME_BENEFITS.slice(3);
-  const callBenefitParts = callBenefit?.text.split("\n") ?? [];
 
   return (
     <Container>
+      {/* Мобильный блок "Бесплатный звонок" (виден только до md). */}
       {callBenefit ? (
-        <a
-          href="tel:+78003335556"
-          className="bg-primary-300 text-primary mb-8 flex w-full items-center justify-center gap-2 rounded-3xl px-6 py-5 md:hidden"
-        >
-          <span className="shrink-0">
-            <Image
-              src={callBenefit.iconSrc}
-              alt=""
-              width={32}
-              height={32}
-              className="block"
-              aria-hidden
-            />
+        <div className="bg-primary-300 text-primary mb-8 flex w-full items-center justify-center gap-2 rounded-3xl px-6 py-5 md:hidden">
+          <Image
+            src={callBenefit.iconSrc}
+            alt=""
+            width={32}
+            height={32}
+            className="block"
+            aria-hidden
+          />
+          <span className="text-[16px] leading-tight font-semibold whitespace-pre-wrap">
+            {callBenefit.text}
           </span>
-          <span className="text-sm leading-tight">
-            {callBenefitParts[0]}
-            {callBenefitParts[1] ? (
-              <>
-                {" "}
-                <span className="whitespace-nowrap">{callBenefitParts[1]}</span>
-              </>
-            ) : null}
-          </span>
-        </a>
+        </div>
       ) : null}
 
-      <div className="xs:px-0 grid grid-cols-2 gap-x-8 gap-y-10 sm:px-6 md:hidden">
+      {/* Мобильная сетка преимуществ 2x2 без call-элемента. */}
+      <div className="mx-auto grid w-max grid-cols-[repeat(2,max-content)] gap-x-8 gap-y-10 md:hidden">
         {regularBenefits.map((benefit) => (
           <HStack
             key={benefit.key}
@@ -63,6 +56,7 @@ export function HomeBenefitsStrip() {
         ))}
       </div>
 
+      {/* Планшет/небольшой desktop: преимущества в две строки для лучшей читаемости. */}
       <div className="hidden md:block xl:hidden">
         <HStack
           className="justify-center"
@@ -114,6 +108,7 @@ export function HomeBenefitsStrip() {
         </HStack>
       </div>
 
+      {/* Широкий desktop (xl+): один центрированный ряд из 5 элементов. */}
       <div className="hidden xl:mx-auto xl:grid xl:w-max xl:grid-cols-[repeat(5,max-content)] xl:gap-x-10">
         {HOME_BENEFITS.map((benefit) => (
           <HStack
@@ -129,7 +124,7 @@ export function HomeBenefitsStrip() {
               className="block"
               aria-hidden
             />
-            <span className="text-primary text-[16px] font-semibold whitespace-pre-wrap">
+            <span className="text-primary text-[14px] font-semibold whitespace-pre-wrap">
               {benefit.text}
             </span>
           </HStack>
