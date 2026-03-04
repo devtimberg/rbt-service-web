@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ROUTES } from "@/shared/lib/routes";
 import { Container, HStack, IconButton } from "@/shared/ui/kit";
 import { BagIcon, ChartIcon, ProfileIcon, HeartIcon } from "@/shared/icons";
 
@@ -22,7 +23,7 @@ export function Header() {
           iconSize={28}
           counter={null}
           aria-label="Избранное"
-          href="/favorite"
+          href={ROUTES.FAVORITE}
         />
         <IconButton
           icon={ChartIcon}
@@ -30,7 +31,7 @@ export function Header() {
           iconSize={28}
           counter={null}
           aria-label="Сравнение"
-          href="/compare"
+          href={ROUTES.COMPARE}
         />
         <IconButton
           icon={BagIcon}
@@ -38,14 +39,14 @@ export function Header() {
           iconSize={28}
           counter={3}
           aria-label="Корзина"
-          href="/cart"
+          href={ROUTES.CART}
         />
         <IconButton
           icon={ProfileIcon}
           size={"lg"}
           iconSize={28}
           aria-label="Профиль"
-          href="/profile"
+          href={ROUTES.PROFILE}
         />
       </HStack>
     </Container>

@@ -7,6 +7,7 @@ import {
   HomeIcon,
   ProfileIcon,
 } from "@/shared/icons";
+import { ROUTES } from "@/shared/lib/routes";
 import { cn } from "@/shared/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -22,28 +23,28 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   {
     label: "Главная",
-    href: "/",
+    href: ROUTES.HOME,
     icon: HomeIcon,
   },
   {
     label: "Каталог",
-    href: "/catalog",
+    href: ROUTES.CATALOG,
     icon: CatalogIcon,
   },
   {
     label: "Избранное",
-    href: "/favorite",
+    href: ROUTES.FAVORITE,
     icon: HeartIcon,
   },
   {
     label: "Корзина",
-    href: "/cart",
+    href: ROUTES.CART,
     icon: BagIcon,
     counter: 3,
   },
   {
     label: "Профиль",
-    href: "/profile",
+    href: ROUTES.PROFILE,
     icon: ProfileIcon,
   },
 ];
