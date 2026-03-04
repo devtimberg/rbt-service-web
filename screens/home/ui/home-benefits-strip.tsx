@@ -18,12 +18,12 @@ export function HomeBenefitsStrip() {
     <Container>
       {/* Мобильный блок "Бесплатный звонок" (виден только до md). */}
       {callBenefit ? (
-        <div className="bg-primary-300 text-primary mb-8 flex w-full items-center justify-center gap-2 rounded-3xl px-6 py-5 md:hidden">
+        <div className="bg-primary-300 text-primary mb-8 flex w-full items-center justify-center gap-3 rounded-3xl px-6 py-5 md:hidden">
           <Image
             src={callBenefit.iconSrc}
             alt=""
-            width={32}
-            height={32}
+            width={40}
+            height={40}
             className="block"
             aria-hidden
           />
@@ -76,7 +76,7 @@ export function HomeBenefitsStrip() {
                 className="block"
                 aria-hidden
               />
-              <span className="text-primary font-medium whitespace-pre-wrap">
+              <span className="text-primary text-[14px] font-medium whitespace-pre-wrap">
                 {benefit.text}
               </span>
             </HStack>
@@ -100,7 +100,7 @@ export function HomeBenefitsStrip() {
                 className="block"
                 aria-hidden
               />
-              <span className="text-primary font-medium whitespace-pre-wrap">
+              <span className="text-primary text-[14px] font-medium whitespace-pre-wrap">
                 {benefit.text}
               </span>
             </HStack>
