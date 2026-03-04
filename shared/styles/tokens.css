@@ -1,5 +1,6 @@
 :root {
   /* Primitive palettes */
+  --primary-100: oklch(0.7594 0.092 262.91);
   --primary-300: oklch(0.5712 0.1732 261.45);
   --primary-500: oklch(0.5328 0.1897 261.32);
   --primary-900: oklch(0.191 0.0689 258.91);

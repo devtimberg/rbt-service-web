@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
+import { MobileBottomNav } from "@/widgets";
 import "./globals.css";
 
 const geistSans = Inter({
@@ -31,9 +32,10 @@ export default function RootLayout({
   return (
     <html lang="ru-RU">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-primary-500 p-0 antialiased lg:bg-primary-900 lg:p-4`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-primary-500 p-0 pb-[88px] antialiased sm:pb-0 lg:bg-primary-900 lg:p-4`}
       >
         {children}
+        <MobileBottomNav />
       </body>
     </html>
   );

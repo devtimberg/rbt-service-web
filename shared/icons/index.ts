@@ -3,6 +3,7 @@ export { default as CatalogIcon } from "./catalog";
 export { default as ChartIcon } from "./chart";
 export { default as FeedbackIcon } from "./feedback";
 export { default as HeartIcon } from "./heart";
+export { default as HomeIcon } from "./home";
 export { default as MasterIcon } from "./master";
 export { default as OrderDetailIcon } from "./order-detail";
 export { default as OrderStatusIcon } from "./order-status";
