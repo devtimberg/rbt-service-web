@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: "Сервисный центр ООО ТТЦ Рембыттехника",
   description:
     "На сегодняшний день, практически все люди без исключения пользуются различными видами бытовой техники, компьютерами и смартфонами. Трудно представить дом без стиральной или посудомоечной машины, холодильника или морозильной камеры, водонагревательных приборов или варочной поверхности. Однако любая техника иногда подводит, выходя из строя или отказываясь работать. Причины неисправности могут быть абсолютно разные, от неправильной эксплуатации техники до естественного износа деталей и их поломки. ",
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="ru-RU">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-primary-900 p-0 antialiased lg:p-4`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-primary-500 p-0 antialiased lg:bg-primary-900 lg:p-4`}
       >
         {children}
       </body>

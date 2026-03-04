@@ -17,19 +17,19 @@ export function HomeBenefitsStrip() {
       {callBenefit ? (
         <a
           href="tel:+78003335556"
-          className="bg-primary-300 text-primary mb-8 flex w-full items-center justify-center gap-4 rounded-3xl px-6 py-5 md:hidden"
+          className="bg-primary-300 text-primary mb-8 flex w-full items-center justify-center gap-2 rounded-3xl px-6 py-5 md:hidden"
         >
-          <span className="">
+          <span className="shrink-0">
             <Image
               src={callBenefit.iconSrc}
               alt=""
-              width={48}
-              height={48}
+              width={32}
+              height={32}
               className="block"
               aria-hidden
             />
           </span>
-          <span className="text-left leading-tight font-semibold sm:text-xl">
+          <span className="text-center text-[14px] leading-tight font-semibold sm:text-xl">
             {callBenefitParts[0]}
             {callBenefitParts[1] ? (
               <>
@@ -51,12 +51,12 @@ export function HomeBenefitsStrip() {
             <Image
               src={benefit.iconSrc}
               alt=""
-              width={48}
-              height={48}
+              width={32}
+              height={32}
               className="block"
               aria-hidden
             />
-            <span className="text-primary text-sm font-medium whitespace-pre-wrap">
+            <span className="text-primary text-[12px] font-medium whitespace-pre-wrap">
               {benefit.text}
             </span>
           </HStack>
