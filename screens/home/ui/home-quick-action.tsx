@@ -7,7 +7,7 @@ export function HomeQuickAction() {
   return (
     <Container>
       <Box className="m-auto max-w-[960px]">
-        <div className="grid grid-cols-2 gap-8 lg:grid-cols-3 lg:gap-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {HOME_QUICK_ACTIONS.map((action) => {
             const Icon = action.icon;
             const isAccent =

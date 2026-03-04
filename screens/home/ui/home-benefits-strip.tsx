@@ -5,32 +5,43 @@ import Image from "next/image";
 
 export function HomeBenefitsStrip() {
   const callBenefit = HOME_BENEFITS.find((benefit) => benefit.key === "call");
-  const regularBenefits = HOME_BENEFITS.filter((benefit) => benefit.key !== "call");
+  const regularBenefits = HOME_BENEFITS.filter(
+    (benefit) => benefit.key !== "call",
+  );
   const desktopFirstRow = HOME_BENEFITS.slice(0, 3);
   const desktopSecondRow = HOME_BENEFITS.slice(3);
+  const callBenefitParts = callBenefit?.text.split("\n") ?? [];
 
   return (
-    <Container>
+    <Container className="md:px-0">
       {callBenefit ? (
         <a
           href="tel:+78003335556"
-          className="bg-primary-300 text-primary mb-8 flex w-full items-center gap-3 rounded-3xl px-6 py-5 md:hidden"
+          className="bg-primary-300 text-primary mb-8 flex w-full items-center justify-center gap-4 rounded-3xl px-6 py-5 md:hidden"
         >
-          <Image
-            src={callBenefit.iconSrc}
-            alt=""
-            width={48}
-            height={48}
-            className="block"
-            aria-hidden
-          />
-          <span className="text-[22px] font-semibold leading-tight whitespace-pre-wrap">
-            {callBenefit.text.replace("\n", " ")}
+          <span className="">
+            <Image
+              src={callBenefit.iconSrc}
+              alt=""
+              width={48}
+              height={48}
+              className="block"
+              aria-hidden
+            />
+          </span>
+          <span className="text-left leading-tight font-semibold sm:text-xl">
+            {callBenefitParts[0]}
+            {callBenefitParts[1] ? (
+              <>
+                {" "}
+                <span className="whitespace-nowrap">{callBenefitParts[1]}</span>
+              </>
+            ) : null}
           </span>
         </a>
       ) : null}
 
-      <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:hidden">
+      <div className="xs:px-0 grid grid-cols-2 gap-x-8 gap-y-10 sm:px-6 md:hidden">
         {regularBenefits.map((benefit) => (
           <HStack
             key={benefit.key}

@@ -31,7 +31,7 @@ export function Footer() {
   }, [greetingIndex, typedLength]);
 
   return (
-    <Container className="mt-auto py-[clamp(12px,2.5vh,24px)]">
+    <Container className="mt-auto px-4 py-[clamp(12px,2.5vh,24px)] lg:px-0">
       <HStack className="items-end justify-between gap-4">
         <Text
           variant="secondary"

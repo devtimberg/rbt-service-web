@@ -38,7 +38,7 @@ export function HomePage() {
   }, []);
 
   return (
-    <div className="bg-primary-500 flex h-dvh flex-col rounded-none lg:h-[calc(100dvh-32px)] lg:rounded-[40px]">
+    <div className="bg-primary-500 flex min-h-dvh flex-col rounded-none lg:h-[calc(100dvh-32px)] lg:min-h-0 lg:rounded-[40px]">
       <div
         className={cn(
           "shrink-0",
@@ -49,9 +49,9 @@ export function HomePage() {
       </div>
       <div
         ref={scrollRef}
-        className="flex min-h-0 flex-1 flex-col overflow-y-auto"
+        className="flex flex-col lg:min-h-0 lg:flex-1 lg:overflow-y-auto"
       >
-        <div className="my-auto w-full py-[clamp(8px,2vh,36px)] [@media(max-height:760px)]:py-1 [@media(max-height:860px)]:py-2">
+        <div className="my-0 w-full px-4 py-[clamp(8px,2vh,36px)] lg:my-auto lg:px-0 [@media(max-height:760px)]:py-1 [@media(max-height:860px)]:py-2">
           <Container className="flex justify-center">
             <CatalogSearch />
           </Container>

@@ -4,7 +4,7 @@ import { BagIcon, ChartIcon, ProfileIcon, HeartIcon } from "@/shared/icons";
 
 export function Header() {
   return (
-    <Container className="flex justify-between py-[clamp(16px,4vh,40px)]">
+    <Container className="flex justify-between px-4 py-[clamp(16px,4vh,40px)] lg:px-0">
       <Image
         src="/brand/logo.svg"
         alt="ООО ТТЦ Рембыттехника"
