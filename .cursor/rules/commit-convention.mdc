@@ -1,0 +1,13 @@
+---
+description: Enforce conventional commit prefixes
+alwaysApply: true
+---
+
+# Commit Message Convention
+
+Always write git commit messages using Conventional Commits:
+
+- Format: `<type>(optional-scope): <subject>`
+- Allowed `type` values: `feat`, `fix`, `chore`, `refactor`, `docs`, `test`, `style`, `perf`, `ci`, `build`, `revert`
+- Do not create commit messages without a `type` prefix
+- Do not use vague messages like `update`, `changes`, `misc`, `wip`, `tmp`
