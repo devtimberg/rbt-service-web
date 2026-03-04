@@ -34,8 +34,8 @@ export function Footer() {
   }, [greetingIndex, typedLength]);
 
   return (
-    <Container className="mt-auto px-4 py-[clamp(12px,2.5vh,24px)]">
-      <HStack className="flex-col-reverse items-center justify-center gap-4 md:flex-row md:items-end md:justify-between">
+    <Container className="xs:py-10 mt-auto px-4 lg:py-[clamp(12px,2.5vh,24px)]">
+      <HStack className="xs:gap-10 flex-col-reverse items-center justify-center gap-4 md:flex-row md:items-end md:justify-between">
         <Text
           variant="secondary"
           size="xs"
