@@ -92,7 +92,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
       <LayoutSheetContent
         side="bottom"
         showCloseButton={false}
-        className="h-[calc(100%-140px)] max-h-[calc(100%-140px)] rounded-[40px] border-0"
+        className="z-30 h-[calc(100%-140px)] max-h-[calc(100%-140px)] rounded-[40px] border-0 sm:z-50"
       >
         <LayoutSheetTitle className="sr-only">Страница</LayoutSheetTitle>
         <div className="text-primary h-full overflow-y-auto overscroll-y-contain px-4 py-6">
