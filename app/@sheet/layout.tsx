@@ -75,6 +75,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
 
   return (
     <LayoutSheet
+      modal={false}
       open={open}
       onOpenChange={(isOpen) => {
         if (isOpen || !isSheetRoute || backTimerRef.current) {
