@@ -1,5 +1,5 @@
 import { Heading } from "@/shared/ui/kit";
 
-export default function Page() {
+export default function FavoriteSheetPage() {
   return <Heading>Избранное</Heading>;
 }

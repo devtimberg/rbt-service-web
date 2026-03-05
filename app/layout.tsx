@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import { Header, MobileBottomNav } from "@/widgets";
-import { RouteContentTransition } from "@/shared/ui/route-content-transition";
 import "./globals.css";
 
 const geistSans = Inter({
@@ -27,19 +26,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  sheet,
 }: Readonly<{
   children: React.ReactNode;
+  sheet: React.ReactNode;
 }>) {
   return (
     <html lang="ru-RU">
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-primary-500 lg:bg-primary-900 flex h-dvh min-h-dvh w-full flex-col overflow-hidden p-0 antialiased lg:p-4 lg:py-4`}
       >
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto sm:overflow-hidden">
+        <div className="bg-primary-500 relative flex min-h-0 flex-1 flex-col overflow-y-auto rounded-none sm:overflow-hidden lg:rounded-b-[40px]">
           <Header />
-          <RouteContentTransition>{children}</RouteContentTransition>
+          {children}
         </div>
         <MobileBottomNav />
+        {sheet}
       </body>
     </html>
   );
