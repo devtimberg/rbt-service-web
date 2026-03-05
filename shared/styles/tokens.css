@@ -14,9 +14,6 @@
   --surface-overlay: oklch(1 0 0);
   --surface-subtle: oklch(0.97 0 0);
 
-  --text-primary: oklch(0.145 0 0);
-  --text-muted: oklch(0.556 0 0);
-
   --primary: oklch(0.145 0 0);
   --secondary: oklch(0.205 0 0);
   --muted: oklch(0.556 0 0);
@@ -79,8 +76,6 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(1 0 0);
-  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -104,24 +99,4 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-
-  /* shadcn compatibility mapping to semantic tokens */
-  --background: var(--surface-canvas);
-  --foreground: var(--text-primary);
-  --card: var(--surface-default);
-  --card-foreground: var(--text-primary);
-  --popover: var(--surface-overlay);
-  --popover-foreground: var(--text-primary);
-  --primary: var(--action-primary-bg);
-  --primary-foreground: var(--action-primary-fg);
-  --secondary: var(--action-secondary-bg);
-  --secondary-foreground: var(--action-secondary-fg);
-  --muted: var(--surface-subtle);
-  --muted-foreground: var(--text-muted);
-  --accent: var(--action-accent-bg);
-  --accent-foreground: var(--action-accent-fg);
-  --destructive: var(--state-danger-bg);
-  --border: var(--border-default);
-  --input: var(--input-default);
-  --ring: var(--focus-ring);
 }

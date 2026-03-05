@@ -23,11 +23,11 @@ export const Heading: React.FC<Props> = ({
   } as const;
 
   const mapClassNameBySize = {
-    xs: "text-primary cursor-default text-[14px] font-medium leading-[18px]",
-    sm: "text-primary cursor-default text-[18px] font-medium",
-    md: "text-primary cursor-default text-[20px] font-medium",
-    lg: "text-primary cursor-default text-[26px] font-semibold leading-[38px]",
-    xl: "text-primary cursor-default text-[32px] font-semibold leading-[38px]",
+    xs: "text-current cursor-default text-[14px] font-medium leading-[18px]",
+    sm: "text-current cursor-default text-[18px] font-medium",
+    md: "text-current cursor-default text-[20px] font-medium",
+    lg: "text-current cursor-default text-[26px] font-semibold leading-[38px]",
+    xl: "text-current cursor-default text-[32px] font-semibold leading-[38px]",
   } as const;
 
   return React.createElement(

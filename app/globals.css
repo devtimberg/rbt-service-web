@@ -3,7 +3,6 @@
 @import "shadcn/tailwind.css";
 @import "../shared/styles/tokens.css";
 @import "../shared/styles/theme-mapping.css";
-@import "../shared/styles/theme-dark.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -25,6 +24,6 @@ body {
     @apply caret-secondary-500 selection:bg-secondary-500 selection:text-inverse;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-black;
   }
 }

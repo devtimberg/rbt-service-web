@@ -57,7 +57,7 @@ export function Footer() {
                 |
               </span>
             </span>
-            <span className="absolute inset-0">
+            <span className="text-inverse absolute inset-0">
               {GREETINGS[greetingIndex].slice(0, typedLength)}
               <span
                 aria-hidden

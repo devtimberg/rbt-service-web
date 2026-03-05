@@ -18,7 +18,7 @@ export function HomeBenefitsStrip() {
     <Container>
       {/* Мобильный блок "Бесплатный звонок" (виден только до md). */}
       {callBenefit ? (
-        <div className="bg-primary-300 text-primary mb-8 flex w-full items-center justify-center gap-3 rounded-3xl px-6 py-5 md:hidden">
+        <div className="bg-primary-300 mb-8 flex w-full items-center justify-center gap-3 rounded-3xl px-6 py-5 md:hidden">
           <Image
             src={callBenefit.iconSrc}
             alt=""
@@ -27,14 +27,14 @@ export function HomeBenefitsStrip() {
             className="block"
             aria-hidden
           />
-          <span className="text-[16px] leading-tight font-semibold whitespace-pre-wrap">
+          <span className="text-inverse text-[16px] leading-tight font-semibold whitespace-pre-wrap">
             {callBenefit.text}
           </span>
         </div>
       ) : null}
 
       {/* Мобильная сетка преимуществ 2x2 без call-элемента. */}
-      <div className="mx-auto grid w-max grid-cols-[repeat(2,max-content)] gap-x-8 gap-y-10 md:hidden">
+      <div className="text-inverse mx-auto grid w-max grid-cols-[repeat(2,max-content)] gap-x-8 gap-y-10 md:hidden">
         {regularBenefits.map((benefit) => (
           <HStack
             key={benefit.key}
@@ -49,7 +49,7 @@ export function HomeBenefitsStrip() {
               className="block"
               aria-hidden
             />
-            <span className="text-primary text-[12px] font-medium whitespace-pre-wrap">
+            <span className="text-inverse text-[12px] font-medium whitespace-pre-wrap">
               {benefit.text}
             </span>
           </HStack>
@@ -76,7 +76,7 @@ export function HomeBenefitsStrip() {
                 className="block"
                 aria-hidden
               />
-              <span className="text-primary text-[14px] font-medium whitespace-pre-wrap">
+              <span className="text-inverse text-[14px] font-medium whitespace-pre-wrap">
                 {benefit.text}
               </span>
             </HStack>
@@ -100,7 +100,7 @@ export function HomeBenefitsStrip() {
                 className="block"
                 aria-hidden
               />
-              <span className="text-primary text-[14px] font-medium whitespace-pre-wrap">
+              <span className="text-inverse text-[14px] font-medium whitespace-pre-wrap">
                 {benefit.text}
               </span>
             </HStack>
@@ -124,7 +124,7 @@ export function HomeBenefitsStrip() {
               className="block"
               aria-hidden
             />
-            <span className="text-primary text-[14px] font-semibold whitespace-pre-wrap">
+            <span className="text-inverse text-[14px] font-semibold whitespace-pre-wrap">
               {benefit.text}
             </span>
           </HStack>
