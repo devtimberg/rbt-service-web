@@ -2,19 +2,22 @@ import Image from "next/image";
 import { ROUTES } from "@/shared/lib/routes";
 import { Container, HStack, IconButton } from "@/shared/ui/kit";
 import { BagIcon, ChartIcon, ProfileIcon, HeartIcon } from "@/shared/icons";
+import Link from "next/link";
 
 export function Header() {
   const headerIconClassName = "text-white hover:text-white";
 
   return (
     <Container className="flex justify-center px-4 py-[clamp(16px,4vh,40px)] sm:justify-between">
-      <Image
-        src="/brand/logo.svg"
-        alt="ООО ТТЦ Рембыттехника"
-        width={180}
-        height={40}
-        priority
-      />
+      <Link href={ROUTES.HOME}>
+        <Image
+          src="/brand/logo.svg"
+          alt="ООО ТТЦ Рембыттехника"
+          width={180}
+          height={40}
+          priority
+        />
+      </Link>
       <HStack
         className="hidden sm:flex"
         gap={10}
