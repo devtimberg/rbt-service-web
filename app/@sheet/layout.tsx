@@ -156,7 +156,6 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     >
       <LayoutSheetContent
         side="bottom"
-        showCloseButton={false}
         className={`z-30 h-[calc(100%-140px)] max-h-[calc(100%-140px)] rounded-[40px] border-0 sm:z-50 ${!hasSheetHistoryState ? "data-[state=open]:animate-none data-[state=open]:duration-0" : ""}`}
       >
         <LayoutSheetTitle className="text-primary sr-only">
