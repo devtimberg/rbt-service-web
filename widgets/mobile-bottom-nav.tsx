@@ -54,7 +54,7 @@ export function MobileBottomNav() {
 
   return (
     <nav
-      className="border-primary-200 fixed inset-x-0 bottom-0 z-40 rounded-t-[24px] border-t bg-white px-2 pt-2 pb-[max(env(safe-area-inset-bottom),8px)] sm:hidden"
+      className="shadow-primary-900/15 fixed inset-x-0 bottom-0 z-40 rounded-t-[24px] bg-white px-2 pt-2 pb-[max(env(safe-area-inset-bottom),8px)] shadow-[0_-0px_60px_-0px] sm:hidden"
       aria-label="Мобильная навигация"
     >
       <ul className="grid grid-cols-5 gap-0.5">

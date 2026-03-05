@@ -35,7 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-primary-500 lg:bg-primary-900 flex h-dvh min-h-dvh w-full flex-col overflow-hidden p-0 antialiased lg:p-4 lg:py-4`}
       >
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto pb-[calc(68px+env(safe-area-inset-bottom))] sm:overflow-hidden sm:pb-0">
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto sm:overflow-hidden">
           <Header />
           <RouteContentTransition>{children}</RouteContentTransition>
         </div>

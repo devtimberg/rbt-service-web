@@ -20,7 +20,7 @@ export function HomePage() {
           <HomeBenefitsStrip />
         </div>
       </div>
-      <div className="shrink-0">
+      <div className="shrink-0 pb-[calc(env(safe-area-inset-bottom)+76px)] sm:pb-0">
         <Footer />
       </div>
     </div>
