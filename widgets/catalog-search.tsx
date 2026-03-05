@@ -8,7 +8,7 @@ export function CatalogSearch() {
       <Link
         href="/search"
         aria-label="Поиск запчастей"
-        className="flex h-[74px] w-full items-center rounded-[24px] bg-white px-4 py-2 md:hidden"
+        className="flex h-[74px] w-full items-center rounded-[24px] bg-white px-4 py-2 outline-none focus:outline-none focus-visible:outline-none [-webkit-tap-highlight-color:transparent] md:hidden"
       >
         <span className="text-input-placeholder h-full min-w-0 flex-1 content-center pr-4 pl-3 text-[18px] leading-none">
           Поиск запчастей

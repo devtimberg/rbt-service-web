@@ -21,9 +21,9 @@ body {
 
 @layer base {
   * {
-    @apply caret-secondary-500 selection:bg-secondary-500 selection:text-inverse;
+    @apply caret-secondary-500 selection:bg-secondary-500 selection:text-inverse outline-none focus:ring-0 focus-visible:ring-0;
   }
   body {
-    @apply bg-white text-black;
+    @apply text-primary bg-white;
   }
 }
