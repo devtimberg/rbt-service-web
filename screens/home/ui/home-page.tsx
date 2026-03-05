@@ -1,74 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@/shared/lib/utils";
 import { Container } from "@/shared/ui/kit";
 import { CatalogSearch } from "@/widgets/catalog-search";
-import { Header } from "@/widgets/header";
 import { HomeBenefitsStrip } from "./home-benefits-strip";
 import { HomeQuickAction } from "./home-quick-action";
 import { Footer } from "@/widgets";
 
 export function HomePage() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [hasVerticalScroll, setHasVerticalScroll] = useState(false);
-
-  useEffect(() => {
-    const viewport = scrollRef.current;
-    if (!viewport) return;
-
-    const content = viewport.firstElementChild as HTMLElement | null;
-
-    const checkOverflow = () => {
-      setHasVerticalScroll(viewport.scrollHeight > viewport.clientHeight + 1);
-    };
-
-    checkOverflow();
-
-    const resizeObserver = new ResizeObserver(checkOverflow);
-    resizeObserver.observe(viewport);
-    if (content) resizeObserver.observe(content);
-
-    window.addEventListener("resize", checkOverflow);
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener("resize", checkOverflow);
-    };
-  }, []);
-
   return (
-    <div className="bg-primary-500 flex min-h-dvh flex-col rounded-none lg:h-[calc(100dvh-32px)] lg:min-h-0 lg:rounded-[40px]">
-      <div
-        className={cn(
-          "shrink-0",
-          hasVerticalScroll && "border-primary-300 border-b",
-        )}
-      >
-        <Header />
-      </div>
-      <div
-        ref={scrollRef}
-        className="flex flex-col lg:min-h-0 lg:flex-1 lg:overflow-y-auto"
-      >
-        <div className="my-0 w-full px-4 py-[clamp(8px,2vh,36px)] lg:my-auto lg:px-0 [@media(max-height:760px)]:py-1 [@media(max-height:860px)]:py-2">
-          <Container className="flex justify-center">
-            <CatalogSearch />
-          </Container>
-          <div className="mt-[clamp(28px,7.5vh,144px)] max-[1200px]:mt-12 [@media(max-height:760px)]:mt-10 [@media(max-height:860px)]:mt-10">
-            <HomeQuickAction />
-          </div>
-          <div className="mt-[clamp(40px,11vh,200px)] [@media(max-height:760px)]:mt-5 [@media(max-height:860px)]:mt-8">
-            <HomeBenefitsStrip />
-          </div>
+    <div className="bg-primary-500 flex h-full min-h-0 flex-col rounded-none lg:rounded-b-[40px]">
+      <div className="my-0 w-full px-4 py-[clamp(8px,2vh,36px)] lg:my-auto lg:px-0 [@media(max-height:760px)]:py-1 [@media(max-height:860px)]:py-2">
+        <Container className="flex justify-center">
+          <CatalogSearch />
+        </Container>
+        <div className="mt-[clamp(28px,7.5vh,144px)] max-[1200px]:mt-12 [@media(max-height:760px)]:mt-10 [@media(max-height:860px)]:mt-10">
+          <HomeQuickAction />
+        </div>
+        <div className="mt-[clamp(40px,11vh,200px)] [@media(max-height:760px)]:mt-5 [@media(max-height:860px)]:mt-8">
+          <HomeBenefitsStrip />
         </div>
       </div>
-      <div
-        className={cn(
-          "shrink-0",
-          hasVerticalScroll && "border-primary-300 border-t",
-        )}
-      >
+      <div className="shrink-0">
         <Footer />
       </div>
     </div>

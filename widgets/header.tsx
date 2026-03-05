@@ -8,7 +8,7 @@ export function Header() {
   const headerIconClassName = "text-white hover:text-white";
 
   return (
-    <Container className="flex justify-center px-4 py-[clamp(16px,4vh,40px)] sm:justify-between">
+    <Container className="bg-primary-500 flex items-center justify-center rounded-t-[40px] px-4 py-[clamp(16px,4vh,40px)] sm:justify-between">
       <Link href={ROUTES.HOME}>
         <Image
           src="/brand/logo.svg"
