@@ -49,22 +49,6 @@ function LayoutSheetPortal({
   );
 }
 
-function LayoutSheetOverlay({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Overlay>) {
-  return (
-    <SheetPrimitive.Overlay
-      data-slot="layout-sheet-overlay"
-      className={cn(
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
 function LayoutSheetContent({
   className,
   children,
@@ -77,7 +61,6 @@ function LayoutSheetContent({
 }) {
   return (
     <LayoutSheetPortal>
-      <LayoutSheetOverlay />
       <SheetPrimitive.Content
         data-slot="layout-sheet-content"
         className={cn(
@@ -92,6 +75,8 @@ function LayoutSheetContent({
             "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t",
           className,
         )}
+        onInteractOutside={(event) => event.preventDefault()}
+        onEscapeKeyDown={(event) => event.preventDefault()}
         {...props}
       >
         {children}
