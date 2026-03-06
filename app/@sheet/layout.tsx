@@ -1,11 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
-import { useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Dialog as SheetPrimitive } from "radix-ui";
 import { ROUTES } from "@/shared/lib/routes";
+import { Heading } from "@/shared/ui/kit";
 import { LayoutSheetContent } from "@/shared/ui/kit/layout-sheet";
 
 const SHEET_CLOSE_DURATION_MS = 300;
@@ -20,23 +19,27 @@ const SHEET_ROUTES = new Set<string>([
   ROUTES.CART,
   ROUTES.PROFILE,
 ]);
+const SHEET_TITLES: Record<string, string> = {
+  [ROUTES.CATALOG]: "Каталог",
+  [ROUTES.FAVORITE]: "Избранное",
+  [ROUTES.COMPARE]: "Сравнение",
+  [ROUTES.CART]: "Корзина",
+  [ROUTES.PROFILE]: "Профиль",
+};
 
-export default function SheetLayout({ children }: { children: ReactNode }) {
+export default function SheetLayout() {
   const router = useRouter();
   const pathname = usePathname();
   const isSheetRoute = SHEET_ROUTES.has(pathname);
+  const [disableInitialOpenAnimation, setDisableInitialOpenAnimation] =
+    useState(isSheetRoute);
+  const [open, setOpen] = useState(isSheetRoute);
+  const [renderedRoute, setRenderedRoute] = useState<string | null>(
+    isSheetRoute ? pathname : null,
+  );
   const sheetTopOffsetClass = isSheetRoute
     ? SHEET_TOP_OFFSET_COMPACT_CLASS
     : SHEET_TOP_OFFSET_NORMAL_CLASS;
-  const isHydrated = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-  const [open, setOpen] = useState(isSheetRoute);
-  const [renderedChildren, setRenderedChildren] = useState<ReactNode>(
-    isSheetRoute ? children : null,
-  );
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const backTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -52,6 +55,20 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (!disableInitialOpenAnimation) {
+      return;
+    }
+
+    const frameId = requestAnimationFrame(() => {
+      setDisableInitialOpenAnimation(false);
+    });
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [disableInitialOpenAnimation]);
+
+  useEffect(() => {
     if (isSheetRoute) {
       if (closeTimerRef.current) {
         clearTimeout(closeTimerRef.current);
@@ -63,7 +80,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
         backTimerRef.current = null;
       }
 
-      const shouldSyncContent = renderedChildren !== children;
+      const shouldSyncContent = renderedRoute !== pathname;
       const shouldOpenSheet = !open;
 
       if (!shouldSyncContent && !shouldOpenSheet) {
@@ -72,7 +89,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
 
       const frameId = requestAnimationFrame(() => {
         if (shouldSyncContent) {
-          setRenderedChildren(children);
+          setRenderedRoute(pathname);
         }
 
         if (shouldOpenSheet) {
@@ -85,13 +102,13 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
       };
     }
 
-    if (renderedChildren) {
+    if (renderedRoute) {
       const frameId = requestAnimationFrame(() => {
         setOpen(false);
       });
 
       closeTimerRef.current = setTimeout(() => {
-        setRenderedChildren(null);
+        setRenderedRoute(null);
         closeTimerRef.current = null;
       }, SHEET_CLOSE_DURATION_MS);
 
@@ -99,9 +116,9 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
         cancelAnimationFrame(frameId);
       };
     }
-  }, [children, isSheetRoute, open, renderedChildren]);
+  }, [isSheetRoute, open, pathname, renderedRoute]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const scrollContainer = document.querySelector<HTMLElement>(
       '[data-layout-scroll-container="true"]',
     );
@@ -111,7 +128,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     }
 
     const previousOverflow = scrollContainer.style.overflowY;
-    const shouldLockBackgroundScroll = Boolean(renderedChildren);
+    const shouldLockBackgroundScroll = Boolean(renderedRoute);
 
     if (shouldLockBackgroundScroll) {
       scrollContainer.style.overflowY = "hidden";
@@ -122,20 +139,9 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     return () => {
       scrollContainer.style.overflowY = previousOverflow;
     };
-  }, [renderedChildren]);
+  }, [renderedRoute]);
 
-  if (!renderedChildren) return null;
-  if (!isHydrated && isSheetRoute) {
-    return (
-      <div
-        className={`bg-background text-primary fixed inset-x-0 bottom-0 z-30 flex flex-col gap-4 rounded-t-[24px] rounded-b-none border-0 shadow-lg transition-[top] duration-300 ease-in-out sm:z-50 lg:rounded-[40px] ${sheetTopOffsetClass}`}
-      >
-        <div className="text-primary h-full overflow-y-auto overscroll-y-contain px-4 py-6">
-          {renderedChildren}
-        </div>
-      </div>
-    );
-  }
+  if (!renderedRoute) return null;
 
   return (
     <SheetPrimitive.Root
@@ -160,10 +166,12 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     >
       <LayoutSheetContent
         side="bottom"
-        className={`z-30 rounded-t-[24px] rounded-b-none border-0 transition-[top] duration-300 ease-in-out sm:z-50 lg:rounded-[40px] ${sheetTopOffsetClass}`}
+        disableOpenAnimation={disableInitialOpenAnimation}
+        disablePortal={disableInitialOpenAnimation}
+        className={`z-30 rounded-t-[24px] rounded-b-none border-0 ease-in-out sm:z-50 lg:rounded-[40px] ${disableInitialOpenAnimation ? "transition-none" : "transition-[top] duration-300"} ${sheetTopOffsetClass}`}
       >
         <div className="text-primary h-full overflow-y-auto overscroll-y-contain px-4 py-6">
-          {renderedChildren}
+          <Heading>{SHEET_TITLES[renderedRoute]}</Heading>
         </div>
       </LayoutSheetContent>
     </SheetPrimitive.Root>
