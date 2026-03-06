@@ -9,8 +9,10 @@ import { ROUTES } from "@/shared/lib/routes";
 import { LayoutSheetContent } from "@/shared/ui/kit/layout-sheet";
 
 const SHEET_CLOSE_DURATION_MS = 300;
-const SHEET_TOP_OFFSET_CLASS =
-  "top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
+const SHEET_TOP_OFFSET_NORMAL_CLASS =
+  "top-[calc(40px+2*clamp(16px,4vh,40px))] sm:top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
+const SHEET_TOP_OFFSET_COMPACT_CLASS =
+  "top-[calc((40px+2*clamp(16px,4vh,40px))/1.5)] sm:top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
 const SHEET_ROUTES = new Set<string>([
   ROUTES.CATALOG,
   ROUTES.FAVORITE,
@@ -23,6 +25,9 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const isSheetRoute = SHEET_ROUTES.has(pathname);
+  const sheetTopOffsetClass = isSheetRoute
+    ? SHEET_TOP_OFFSET_COMPACT_CLASS
+    : SHEET_TOP_OFFSET_NORMAL_CLASS;
   const isHydrated = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -32,7 +37,6 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
   const [renderedChildren, setRenderedChildren] = useState<ReactNode>(
     isSheetRoute ? children : null,
   );
-  const [sheetTopOffset, setSheetTopOffset] = useState<number | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const backTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -120,50 +124,11 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     };
   }, [renderedChildren]);
 
-  useEffect(() => {
-    if (!renderedChildren) {
-      return;
-    }
-
-    const updateSheetTopOffset = () => {
-      const header = document.querySelector<HTMLElement>(
-        '[data-layout-header="true"]',
-      );
-
-      if (!header) {
-        return;
-      }
-
-      const nextTopOffset = Math.round(header.getBoundingClientRect().bottom);
-      setSheetTopOffset((current) =>
-        current === nextTopOffset ? current : nextTopOffset,
-      );
-    };
-
-    updateSheetTopOffset();
-    window.addEventListener("resize", updateSheetTopOffset);
-
-    const header = document.querySelector<HTMLElement>('[data-layout-header="true"]');
-    let resizeObserver: ResizeObserver | null = null;
-
-    if (header && typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(updateSheetTopOffset);
-      resizeObserver.observe(header);
-    }
-
-    return () => {
-      window.removeEventListener("resize", updateSheetTopOffset);
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      }
-    };
-  }, [renderedChildren]);
-
   if (!renderedChildren) return null;
   if (!isHydrated && isSheetRoute) {
     return (
       <div
-        className={`bg-background text-primary fixed inset-x-0 bottom-0 z-30 flex flex-col gap-4 rounded-t-[40px] rounded-b-none border-0 shadow-lg sm:z-50 lg:rounded-[40px] ${SHEET_TOP_OFFSET_CLASS}`}
+        className={`bg-background text-primary fixed inset-x-0 bottom-0 z-30 flex flex-col gap-4 rounded-t-[24px] rounded-b-none border-0 shadow-lg transition-[top] duration-300 ease-in-out sm:z-50 lg:rounded-[40px] ${sheetTopOffsetClass}`}
       >
         <div className="text-primary h-full overflow-y-auto overscroll-y-contain px-4 py-6">
           {renderedChildren}
@@ -195,8 +160,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     >
       <LayoutSheetContent
         side="bottom"
-        className={`z-30 rounded-t-[40px] rounded-b-none border-0 sm:z-50 lg:rounded-[40px] ${SHEET_TOP_OFFSET_CLASS}`}
-        style={sheetTopOffset === null ? undefined : { top: `${sheetTopOffset}px` }}
+        className={`z-30 rounded-t-[24px] rounded-b-none border-0 transition-[top] duration-300 ease-in-out sm:z-50 lg:rounded-[40px] ${sheetTopOffsetClass}`}
       >
         <div className="text-primary h-full overflow-y-auto overscroll-y-contain px-4 py-6">
           {renderedChildren}
