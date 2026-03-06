@@ -26,15 +26,10 @@ const iconButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40",
-        outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        default:
+          "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/90",
         ghost:
-          "bg-transparent text-primary-100 hover:bg-transparent hover:text-primary-500 aria-[current=page]:text-primary-500",
+          "bg-transparent text-primary-100 hover:bg-transparent hover:text-primary-500 active:bg-transparent active:text-primary-500 aria-[current=page]:text-primary-500",
       },
       size: {
         xs: "size-6 [&_svg:not([class*='size-'])]:size-3",
