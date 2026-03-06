@@ -29,8 +29,6 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     () => true,
     () => false,
   );
-  const hasSheetHistoryState =
-    typeof window !== "undefined" && Boolean(window.history.state?.sheet);
   const [open, setOpen] = useState(isSheetRoute);
   const [renderedChildren, setRenderedChildren] = useState<ReactNode>(
     isSheetRoute ? children : null,
@@ -156,7 +154,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     >
       <LayoutSheetContent
         side="bottom"
-        className={`z-30 h-[calc(100%-140px)] max-h-[calc(100%-140px)] rounded-[40px] border-0 sm:z-50 ${!hasSheetHistoryState ? "data-[state=open]:animate-none data-[state=open]:duration-0" : ""}`}
+        className="z-30 h-[calc(100%-140px)] max-h-[calc(100%-140px)] rounded-[40px] border-0 sm:z-50"
       >
         <LayoutSheetTitle className="text-primary sr-only">
           Страница
