@@ -3,7 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Dialog as SheetPrimitive } from "radix-ui";
-import { ROUTES } from "@/shared/lib/routes";
+import { ROUTES, ROUTE_TITLES, type AppRoute } from "@/shared/lib/routes";
 import { Heading } from "@/shared/ui/kit";
 import { LayoutSheetContent } from "@/shared/ui/kit/layout-sheet";
 
@@ -12,25 +12,21 @@ const SHEET_TOP_OFFSET_NORMAL_CLASS =
   "top-[calc(40px+2*clamp(16px,4vh,40px))] sm:top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
 const SHEET_TOP_OFFSET_COMPACT_CLASS =
   "top-[calc(40px+2*(clamp(16px,4vh,40px)/1.5))] sm:top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
-const SHEET_ROUTES = new Set<string>([
-  ROUTES.CATALOG,
-  ROUTES.FAVORITE,
-  ROUTES.COMPARE,
-  ROUTES.CART,
-  ROUTES.PROFILE,
-]);
-const SHEET_TITLES: Record<string, string> = {
-  [ROUTES.CATALOG]: "Каталог",
-  [ROUTES.FAVORITE]: "Избранное",
-  [ROUTES.COMPARE]: "Сравнение",
-  [ROUTES.CART]: "Корзина",
-  [ROUTES.PROFILE]: "Профиль",
-};
+function getSheetTitle(pathname: string): string {
+  const routeTitle = ROUTE_TITLES[pathname as AppRoute];
+
+  if (routeTitle) {
+    return routeTitle;
+  }
+
+  const lastSegment = pathname.split("/").filter(Boolean).at(-1);
+  return lastSegment ? decodeURIComponent(lastSegment) : "Страница";
+}
 
 export default function SheetLayout() {
   const router = useRouter();
   const pathname = usePathname();
-  const isSheetRoute = SHEET_ROUTES.has(pathname);
+  const isSheetRoute = pathname !== ROUTES.HOME;
   const [disableInitialOpenAnimation, setDisableInitialOpenAnimation] =
     useState(isSheetRoute);
   const [open, setOpen] = useState(isSheetRoute);
@@ -171,7 +167,7 @@ export default function SheetLayout() {
         className={`z-30 rounded-t-[24px] rounded-b-none border-0 ease-in-out sm:z-50 lg:rounded-[40px] ${disableInitialOpenAnimation ? "transition-none" : "transition-[top] duration-300"} ${sheetTopOffsetClass}`}
       >
         <div className="text-primary h-full overflow-y-auto overscroll-y-contain px-4 py-6">
-          <Heading>{SHEET_TITLES[renderedRoute]}</Heading>
+          <Heading>{getSheetTitle(renderedRoute)}</Heading>
         </div>
       </LayoutSheetContent>
     </SheetPrimitive.Root>

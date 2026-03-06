@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link, { type LinkProps } from "next/link";
-import { ROUTES, type AppRoute } from "@/shared/lib/routes";
+import { ROUTES, ROUTE_TITLES, type AppRoute } from "@/shared/lib/routes";
 import { Container, HStack, IconButton } from "@/shared/ui/kit";
 import {
   BagIcon,
@@ -14,19 +14,6 @@ import {
 import { usePathname } from "next/navigation";
 import type { ElementType, MouseEvent, SVGProps } from "react";
 
-const ROUTE_TITLES: Record<string, string> = {
-  [ROUTES.HOME]: "Рембыттехника",
-  [ROUTES.CATALOG]: "Каталог",
-  [ROUTES.FAVORITE]: "Избранное",
-  [ROUTES.COMPARE]: "Сравнение",
-  [ROUTES.CART]: "Корзина",
-  [ROUTES.PROFILE]: "Профиль",
-  [ROUTES.ORDERS_STATUS]: "Статус заказа",
-  [ROUTES.PARTS_REQUEST]: "Заявка на запчасти",
-  [ROUTES.SERVICES_REPAIR]: "Ремонт",
-  [ROUTES.MASTER_CALL]: "Вызов мастера",
-  [ROUTES.FEEDBACK]: "Обратная связь",
-};
 type HeaderIconConfig = {
   id: string;
   icon: ElementType<SVGProps<SVGSVGElement>>;
@@ -152,7 +139,7 @@ export function Header() {
   const isHomePage = pathname === ROUTES.HOME;
   const mobileHeaderSpacerClass =
     "h-[calc(40px+2*(clamp(16px,4vh,40px)/1.5))] sm:h-0";
-  const pageTitle = ROUTE_TITLES[pathname] ?? "Рембыттехника";
+  const pageTitle = ROUTE_TITLES[pathname as AppRoute] ?? "Рембыттехника";
   const routeConfig = getHeaderConfig(pathname);
   const mobileIcons =
     pathname === ROUTES.CATALOG ? CATALOG_MOBILE_ICONS : [];
