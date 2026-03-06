@@ -29,16 +29,15 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     : SHEET_TOP_OFFSET_NORMAL_CLASS;
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const backTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openScheduledByTimeoutRef = useRef(false);
   const mountedWithSheetRoute = useRef(isSheetRoute);
 
   useEffect(() => {
     return () => {
-      if (closeTimerRef.current) {
-        clearTimeout(closeTimerRef.current);
-      }
-      if (backTimerRef.current) {
-        clearTimeout(backTimerRef.current);
-      }
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+      if (backTimerRef.current) clearTimeout(backTimerRef.current);
+      if (openTimerRef.current) clearTimeout(openTimerRef.current);
     };
   }, []);
 
@@ -75,18 +74,30 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
         return;
       }
 
-      const frameId = requestAnimationFrame(() => {
-        if (shouldSyncContent) {
-          setRenderedRoute(pathname);
-        }
+      if (shouldSyncContent) {
+        setRenderedRoute(pathname);
+      }
 
-        if (shouldOpenSheet) {
+      if (shouldOpenSheet) {
+        if (shouldSyncContent) {
+          // Открываем в следующей макрозадаче, чтобы шест успел отрисоваться закрытым — иначе анимация не срабатывает после перезагрузки
+          openScheduledByTimeoutRef.current = true;
+          openTimerRef.current = setTimeout(() => {
+            openTimerRef.current = null;
+            openScheduledByTimeoutRef.current = false;
+            setOpen(true);
+          }, 0);
+        } else if (!openScheduledByTimeoutRef.current) {
           setOpen(true);
         }
-      });
+      }
 
       return () => {
-        cancelAnimationFrame(frameId);
+        if (openTimerRef.current) {
+          clearTimeout(openTimerRef.current);
+          openTimerRef.current = null;
+          openScheduledByTimeoutRef.current = false;
+        }
       };
     }
 
