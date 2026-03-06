@@ -85,17 +85,23 @@ function IconButton({
   const hasCounter =
     typeof counter === "number" && Number.isFinite(counter) && counter > 0;
   const counterContent = hasCounter ? (counter > 99 ? "99+" : counter) : null;
+  const isSingleDigitCounter =
+    typeof counterContent === "number" && counterContent < 10;
   const counterSizeClass =
     size === "lg"
-      ? "min-h-5 min-w-5 px-1.5 text-xs"
-      : "min-h-4 min-w-4 px-1 text-[10px]";
+      ? isSingleDigitCounter
+        ? "h-5 w-5 text-xs"
+        : "min-h-5 min-w-5 px-1.5 text-xs"
+      : isSingleDigitCounter
+        ? "h-4 w-4 text-[10px]"
+        : "min-h-4 min-w-4 px-1 text-[10px]";
   const counterPositionClass =
     size === "nav" ? "-top-1 -right-2" : "top-0 right-0";
   const counterBadge = hasCounter ? (
     <span
       aria-hidden
       className={cn(
-        "bg-destructive absolute inline-flex items-center justify-center rounded-[8px] leading-none font-semibold text-white",
+        "bg-secondary-500 text-inverse absolute inline-flex items-center justify-center rounded-[8px] leading-none font-semibold",
         counterPositionClass,
         counterSizeClass,
       )}
