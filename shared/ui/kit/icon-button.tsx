@@ -34,13 +34,14 @@ const iconButtonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost:
-          "hover:bg-primary-300 hover:text-accent-foreground dark:hover:bg-accent/50",
+          "bg-transparent text-primary-100 hover:bg-transparent hover:text-primary-500 aria-[current=page]:text-primary-500",
       },
       size: {
         xs: "size-6 [&_svg:not([class*='size-'])]:size-3",
         sm: "size-8",
         md: "size-9",
         lg: "size-10",
+        nav: "size-10",
       },
     },
     defaultVariants: {
@@ -85,12 +86,17 @@ function IconButton({
     typeof counter === "number" && Number.isFinite(counter) && counter > 0;
   const counterContent = hasCounter ? (counter > 99 ? "99+" : counter) : null;
   const counterSizeClass =
-    size === "lg" ? "min-h-5 min-w-5 px-1.5 text-xs" : "min-h-4 min-w-4 px-1 text-[10px]";
+    size === "lg"
+      ? "min-h-5 min-w-5 px-1.5 text-xs"
+      : "min-h-4 min-w-4 px-1 text-[10px]";
+  const counterPositionClass =
+    size === "nav" ? "-top-1 -right-2" : "top-0 right-0";
   const counterBadge = hasCounter ? (
     <span
       aria-hidden
       className={cn(
-        "bg-destructive absolute top-0 right-0 inline-flex items-center justify-center rounded-full leading-none font-semibold text-white",
+        "bg-destructive absolute inline-flex items-center justify-center rounded-[8px] leading-none font-semibold text-white",
+        counterPositionClass,
         counterSizeClass,
       )}
     >
