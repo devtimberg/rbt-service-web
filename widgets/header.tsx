@@ -17,7 +17,10 @@ export function Header() {
   };
 
   return (
-    <Container className="bg-primary-500 flex items-center justify-center rounded-t-[40px] px-4 py-[clamp(16px,4vh,40px)] sm:justify-between">
+    <Container
+      data-layout-header="true"
+      className="bg-primary-500 flex items-center justify-center rounded-t-[40px] px-4 py-[clamp(16px,4vh,40px)] sm:justify-between"
+    >
       <Link
         href={ROUTES.HOME}
         onClick={handleLogoClick}

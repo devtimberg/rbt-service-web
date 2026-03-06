@@ -2,52 +2,6 @@ import * as React from "react";
 import { Dialog as SheetPrimitive } from "radix-ui";
 import { cn } from "@/shared/lib/utils";
 
-function LayoutSheet({
-  modal = true,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return (
-    <SheetPrimitive.Root
-      data-slot="layout-sheet"
-      modal={modal}
-      {...props}
-    />
-  );
-}
-
-function LayoutSheetTrigger({
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
-  return (
-    <SheetPrimitive.Trigger
-      data-slot="layout-sheet-trigger"
-      {...props}
-    />
-  );
-}
-
-function LayoutSheetClose({
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Close>) {
-  return (
-    <SheetPrimitive.Close
-      data-slot="layout-sheet-close"
-      {...props}
-    />
-  );
-}
-
-function LayoutSheetPortal({
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Portal>) {
-  return (
-    <SheetPrimitive.Portal
-      data-slot="layout-sheet-portal"
-      {...props}
-    />
-  );
-}
-
 function LayoutSheetContent({
   className,
   children,
@@ -57,7 +11,7 @@ function LayoutSheetContent({
   side?: "top" | "right" | "bottom" | "left";
 }) {
   return (
-    <LayoutSheetPortal>
+    <SheetPrimitive.Portal data-slot="layout-sheet-portal">
       <SheetPrimitive.Content
         data-slot="layout-sheet-content"
         className={cn(
@@ -69,78 +23,19 @@ function LayoutSheetContent({
           side === "top" &&
             "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b",
           side === "bottom" &&
-            "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 mx-4 mb-4 h-auto",
+            "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto lg:bottom-4 lg:mx-4",
           className,
         )}
         onInteractOutside={(event) => event.preventDefault()}
         onEscapeKeyDown={(event) => event.preventDefault()}
         {...props}
       >
+        <SheetPrimitive.Title className="sr-only">
+          Страница
+        </SheetPrimitive.Title>
         {children}
       </SheetPrimitive.Content>
-    </LayoutSheetPortal>
+    </SheetPrimitive.Portal>
   );
 }
-
-function LayoutSheetHeader({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="layout-sheet-header"
-      className={cn("flex flex-col gap-1.5 p-4", className)}
-      {...props}
-    />
-  );
-}
-
-function LayoutSheetFooter({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="layout-sheet-footer"
-      className={cn("mt-auto flex flex-col gap-2 p-4", className)}
-      {...props}
-    />
-  );
-}
-
-function LayoutSheetTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Title>) {
-  return (
-    <SheetPrimitive.Title
-      data-slot="layout-sheet-title"
-      className={cn("text-primary font-semibold", className)}
-      {...props}
-    />
-  );
-}
-
-function LayoutSheetDescription({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Description>) {
-  return (
-    <SheetPrimitive.Description
-      data-slot="layout-sheet-description"
-      className={cn("text-primary text-sm", className)}
-      {...props}
-    />
-  );
-}
-
-export {
-  LayoutSheet,
-  LayoutSheetTrigger,
-  LayoutSheetClose,
-  LayoutSheetContent,
-  LayoutSheetHeader,
-  LayoutSheetFooter,
-  LayoutSheetTitle,
-  LayoutSheetDescription,
-};
+export { LayoutSheetContent };
