@@ -202,7 +202,7 @@ export function Header() {
           {mobileIcons.map(({ id, icon, href, ariaLabel, counter }) => (
             <IconButton
               key={id}
-              size={"md"}
+              size={"sm"}
               icon={icon}
               iconSize={28}
               counter={counter ?? null}
