@@ -12,7 +12,7 @@ const SHEET_CLOSE_DURATION_MS = 300;
 const SHEET_TOP_OFFSET_NORMAL_CLASS =
   "top-[calc(40px+2*clamp(16px,4vh,40px))] sm:top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
 const SHEET_TOP_OFFSET_COMPACT_CLASS =
-  "top-[calc((40px+2*clamp(16px,4vh,40px))/1.5)] sm:top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
+  "top-[calc(40px+2*(clamp(16px,4vh,40px)/1.5))] sm:top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
 const SHEET_ROUTES = new Set<string>([
   ROUTES.CATALOG,
   ROUTES.FAVORITE,

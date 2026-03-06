@@ -10,7 +10,7 @@ export function HomePage() {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="my-0 w-full px-4 py-[clamp(8px,2vh,36px)] lg:my-auto lg:px-0 [@media(max-height:760px)]:py-1 [@media(max-height:860px)]:py-2">
-        <Container className="flex justify-center">
+        <Container className="mt-[clamp(16px,4vh,40px)] flex justify-center lg:mt-0">
           <CatalogSearch />
         </Container>
         <div className="mt-[clamp(28px,7.5vh,144px)] max-[1200px]:mt-12 [@media(max-height:760px)]:mt-10 [@media(max-height:860px)]:mt-10">
