@@ -8,3 +8,4 @@ export * from "./layout-sheet";
 export * from "./v-stack";
 export * from "./search-input";
 export * from "./text";
+export * from "./tooltip";

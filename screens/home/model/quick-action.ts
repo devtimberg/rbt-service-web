@@ -1,10 +1,10 @@
 import {
   CatalogIcon,
   FeedbackIcon,
-  HeartIcon,
   MasterIcon,
   OrderDetailIcon,
   OrderStatusIcon,
+  ServicesRepairIcon,
 } from "@/shared/icons";
 import { ROUTES } from "@/shared/lib/routes";
 import type { ElementType, SVGProps } from "react";
@@ -43,7 +43,7 @@ export const HOME_QUICK_ACTIONS: QuickActionItem[] = [
     key: "repair-services",
     text: "Услуги\nремонта",
     href: ROUTES.SERVICES_REPAIR,
-    icon: HeartIcon,
+    icon: ServicesRepairIcon,
   },
   {
     key: "call-master",

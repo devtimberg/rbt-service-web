@@ -1,9 +1,13 @@
+"use client";
+
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link, { type LinkProps } from "next/link";
+import { usePathname } from "next/navigation";
 import { Slot } from "radix-ui";
 
 import { cn } from "@/shared/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 type IconComponent = React.ElementType<React.SVGProps<SVGSVGElement>>;
 type ButtonProps = Omit<React.ComponentProps<"button">, "children">;
@@ -14,6 +18,10 @@ type SharedProps = VariantProps<typeof iconButtonVariants> & {
   icon?: IconComponent | React.ReactElement;
   iconSize?: number;
   counter?: number | null;
+  tooltip?: string;
+  activeClassName?: string;
+  matchPath?: "exact" | "prefix";
+  disableHover?: boolean;
 };
 type IconButtonAsButtonProps = SharedProps & ButtonProps & { href?: never };
 type IconButtonAsLinkProps = SharedProps &
@@ -29,7 +37,7 @@ const iconButtonVariants = cva(
         default:
           "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/90",
         ghost:
-          "bg-transparent text-primary-100 hover:bg-transparent hover:text-primary-500 active:bg-transparent active:text-primary-500 aria-[current=page]:text-primary-500",
+          "bg-transparent text-primary-100 hover:bg-transparent aria-[current=page]:text-primary-500",
       },
       size: {
         xs: "size-6 [&_svg:not([class*='size-'])]:size-3",
@@ -46,6 +54,12 @@ const iconButtonVariants = cva(
   },
 );
 
+function getHrefPath(href: LinkProps["href"]): string {
+  if (typeof href === "string") return href;
+  const pathname = href?.pathname;
+  return pathname ?? "";
+}
+
 function IconButton({
   className,
   variant = "ghost",
@@ -55,10 +69,21 @@ function IconButton({
   icon,
   iconSize = 24,
   counter,
+  tooltip,
+  activeClassName,
+  matchPath = "exact",
+  disableHover = false,
   href,
   style,
   ...props
 }: IconButtonProps) {
+  const pathname = usePathname();
+  const hrefPath = href ? getHrefPath(href) : "";
+  const isActive =
+    hrefPath &&
+    (matchPath === "prefix"
+      ? pathname === hrefPath || pathname.startsWith(`${hrefPath}/`)
+      : pathname === hrefPath);
   const iconElement = icon
     ? React.isValidElement(icon)
       ? icon
@@ -76,7 +101,15 @@ function IconButton({
     iconButtonVariants({ variant, size, className }),
     "relative",
     iconSize && "[&_svg]:h-(--icon-size) [&_svg]:w-(--icon-size)",
+    isActive && activeClassName,
+    disableHover &&
+      (variant === "ghost"
+        ? isActive
+          ? "hover:bg-transparent hover:text-primary-500"
+          : "hover:bg-transparent hover:text-primary-100"
+        : "hover:bg-primary"),
   );
+  const sharedAriaProps = isActive ? { "aria-current": "page" as const } : {};
   const hasCounter =
     typeof counter === "number" && Number.isFinite(counter) && counter > 0;
   const counterContent = hasCounter ? (counter > 99 ? "99+" : counter) : null;
@@ -105,31 +138,49 @@ function IconButton({
     </span>
   ) : null;
 
+  const wrapWithTooltip = (inner: React.ReactNode) => {
+    if (tooltip) {
+      return (
+        <Tooltip>
+          <TooltipTrigger asChild>{inner}</TooltipTrigger>
+          <TooltipContent
+            side="bottom"
+            sideOffset={2}
+          >
+            {tooltip}
+          </TooltipContent>
+        </Tooltip>
+      );
+    }
+    return inner;
+  };
+
   if (asChild) {
     const slotProps = props as Omit<
       React.ComponentProps<typeof Slot.Root>,
       "children"
     >;
 
-    return (
+    return wrapWithTooltip(
       <Slot.Root
         data-slot="icon-button"
         data-variant={variant}
         data-size={size}
         className={sharedClassName}
         style={mergedStyle}
+        {...sharedAriaProps}
         {...slotProps}
       >
         {content}
         {counterBadge}
-      </Slot.Root>
+      </Slot.Root>,
     );
   }
 
   if (href) {
     const linkProps = props as AnchorProps;
 
-    return (
+    return wrapWithTooltip(
       <Link
         href={href}
         data-slot="icon-button"
@@ -137,28 +188,30 @@ function IconButton({
         data-size={size}
         className={sharedClassName}
         style={mergedStyle}
+        {...sharedAriaProps}
         {...linkProps}
       >
         {content}
         {counterBadge}
-      </Link>
+      </Link>,
     );
   }
 
   const buttonProps = props as ButtonProps;
 
-  return (
+  return wrapWithTooltip(
     <button
       data-slot="icon-button"
       data-variant={variant}
       data-size={size}
       className={sharedClassName}
       style={mergedStyle}
+      {...sharedAriaProps}
       {...buttonProps}
     >
       {content}
       {counterBadge}
-    </button>
+    </button>,
   );
 }
 

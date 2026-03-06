@@ -9,7 +9,6 @@ import {
 } from "@/shared/icons";
 import { ROUTES } from "@/shared/lib/routes";
 import { IconButton } from "@/shared/ui/kit";
-import { usePathname } from "next/navigation";
 import type { ComponentType, SVGProps } from "react";
 
 type NavItem = {
@@ -50,37 +49,32 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export function MobileBottomNav() {
-  const pathname = usePathname();
-
   return (
     <nav
       className="shadow-primary-900/15 fixed inset-x-0 bottom-0 z-40 rounded-t-[24px] bg-white px-2 pt-2 pb-[max(env(safe-area-inset-bottom),8px)] shadow-[0_-0px_60px_-0px] sm:hidden"
       aria-label="Мобильная навигация"
     >
       <ul className="grid grid-cols-5 gap-0.5">
-        {NAV_ITEMS.map((item) => {
-          const isActive =
-            pathname === item.href || pathname.startsWith(`${item.href}/`);
-
-          return (
-            <li
-              key={item.href}
-              className="flex min-h-[52px] items-center justify-center"
-            >
-              <IconButton
-                href={item.href}
-                variant="ghost"
-                size="lg"
-                icon={item.icon}
-                iconSize={32}
-                counter={item.counter}
-                className="rounded-xl"
-                aria-current={isActive ? "page" : undefined}
-                aria-label={item.label}
-              />
-            </li>
-          );
-        })}
+        {NAV_ITEMS.map((item) => (
+          <li
+            key={item.href}
+            className="flex min-h-[52px] items-center justify-center"
+          >
+            <IconButton
+              href={item.href}
+              variant="ghost"
+              size="lg"
+              icon={item.icon}
+              iconSize={32}
+              counter={item.counter}
+              className="text-primary-100 rounded-xl"
+              activeClassName="text-primary-500"
+              matchPath="prefix"
+              disableHover
+              aria-label={item.label}
+            />
+          </li>
+        ))}
       </ul>
     </nav>
   );
