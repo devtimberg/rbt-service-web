@@ -29,6 +29,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     : SHEET_TOP_OFFSET_NORMAL_CLASS;
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const backTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mountedWithSheetRoute = useRef(isSheetRoute);
 
   useEffect(() => {
     return () => {
@@ -42,7 +43,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!disableInitialOpenAnimation) {
+    if (!disableInitialOpenAnimation || mountedWithSheetRoute.current) {
       return;
     }
 
@@ -96,6 +97,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
 
       closeTimerRef.current = setTimeout(() => {
         setRenderedRoute(null);
+        setDisableInitialOpenAnimation(false);
         closeTimerRef.current = null;
       }, SHEET_CLOSE_DURATION_MS);
 
