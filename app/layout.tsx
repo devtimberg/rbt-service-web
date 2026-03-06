@@ -43,7 +43,12 @@ export default function RootLayout({
             className="bg-primary-500 relative flex min-h-0 flex-1 flex-col overflow-y-auto rounded-none sm:overflow-hidden lg:rounded-[40px]"
           >
             <Header />
-            <div data-layout-main-content="true">{children}</div>
+            <div
+            data-layout-main-content="true"
+            className="flex min-h-0 flex-1 flex-col"
+          >
+            {children}
+          </div>
           </div>
           <MobileBottomNav />
           {sheet}
