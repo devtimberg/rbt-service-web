@@ -122,7 +122,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
     const previousOverflow = scrollContainer.style.overflowY;
     const previousVisibility = mainContent.style.visibility;
     const previousPointerEvents = mainContent.style.pointerEvents;
-    const shouldLockBackgroundScroll = Boolean(renderedRoute);
+    const shouldLockBackgroundScroll = Boolean(renderedRoute && open);
 
     if (shouldLockBackgroundScroll) {
       scrollContainer.style.overflowY = "hidden";
@@ -139,7 +139,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
       mainContent.style.visibility = previousVisibility;
       mainContent.style.pointerEvents = previousPointerEvents;
     };
-  }, [renderedRoute]);
+  }, [renderedRoute, open]);
 
   if (!renderedRoute) return null;
 
