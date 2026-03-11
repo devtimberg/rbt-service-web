@@ -8,12 +8,20 @@ export const ROUTES = {
   COMPARE: "/compare",
   CART: "/cart",
   PROFILE: "/profile",
-  ORDERS_STATUS: "/orders/status",
+  ORDERS_STATUS: "/orders-status",
   PARTS_REQUEST: "/parts/request",
-  SERVICES_REPAIR: "/services/repair",
+  SERVICES_REPAIR: "/services-repair",
   MASTER_CALL: "/master-call",
   FEEDBACK: "/feedback",
 } as const;
+
+/** Пути, при которых в нижней панели активна вкладка «Главная» */
+export const HOME_NAV_PATHS: string[] = [
+  ROUTES.HOME,
+  ROUTES.MASTER_CALL,
+  ROUTES.SERVICES_REPAIR,
+  ROUTES.FEEDBACK,
+];
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES];
 
@@ -40,11 +48,11 @@ export const ROUTE_CONFIG: Record<AppRoute, RouteConfig> = {
   },
   [ROUTES.PARTS_REQUEST]: {
     path: ROUTES.PARTS_REQUEST,
-    title: "Заявка на запчасти",
+    title: "Заказ запчастей",
   },
   [ROUTES.SERVICES_REPAIR]: {
     path: ROUTES.SERVICES_REPAIR,
-    title: "Ремонт",
+    title: "Услуги ремонта",
   },
   [ROUTES.MASTER_CALL]: {
     path: ROUTES.MASTER_CALL,

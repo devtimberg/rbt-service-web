@@ -21,6 +21,8 @@ type SharedProps = VariantProps<typeof iconButtonVariants> & {
   tooltip?: string;
   activeClassName?: string;
   matchPath?: "exact" | "prefix";
+  /** Дополнительные pathname, при которых кнопка считается активной (для нав-вкладок с подстраницами) */
+  additionalActivePaths?: string[];
   disableHover?: boolean;
 };
 type IconButtonAsButtonProps = SharedProps & ButtonProps & { href?: never };
@@ -72,6 +74,7 @@ function IconButton({
   tooltip,
   activeClassName,
   matchPath = "exact",
+  additionalActivePaths,
   disableHover = false,
   href,
   style,
@@ -80,10 +83,11 @@ function IconButton({
   const pathname = usePathname();
   const hrefPath = href ? getHrefPath(href) : "";
   const isActive =
-    hrefPath &&
-    (matchPath === "prefix"
-      ? pathname === hrefPath || pathname.startsWith(`${hrefPath}/`)
-      : pathname === hrefPath);
+    (hrefPath &&
+      (matchPath === "prefix"
+        ? pathname === hrefPath || pathname.startsWith(`${hrefPath}/`)
+        : pathname === hrefPath)) ||
+    (additionalActivePaths?.length ? additionalActivePaths.includes(pathname) : false);
   const iconElement = icon
     ? React.isValidElement(icon)
       ? icon

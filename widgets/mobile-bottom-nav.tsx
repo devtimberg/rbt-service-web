@@ -7,7 +7,7 @@ import {
   HomeIcon,
   ProfileIcon,
 } from "@/shared/icons";
-import { ROUTES } from "@/shared/lib/routes";
+import { HOME_NAV_PATHS, ROUTES } from "@/shared/lib/routes";
 import { IconButton } from "@/shared/ui/kit";
 import type { ComponentType, SVGProps } from "react";
 
@@ -16,6 +16,8 @@ type NavItem = {
   href: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   counter?: number;
+  /** Пути, при которых вкладка считается активной (для главной — подстраницы вроде /master-call) */
+  additionalActivePaths?: string[];
 };
 
 const NAV_ITEMS: NavItem[] = [
@@ -23,6 +25,7 @@ const NAV_ITEMS: NavItem[] = [
     label: "Главная",
     href: ROUTES.HOME,
     icon: HomeIcon,
+    additionalActivePaths: HOME_NAV_PATHS.filter((p) => p !== ROUTES.HOME),
   },
   {
     label: "Каталог",
@@ -70,6 +73,7 @@ export function MobileBottomNav() {
               className="text-primary-100 rounded-xl"
               activeClassName="text-primary-500"
               matchPath="prefix"
+              additionalActivePaths={item.additionalActivePaths}
               disableHover
               aria-label={item.label}
             />
