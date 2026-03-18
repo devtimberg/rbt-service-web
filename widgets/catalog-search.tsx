@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SearchIcon } from "@/shared/icons";
-import { SearchInput } from "../shared/ui/kit";
+import { SearchInput } from "@/shared/ui/kit";
 
 export function CatalogSearch() {
   return (
