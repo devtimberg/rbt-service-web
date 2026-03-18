@@ -35,19 +35,27 @@ export function Footer() {
 
   return (
     <Container className="xs:py-10 mt-auto px-4 lg:py-[clamp(12px,2.5vh,24px)]">
-      <HStack className="xs:gap-10 flex-col-reverse items-center justify-center gap-4 md:flex-row md:items-end md:justify-between">
+      <HStack
+        className="xs:gap-10 flex-col-reverse items-center justify-center gap-4
+          md:flex-row md:items-end md:justify-between"
+      >
         <Text
           variant="secondary"
           size="xs"
-          className="min-w-0 flex-1 text-center leading-4 whitespace-pre-wrap md:text-left"
+          className="min-w-0 flex-1 text-center leading-4 whitespace-pre-wrap
+            md:text-left"
         >
           {`© 1995 — 2026 ТТЦ Рембыттехника.\nВсе права защищены. Условия использования. Политика конфиденциальности.\nАдрес: г. Челябинск, ул. Производственная д. 8Б, Тел.: +7(351)239-39-39 Email: service@rbt.ru`}
         </Text>
         <HStack
-          className="w-[340px] shrink-0 items-center justify-center md:justify-end"
+          className="w-[340px] shrink-0 items-center justify-center
+            md:justify-end"
           gap={4}
         >
-          <Text className="relative shrink-0 text-center text-[18px] leading-5 font-semibold whitespace-nowrap md:text-right">
+          <Text
+            className="relative shrink-0 text-center text-[18px] leading-5
+              font-semibold whitespace-nowrap md:text-right"
+          >
             <span className="invisible">
               {LONGEST_GREETING}
               <span
@@ -61,7 +69,8 @@ export function Footer() {
               {GREETINGS[greetingIndex].slice(0, typedLength)}
               <span
                 aria-hidden
-                className="animation-duration-[450ms] ml-0.5 inline-block animate-pulse"
+                className="animation-duration-[450ms] ml-0.5 inline-block
+                  animate-pulse"
               >
                 |
               </span>

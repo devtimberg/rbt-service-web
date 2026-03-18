@@ -168,9 +168,17 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
         side="bottom"
         disableOpenAnimation={disableInitialOpenAnimation}
         disablePortal={disableInitialOpenAnimation}
-        className={`z-30 rounded-t-[24px] rounded-b-none border-0 ease-in-out sm:z-50 lg:rounded-[40px] ${disableInitialOpenAnimation ? "transition-none" : "transition-[top] duration-300"} ${sheetTopOffsetClass}`}
+        className={`z-30 rounded-t-[24px] rounded-b-none border-0 ease-in-out
+          sm:z-50 lg:rounded-[40px] ${
+            disableInitialOpenAnimation
+              ? "transition-none"
+              : "transition-[top] duration-300"
+          } ${sheetTopOffsetClass}`}
       >
-        <div className="text-primary h-full overflow-y-auto overscroll-y-contain px-4 py-6">
+        <div
+          className="text-primary h-full overflow-y-auto overscroll-y-contain
+            px-4 py-6"
+        >
           <Heading>{getRouteConfig(renderedRoute).title}</Heading>
           {children}
         </div>

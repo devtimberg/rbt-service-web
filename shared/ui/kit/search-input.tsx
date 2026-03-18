@@ -60,7 +60,8 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
         role="search"
         onSubmit={handleSubmit}
         className={cn(
-          "flex h-[74px] w-full items-center rounded-[24px] bg-white px-4 py-2 md:max-w-[740px]",
+          `flex h-[74px] w-full items-center rounded-[24px] bg-white px-4 py-2
+          md:max-w-[740px]`,
           rootClassName,
         )}
       >
@@ -68,7 +69,9 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
           ref={setInputRef}
           data-slot="search-input"
           className={cn(
-            "text-primary-900 placeholder:text-input-placeholder h-full min-w-0 flex-1 bg-transparent pr-4 pl-3 text-[18px] leading-none outline-none",
+            `text-primary-900 placeholder:text-input-placeholder h-full min-w-0
+            flex-1 bg-transparent pr-4 pl-3 text-[18px] leading-none
+            outline-none`,
             className,
           )}
           placeholder={placeholder}
@@ -83,7 +86,13 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
           aria-label={buttonAriaLabel}
           disabled={disabled}
           className={cn(
-            "bg-primary-500 inline-flex size-12 shrink-0 cursor-pointer items-center justify-center rounded-[16px] text-white shadow-[0_0_19px_7px_rgba(0,64,183,0.16)] transition-all duration-200 ease-out hover:scale-[1.04] hover:shadow-[0_0_24px_9px_rgba(0,64,183,0.24)] focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60",
+            `bg-primary-500 inline-flex size-12 shrink-0 cursor-pointer
+            items-center justify-center rounded-[16px] text-white
+            shadow-[0_0_19px_7px_rgba(0,64,183,0.16)] transition-all
+            duration-200 ease-out hover:scale-[1.04]
+            hover:shadow-[0_0_24px_9px_rgba(0,64,183,0.24)] focus-visible:ring-2
+            focus-visible:ring-white/70 focus-visible:outline-none
+            disabled:cursor-not-allowed disabled:opacity-60`,
             buttonClassName,
           )}
         >

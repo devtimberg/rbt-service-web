@@ -18,7 +18,10 @@ export function HomeBenefitsStrip() {
     <Container>
       {/* Мобильный блок "Бесплатный звонок" (виден только до md). */}
       {callBenefit ? (
-        <div className="bg-primary-300 mb-8 flex w-full items-center justify-center gap-3 rounded-3xl px-6 py-5 md:hidden">
+        <div
+          className="bg-primary-300 mb-8 flex w-full items-center justify-center
+            gap-3 rounded-3xl px-6 py-5 md:hidden"
+        >
           <Image
             src={callBenefit.iconSrc}
             alt=""
@@ -27,14 +30,20 @@ export function HomeBenefitsStrip() {
             className="block"
             aria-hidden
           />
-          <span className="text-inverse text-[16px] leading-tight font-semibold whitespace-pre-wrap">
+          <span
+            className="text-inverse text-[16px] leading-tight font-semibold
+              whitespace-pre-wrap"
+          >
             {callBenefit.text}
           </span>
         </div>
       ) : null}
 
       {/* Мобильная сетка преимуществ 2x2 без call-элемента. */}
-      <div className="text-inverse mx-auto grid w-max grid-cols-[repeat(2,max-content)] gap-x-8 gap-y-10 md:hidden">
+      <div
+        className="text-inverse mx-auto grid w-max
+          grid-cols-[repeat(2,max-content)] gap-x-8 gap-y-10 md:hidden"
+      >
         {regularBenefits.map((benefit) => (
           <HStack
             key={benefit.key}
@@ -49,7 +58,10 @@ export function HomeBenefitsStrip() {
               className="block"
               aria-hidden
             />
-            <span className="text-inverse text-[12px] font-medium whitespace-pre-wrap">
+            <span
+              className="text-inverse text-[12px] font-medium
+                whitespace-pre-wrap"
+            >
               {benefit.text}
             </span>
           </HStack>
@@ -76,7 +88,10 @@ export function HomeBenefitsStrip() {
                 className="block"
                 aria-hidden
               />
-              <span className="text-inverse text-[14px] font-medium whitespace-pre-wrap">
+              <span
+                className="text-inverse text-[14px] font-medium
+                  whitespace-pre-wrap"
+              >
                 {benefit.text}
               </span>
             </HStack>
@@ -100,7 +115,10 @@ export function HomeBenefitsStrip() {
                 className="block"
                 aria-hidden
               />
-              <span className="text-inverse text-[14px] font-medium whitespace-pre-wrap">
+              <span
+                className="text-inverse text-[14px] font-medium
+                  whitespace-pre-wrap"
+              >
                 {benefit.text}
               </span>
             </HStack>
@@ -109,7 +127,10 @@ export function HomeBenefitsStrip() {
       </div>
 
       {/* Широкий desktop (xl+): один центрированный ряд из 5 элементов. */}
-      <div className="hidden xl:mx-auto xl:grid xl:w-max xl:grid-cols-[repeat(5,max-content)] xl:gap-x-10">
+      <div
+        className="hidden xl:mx-auto xl:grid xl:w-max
+          xl:grid-cols-[repeat(5,max-content)] xl:gap-x-10"
+      >
         {HOME_BENEFITS.map((benefit) => (
           <HStack
             key={benefit.key}
@@ -124,7 +145,10 @@ export function HomeBenefitsStrip() {
               className="block"
               aria-hidden
             />
-            <span className="text-inverse text-[14px] font-semibold whitespace-pre-wrap">
+            <span
+              className="text-inverse text-[14px] font-semibold
+                whitespace-pre-wrap"
+            >
               {benefit.text}
             </span>
           </HStack>

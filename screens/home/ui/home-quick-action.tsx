@@ -18,17 +18,27 @@ export function HomeQuickAction() {
                 key={action.key}
                 href={action.href}
                 className={cn(
-                  "text-inverse bg-primary-300 flex w-full flex-col items-center justify-center gap-3 rounded-3xl px-3 py-4 text-center transition-colors md:flex-row md:justify-start md:rounded-2xl md:px-4 md:py-3 md:text-left",
+                  `text-inverse bg-primary-300 flex w-full flex-col items-center
+                  justify-center gap-3 rounded-3xl px-3 py-4 text-center
+                  transition-colors md:flex-row md:justify-start md:rounded-2xl
+                  md:px-4 md:py-3 md:text-left`,
                   isAccent ? "bg-secondary-500" : "null",
                 )}
               >
-                <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/25 bg-white/10 md:rounded-xl">
+                <span
+                  className="inline-flex h-14 w-14 shrink-0 items-center
+                    justify-center rounded-2xl border border-white/25
+                    bg-white/10 md:rounded-xl"
+                >
                   <Icon
                     className="size-8 md:size-10"
                     aria-hidden
                   />
                 </span>
-                <span className="text-[14px] leading-4 font-semibold whitespace-pre-line md:text-lg md:leading-5">
+                <span
+                  className="text-[14px] leading-4 font-semibold
+                    whitespace-pre-line md:text-lg md:leading-5"
+                >
                   {action.text}
                 </span>
               </Link>

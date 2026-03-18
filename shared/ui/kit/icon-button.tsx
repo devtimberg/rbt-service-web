@@ -135,7 +135,8 @@ function IconButton({
     <span
       aria-hidden
       className={cn(
-        "bg-secondary-500 text-inverse absolute inline-flex items-center justify-center rounded-xl leading-none font-semibold",
+        `bg-secondary-500 text-inverse absolute inline-flex items-center
+          justify-center rounded-xl leading-none font-semibold`,
         counterPositionClass,
         counterSizeClass,
       )}

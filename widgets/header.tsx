@@ -192,7 +192,10 @@ export function Header() {
       />
       <Container
         data-layout-header="true"
-        className="bg-primary-500 fixed inset-x-0 top-0 z-40 flex items-center justify-between rounded-none px-4 py-[calc(clamp(16px,4vh,40px)/1.5)] transition-[padding] duration-300 ease-in-out sm:static sm:z-auto sm:rounded-t-[40px] sm:py-[clamp(16px,4vh,40px)]"
+        className="bg-primary-500 fixed inset-x-0 top-0 z-40 flex items-center
+          justify-between rounded-none px-4 py-[calc(clamp(16px,4vh,40px)/1.5)]
+          transition-[padding] duration-300 ease-in-out sm:static sm:z-auto
+          sm:rounded-t-[40px] sm:py-[clamp(16px,4vh,40px)]"
       >
         {isHomePage ? (
           <Link
@@ -210,7 +213,10 @@ export function Header() {
             />
           </Link>
         ) : (
-          <p className="flex min-h-10 items-center text-2xl leading-none font-semibold text-white sm:hidden">
+          <p
+            className="flex min-h-10 items-center text-2xl leading-none
+              font-semibold text-white sm:hidden"
+          >
             {pageTitle}
           </p>
         )}
