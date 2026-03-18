@@ -87,7 +87,9 @@ function IconButton({
       (matchPath === "prefix"
         ? pathname === hrefPath || pathname.startsWith(`${hrefPath}/`)
         : pathname === hrefPath)) ||
-    (additionalActivePaths?.length ? additionalActivePaths.includes(pathname) : false);
+    (additionalActivePaths?.length
+      ? additionalActivePaths.includes(pathname)
+      : false);
   const iconElement = icon
     ? React.isValidElement(icon)
       ? icon
@@ -133,7 +135,7 @@ function IconButton({
     <span
       aria-hidden
       className={cn(
-        "bg-secondary-500 text-inverse absolute inline-flex items-center justify-center rounded-[8px] leading-none font-semibold",
+        "bg-secondary-500 text-inverse absolute inline-flex items-center justify-center rounded-xl leading-none font-semibold",
         counterPositionClass,
         counterSizeClass,
       )}

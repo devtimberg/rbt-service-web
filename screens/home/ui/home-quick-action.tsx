@@ -6,7 +6,7 @@ import { cn } from "@/shared/lib/utils";
 export function HomeQuickAction() {
   return (
     <Container>
-      <Box className="m-auto max-w-[960px]">
+      <Box className="m-auto max-w-240">
         <div className="grid grid-cols-3 gap-3 md:grid-cols-3 md:gap-6 lg:gap-8">
           {HOME_QUICK_ACTIONS.map((action) => {
             const Icon = action.icon;

@@ -30,8 +30,12 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const backTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const openScheduledByTimeoutRef = useRef(false);
   const mountedWithSheetRoute = useRef(isSheetRoute);
+
+  // Синхронизация renderedRoute во время рендера (вместо setState в эффекте)
+  if (isSheetRoute && renderedRoute !== pathname) {
+    setRenderedRoute(pathname);
+  }
 
   useEffect(() => {
     return () => {
@@ -62,43 +66,28 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
         closeTimerRef.current = null;
       }
 
+      // Не мешаем закрытию, инициированному пользователем
       if (backTimerRef.current) {
-        clearTimeout(backTimerRef.current);
-        backTimerRef.current = null;
-      }
-
-      const shouldSyncContent = renderedRoute !== pathname;
-      const shouldOpenSheet = !open;
-
-      if (!shouldSyncContent && !shouldOpenSheet) {
         return;
       }
 
-      if (shouldSyncContent) {
-        setRenderedRoute(pathname);
-      }
-
-      if (shouldOpenSheet) {
-        if (shouldSyncContent) {
-          // Открываем в следующей макрозадаче, чтобы шест успел отрисоваться закрытым — иначе анимация не срабатывает после перезагрузки
-          openScheduledByTimeoutRef.current = true;
-          openTimerRef.current = setTimeout(() => {
-            openTimerRef.current = null;
-            openScheduledByTimeoutRef.current = false;
-            setOpen(true);
-          }, 0);
-        } else if (!openScheduledByTimeoutRef.current) {
-          setOpen(true);
-        }
-      }
-
-      return () => {
-        if (openTimerRef.current) {
-          clearTimeout(openTimerRef.current);
+      if (!open) {
+        // Открываем в следующей макрозадаче, чтобы шит успел отрисоваться закрытым —
+        // иначе анимация не срабатывает после перезагрузки
+        openTimerRef.current = setTimeout(() => {
           openTimerRef.current = null;
-          openScheduledByTimeoutRef.current = false;
-        }
-      };
+          setOpen(true);
+        }, 0);
+
+        return () => {
+          if (openTimerRef.current) {
+            clearTimeout(openTimerRef.current);
+            openTimerRef.current = null;
+          }
+        };
+      }
+
+      return;
     }
 
     if (renderedRoute) {

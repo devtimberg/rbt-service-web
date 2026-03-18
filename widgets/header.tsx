@@ -205,7 +205,7 @@ export function Header() {
               alt="ООО ТТЦ Рембыттехника"
               width={180}
               height={40}
-              className="h-[40px] w-[180px]"
+              className="h-10 w-45"
               priority
             />
           </Link>
@@ -242,7 +242,7 @@ export function Header() {
             alt="ООО ТТЦ Рембыттехника"
             width={180}
             height={40}
-            className="h-[40px] w-[180px]"
+            className="h-10 w-45"
             priority
           />
         </Link>
