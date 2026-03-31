@@ -1,37 +1,67 @@
+"use client";
+
+import * as React from "react";
 import Link from "next/link";
 import { SearchIcon } from "@/shared/icons";
-import { SearchInput } from "@/shared/ui/kit";
+import { cn } from "@/shared/lib/utils";
 
 export function CatalogSearch() {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleSubmit = React.useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const value = inputRef.current?.value?.trim() ?? "";
+      if (value) {
+        // TODO: implement search navigation
+      }
+    },
+    [],
+  );
+
   return (
     <>
       <Link
         href="/search"
         aria-label="Поиск запчастей"
-        className="flex h-[74px] w-full items-center rounded-[24px] bg-white
-          px-4 py-2 outline-none [-webkit-tap-highlight-color:transparent]
+        className="flex h-18.5 w-full items-center gap-3 rounded-[24px] bg-white
+          px-5 py-2 outline-none [-webkit-tap-highlight-color:transparent]
           focus:outline-none focus-visible:outline-none md:hidden"
       >
+        <SearchIcon
+          className="text-input-placeholder size-6 shrink-0"
+          aria-hidden
+        />
         <span
           className="text-input-placeholder h-full min-w-0 flex-1 content-center
-            pr-4 pl-3 text-[18px] leading-none"
+            text-[18px] leading-none"
         >
           Поиск запчастей
         </span>
-        <span
-          className="bg-primary-500 inline-flex size-12 shrink-0 items-center
-            justify-center rounded-[16px] text-white
-            shadow-[0_0_19px_7px_rgba(0,64,183,0.16)]"
-        >
-          <SearchIcon
-            className="size-7"
-            aria-hidden
-          />
-        </span>
       </Link>
-      <div className="hidden w-full md:flex md:justify-center">
-        <SearchInput />
-      </div>
+
+      <form
+        role="search"
+        onSubmit={handleSubmit}
+        className="hidden h-18.5 w-full items-center gap-3 rounded-[24px]
+          bg-white px-5 py-2 md:flex md:max-w-185 md:justify-self-center"
+      >
+        <SearchIcon
+          className="text-input-placeholder size-6 shrink-0"
+          aria-hidden
+        />
+        <input
+          ref={inputRef}
+          data-slot="search-input"
+          className={cn(
+            `text-primary-900 placeholder:text-input-placeholder h-full min-w-0
+            flex-1 bg-transparent text-[18px] leading-none outline-none`,
+          )}
+          placeholder="Введите название, артикул или модель детали"
+          autoComplete="off"
+          autoFocus
+        />
+      </form>
     </>
   );
 }
