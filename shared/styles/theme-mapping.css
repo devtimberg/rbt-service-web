@@ -8,8 +8,10 @@
   --color-surface-elevated: var(--surface-elevated);
   --color-surface-overlay: var(--surface-overlay);
   --color-surface-subtle: var(--surface-subtle);
+  --color-tertiary: var(--tertiary);
   --color-inverse: var(--inverse);
   --color-disabled: var(--disabled);
+  --color-link: var(--link);
   --color-primary-100: var(--primary-100);
   --color-primary-300: var(--primary-300);
   --color-primary-500: var(--primary-500);

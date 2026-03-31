@@ -22,7 +22,6 @@ export function MasterCallPage() {
     group: TimeSlotGroup;
     slot: TimeSlot;
   } | null>(null);
-  const [phone, setPhone] = useState("");
 
   const timeSlotGroups = useMemo(() => getTimeSlotGroups(), []);
 
@@ -68,13 +67,11 @@ export function MasterCallPage() {
     case 2:
       return (
         <StepConfirmation
+          serviceType={serviceType}
           category={category!}
           selectedGroup={selected!.group}
           selectedSlot={selected!.slot}
-          phone={phone}
-          onPhoneChange={setPhone}
-          onSubmit={() => setStep(3)}
-          onBack={handleBack}
+          onCancel={handleBack}
         />
       );
     case 3:
