@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Dialog as SheetPrimitive } from "radix-ui";
 import { ROUTES } from "@/shared/lib/routes";
 import { LayoutSheetContent } from "@/shared/ui/kit/layout-sheet";
+import { SheetFooterSlotTarget } from "@/shared/ui/kit/sheet-footer-slot";
 
 const SHEET_CLOSE_DURATION_MS = 300;
 const SHEET_TOP_OFFSET_NORMAL_CLASS =
@@ -174,11 +175,13 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
               : "transition-[top] duration-300"
           } ${sheetTopOffsetClass}`}
       >
-        <div
-          className="text-primary h-full overflow-y-auto overscroll-y-contain
-            px-4 py-6"
-        >
-          {children}
+        <div className="text-primary flex h-full flex-col">
+          <div
+            className="flex-1 overflow-y-auto overscroll-y-contain px-4 pt-6 pb-8"
+          >
+            {children}
+          </div>
+          <SheetFooterSlotTarget />
         </div>
       </LayoutSheetContent>
     </SheetPrimitive.Root>

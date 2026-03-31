@@ -1,6 +1,18 @@
-import { Button, Text } from "@/shared/ui/kit";
+import {
+  Box,
+  Breadcrumb,
+  Button,
+  Container,
+  Heading,
+  SheetFooterSlot,
+  Text,
+} from "@/shared/ui/kit";
 import { Input } from "@/shared/ui/kit/input";
-import type { ApplianceCategory, TimeSlot, TimeSlotGroup } from "../model/types";
+import type {
+  ApplianceCategory,
+  TimeSlot,
+  TimeSlotGroup,
+} from "../model/types";
 
 type StepConfirmationProps = {
   category: ApplianceCategory;
@@ -21,45 +33,60 @@ export function StepConfirmation({
   onSubmit,
   onBack,
 }: StepConfirmationProps) {
-  return (
-    <div className="flex flex-col gap-5">
-      <button
-        type="button"
-        onClick={onBack}
-        className="cursor-pointer self-start text-sm text-gray-400 hover:text-gray-700"
-      >
-        ← Назад
-      </button>
+  const canSubmit = phone.length >= 6;
 
-      <div className="flex flex-col gap-3 rounded-xl bg-gray-50 p-4">
-        <div className="flex items-center gap-2">
-          <Text>{category.label}</Text>
-        </div>
+  return (
+    <Container className="flex flex-col gap-10">
+      <Breadcrumb
+        items={[{ label: "Сервис", href: "/" }, { label: "Вызвать мастера" }]}
+      />
+
+      <Heading
+        size="xl"
+        className="hidden sm:block"
+      >
+        Вызвать мастера
+      </Heading>
+
+      <Box className="flex flex-col gap-3 rounded-xl bg-gray-50 p-4">
+        <Text>{category.label}</Text>
         <div className="h-px bg-gray-200" />
-        <Text size="sm" variant="secondary">
+        <Text
+          size="sm"
+          variant="secondary"
+        >
           {selectedGroup.label}, {selectedSlot.start} – {selectedSlot.end}
         </Text>
-      </div>
+      </Box>
 
-      <div className="flex flex-col gap-3">
-        <Text size="sm" variant="secondary">
+      <Box className="flex flex-col gap-3">
+        <Text
+          size="sm"
+          variant="secondary"
+        >
           Позвоните для подтверждения заявки
         </Text>
-        <Button variant="primary" size="full" rounded="full" asChild>
-          <a href="tel:88003335556">📞 Позвонить 8-800-333-555-6</a>
+        <Button asChild>
+          <a href="tel:88003335556">Позвонить 8-800-333-555-6</a>
         </Button>
-      </div>
+      </Box>
 
-      <div className="flex items-center gap-3">
+      <Box className="flex items-center gap-3">
         <div className="h-px flex-1 bg-gray-200" />
-        <Text size="sm" variant="secondary">
+        <Text
+          size="sm"
+          variant="secondary"
+        >
           или
         </Text>
         <div className="h-px flex-1 bg-gray-200" />
-      </div>
+      </Box>
 
-      <div className="flex flex-col gap-3">
-        <Text size="sm" variant="secondary">
+      <Box className="flex flex-col gap-3">
+        <Text
+          size="sm"
+          variant="secondary"
+        >
           Оставьте номер — мы перезвоним
         </Text>
         <Input
@@ -69,15 +96,24 @@ export function StepConfirmation({
           onChange={(e) => onPhoneChange(e.target.value)}
           className="rounded-xl"
         />
-        <Button
-          variant="secondary"
-          size="full"
-          disabled={phone.length < 6}
-          onClick={onSubmit}
-        >
-          Отправить заявку
-        </Button>
-      </div>
-    </div>
+      </Box>
+
+      <SheetFooterSlot>
+        <Box className="shadow-primary-900/15 flex items-center justify-between rounded-t-[24px] bg-[#F7FAFF] px-4 py-4 shadow-[0_-0px_60px_-0px]">
+          <Button
+            variant="secondary"
+            onClick={onBack}
+          >
+            Назад
+          </Button>
+          <Button
+            disabled={!canSubmit}
+            onClick={onSubmit}
+          >
+            Отправить заявку
+          </Button>
+        </Box>
+      </SheetFooterSlot>
+    </Container>
   );
 }

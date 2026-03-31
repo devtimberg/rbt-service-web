@@ -26,7 +26,7 @@ export const Heading: React.FC<Props> = ({
     xs: "text-current cursor-default text-[14px] font-medium leading-[18px]",
     sm: "text-current cursor-default text-[18px] font-medium",
     md: "text-current cursor-default text-[20px] font-medium",
-    lg: "text-current cursor-default text-[24px] font-semibold leading-[38px]",
+    lg: "text-current cursor-default text-[21px] font-semibold leading-[28px] sm:text-[24px] sm:leading-[38px]",
     xl: "text-current cursor-default text-[40px] font-semibold leading-[48px]",
   } as const;
 

@@ -12,8 +12,10 @@ import { cn } from "@/shared/lib/utils";
 import { Container, HStack, IconButton } from "@/shared/ui/kit";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { MouseEvent } from "react";
+
+const CLOSE_BUTTON_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL]);
 
 const DESKTOP_ICONS = [
   {
@@ -39,8 +41,10 @@ const DESKTOP_ICONS = [
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const isHomePage = pathname === ROUTES.HOME;
   const isCatalog = pathname === ROUTES.CATALOG;
+  const showCloseButton = CLOSE_BUTTON_ROUTES.has(pathname);
   const pageTitle = getRouteConfig(pathname).title;
   const headerIconBaseClassName =
     "text-white hover:text-white active:bg-primary-300 rounded-md";
@@ -88,6 +92,36 @@ export function Header() {
           >
             {pageTitle}
           </p>
+        )}
+
+        {/* Mobile: close button for wizard flows */}
+        {showCloseButton && (
+          <button
+            type="button"
+            onClick={() => {
+              if (window.history.state?.sheet) {
+                router.back();
+              } else {
+                router.push(ROUTES.HOME);
+              }
+            }}
+            className="inline-flex size-8 items-center justify-center
+              rounded-md text-white sm:hidden"
+            aria-label="Закрыть"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
         )}
 
         {/* Mobile: only search icon on catalog */}

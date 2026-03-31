@@ -7,6 +7,7 @@ import {
   Chip,
   Container,
   Heading,
+  SheetFooterSlot,
   Text,
 } from "@/shared/ui/kit";
 import { APPLIANCE_CATEGORIES } from "../model/categories";
@@ -61,7 +62,7 @@ export function StepCategory({
 
       <Box className="flex flex-col gap-6">
         <Heading size="lg">Вид услуги</Heading>
-        <Box className="flex flex-wrap gap-6">
+        <Box className="flex flex-wrap items-start gap-3 sm:gap-6">
           {SERVICE_TYPE_OPTIONS.map((option) => (
             <Chip
               key={option.value}
@@ -77,7 +78,7 @@ export function StepCategory({
 
       <Box className="flex flex-col gap-6">
         <Heading size="lg">{QUESTION_BY_SERVICE_TYPE[serviceType]}</Heading>
-        <Box className="flex flex-wrap gap-6">
+        <Box className="flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:gap-6">
           {APPLIANCE_CATEGORIES.map((category) => (
             <Chip
               key={category.key}
@@ -91,17 +92,19 @@ export function StepCategory({
         </Box>
       </Box>
 
-      <Box className="flex items-center justify-end-safe gap-3">
-        {submitted && !selectedCategory && (
-          <Text
-            variant="error"
-            size="sm"
-          >
-            Выберите категорию поломки
-          </Text>
-        )}
-        <Button onClick={handleNext}>Продолжить</Button>
-      </Box>
+      <SheetFooterSlot>
+        <Box className="shadow-primary-900/15 flex items-center justify-end gap-3 rounded-t-[24px] bg-[#F7FAFF] px-4 py-4 shadow-[0_-0px_60px_-0px]">
+          {submitted && !selectedCategory && (
+            <Text
+              variant="error"
+              size="sm"
+            >
+              Выберите категорию поломки
+            </Text>
+          )}
+          <Button onClick={handleNext}>Продолжить</Button>
+        </Box>
+      </SheetFooterSlot>
     </Container>
   );
 }

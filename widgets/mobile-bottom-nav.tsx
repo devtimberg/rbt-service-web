@@ -9,14 +9,16 @@ import {
 } from "@/shared/icons";
 import { HOME_NAV_PATHS, ROUTES } from "@/shared/lib/routes";
 import { IconButton } from "@/shared/ui/kit";
+import { usePathname } from "next/navigation";
 import type { ComponentType, SVGProps } from "react";
+
+const HIDDEN_NAV_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL]);
 
 type NavItem = {
   label: string;
   href: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   counter?: number;
-  /** Пути, при которых вкладка считается активной (для главной — подстраницы вроде /master-call) */
   additionalActivePaths?: string[];
 };
 
@@ -52,6 +54,10 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export function MobileBottomNav() {
+  const pathname = usePathname();
+
+  if (HIDDEN_NAV_ROUTES.has(pathname)) return null;
+
   return (
     <nav
       className="shadow-primary-900/15 fixed inset-x-0 bottom-0 z-40

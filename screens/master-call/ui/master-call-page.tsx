@@ -58,7 +58,6 @@ export function MasterCallPage() {
     case 1:
       return (
         <StepTimeSlot
-          category={category!}
           groups={timeSlotGroups}
           selected={selected}
           onSelect={handleSelectSlot}
