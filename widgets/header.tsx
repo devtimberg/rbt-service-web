@@ -1,61 +1,26 @@
 "use client";
 
-import Image from "next/image";
-import Link, { type LinkProps } from "next/link";
-import { ROUTES, getRouteConfig, type AppRoute } from "@/shared/lib/routes";
-import { Container, HStack, IconButton } from "@/shared/ui/kit";
 import {
   BagIcon,
-  ChartIcon,
+  FilterIcon,
   HeartIcon,
   ProfileIcon,
   SearchIcon,
 } from "@/shared/icons";
-import { usePathname } from "next/navigation";
-import type { ElementType, MouseEvent, SVGProps } from "react";
+import { ROUTES, getRouteConfig } from "@/shared/lib/routes";
 import { cn } from "@/shared/lib/utils";
+import { Container, HStack, IconButton } from "@/shared/ui/kit";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { MouseEvent } from "react";
 
-type HeaderIconConfig = {
-  id: string;
-  icon: ElementType<SVGProps<SVGSVGElement>>;
-  href: LinkProps["href"];
-  ariaLabel: string;
-  counter?: number | null;
-};
-type HeaderRouteConfig = {
-  mobileIcons?: HeaderIconConfig[];
-  desktopIcons?: HeaderIconConfig[];
-};
-const DEFAULT_MOBILE_ICONS: HeaderIconConfig[] = [
+const DESKTOP_ICONS = [
   {
     id: "favorite",
     icon: HeartIcon,
     href: ROUTES.FAVORITE,
     ariaLabel: "Избранное",
-    counter: null,
-  },
-  {
-    id: "cart",
-    icon: BagIcon,
-    href: ROUTES.CART,
-    ariaLabel: "Корзина",
-    counter: null,
-  },
-];
-const DEFAULT_DESKTOP_ICONS: HeaderIconConfig[] = [
-  {
-    id: "favorite",
-    icon: HeartIcon,
-    href: ROUTES.FAVORITE,
-    ariaLabel: "Избранное",
-    counter: null,
-  },
-  {
-    id: "compare",
-    icon: ChartIcon,
-    href: ROUTES.COMPARE,
-    ariaLabel: "Сравнение",
-    counter: null,
   },
   {
     id: "cart",
@@ -71,112 +36,15 @@ const DEFAULT_DESKTOP_ICONS: HeaderIconConfig[] = [
     ariaLabel: "Профиль",
   },
 ];
-const CATALOG_MOBILE_ICONS: HeaderIconConfig[] = [
-  {
-    id: "search",
-    icon: SearchIcon,
-    href: "/search",
-    ariaLabel: "Поиск запчастей",
-  },
-];
-const HEADER_ROUTE_CONFIG: Partial<Record<AppRoute, HeaderRouteConfig>> = {
-  [ROUTES.HOME]: {
-    mobileIcons: DEFAULT_MOBILE_ICONS,
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.CATALOG]: {
-    mobileIcons: DEFAULT_MOBILE_ICONS,
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.FAVORITE]: {
-    mobileIcons: DEFAULT_MOBILE_ICONS,
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.COMPARE]: {
-    mobileIcons: DEFAULT_MOBILE_ICONS,
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.CART]: {
-    mobileIcons: DEFAULT_MOBILE_ICONS,
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.PROFILE]: {
-    mobileIcons: DEFAULT_MOBILE_ICONS,
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.ORDERS_STATUS]: {
-    mobileIcons: [
-      {
-        id: "cart",
-        icon: BagIcon,
-        href: ROUTES.CART,
-        ariaLabel: "Корзина",
-        counter: null,
-      },
-    ],
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.PARTS_REQUEST]: {
-    mobileIcons: [
-      {
-        id: "cart",
-        icon: BagIcon,
-        href: ROUTES.CART,
-        ariaLabel: "Корзина",
-        counter: null,
-      },
-    ],
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.SERVICES_REPAIR]: {
-    mobileIcons: DEFAULT_MOBILE_ICONS,
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.MASTER_CALL]: {
-    mobileIcons: [
-      {
-        id: "favorite",
-        icon: HeartIcon,
-        href: ROUTES.FAVORITE,
-        ariaLabel: "Избранное",
-        counter: null,
-      },
-    ],
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-  [ROUTES.FEEDBACK]: {
-    mobileIcons: [
-      {
-        id: "profile",
-        icon: ProfileIcon,
-        href: ROUTES.PROFILE,
-        ariaLabel: "Профиль",
-      },
-    ],
-    desktopIcons: DEFAULT_DESKTOP_ICONS,
-  },
-};
-
-function getHeaderConfig(pathname: string): HeaderRouteConfig {
-  return (
-    HEADER_ROUTE_CONFIG[pathname as AppRoute] ?? {
-      mobileIcons: DEFAULT_MOBILE_ICONS,
-      desktopIcons: DEFAULT_DESKTOP_ICONS,
-    }
-  );
-}
 
 export function Header() {
   const pathname = usePathname();
   const isHomePage = pathname === ROUTES.HOME;
-  const mobileHeaderSpacerClass =
-    "h-[calc(40px+2*(clamp(16px,4vh,40px)/1.5))] sm:h-0";
+  const isCatalog = pathname === ROUTES.CATALOG;
   const pageTitle = getRouteConfig(pathname).title;
-  const routeConfig = getHeaderConfig(pathname);
-  const mobileIcons = pathname === ROUTES.CATALOG ? CATALOG_MOBILE_ICONS : [];
-  const desktopIcons = routeConfig.desktopIcons ?? DEFAULT_DESKTOP_ICONS;
   const headerIconBaseClassName =
     "text-white hover:text-white active:bg-primary-300 rounded-md";
+
   const handleLogoClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (window.history.state?.sheet) {
       event.preventDefault();
@@ -188,7 +56,7 @@ export function Header() {
     <>
       <div
         aria-hidden
-        className={mobileHeaderSpacerClass}
+        className="h-[calc(40px+2*(clamp(16px,4vh,40px)/1.5))] sm:h-0"
       />
       <Container
         data-layout-header="true"
@@ -197,6 +65,7 @@ export function Header() {
           transition-[padding] duration-300 ease-in-out sm:static sm:z-auto
           sm:rounded-t-[40px] sm:py-[clamp(16px,4vh,40px)]"
       >
+        {/* Mobile: logo on home, title on other pages */}
         {isHomePage ? (
           <Link
             href={ROUTES.HOME}
@@ -220,24 +89,33 @@ export function Header() {
             {pageTitle}
           </p>
         )}
-        <HStack
-          className="flex min-h-10 sm:hidden"
-          gap={6}
-        >
-          {mobileIcons.map(({ id, icon, href, ariaLabel, counter }) => (
+
+        {/* Mobile: only search icon on catalog */}
+        {isCatalog && (
+          <HStack
+            gap={6}
+            className="sm:hidden"
+          >
             <IconButton
-              key={id}
-              size={"sm"}
-              icon={icon}
+              variant="inverse"
+              size="sm"
+              icon={SearchIcon}
               iconSize={28}
-              counter={counter ?? null}
-              className={cn(headerIconBaseClassName, "hover:bg-primary-300")}
-              activeClassName="bg-primary-300 hover:bg-primary-300"
-              aria-label={ariaLabel}
-              href={href}
+              aria-label="Поиск запчастей"
+              href="/search"
             />
-          ))}
-        </HStack>
+            <IconButton
+              variant="inverse"
+              size="sm"
+              icon={FilterIcon}
+              iconSize={28}
+              aria-label="Поиск запчастей"
+              href="/search"
+            />
+          </HStack>
+        )}
+
+        {/* Desktop: logo */}
         <Link
           href={ROUTES.HOME}
           onClick={handleLogoClick}
@@ -252,11 +130,13 @@ export function Header() {
             priority
           />
         </Link>
+
+        {/* Desktop: icons */}
         <HStack
           className="hidden sm:flex"
           gap={10}
         >
-          {desktopIcons.map(({ id, icon, href, ariaLabel, counter }) => (
+          {DESKTOP_ICONS.map(({ id, icon, href, ariaLabel, counter }) => (
             <IconButton
               key={id}
               size="lg"

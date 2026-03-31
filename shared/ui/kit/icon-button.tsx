@@ -40,6 +40,7 @@ const iconButtonVariants = cva(
           "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/90",
         ghost:
           "bg-transparent text-primary-100 hover:bg-transparent aria-[current=page]:text-primary-500",
+        inverse: "bg-transparent text-white",
       },
       size: {
         xs: "size-6 [&_svg:not([class*='size-'])]:size-3",

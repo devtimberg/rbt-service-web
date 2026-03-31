@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
-import { SearchIcon } from "@/shared/icons";
+import { SearchOutlineIcon } from "@/shared/icons";
 import { cn } from "@/shared/lib/utils";
+import Link from "next/link";
+import * as React from "react";
 
 export function CatalogSearch() {
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -28,7 +28,7 @@ export function CatalogSearch() {
           px-5 py-2 outline-none [-webkit-tap-highlight-color:transparent]
           focus:outline-none focus-visible:outline-none md:hidden"
       >
-        <SearchIcon
+        <SearchOutlineIcon
           className="text-input-placeholder size-6 shrink-0"
           aria-hidden
         />
@@ -46,7 +46,7 @@ export function CatalogSearch() {
         className="hidden h-18.5 w-full items-center gap-3 rounded-[24px]
           bg-white px-5 py-2 md:flex md:max-w-185 md:justify-self-center"
       >
-        <SearchIcon
+        <SearchOutlineIcon
           className="text-input-placeholder size-6 shrink-0"
           aria-hidden
         />
