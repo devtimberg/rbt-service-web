@@ -18,8 +18,8 @@ function LayoutSheetContent({
     <SheetPrimitive.Content
       data-slot="layout-sheet-content"
       className={cn(
-        `bg-background text-primary data-[state=closed]:animate-out fixed z-50
-        flex flex-col gap-4 shadow-lg transition-[top,transform,opacity]
+        `text-primary data-[state=closed]:animate-out fixed z-50 flex flex-col
+        gap-4 bg-[#F7FAFF] shadow-lg transition-[top,transform,opacity]
         ease-in-out data-[state=closed]:duration-300`,
         disableOpenAnimation
           ? "data-[state=open]:animate-none data-[state=open]:duration-0"
