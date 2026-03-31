@@ -26,6 +26,7 @@
 
   --input-default: oklch(0.922 0 0);
   --input-placeholder: oklch(0.7335 0.0883 262.57);
+  --input-error-message: oklch(0.6713 0.1906 5.35);
 
   --focus-ring: oklch(0.708 0 0);
 

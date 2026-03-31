@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { MasterCallPage } from "@/screens/master-call";
 import { ProfilePage } from "@/screens/profile";
 
 export const ROUTES = {
@@ -57,6 +58,7 @@ export const ROUTE_CONFIG: Record<AppRoute, RouteConfig> = {
   [ROUTES.MASTER_CALL]: {
     path: ROUTES.MASTER_CALL,
     title: "Вызов мастера",
+    sheetComponent: MasterCallPage,
   },
   [ROUTES.FEEDBACK]: {
     path: ROUTES.FEEDBACK,

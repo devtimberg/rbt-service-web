@@ -4,8 +4,7 @@ import type { ReactNode } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Dialog as SheetPrimitive } from "radix-ui";
-import { ROUTES, getRouteConfig } from "@/shared/lib/routes";
-import { Heading } from "@/shared/ui/kit";
+import { ROUTES } from "@/shared/lib/routes";
 import { LayoutSheetContent } from "@/shared/ui/kit/layout-sheet";
 
 const SHEET_CLOSE_DURATION_MS = 300;
@@ -179,7 +178,6 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
           className="text-primary h-full overflow-y-auto overscroll-y-contain
             px-4 py-6"
         >
-          <Heading>{getRouteConfig(renderedRoute).title}</Heading>
           {children}
         </div>
       </LayoutSheetContent>

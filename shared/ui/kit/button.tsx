@@ -11,8 +11,7 @@ const buttonVariants = cva(
       variant: {
         default:
           "bg-button-default text-button-default-foreground hover:bg-button-default/90",
-        primary:
-          "bg-button-primary text-button-primary-foreground hover:bg-button-primary/90",
+        primary: "bg-[#011232] text-inverse hover:bg-button-primary/90",
         secondary:
           "bg-button-secondary text-button-secondary-foreground hover:bg-button-secondary/90",
         ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -20,7 +19,7 @@ const buttonVariants = cva(
         inverse: "text-inverse bg-primary-900",
       },
       size: {
-        md: "px-8 h-9 inline text-[16px] leading-[20px]",
+        md: "px-6 h-12 inline text-[16px] leading-[16px]",
         sm: "h-9 px-3 text-[14px] leading-[18px]",
         xs: "h-7 px-3",
         lg: "h-12  px-4",
@@ -30,7 +29,7 @@ const buttonVariants = cva(
           "gap-2 h-10 pr-3 pl-4 bg-primary-700 text-primary-foreground hover:bg-primary-700/90",
       },
       rounded: {
-        default: "rounded-xl",
+        default: "rounded-[12px]",
         full: "rounded-full",
         md: "rounded-md",
         lg: "rounded-lg",
@@ -43,7 +42,7 @@ const buttonVariants = cva(
       },
     ],
     defaultVariants: {
-      variant: "default",
+      variant: "primary",
       size: "md",
       rounded: "default",
     },

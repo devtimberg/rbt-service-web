@@ -20,6 +20,7 @@
   --color-border-strong: var(--border-strong);
   --color-input-default: var(--input-default);
   --color-input-placeholder: var(--input-placeholder);
+  --color-input-error-message: var(--input-error-message);
   --color-focus-ring: var(--focus-ring);
   --color-action-primary-bg: var(--action-primary-bg);
   --color-action-primary-fg: var(--action-primary-fg);

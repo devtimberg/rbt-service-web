@@ -1,4 +1,6 @@
+export * from "./breadcrumb";
 export * from "./button";
+export * from "./chip";
 export * from "./box";
 export * from "./container";
 export * from "./h-stack";
