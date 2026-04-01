@@ -18,7 +18,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
     <nav
       aria-label="Breadcrumb"
       className={cn(
-        "text-primary-100 flex items-center gap-1.5 text-sm",
+        "-mx-4 text-primary-100 flex items-center gap-1.5 overflow-x-auto px-4 text-sm whitespace-nowrap scrollbar-none",
         className,
       )}
     >
@@ -32,7 +32,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
       {items.map((item, index) => (
         <span
           key={index}
-          className="flex items-center gap-1.5"
+          className="flex shrink-0 items-center gap-1.5"
         >
           <span>—</span>
           {item.href ? (

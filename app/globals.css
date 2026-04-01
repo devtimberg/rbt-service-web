@@ -19,6 +19,14 @@ body {
   font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
+@utility scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer base {
   * {
     @apply caret-secondary-500 selection:bg-secondary-500 selection:text-inverse outline-none focus:ring-0 focus-visible:ring-0;
