@@ -16,10 +16,9 @@ export function HomePage() {
       >
         <div className="mx-auto w-full">
           <Container
-            className="flex justify-center max-sm:mt-2
-              sm:mt-[clamp(12px,6vh,56px)] lg:mt-0"
+            className="flex justify-center max-sm:mt-2 sm:hidden"
           >
-            <CatalogSearch />
+            <CatalogSearch expanded />
           </Container>
           <div
             className="mt-[clamp(28px,7.5vh,144px)] max-[1200px]:mt-12

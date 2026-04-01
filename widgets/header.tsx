@@ -10,6 +10,7 @@ import {
 import { ROUTES, getRouteConfig } from "@/shared/lib/routes";
 import { cn } from "@/shared/lib/utils";
 import { Container, HStack, IconButton } from "@/shared/ui/kit";
+import { CatalogSearch } from "./catalog-search";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -164,6 +165,16 @@ export function Header() {
             priority
           />
         </Link>
+
+        {/* Desktop: search — on home drops into content area, otherwise inline in header */}
+        <div
+          className={cn(
+            "hidden flex-1 justify-center px-6 transition-all duration-500 ease-in-out sm:flex",
+            isHomePage && "translate-y-[clamp(120px,18vh,260px)]",
+          )}
+        >
+          <CatalogSearch expanded={isHomePage} />
+        </div>
 
         {/* Desktop: icons */}
         <HStack
