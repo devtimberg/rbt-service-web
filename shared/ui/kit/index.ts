@@ -11,3 +11,4 @@ export * from "./v-stack";
 export * from "./text";
 export * from "./tooltip";
 export * from "./sheet-footer-slot";
+export * from "./skeleton";
