@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { CatalogPage } from "@/screens/catalog";
+import { CatalogPage, CatalogSubcategoryPage } from "@/screens/catalog";
 import { MasterCallPage } from "@/screens/master-call";
 import { ProfilePage } from "@/screens/profile";
 
@@ -71,11 +71,20 @@ export const ROUTE_CONFIG: Record<AppRoute, RouteConfig> = {
   },
 };
 
+/** Маршруты, у которых все подстраницы рендерятся через один sheetComponent */
+const WILDCARD_SHEET_ROUTES: { prefix: string; sheetComponent: ComponentType }[] = [
+  { prefix: "/catalog/", sheetComponent: CatalogSubcategoryPage },
+];
+
 export function getRouteConfig(pathname: string): RouteConfig {
   const exact = ROUTE_CONFIG[pathname as AppRoute];
   if (exact) {
     return exact;
   }
+
+  const wildcard = WILDCARD_SHEET_ROUTES.find((r) =>
+    pathname.startsWith(r.prefix),
+  );
 
   const lastSegment = pathname.split("/").filter(Boolean).at(-1);
   const fallbackTitle = lastSegment
@@ -85,5 +94,6 @@ export function getRouteConfig(pathname: string): RouteConfig {
   return {
     path: pathname,
     title: fallbackTitle,
+    sheetComponent: wildcard?.sheetComponent,
   };
 }

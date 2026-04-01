@@ -1,4 +1,5 @@
 export { default as BagIcon } from "./bag";
+export { default as CameraOutlineIcon } from "./camera-outline";
 export { default as CatalogIcon } from "./catalog";
 export { default as ChartIcon } from "./chart";
 export { default as CheckIcon } from "./check";
@@ -6,6 +7,7 @@ export { default as CloseCircleIcon } from "./close-circle";
 export { default as CompareIcon } from "./compare";
 export { default as FeedbackIcon } from "./feedback";
 export { default as FilterIcon } from "./filter";
+export { default as HeartOutlineIcon } from "./heart-outline";
 export { default as HeartIcon } from "./heart";
 export { default as HomeIcon } from "./home";
 export { default as MasterIcon } from "./master";
