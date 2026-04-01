@@ -113,7 +113,7 @@ export function CatalogFilters({
                   />
                   <span className="text-sm">{option.label}</span>
                   {option.count != null && (
-                    <span className="text-tertiary ml-auto text-sm">
+                    <span className="text-tertiary text-sm">
                       {option.count}
                     </span>
                   )}
