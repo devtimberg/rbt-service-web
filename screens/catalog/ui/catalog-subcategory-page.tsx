@@ -44,11 +44,11 @@ export function CatalogSubcategoryPage() {
 
   return (
     <>
-      <Container>
+      <Container className="overflow-x-hidden">
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </Container>
 
-      <Container className="mt-6">
+      <Container className="mt-6 overflow-x-hidden">
         <div className="flex gap-8">
           {/* Filters sidebar — desktop only */}
           <div
@@ -64,7 +64,7 @@ export function CatalogSubcategoryPage() {
           </div>
 
           {/* Main content */}
-          <div className="flex-1">
+          <div className="min-w-0 flex-1">
             <Heading size="lg">Запчасти для холодильников</Heading>
 
             {/* Sort chips */}
@@ -78,6 +78,7 @@ export function CatalogSubcategoryPage() {
                   rounded="md"
                   selected={sort === option.value}
                   onClick={() => setSort(option.value)}
+                  className="shrink-0"
                 >
                   {option.label}
                 </Chip>
@@ -85,7 +86,7 @@ export function CatalogSubcategoryPage() {
             </div>
 
             {/* Product grid */}
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
               {MOCK_PRODUCTS.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
