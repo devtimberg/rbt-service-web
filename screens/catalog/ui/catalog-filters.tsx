@@ -1,7 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Heading, Text } from "@/shared/ui/kit";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Heading,
+  RadioGroup,
+  RadioGroupItem,
+  Text,
+} from "@/shared/ui/kit";
 import { cn } from "@/shared/lib/utils";
 import type { FilterGroup, PriceRange } from "../model";
 
@@ -11,73 +19,6 @@ type CatalogFiltersProps = {
   priceRange: PriceRange;
   className?: string;
 };
-
-function CheckboxItem({
-  label,
-  count,
-  checked,
-  onChange,
-}: {
-  label: string;
-  count?: number;
-  checked: boolean;
-  onChange: () => void;
-}) {
-  return (
-    <label className="flex cursor-pointer items-center gap-2.5">
-      <span
-        className={cn(
-          "flex size-5 shrink-0 items-center justify-center rounded-md border-2 transition-colors",
-          checked
-            ? "border-primary-500 bg-primary-500 text-white"
-            : "border-border-strong bg-white",
-        )}
-      >
-        {checked && (
-          <svg viewBox="0 0 12 12" fill="none" className="size-3">
-            <path
-              d="M2.5 6L5 8.5L9.5 3.5"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        )}
-      </span>
-      <span className="text-sm">{label}</span>
-      {count != null && (
-        <span className="ml-auto text-sm text-tertiary">{count}</span>
-      )}
-    </label>
-  );
-}
-
-function RadioItem({
-  label,
-  checked,
-  onChange,
-}: {
-  label: string;
-  checked: boolean;
-  onChange: () => void;
-}) {
-  return (
-    <label className="flex cursor-pointer items-center gap-2.5">
-      <span
-        className={cn(
-          "flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
-          checked ? "border-primary-500" : "border-border-strong",
-        )}
-      >
-        {checked && (
-          <span className="size-2.5 rounded-full bg-primary-500" />
-        )}
-      </span>
-      <span className="text-sm">{label}</span>
-    </label>
-  );
-}
 
 export function CatalogFilters({
   filterGroups,
@@ -115,37 +56,70 @@ export function CatalogFilters({
   }
 
   return (
-    <aside className={cn("flex flex-col gap-6", className)}>
+    <aside
+      className={cn(
+        "flex w-68! flex-col gap-6 rounded-[24px] bg-white p-6",
+        className,
+      )}
+    >
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <Heading size="sm">Фильтры</Heading>
+      <Box className="flex items-center justify-between gap-3">
+        <Heading
+          size="xs"
+          className="h-5 text-[16px]! font-bold!"
+        >
+          Фильтры
+        </Heading>
         {activeCount > 0 && (
-          <button
-            onClick={resetFilters}
-            className="flex items-center gap-1.5 text-sm text-primary-500"
-          >
-            Сбросить
-            <span className="flex size-5 items-center justify-center rounded-full bg-secondary-500 text-xs font-medium text-white">
+          <Box className="flex gap-1.5">
+            <Button
+              variant="link"
+              onClick={resetFilters}
+              className="text-link inline-flex items-center gap-1.5 text-sm"
+            >
+              Сбросить
+            </Button>
+            <span
+              className="bg-secondary-500 flex size-5 items-center
+                justify-center rounded-full text-xs font-medium text-white"
+            >
               {activeCount}
             </span>
-          </button>
+          </Box>
         )}
-      </div>
+      </Box>
 
       {/* Filter groups */}
       {filterGroups.map((group) => (
-        <div key={group.title} className="flex flex-col gap-3">
+        <div
+          key={group.title}
+          className="flex flex-col gap-3"
+        >
           <Text className="font-medium">{group.title}</Text>
           <div className="flex flex-col gap-2.5">
-            {group.options.map((option) => (
-              <CheckboxItem
-                key={option.value}
-                label={option.label}
-                count={option.count}
-                checked={selectedFilters[group.title]?.has(option.value) ?? false}
-                onChange={() => toggleFilter(group.title, option.value)}
-              />
-            ))}
+            {group.options.map((option) => {
+              const checked =
+                selectedFilters[group.title]?.has(option.value) ?? false;
+              return (
+                <label
+                  key={option.value}
+                  className="flex cursor-pointer items-center gap-2.5"
+                >
+                  <Checkbox
+                    checked={checked}
+                    onCheckedChange={() =>
+                      toggleFilter(group.title, option.value)
+                    }
+                  />
+                  <span className="text-sm">{option.label}</span>
+                  {option.count != null && (
+                    <span className="text-tertiary ml-auto text-sm">
+                      {option.count}
+                    </span>
+                  )}
+                </label>
+              );
+            })}
           </div>
         </div>
       ))}
@@ -157,15 +131,17 @@ export function CatalogFilters({
           <input
             type="text"
             placeholder={`от ${priceRange.min}`}
-            className="h-10 w-full rounded-xl border border-border-default px-3 text-sm
-              outline-none placeholder:text-input-placeholder focus:border-primary-500"
+            className="border-border-default placeholder:text-input-placeholder
+              focus:border-primary-500 h-10 w-full rounded-xl border px-3
+              text-sm outline-none"
           />
-          <span className="shrink-0 text-disabled">—</span>
+          <span className="text-disabled shrink-0">—</span>
           <input
             type="text"
             placeholder={`до ${priceRange.max.toLocaleString("ru-RU")}`}
-            className="h-10 w-full rounded-xl border border-border-default px-3 text-sm
-              outline-none placeholder:text-input-placeholder focus:border-primary-500"
+            className="border-border-default placeholder:text-input-placeholder
+              focus:border-primary-500 h-10 w-full rounded-xl border px-3
+              text-sm outline-none"
           />
         </div>
       </div>
@@ -173,16 +149,21 @@ export function CatalogFilters({
       {/* Availability */}
       <div className="flex flex-col gap-3">
         <Text className="font-medium">{availabilityGroup.title}</Text>
-        <div className="flex flex-col gap-2.5">
+        <RadioGroup
+          value={selectedAvailability}
+          onValueChange={setSelectedAvailability}
+          className="gap-2.5"
+        >
           {availabilityGroup.options.map((option) => (
-            <RadioItem
+            <label
               key={option.value}
-              label={option.label}
-              checked={selectedAvailability === option.value}
-              onChange={() => setSelectedAvailability(option.value)}
-            />
+              className="flex cursor-pointer items-center gap-2.5"
+            >
+              <RadioGroupItem value={option.value} />
+              <span className="text-sm">{option.label}</span>
+            </label>
           ))}
-        </div>
+        </RadioGroup>
       </div>
     </aside>
   );

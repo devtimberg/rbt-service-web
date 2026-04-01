@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Breadcrumb, Chip, Container, Heading } from "@/shared/ui/kit";
+import { useStickyScroll } from "@/shared/lib/use-sticky-scroll";
 import {
   MOCK_PRODUCTS,
   MOCK_FILTER_GROUPS,
@@ -25,6 +26,7 @@ const BREADCRUMB_ITEMS = [
 
 export function CatalogSubcategoryPage() {
   const [sort, setSort] = useState("popular");
+  const { ref: filtersRef, top: filtersTop } = useStickyScroll<HTMLDivElement>();
 
   return (
     <>
@@ -35,12 +37,17 @@ export function CatalogSubcategoryPage() {
       <Container className="mt-6">
         <div className="flex gap-8">
           {/* Filters sidebar — desktop only */}
-          <CatalogFilters
-            filterGroups={MOCK_FILTER_GROUPS}
-            availabilityGroup={MOCK_AVAILABILITY_OPTIONS}
-            priceRange={MOCK_PRICE_RANGE}
-            className="hidden w-60 shrink-0 lg:flex"
-          />
+          <div
+            ref={filtersRef}
+            className="hidden shrink-0 self-start lg:block"
+            style={{ position: "sticky", top: filtersTop }}
+          >
+            <CatalogFilters
+              filterGroups={MOCK_FILTER_GROUPS}
+              availabilityGroup={MOCK_AVAILABILITY_OPTIONS}
+              priceRange={MOCK_PRICE_RANGE}
+            />
+          </div>
 
           {/* Main content */}
           <div className="flex-1">

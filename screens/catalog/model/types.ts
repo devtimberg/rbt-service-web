@@ -9,6 +9,7 @@ export type Product = {
   oldPrice?: number;
   availability: ProductAvailability;
   isFavorite?: boolean;
+  isInCart?: boolean;
   preOrderDate?: string;
 };
 

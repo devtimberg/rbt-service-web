@@ -1,7 +1,8 @@
 "use client";
 
-import { HeartIcon } from "@/shared/icons";
-import { Button, Text } from "@/shared/ui/kit";
+import Image from "next/image";
+import { CameraOutlineIcon, HeartIcon, HeartOutlineIcon } from "@/shared/icons";
+import { Box, Button, IconButton, Text } from "@/shared/ui/kit";
 import { cn } from "@/shared/lib/utils";
 import type { Product } from "../model";
 
@@ -35,53 +36,38 @@ export function ProductCard({ product }: ProductCardProps) {
   const availability = availabilityConfig[product.availability];
 
   return (
-    <div
-      className="border-border-subtle flex flex-col overflow-hidden rounded-2xl
-        border bg-white"
-    >
+    <Box className="flex flex-col overflow-hidden rounded-2xl bg-white p-1">
       {/* Image area */}
-      <div className="bg-surface-subtle relative aspect-square p-4">
-        <div className="text-disabled flex h-full items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            className="size-12"
-          >
-            <rect
-              x="3"
-              y="3"
-              width="18"
-              height="18"
-              rx="2"
+      <Box className="relative! aspect-square rounded-t-xl bg-[#F3F7FF]">
+        <IconButton
+          variant="ghost"
+          icon={product.isFavorite ? HeartIcon : HeartOutlineIcon}
+          size="lg"
+          className={cn(
+            "absolute! top-0 right-0 z-10",
+            product.isFavorite
+              ? "text-secondary-500"
+              : "text-primary-900 [&_path]:fill-white",
+          )}
+        />
+        <Box className="flex h-full items-center justify-center">
+          {product.image && (
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              className="rounded-t-xl object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
             />
-            <circle
-              cx="8.5"
-              cy="8.5"
-              r="1.5"
-            />
-            <path d="m21 15-5-5L5 21" />
-          </svg>
-        </div>
-        <button
-          className="absolute top-3 right-3 flex size-8 items-center
-            justify-center rounded-full bg-white/80 backdrop-blur-sm"
-        >
-          <HeartIcon
-            className={cn(
-              "size-5",
-              product.isFavorite
-                ? "fill-secondary-500 text-secondary-500"
-                : "text-primary-300",
-            )}
-          />
-        </button>
-      </div>
+          )}
+          <CameraOutlineIcon className="size-12 text-[#BDCAE5]" />
+        </Box>
+      </Box>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col gap-1 p-3">
+      <Box className="mt-1 flex flex-1 flex-col gap-1 p-1">
         <Text
           size="xs"
           variant="secondary"
@@ -91,59 +77,50 @@ export function ProductCard({ product }: ProductCardProps) {
         </Text>
 
         {/* Price */}
-        <div className="flex items-baseline gap-2">
-          <span className="text-base font-semibold">
+        <Box className="flex items-baseline gap-2">
+          <Box className="text-base font-semibold">
             {formatPrice(product.price)} ₽
-          </span>
+          </Box>
           {product.oldPrice && (
-            <span className="text-disabled text-sm line-through">
+            <Box className="text-disabled text-sm line-through">
               {formatPrice(product.oldPrice)} ₽
-            </span>
+            </Box>
           )}
-        </div>
+        </Box>
 
         {/* Availability */}
-        <div
+        <Box
           className={cn(
             "flex items-center gap-1.5 text-xs",
             availability.className,
           )}
         >
-          <span className={cn("size-1.5 rounded-full", availability.dot)} />
+          <Box className={cn("size-1.5 rounded-full", availability.dot)} />
           {availability.label}
-        </div>
+        </Box>
 
         {/* Name */}
         <Text
           size="sm"
-          className="mt-1 line-clamp-2 min-h-[40px]"
+          className="mt-1 line-clamp-2 min-h-10 text-[13px] font-semibold"
         >
           {product.name}
         </Text>
 
         {/* Action button */}
         <div className="mt-auto pt-2">
-          {product.availability === "pre-order" ? (
-            <Button
-              variant="secondary"
-              size="full"
-              rounded="full"
-              className="text-sm"
-            >
-              {product.preOrderDate}
-            </Button>
-          ) : (
-            <Button
-              variant="primary"
-              size="full"
-              rounded="full"
-              className="text-sm"
-            >
-              В корзину
-            </Button>
-          )}
+          <Button
+            variant={product.isInCart ? "secondary" : "primary"}
+            size="full"
+            rounded="full"
+            className="text-sm"
+          >
+            {product.isInCart
+              ? "В корзине"
+              : (product.preOrderDate ?? "В корзину")}
+          </Button>
         </div>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
