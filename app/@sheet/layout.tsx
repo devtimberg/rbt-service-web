@@ -177,7 +177,8 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
       >
         <div className="text-primary flex h-full flex-col">
           <div
-            className="flex-1 overflow-y-auto overscroll-y-contain px-4 pt-6 pb-8"
+            className="flex-1 overflow-y-auto overscroll-y-contain px-4 pt-6
+              pb-[calc(env(safe-area-inset-bottom)+76px+32px)] sm:pb-8"
           >
             {children}
           </div>

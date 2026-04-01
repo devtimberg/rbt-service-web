@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { CatalogPage } from "@/screens/catalog";
 import { MasterCallPage } from "@/screens/master-call";
 import { ProfilePage } from "@/screens/profile";
 
@@ -34,7 +35,11 @@ export type RouteConfig = {
 
 export const ROUTE_CONFIG: Record<AppRoute, RouteConfig> = {
   [ROUTES.HOME]: { path: ROUTES.HOME, title: "Рембыттехника" },
-  [ROUTES.CATALOG]: { path: ROUTES.CATALOG, title: "Каталог" },
+  [ROUTES.CATALOG]: {
+    path: ROUTES.CATALOG,
+    title: "Каталог",
+    sheetComponent: CatalogPage,
+  },
   [ROUTES.FAVORITE]: { path: ROUTES.FAVORITE, title: "Избранное" },
   [ROUTES.COMPARE]: { path: ROUTES.COMPARE, title: "Сравнение" },
   [ROUTES.CART]: { path: ROUTES.CART, title: "Корзина" },
