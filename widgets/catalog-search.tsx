@@ -83,11 +83,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
             duration-500`,
             expanded ? "text-[18px]" : "text-sm",
           )}
-          placeholder={
-            expanded
-              ? "Введите название, артикул или модель детали"
-              : "Поиск запчастей по артикулу или названию..."
-          }
+          placeholder="Поиск запчастей по артикулу или названию..."
           autoComplete="off"
         />
       </form>
