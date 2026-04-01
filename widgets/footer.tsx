@@ -40,16 +40,14 @@ export function Footer() {
           md:flex-row md:items-end md:justify-between"
       >
         <Text
-          variant="secondary"
           size="xs"
-          className="min-w-0 flex-1 text-center leading-4 whitespace-pre-wrap
-            md:text-left"
+          className="text-inverse min-w-0 flex-1 text-center leading-4
+            whitespace-pre-wrap md:text-left"
         >
           {`© 1995 — 2026 ТТЦ Рембыттехника.\nВсе права защищены. Условия использования. Политика конфиденциальности.\nАдрес: г. Челябинск, ул. Производственная д. 8Б, Тел.: +7(351)239-39-39 Email: service@rbt.ru`}
         </Text>
         <HStack
-          className="w-[340px] shrink-0 items-center justify-center
-            md:justify-end"
+          className="w-85 shrink-0 items-center justify-center md:justify-end"
           gap={4}
         >
           <Text
