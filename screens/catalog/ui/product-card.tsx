@@ -50,20 +50,22 @@ export function ProductCard({ product }: ProductCardProps) {
               : "text-primary-900 [&_path]:fill-white",
           )}
         />
-        <Box className="flex h-full items-center justify-center">
-          {product.image && (
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              className="rounded-t-xl object-cover"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
-            />
-          )}
-          <CameraOutlineIcon className="size-12 text-[#BDCAE5]" />
-        </Box>
+        {product.image ? (
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="rounded-t-xl object-cover"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
+        ) : (
+          <Box className="flex h-full items-center justify-center">
+            <CameraOutlineIcon className="size-12 text-[#BDCAE5]" />
+          </Box>
+        )}
       </Box>
 
       {/* Content */}

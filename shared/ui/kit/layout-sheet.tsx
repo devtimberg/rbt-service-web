@@ -46,6 +46,7 @@ function LayoutSheetContent({
       {...props}
     >
       <SheetPrimitive.Title className="sr-only">Страница</SheetPrimitive.Title>
+      <SheetPrimitive.Description className="sr-only">Содержимое страницы</SheetPrimitive.Description>
       {children}
     </SheetPrimitive.Content>
   );

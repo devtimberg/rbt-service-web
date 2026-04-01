@@ -9,7 +9,12 @@ const LONGEST_GREETING = GREETINGS.reduce((longest, current) =>
   current.length > longest.length ? current : longest,
 );
 
-export function Footer() {
+type FooterProps = {
+  variant?: "default" | "inverse";
+};
+
+export function Footer({ variant = "inverse" }: FooterProps) {
+  const isInverse = variant === "inverse";
   const [greetingIndex, setGreetingIndex] = useState(0);
   const [typedLength, setTypedLength] = useState(0);
 
@@ -41,8 +46,7 @@ export function Footer() {
       >
         <Text
           size="xs"
-          className="text-inverse min-w-0 flex-1 text-center leading-4
-            whitespace-pre-wrap md:text-left"
+          className={`min-w-0 flex-1 text-center leading-4 whitespace-pre-wrap md:text-left ${isInverse ? "text-inverse" : "text-tertiary"}`}
         >
           {`© 1995 — 2026 ТТЦ Рембыттехника.\nВсе права защищены. Условия использования. Политика конфиденциальности.\nАдрес: г. Челябинск, ул. Производственная д. 8Б, Тел.: +7(351)239-39-39 Email: service@rbt.ru`}
         </Text>
@@ -63,7 +67,7 @@ export function Footer() {
                 |
               </span>
             </span>
-            <span className="text-inverse absolute inset-0">
+            <span className={`absolute inset-0 ${isInverse ? "text-inverse" : "text-primary"}`}>
               {GREETINGS[greetingIndex].slice(0, typedLength)}
               <span
                 aria-hidden
@@ -76,7 +80,7 @@ export function Footer() {
           </Text>
           <Box>
             <Button
-              variant="inverse"
+              variant={isInverse ? "inverse" : "secondary"}
               size="lg"
             >
               Время работы

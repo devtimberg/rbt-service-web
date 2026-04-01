@@ -16,6 +16,7 @@ import {
   PaginationPrevious,
 } from "@/shared/ui/kit";
 import { useStickyScroll } from "@/shared/lib/use-sticky-scroll";
+import { Footer } from "@/widgets/footer";
 import {
   MOCK_PRODUCTS,
   MOCK_FILTER_GROUPS,
@@ -89,14 +90,14 @@ export function CatalogSubcategoryPage() {
             </div>
 
             {/* Show more */}
-            <div className="mt-8 flex justify-center">
+            <div className="mt-12 flex justify-center">
               <Button variant="secondary" rounded="full" className="px-10">
                 Показать ещё
               </Button>
             </div>
 
             {/* Pagination */}
-            <Pagination className="mt-6">
+            <Pagination className="mt-10">
               <PaginationContent>
                 <PaginationItem>
                   <PaginationPrevious href="#" />
@@ -126,6 +127,10 @@ export function CatalogSubcategoryPage() {
           </div>
         </div>
       </Container>
+
+      <div className="mt-20">
+        <Footer variant="default" />
+      </div>
     </>
   );
 }
