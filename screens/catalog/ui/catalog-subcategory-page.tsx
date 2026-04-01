@@ -68,8 +68,8 @@ export function CatalogSubcategoryPage() {
             <Heading size="lg">Запчасти для холодильников</Heading>
 
             {/* Sort chips */}
-            <div className="mt-4 flex items-center gap-3">
-              <span className="text-sm text-tertiary">Сортировка:</span>
+            <div className="-mx-4 mt-4 flex items-center gap-3 overflow-x-auto px-4 scrollbar-none">
+              <span className="hidden shrink-0 text-sm text-tertiary sm:inline">Сортировка:</span>
               {SORT_OPTIONS.map((option) => (
                 <Chip
                   key={option.value}
