@@ -71,7 +71,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const Comp = asChild && disabled ? Slot : "button";
+    const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(
@@ -82,14 +82,20 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={loading || disabled}
         {...props}
       >
-        {loading ? (
-          <span className="absolute inset-0 flex items-center justify-center">
-            <Loader2 className="h-5 w-5 animate-spin text-current" />
-          </span>
-        ) : null}
-        <span className={loading ? "invisible" : ""}>
-          <Slottable>{children}</Slottable>
-        </span>
+        {asChild ? (
+          children
+        ) : (
+          <>
+            {loading ? (
+              <span className="absolute inset-0 flex items-center justify-center">
+                <Loader2 className="h-5 w-5 animate-spin text-current" />
+              </span>
+            ) : null}
+            <span className={loading ? "invisible" : ""}>
+              <Slottable>{children}</Slottable>
+            </span>
+          </>
+        )}
       </Comp>
     );
   },

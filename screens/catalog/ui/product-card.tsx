@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { CameraOutlineIcon, HeartIcon, HeartOutlineIcon } from "@/shared/icons";
+import { ROUTES } from "@/shared/lib/routes";
 import { useCartStore, useFavoritesStore } from "@/shared/lib/stores";
 import { cn } from "@/shared/lib/utils";
 import { Box, Button, IconButton, Text } from "@/shared/ui/kit";
@@ -117,16 +119,25 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Action button */}
         <div className="mt-auto pt-2">
-          <Button
-            variant={isInCart ? "secondary" : "primary"}
-            size="full"
-            className="rounded-md text-sm"
-            onClick={() => toggleCart(product.id)}
-          >
-            {isInCart
-              ? "В корзине"
-              : (product.preOrderDate ?? "В корзину")}
-          </Button>
+          {isInCart ? (
+            <Button
+              variant="secondary"
+              size="full"
+              className="rounded-md text-sm"
+              asChild
+            >
+              <Link href={ROUTES.CART}>В корзине</Link>
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              size="full"
+              className="rounded-md text-sm"
+              onClick={() => toggleCart(product.id)}
+            >
+              {product.preOrderDate ?? "В корзину"}
+            </Button>
+          )}
         </div>
       </Box>
     </Box>

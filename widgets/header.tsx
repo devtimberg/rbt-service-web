@@ -193,8 +193,8 @@ export function Header() {
               iconSize={28}
               counter={counter}
               tooltip={ariaLabel}
-              className={cn(headerIconBaseClassName, "hover:bg-primary-300")}
-              activeClassName="bg-primary-300 hover:bg-primary-300"
+              className={headerIconBaseClassName}
+              activeClassName="text-inverse aria-[current=page]:text-inverse"
               aria-label={ariaLabel}
               href={href}
             />
