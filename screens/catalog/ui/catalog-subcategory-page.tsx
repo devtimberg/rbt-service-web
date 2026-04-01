@@ -68,12 +68,14 @@ export function CatalogSubcategoryPage() {
             <Heading size="lg">Запчасти для холодильников</Heading>
 
             {/* Sort chips */}
-            <div className="mt-4 flex items-center gap-2">
+            <div className="mt-4 flex items-center gap-3">
               <span className="text-sm text-tertiary">Сортировка:</span>
               {SORT_OPTIONS.map((option) => (
                 <Chip
                   key={option.value}
+                  variant="outline-default"
                   size="sm"
+                  rounded="md"
                   selected={sort === option.value}
                   onClick={() => setSort(option.value)}
                 >

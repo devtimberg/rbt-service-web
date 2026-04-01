@@ -114,8 +114,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <Button
             variant={product.isInCart ? "secondary" : "primary"}
             size="full"
-            rounded="full"
-            className="text-sm"
+            className="rounded-[8px] text-sm"
           >
             {product.isInCart
               ? "В корзине"
