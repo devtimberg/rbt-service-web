@@ -44,7 +44,8 @@ export function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const isHomePage = pathname === ROUTES.HOME;
-  const isCatalog = pathname === ROUTES.CATALOG;
+  const isCatalog = pathname.startsWith(ROUTES.CATALOG);
+  const isCatalogSubpage = isCatalog && pathname !== ROUTES.CATALOG;
   const showCloseButton = CLOSE_BUTTON_ROUTES.has(pathname);
   const pageTitle = getRouteConfig(pathname).title;
   const headerIconBaseClassName =
@@ -91,7 +92,7 @@ export function Header() {
             className="flex min-h-10 items-center text-2xl leading-none
               font-semibold text-white sm:hidden"
           >
-            {pageTitle}
+            {isCatalog ? "Каталог" : pageTitle}
           </p>
         )}
 
@@ -125,7 +126,7 @@ export function Header() {
           </button>
         )}
 
-        {/* Mobile: only search icon on catalog */}
+        {/* Mobile: search on catalog, search + filter on subcategory */}
         {isCatalog && (
           <HStack
             gap={6}
@@ -137,16 +138,16 @@ export function Header() {
               icon={SearchIcon}
               iconSize={28}
               aria-label="Поиск запчастей"
-              href="/search"
             />
-            <IconButton
-              variant="inverse"
-              size="sm"
-              icon={FilterIcon}
-              iconSize={28}
-              aria-label="Поиск запчастей"
-              href="/search"
-            />
+            {isCatalogSubpage && (
+              <IconButton
+                variant="inverse"
+                size="sm"
+                icon={FilterIcon}
+                iconSize={28}
+                aria-label="Фильтры"
+              />
+            )}
           </HStack>
         )}
 
