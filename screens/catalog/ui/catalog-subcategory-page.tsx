@@ -1,7 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Breadcrumb, Chip, Container, Heading } from "@/shared/ui/kit";
+import {
+  Breadcrumb,
+  Button,
+  Chip,
+  Container,
+  Heading,
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/shared/ui/kit";
 import { useStickyScroll } from "@/shared/lib/use-sticky-scroll";
 import {
   MOCK_PRODUCTS,
@@ -74,6 +87,42 @@ export function CatalogSubcategoryPage() {
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
+
+            {/* Show more */}
+            <div className="mt-8 flex justify-center">
+              <Button variant="secondary" rounded="full" className="px-10">
+                Показать ещё
+              </Button>
+            </div>
+
+            {/* Pagination */}
+            <Pagination className="mt-6">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious href="#" />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#" isActive>
+                    1
+                  </PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">2</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">3</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">12</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext href="#" />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
         </div>
       </Container>
