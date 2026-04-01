@@ -1,6 +1,7 @@
 export { default as BagIcon } from "./bag";
 export { default as CatalogIcon } from "./catalog";
 export { default as ChartIcon } from "./chart";
+export { default as CheckIcon } from "./check";
 export { default as CompareIcon } from "./compare";
 export { default as FeedbackIcon } from "./feedback";
 export { default as FilterIcon } from "./filter";

@@ -13,7 +13,7 @@ const buttonVariants = cva(
           "bg-button-default text-button-default-foreground hover:bg-button-default/90",
         primary: "bg-[#011232] text-inverse hover:bg-button-primary/90",
         secondary:
-          "bg-button-secondary text-button-secondary-foreground hover:bg-button-secondary/90",
+          "bg-primary-100/10 text-button-secondary-foreground hover:bg-primary-100/15",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-link hover:text-link/90",
         inverse: "text-inverse bg-primary-900",

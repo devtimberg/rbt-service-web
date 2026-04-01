@@ -16,24 +16,24 @@ import type { TimeSlot, TimeSlotGroup } from "../model/types";
 type StepTimeSlotProps = {
   groups: TimeSlotGroup[];
   selected: { group: TimeSlotGroup; slot: TimeSlot } | null;
-  onSelect: (group: TimeSlotGroup, slot: TimeSlot) => void;
-  onNext: () => void;
-  onBack: () => void;
+  selectAction: (group: TimeSlotGroup, slot: TimeSlot) => void;
+  nextAction: () => void;
+  backAction: () => void;
 };
 
 export function StepTimeSlot({
   groups,
   selected,
-  onSelect,
-  onNext,
-  onBack,
+  selectAction,
+  nextAction,
+  backAction,
 }: StepTimeSlotProps) {
   const [submitted, setSubmitted] = useState(false);
 
   const handleNext = () => {
     setSubmitted(true);
     if (selected) {
-      onNext();
+      nextAction();
     }
   };
 
@@ -71,7 +71,7 @@ export function StepTimeSlot({
                     size="lg"
                     selected={isSelected}
                     disabled={!slot.available}
-                    onClick={() => onSelect(group, slot)}
+                    onClick={() => selectAction(group, slot)}
                     className={cn(
                       "shrink-0",
                       !slot.available && "opacity-40 line-through",
@@ -86,25 +86,23 @@ export function StepTimeSlot({
         ))}
       </Box>
 
-      <SheetFooterSlot>
-        <Box className="shadow-primary-900/15 flex items-center justify-between rounded-t-[24px] bg-[#F7FAFF] px-4 py-4 shadow-[0_-0px_60px_-0px]">
-          <Button
-            variant="secondary"
-            onClick={onBack}
-          >
-            Назад
-          </Button>
-          <Box className="flex items-center gap-3">
-            {submitted && !selected && (
-              <Text
-                variant="error"
-                size="sm"
-              >
-                Выберите время
-              </Text>
-            )}
-            <Button onClick={handleNext}>Продолжить</Button>
-          </Box>
+      <SheetFooterSlot contentClassName="justify-between">
+        <Button
+          variant="secondary"
+          onClick={backAction}
+        >
+          Назад
+        </Button>
+        <Box className="flex items-center gap-3">
+          {submitted && !selected && (
+            <Text
+              variant="error"
+              size="sm"
+            >
+              Выберите время
+            </Text>
+          )}
+          <Button onClick={handleNext}>Продолжить</Button>
         </Box>
       </SheetFooterSlot>
     </Container>

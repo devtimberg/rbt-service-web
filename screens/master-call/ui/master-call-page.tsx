@@ -48,10 +48,10 @@ export function MasterCallPage() {
       return (
         <StepCategory
           serviceType={serviceType}
-          onServiceTypeChange={setServiceType}
+          serviceTypeChangeAction={setServiceType}
           selectedCategory={category}
-          onSelectCategory={handleSelectCategory}
-          onNext={handleNext}
+          selectCategoryAction={handleSelectCategory}
+          nextAction={handleNext}
         />
       );
     case 1:
@@ -59,9 +59,9 @@ export function MasterCallPage() {
         <StepTimeSlot
           groups={timeSlotGroups}
           selected={selected}
-          onSelect={handleSelectSlot}
-          onNext={() => setStep(2)}
-          onBack={handleBack}
+          selectAction={handleSelectSlot}
+          nextAction={() => setStep(2)}
+          backAction={handleBack}
         />
       );
     case 2:
@@ -71,7 +71,8 @@ export function MasterCallPage() {
           category={category!}
           selectedGroup={selected!.group}
           selectedSlot={selected!.slot}
-          onCancel={handleBack}
+          cancelAction={handleBack}
+          confirmedAction={() => setStep(3)}
         />
       );
     case 3:

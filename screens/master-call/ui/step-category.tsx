@@ -25,25 +25,25 @@ const QUESTION_BY_SERVICE_TYPE: Record<ServiceType, string> = {
 
 type StepCategoryProps = {
   serviceType: ServiceType;
-  onServiceTypeChange: (type: ServiceType) => void;
+  serviceTypeChangeAction: (type: ServiceType) => void;
   selectedCategory: ApplianceCategory | null;
-  onSelectCategory: (category: ApplianceCategory) => void;
-  onNext: () => void;
+  selectCategoryAction: (category: ApplianceCategory) => void;
+  nextAction: () => void;
 };
 
 export function StepCategory({
   serviceType,
-  onServiceTypeChange,
+  serviceTypeChangeAction,
   selectedCategory,
-  onSelectCategory,
-  onNext,
+  selectCategoryAction,
+  nextAction,
 }: StepCategoryProps) {
   const [submitted, setSubmitted] = useState(false);
 
   const handleNext = () => {
     setSubmitted(true);
     if (selectedCategory) {
-      onNext();
+      nextAction();
     }
   };
 
@@ -68,7 +68,7 @@ export function StepCategory({
               key={option.value}
               size="lg"
               selected={serviceType === option.value}
-              onClick={() => onServiceTypeChange(option.value)}
+              onClick={() => serviceTypeChangeAction(option.value)}
             >
               {option.label}
             </Chip>
@@ -84,7 +84,7 @@ export function StepCategory({
               key={category.key}
               size="lg"
               selected={selectedCategory?.key === category.key}
-              onClick={() => onSelectCategory(category)}
+              onClick={() => selectCategoryAction(category)}
             >
               {category.label}
             </Chip>
@@ -92,18 +92,16 @@ export function StepCategory({
         </Box>
       </Box>
 
-      <SheetFooterSlot>
-        <Box className="shadow-primary-900/15 flex items-center justify-end gap-3 rounded-t-[24px] bg-[#F7FAFF] px-4 py-4 shadow-[0_-0px_60px_-0px]">
-          {submitted && !selectedCategory && (
-            <Text
-              variant="error"
-              size="sm"
-            >
-              Выберите категорию поломки
-            </Text>
-          )}
-          <Button onClick={handleNext}>Продолжить</Button>
-        </Box>
+      <SheetFooterSlot contentClassName="justify-end gap-3">
+        {submitted && !selectedCategory && (
+          <Text
+            variant="error"
+            size="sm"
+          >
+            Выберите категорию поломки
+          </Text>
+        )}
+        <Button onClick={handleNext}>Продолжить</Button>
       </SheetFooterSlot>
     </Container>
   );
