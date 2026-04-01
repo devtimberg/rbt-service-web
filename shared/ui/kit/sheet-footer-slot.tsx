@@ -35,15 +35,14 @@ export function SheetFooterSlot({
   return createPortal(
     <Box
       className={cn(
-        "shadow-primary-900/15 flex items-center justify-center rounded-t-[24px] bg-[#F7FAFF] px-4 py-4 shadow-[0_-0px_60px_-0px]",
+        `shadow-primary-900/15 flex items-center justify-center rounded-t-[24px]
+        bg-[#F7FAFF] px-4 py-4 shadow-[0_-0px_60px_-0px] sm:rounded-none
+        sm:rounded-b-[40px] sm:bg-white sm:px-6 sm:py-8 sm:shadow-none`,
         className,
       )}
     >
       <Box
-        className={cn(
-          "flex w-full max-w-360 items-center",
-          contentClassName,
-        )}
+        className={cn("flex w-full max-w-360 items-center", contentClassName)}
       >
         {children}
       </Box>
