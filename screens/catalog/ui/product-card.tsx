@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { CameraOutlineIcon, HeartIcon, HeartOutlineIcon } from "@/shared/icons";
-import { Box, Button, IconButton, Text } from "@/shared/ui/kit";
+import { useCartStore, useFavoritesStore } from "@/shared/lib/stores";
 import { cn } from "@/shared/lib/utils";
+import { Box, Button, IconButton, Text } from "@/shared/ui/kit";
 import type { Product } from "../model";
 
 type ProductCardProps = {
@@ -34,6 +35,10 @@ function formatPrice(price: number): string {
 
 export function ProductCard({ product }: ProductCardProps) {
   const availability = availabilityConfig[product.availability];
+  const isFavorite = useFavoritesStore((s) => s.items.has(product.id));
+  const toggleFavorite = useFavoritesStore((s) => s.toggle);
+  const isInCart = useCartStore((s) => s.items.has(product.id));
+  const toggleCart = useCartStore((s) => s.toggle);
 
   return (
     <Box className="flex flex-col overflow-hidden rounded-2xl bg-white p-1">
@@ -41,11 +46,12 @@ export function ProductCard({ product }: ProductCardProps) {
       <Box className="relative! aspect-square rounded-t-xl bg-[#F3F7FF]">
         <IconButton
           variant="ghost"
-          icon={product.isFavorite ? HeartIcon : HeartOutlineIcon}
+          icon={isFavorite ? HeartIcon : HeartOutlineIcon}
           size="lg"
+          onClick={() => toggleFavorite(product.id)}
           className={cn(
             "absolute! top-0 right-0 z-10",
-            product.isFavorite
+            isFavorite
               ? "text-secondary-500"
               : "text-primary-900 [&_path]:fill-white",
           )}
@@ -112,11 +118,12 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Action button */}
         <div className="mt-auto pt-2">
           <Button
-            variant={product.isInCart ? "secondary" : "primary"}
+            variant={isInCart ? "secondary" : "primary"}
             size="full"
             className="rounded-md text-sm"
+            onClick={() => toggleCart(product.id)}
           >
-            {product.isInCart
+            {isInCart
               ? "В корзине"
               : (product.preOrderDate ?? "В корзину")}
           </Button>

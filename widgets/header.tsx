@@ -8,6 +8,7 @@ import {
   SearchIcon,
 } from "@/shared/icons";
 import { ROUTES, getRouteConfig } from "@/shared/lib/routes";
+import { useCartStore, useFavoritesStore } from "@/shared/lib/stores";
 import { cn } from "@/shared/lib/utils";
 import { Container, HStack, IconButton } from "@/shared/ui/kit";
 import { CatalogSearch } from "./catalog-search";
@@ -18,30 +19,33 @@ import type { MouseEvent } from "react";
 
 const CLOSE_BUTTON_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL]);
 
-const DESKTOP_ICONS = [
-  {
-    id: "favorite",
-    icon: HeartIcon,
-    href: ROUTES.FAVORITE,
-    ariaLabel: "Избранное",
-  },
-  {
-    id: "cart",
-    icon: BagIcon,
-    href: ROUTES.CART,
-    ariaLabel: "Корзина",
-    counter: 3,
-  },
-  {
-    id: "profile",
-    icon: ProfileIcon,
-    href: ROUTES.PROFILE,
-    ariaLabel: "Профиль",
-  },
-];
-
 export function Header() {
   const pathname = usePathname();
+  const cartCount = useCartStore((s) => s.items.size);
+  const favoritesCount = useFavoritesStore((s) => s.items.size);
+
+  const desktopIcons = [
+    {
+      id: "favorite",
+      icon: HeartIcon,
+      href: ROUTES.FAVORITE,
+      ariaLabel: "Избранное",
+      counter: favoritesCount || undefined,
+    },
+    {
+      id: "cart",
+      icon: BagIcon,
+      href: ROUTES.CART,
+      ariaLabel: "Корзина",
+      counter: cartCount || undefined,
+    },
+    {
+      id: "profile",
+      icon: ProfileIcon,
+      href: ROUTES.PROFILE,
+      ariaLabel: "Профиль",
+    },
+  ];
   const router = useRouter();
   const isHomePage = pathname === ROUTES.HOME;
   const isCatalog = pathname.startsWith(ROUTES.CATALOG);
@@ -181,7 +185,7 @@ export function Header() {
           className="hidden sm:flex"
           gap={10}
         >
-          {DESKTOP_ICONS.map(({ id, icon, href, ariaLabel, counter }) => (
+          {desktopIcons.map(({ id, icon, href, ariaLabel, counter }) => (
             <IconButton
               key={id}
               size="lg"

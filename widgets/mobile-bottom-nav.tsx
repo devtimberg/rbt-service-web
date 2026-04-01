@@ -8,6 +8,7 @@ import {
   ProfileIcon,
 } from "@/shared/icons";
 import { HOME_NAV_PATHS, ROUTES } from "@/shared/lib/routes";
+import { useCartStore, useFavoritesStore } from "@/shared/lib/stores";
 import { IconButton } from "@/shared/ui/kit";
 import { usePathname } from "next/navigation";
 import type { ComponentType, SVGProps } from "react";
@@ -22,39 +23,41 @@ type NavItem = {
   additionalActivePaths?: string[];
 };
 
-const NAV_ITEMS: NavItem[] = [
-  {
-    label: "Главная",
-    href: ROUTES.HOME,
-    icon: HomeIcon,
-    additionalActivePaths: HOME_NAV_PATHS.filter((p) => p !== ROUTES.HOME),
-  },
-  {
-    label: "Каталог",
-    href: ROUTES.CATALOG,
-    icon: CatalogIcon,
-  },
-  {
-    label: "Избранное",
-    href: ROUTES.FAVORITE,
-    icon: HeartIcon,
-    counter: 1,
-  },
-  {
-    label: "Корзина",
-    href: ROUTES.CART,
-    icon: BagIcon,
-    counter: 3,
-  },
-  {
-    label: "Профиль",
-    href: ROUTES.PROFILE,
-    icon: ProfileIcon,
-  },
-];
-
 export function MobileBottomNav() {
   const pathname = usePathname();
+  const cartCount = useCartStore((s) => s.items.size);
+  const favoritesCount = useFavoritesStore((s) => s.items.size);
+
+  const navItems: NavItem[] = [
+    {
+      label: "Главная",
+      href: ROUTES.HOME,
+      icon: HomeIcon,
+      additionalActivePaths: HOME_NAV_PATHS.filter((p) => p !== ROUTES.HOME),
+    },
+    {
+      label: "Каталог",
+      href: ROUTES.CATALOG,
+      icon: CatalogIcon,
+    },
+    {
+      label: "Избранное",
+      href: ROUTES.FAVORITE,
+      icon: HeartIcon,
+      counter: favoritesCount || undefined,
+    },
+    {
+      label: "Корзина",
+      href: ROUTES.CART,
+      icon: BagIcon,
+      counter: cartCount || undefined,
+    },
+    {
+      label: "Профиль",
+      href: ROUTES.PROFILE,
+      icon: ProfileIcon,
+    },
+  ];
 
   if (HIDDEN_NAV_ROUTES.has(pathname)) return null;
 
@@ -67,7 +70,7 @@ export function MobileBottomNav() {
       aria-label="Мобильная навигация"
     >
       <ul className="grid grid-cols-5 gap-0.5">
-        {NAV_ITEMS.map((item) => (
+        {navItems.map((item) => (
           <li
             key={item.href}
             className="flex min-h-13 items-center justify-center"
