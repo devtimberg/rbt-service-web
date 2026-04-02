@@ -12,6 +12,7 @@ import { Dialog as SheetPrimitive } from "radix-ui";
 import { ROUTES } from "@/shared/lib/routes";
 import { LayoutSheetContent } from "@/shared/ui/kit/layout-sheet";
 import { SheetFooterSlotTarget } from "@/shared/ui/kit/sheet-footer-slot";
+import { ScrollArea } from "@/shared/ui/kit/scroll-area";
 
 const SHEET_CLOSE_DURATION_MS = 300;
 // mobile: 80px header, desktop: 88px header (+16px outer padding on lg)
@@ -191,13 +192,14 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
           } ${sheetTopOffsetClass}`}
       >
         <div className="text-primary flex h-full flex-col overflow-hidden rounded-t-[24px] lg:rounded-[40px]">
-          <div
-            ref={sheetScrollRef}
-            className="flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain px-3 pt-6
+          <ScrollArea
+            className="flex-1"
+            viewportRef={sheetScrollRef}
+            viewportClassName="overscroll-y-contain px-3 pt-6
               pb-[calc(env(safe-area-inset-bottom)+76px+32px)] sm:pb-8"
           >
             {children}
-          </div>
+          </ScrollArea>
           <SheetFooterSlotTarget />
         </div>
       </LayoutSheetContent>

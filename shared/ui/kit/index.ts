@@ -15,3 +15,4 @@ export * from "./text";
 export * from "./tooltip";
 export * from "./sheet-footer-slot";
 export * from "./skeleton";
+export * from "./scroll-area";

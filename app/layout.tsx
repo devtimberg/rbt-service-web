@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import { Header, MobileBottomNav } from "@/widgets";
-import { TooltipProvider } from "@/shared/ui/kit";
+import { TooltipProvider, ScrollArea } from "@/shared/ui/kit";
 import "./globals.css";
 
 const geistSans = Inter({
@@ -40,10 +40,11 @@ export default function RootLayout({
           p-0 antialiased lg:p-4 lg:py-4`}
       >
         <TooltipProvider delayDuration={300}>
-          <div
+          <ScrollArea
             data-layout-scroll-container="true"
-            className="bg-primary-500 relative flex min-h-0 flex-1 flex-col
-              overflow-y-auto rounded-none sm:overflow-hidden lg:rounded-[40px]"
+            className="bg-primary-500 relative min-h-0 flex-1
+              rounded-none lg:rounded-[40px]"
+            viewportClassName="flex flex-col"
           >
             <Header />
             <div
@@ -52,7 +53,7 @@ export default function RootLayout({
             >
               {children}
             </div>
-          </div>
+          </ScrollArea>
           <MobileBottomNav />
           {sheet}
         </TooltipProvider>

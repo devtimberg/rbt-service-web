@@ -19,12 +19,32 @@ body {
   font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
+html {
+  overflow: hidden;
+}
+
 @utility scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* ScrollArea: hide native scrollbar, Radix provides its own overlay scrollbar */
+[data-slot="scroll-area-viewport"] {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+[data-slot="scroll-area-viewport"]::-webkit-scrollbar {
+  display: none;
+}
+
+/* ScrollArea viewport inner div: override Radix display:table to support flex layout */
+[data-slot="scroll-area-viewport"] > div {
+  display: flex !important;
+  flex-direction: column;
+  min-height: 100%;
 }
 
 @layer base {
