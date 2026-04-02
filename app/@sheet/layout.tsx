@@ -34,7 +34,6 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
   const sheetTopOffsetClass = isSheetRoute
     ? SHEET_TOP_OFFSET_COMPACT_CLASS
     : SHEET_TOP_OFFSET_NORMAL_CLASS;
-  const sheetScrollRef = useRef<HTMLDivElement | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const backTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -47,8 +46,11 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
 
   // Сбрасываем скролл при смене маршрута (синхронно до paint)
   useLayoutEffect(() => {
-    if (sheetScrollRef.current) {
-      sheetScrollRef.current.scrollTop = 0;
+    const viewport = document.querySelector<HTMLElement>(
+      '[data-sheet-scroll="true"] [data-slot="scroll-area-viewport"]',
+    );
+    if (viewport) {
+      viewport.scrollTop = 0;
     }
   }, [pathname]);
 
@@ -193,8 +195,8 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
       >
         <div className="text-primary flex h-full flex-col overflow-hidden rounded-t-[24px] lg:rounded-[40px]">
           <ScrollArea
+            data-sheet-scroll="true"
             className="flex-1"
-            viewportRef={sheetScrollRef}
             viewportClassName="overscroll-y-contain px-3 pt-6
               pb-[calc(env(safe-area-inset-bottom)+76px+32px)] sm:pb-8"
           >
