@@ -48,7 +48,7 @@ export function CatalogSubcategoryPage() {
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </Container>
 
-      <Container className="mt-6 overflow-x-hidden">
+      <Container className="mt-6">
         <div className="flex gap-8">
           {/* Filters sidebar — desktop only */}
           <div
@@ -64,7 +64,7 @@ export function CatalogSubcategoryPage() {
           </div>
 
           {/* Main content */}
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 overflow-x-hidden">
             <Heading size="lg">Запчасти для холодильников</Heading>
 
             {/* Sort chips */}
