@@ -66,14 +66,14 @@ export function Header() {
     <>
       <div
         aria-hidden
-        className="h-[calc(40px+2*(clamp(16px,4vh,40px)/1.5))] sm:h-0"
+        className="h-20 sm:h-0"
       />
       <Container
         data-layout-header="true"
-        className="bg-primary-500 fixed inset-x-0 top-0 z-40 flex items-center
-          justify-between rounded-none px-4 py-[calc(clamp(16px,4vh,40px)/1.5)]
-          transition-[padding] duration-300 ease-in-out sm:static sm:z-auto
-          sm:rounded-t-[40px] sm:py-[clamp(16px,4vh,40px)]"
+        className="bg-primary-500 fixed inset-x-0 top-0 z-40 flex h-20 items-center
+          justify-between rounded-none px-4
+          sm:static sm:z-auto sm:h-22 sm:px-6
+          sm:rounded-t-[40px] sm:pt-1"
       >
         {/* Mobile: logo on home, title on other pages */}
         {isHomePage ? (

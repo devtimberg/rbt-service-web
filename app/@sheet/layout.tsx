@@ -1,7 +1,12 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Dialog as SheetPrimitive } from "radix-ui";
 import { ROUTES } from "@/shared/lib/routes";
@@ -9,10 +14,11 @@ import { LayoutSheetContent } from "@/shared/ui/kit/layout-sheet";
 import { SheetFooterSlotTarget } from "@/shared/ui/kit/sheet-footer-slot";
 
 const SHEET_CLOSE_DURATION_MS = 300;
+// mobile: 80px header, desktop: 88px header (+16px outer padding on lg)
 const SHEET_TOP_OFFSET_NORMAL_CLASS =
-  "top-[calc(40px+2*clamp(16px,4vh,40px))] sm:top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
+  "top-20 sm:top-22 lg:top-[calc(16px+88px)]";
 const SHEET_TOP_OFFSET_COMPACT_CLASS =
-  "top-[calc(40px+2*(clamp(16px,4vh,40px)/1.5))] sm:top-[calc(40px+2*clamp(16px,4vh,40px))] lg:top-[calc(16px+40px+2*clamp(16px,4vh,40px))]";
+  "top-20 sm:top-22 lg:top-[calc(16px+88px)]";
 
 export default function SheetLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -27,6 +33,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
   const sheetTopOffsetClass = isSheetRoute
     ? SHEET_TOP_OFFSET_COMPACT_CLASS
     : SHEET_TOP_OFFSET_NORMAL_CLASS;
+  const sheetScrollRef = useRef<HTMLDivElement | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const backTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -36,6 +43,14 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
   if (isSheetRoute && renderedRoute !== pathname) {
     setRenderedRoute(pathname);
   }
+
+  // Сбрасываем скролл при смене маршрута (синхронно до paint)
+  useLayoutEffect(() => {
+    if (sheetScrollRef.current) {
+      sheetScrollRef.current.scrollTop = 0;
+    }
+  }, [pathname]);
+
 
   useEffect(() => {
     return () => {
@@ -177,7 +192,8 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
       >
         <div className="text-primary flex h-full flex-col overflow-hidden rounded-t-[24px] lg:rounded-[40px]">
           <div
-            className="flex-1 overflow-y-auto overscroll-y-contain px-3 pt-6
+            ref={sheetScrollRef}
+            className="flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain px-3 pt-6
               pb-[calc(env(safe-area-inset-bottom)+76px+32px)] sm:pb-8"
           >
             {children}

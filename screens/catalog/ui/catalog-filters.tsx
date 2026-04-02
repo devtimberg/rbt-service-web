@@ -111,7 +111,7 @@ export function CatalogFilters({
                       toggleFilter(group.title, option.value)
                     }
                   />
-                  <span className="text-sm">{option.label}</span>
+                  <span className="text-pretty text-sm">{option.label}</span>
                   {option.count != null && (
                     <span className="text-tertiary text-sm">
                       {option.count}
