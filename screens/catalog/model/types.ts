@@ -3,6 +3,7 @@ export type ProductAvailability = "in-stock" | "low-stock" | "pre-order";
 export type Product = {
   id: string;
   name: string;
+  article?: string;
   brand: string;
   image?: string;
   price: number;

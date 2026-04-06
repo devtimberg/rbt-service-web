@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { CartPage } from "@/screens/cart";
 import { CatalogPage, CatalogSubcategoryPage } from "@/screens/catalog";
 import { FavoritePage } from "@/screens/favorite";
 import { MasterCallPage } from "@/screens/master-call";
@@ -47,7 +48,11 @@ export const ROUTE_CONFIG: Record<AppRoute, RouteConfig> = {
     sheetComponent: FavoritePage,
   },
   [ROUTES.COMPARE]: { path: ROUTES.COMPARE, title: "Сравнение" },
-  [ROUTES.CART]: { path: ROUTES.CART, title: "Корзина" },
+  [ROUTES.CART]: {
+    path: ROUTES.CART,
+    title: "Корзина",
+    sheetComponent: CartPage,
+  },
   [ROUTES.PROFILE]: {
     path: ROUTES.PROFILE,
     title: "Профиль",
