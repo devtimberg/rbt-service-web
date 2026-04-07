@@ -5,6 +5,7 @@ export { default as ChartIcon } from "./chart";
 export { default as CheckIcon } from "./check";
 export { default as CloseCircleIcon } from "./close-circle";
 export { default as CompareIcon } from "./compare";
+export { default as DeleteIcon } from "./delete";
 export { default as FeedbackIcon } from "./feedback";
 export { default as FilterIcon } from "./filter";
 export { default as HeartOutlineIcon } from "./heart-outline";
