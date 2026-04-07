@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { BagIcon } from "@/shared/icons";
+import { cn } from "@/shared/lib/utils";
 import { useCartStore } from "@/shared/lib/stores";
 import {
   Box,
@@ -19,6 +20,55 @@ import { CartSelectionBar } from "./cart-selection-bar";
 import { CartSummary } from "./cart-summary";
 
 const BREADCRUMB_ITEMS = [{ label: "Корзина" }];
+
+function CartGroup({
+  label,
+  dotColor,
+  products,
+  selectedIds,
+  onToggleSelect,
+  className,
+  badge,
+}: {
+  label: string;
+  dotColor: string;
+  products: (Product & { quantity: number })[];
+  selectedIds: Set<string>;
+  onToggleSelect: (id: string) => void;
+  className?: string;
+  badge?: string;
+}) {
+  return (
+    <div className={cn("rounded-2xl bg-white p-4", className)}>
+      <div className="flex items-center gap-2">
+        <Box className={cn("size-2 rounded-full", dotColor)} />
+        <Text className="py-2 font-semibold">{label}</Text>
+        <Text size="sm" variant="secondary">
+          {pluralizeItems(products.reduce((s, p) => s + p.quantity, 0))}
+        </Text>
+        {badge && (
+          <span
+            className="text-secondary-500 ml-1 rounded-md bg-[#FDEAF0]
+              px-3 py-1.5 text-xs font-semibold"
+          >
+            {badge}
+          </span>
+        )}
+      </div>
+
+      <div className="mt-3 space-y-8">
+        {products.map((product) => (
+          <CartItem
+            key={product.id}
+            product={product}
+            isSelected={selectedIds.has(product.id)}
+            onToggleSelectAction={onToggleSelect}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function pluralizeItems(count: number): string {
   const lastTwo = count % 100;
@@ -137,11 +187,18 @@ export function CartPage() {
           className="flex flex-1 flex-col items-center justify-center
             text-center"
         >
-          <BagIcon className="mb-4 size-16 text-disabled" />
-          <Text size="lg" className="font-semibold">
+          <BagIcon className="text-disabled mb-4 size-16" />
+          <Text
+            size="lg"
+            className="font-semibold"
+          >
             Корзина пуста
           </Text>
-          <Text size="sm" variant="secondary" className="mt-2">
+          <Text
+            size="sm"
+            variant="secondary"
+            className="mt-2"
+          >
             Добавьте товары из каталога, чтобы оформить заказ
           </Text>
         </Container>
@@ -160,91 +217,55 @@ export function CartPage() {
       </Container>
 
       <Container className="sm:mt-6">
-        <div className="flex gap-8">
-          {/* Main content */}
+        {/* Header — desktop only, mobile has it in the app header */}
+        <div className="hidden items-center gap-3 sm:flex">
+          <Heading size="lg">Корзина</Heading>
+          <Chip
+            variant="outline-default"
+            size="sm"
+            rounded="full"
+          >
+            {pluralizeItems(
+              cartProducts.reduce((s, p) => s + p.quantity, 0),
+            )}
+          </Chip>
+        </div>
+
+        {/* Main content + sidebar aligned to selection bar */}
+        <div className="mt-4 flex items-start gap-8">
           <div className="min-w-0 flex-1">
-            {/* Header — desktop only, mobile has it in the app header */}
-            <div className="hidden items-center gap-3 sm:flex">
-              <Heading size="lg">Корзина</Heading>
-              <Chip variant="outline-default" size="sm" rounded="full">
-                {pluralizeItems(
-                  cartProducts.reduce((s, p) => s + p.quantity, 0),
-                )}
-              </Chip>
-            </div>
-
             {/* Selection bar */}
-            <div className="mt-4">
-              <CartSelectionBar
-                selectedCount={effectiveSelectedIds.size}
-                totalCount={cartProducts.length}
-                onSelectAll={selectAll}
-                onDeselectAll={deselectAll}
-                onDeleteSelected={deleteSelected}
-                onShareSelected={shareSelected}
-              />
-            </div>
+            <CartSelectionBar
+              selectedCount={effectiveSelectedIds.size}
+              totalCount={cartProducts.length}
+              onSelectAll={selectAll}
+              onDeselectAll={deselectAll}
+              onDeleteSelected={deleteSelected}
+              onShareSelected={shareSelected}
+            />
 
-            {/* In-stock group */}
+            {/* Product groups */}
             {inStockProducts.length > 0 && (
-              <div className="mt-4">
-                <div className="flex items-center gap-2">
-                  <Box className="size-2 rounded-full bg-success-500" />
-                  <Text size="sm" className="font-medium">
-                    В наличии
-                  </Text>
-                  <Text size="sm" variant="secondary">
-                    {pluralizeItems(
-                      inStockProducts.reduce((s, p) => s + p.quantity, 0),
-                    )}
-                  </Text>
-                </div>
-
-                <div className="mt-3 space-y-3">
-                  {inStockProducts.map((product) => (
-                    <CartItem
-                      key={product.id}
-                      product={product}
-                      isSelected={effectiveSelectedIds.has(product.id)}
-                      onToggleSelectAction={toggleSelect}
-                    />
-                  ))}
-                </div>
-              </div>
+              <CartGroup
+                label="В наличии"
+                dotColor="bg-success-500"
+                products={inStockProducts}
+                selectedIds={effectiveSelectedIds}
+                onToggleSelect={toggleSelect}
+                className="mt-4"
+              />
             )}
 
-            {/* Pre-order group */}
             {preOrderProducts.length > 0 && (
-              <div className="mt-8">
-                <div className="flex items-center gap-2">
-                  <Box className="size-2 rounded-full bg-warning-500" />
-                  <Text size="sm" className="font-medium">
-                    Под заказ
-                  </Text>
-                  <Text size="sm" variant="secondary">
-                    {pluralizeItems(
-                      preOrderProducts.reduce((s, p) => s + p.quantity, 0),
-                    )}
-                  </Text>
-                  <span
-                    className="ml-1 rounded-md bg-[#FDEAF0] px-3 py-1.5
-                      text-xs font-semibold text-secondary-500"
-                  >
-                    Ожидание 15 – 20 дней
-                  </span>
-                </div>
-
-                <div className="mt-3 space-y-3">
-                  {preOrderProducts.map((product) => (
-                    <CartItem
-                      key={product.id}
-                      product={product}
-                      isSelected={effectiveSelectedIds.has(product.id)}
-                      onToggleSelectAction={toggleSelect}
-                    />
-                  ))}
-                </div>
-              </div>
+              <CartGroup
+                label="Под заказ"
+                dotColor="bg-warning-500"
+                products={preOrderProducts}
+                selectedIds={effectiveSelectedIds}
+                onToggleSelect={toggleSelect}
+                className="mt-8"
+                badge="Ожидание 15 – 20 дней"
+              />
             )}
           </div>
 

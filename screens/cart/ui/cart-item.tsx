@@ -27,10 +27,7 @@ export function CartItem({
   const totalPrice = product.price * quantity;
 
   return (
-    <div
-      className="flex items-center gap-3 rounded-2xl bg-white p-2 sm:gap-4
-        sm:p-1 sm:pr-4"
-    >
+    <div className="flex gap-4">
       {/* Product image + checkbox */}
       <div className="relative shrink-0 sm:h-21.25 sm:w-28.75">
         {/* SVG clip-path: rectangle with rounded corners + top-left notch for checkbox */}
@@ -73,7 +70,7 @@ export function CartItem({
         </div>
 
         {/* Checkbox */}
-        <div className="absolute top-0.25 left-0.5 z-10">
+        <div className="absolute top-px left-0.5 z-10">
           <Checkbox
             checked={isSelected}
             onCheckedChange={() => onToggleSelectAction(product.id)}
