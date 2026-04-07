@@ -47,6 +47,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: "5",
     name: "Фильтр",
+    article: "41028913",
     brand: "Indesit, Ariston, Hotpoint",
     image: "",
     price: 150,
@@ -55,6 +56,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: "6",
     name: "Термодатчик",
+    article: "52917340",
     brand: "Samsung",
     image: "/images/products/6.png",
     price: 770,
@@ -64,6 +66,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: "7",
     name: "Плата",
+    article: "90816254",
     brand: "Атлант",
     image: "",
     price: 1390,
@@ -72,6 +75,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: "8",
     name: "Ремкомплект ручек (2 петли) (FR3870)",
+    article: "37461028",
     brand: "УН - ЗИП-М",
     image: "/images/products/8.jpeg",
     price: 1580,
@@ -81,6 +85,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: "9",
     name: "Термостат",
+    article: "61735482",
     brand: "Samsung",
     image: "",
     price: 890,
@@ -90,6 +95,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: "10",
     name: "Мотор вентилятора",
+    article: "48293715",
     brand: "LG",
     image: "",
     price: 3250,
@@ -99,6 +105,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: "11",
     name: "Модуль управления холодильником",
+    article: "85024613",
     brand: "Bosch",
     image: "",
     price: 8900,
@@ -109,6 +116,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: "12",
     name: "Уплотнитель двери",
+    article: "19384756",
     brand: "Indesit",
     image: "",
     price: 620,

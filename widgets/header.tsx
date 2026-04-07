@@ -48,6 +48,7 @@ export function Header() {
   ];
   const router = useRouter();
   const isHomePage = pathname === ROUTES.HOME;
+  const isCart = pathname === ROUTES.CART;
   const isCatalog = pathname.startsWith(ROUTES.CATALOG);
   const isCatalogSubpage = isCatalog && pathname !== ROUTES.CATALOG;
   const showCloseButton = CLOSE_BUTTON_ROUTES.has(pathname);
@@ -92,12 +93,16 @@ export function Header() {
             />
           </Link>
         ) : (
-          <p
-            className="flex min-h-10 items-center text-2xl leading-none
-              font-semibold text-white sm:hidden"
-          >
-            {isCatalog ? "Каталог" : pageTitle}
-          </p>
+          <div className="flex min-h-10 items-center gap-2.5 sm:hidden">
+            <p className="text-2xl leading-none font-semibold text-white">
+              {isCatalog ? "Каталог" : pageTitle}
+            </p>
+            {isCart && cartCount > 0 && (
+              <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-medium text-white">
+                {cartCount}
+              </span>
+            )}
+          </div>
         )}
 
         {/* Mobile: close button for wizard flows */}

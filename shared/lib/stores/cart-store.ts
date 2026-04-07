@@ -38,7 +38,7 @@ export const useCartStore = create<CartStore>()(
           const next = new Map(state.items);
           const current = next.get(productId) ?? 0;
           if (current <= 1) {
-            next.delete(productId);
+            return state;
           } else {
             next.set(productId, current - 1);
           }

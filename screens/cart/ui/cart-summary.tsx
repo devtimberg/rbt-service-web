@@ -1,3 +1,4 @@
+import { formatPrice } from "@/shared/lib/utils";
 import { Button, Text } from "@/shared/ui/kit";
 
 type CartSummaryProps = {
@@ -5,10 +6,6 @@ type CartSummaryProps = {
   subtotal: number;
   discount: number;
 };
-
-function formatPrice(price: number): string {
-  return price.toLocaleString("ru-RU");
-}
 
 export function CartSummary({ totalItems, subtotal, discount }: CartSummaryProps) {
   const total = subtotal - discount;

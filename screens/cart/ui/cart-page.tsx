@@ -1,13 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { BagIcon } from "@/shared/icons";
 import { useCartStore } from "@/shared/lib/stores";
-import { Box, Breadcrumb, Chip, Container, Heading, Text } from "@/shared/ui/kit";
+import {
+  Box,
+  Breadcrumb,
+  Chip,
+  Container,
+  Heading,
+  Text,
+} from "@/shared/ui/kit";
 import { Footer } from "@/widgets/footer";
 import { MOCK_PRODUCTS } from "@/screens/catalog/model";
 import type { Product } from "@/screens/catalog/model";
-import { MOCK_CART_ITEMS } from "../model";
 import { CartItem } from "./cart-item";
 import { CartSummary } from "./cart-summary";
 
@@ -23,27 +28,8 @@ function pluralizeItems(count: number): string {
   return `${count} товаров`;
 }
 
-function formatPrice(price: number): string {
-  return price.toLocaleString("ru-RU");
-}
-
 export function CartPage() {
   const cartItems = useCartStore((s) => s.items);
-  const [seeded, setSeeded] = useState(false);
-
-  // Seed mock data on first mount if cart is empty
-  useEffect(() => {
-    if (seeded) return;
-    if (cartItems.size === 0) {
-      const store = useCartStore.getState();
-      for (const [id, qty] of MOCK_CART_ITEMS) {
-        const current = new Map(useCartStore.getState().items);
-        current.set(id, qty);
-        useCartStore.setState({ items: current });
-      }
-    }
-    setSeeded(true);
-  }, [seeded, cartItems.size]);
 
   // Get products that are in the cart
   const cartProducts: (Product & { quantity: number })[] = [];
@@ -80,12 +66,22 @@ export function CartPage() {
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>
 
-        <Container className="flex flex-1 flex-col items-center justify-center text-center">
-          <BagIcon className="mb-4 size-16 text-disabled" />
-          <Text size="lg" className="font-semibold">
+        <Container
+          className="flex flex-1 flex-col items-center justify-center
+            text-center"
+        >
+          <BagIcon className="text-disabled mb-4 size-16" />
+          <Text
+            size="lg"
+            className="font-semibold"
+          >
             Корзина пуста
           </Text>
-          <Text size="sm" variant="secondary" className="mt-2">
+          <Text
+            size="sm"
+            variant="secondary"
+            className="mt-2"
+          >
             Добавьте товары из каталога, чтобы оформить заказ
           </Text>
         </Container>
@@ -103,14 +99,18 @@ export function CartPage() {
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </Container>
 
-      <Container className="mt-6">
+      <Container className="sm:mt-6">
         <div className="flex gap-8">
           {/* Main content */}
           <div className="min-w-0 flex-1">
-            {/* Header */}
-            <div className="flex items-center gap-3">
+            {/* Header — desktop only, mobile has it in the app header */}
+            <div className="hidden items-center gap-3 sm:flex">
               <Heading size="lg">Корзина</Heading>
-              <Chip variant="outline-default" size="sm" rounded="full">
+              <Chip
+                variant="outline-default"
+                size="sm"
+                rounded="full"
+              >
                 {pluralizeItems(totalItems)}
               </Chip>
             </div>
@@ -119,18 +119,27 @@ export function CartPage() {
             {inStockProducts.length > 0 && (
               <div className="mt-6">
                 <div className="flex items-center gap-2">
-                  <Box className="size-2 rounded-full bg-success-500" />
-                  <Text size="sm" className="font-medium">
+                  <Box className="bg-success-500 size-2 rounded-full" />
+                  <Text
+                    size="sm"
+                    className="font-medium"
+                  >
                     В наличии
                   </Text>
-                  <Text size="sm" variant="secondary">
+                  <Text
+                    size="sm"
+                    variant="secondary"
+                  >
                     {pluralizeItems(inStockProducts.length)}
                   </Text>
                 </div>
 
                 <div className="mt-3 space-y-3">
                   {inStockProducts.map((product) => (
-                    <CartItem key={product.id} product={product} />
+                    <CartItem
+                      key={product.id}
+                      product={product}
+                    />
                   ))}
                 </div>
               </div>
@@ -140,26 +149,33 @@ export function CartPage() {
             {preOrderProducts.length > 0 && (
               <div className="mt-8">
                 <div className="flex items-center gap-2">
-                  <Box className="size-2 rounded-full bg-warning-500" />
-                  <Text size="sm" className="font-medium">
+                  <Box className="bg-warning-500 size-2 rounded-full" />
+                  <Text
+                    size="sm"
+                    className="font-medium"
+                  >
                     Под заказ
                   </Text>
-                  <Text size="sm" variant="secondary">
+                  <Text
+                    size="sm"
+                    variant="secondary"
+                  >
                     {pluralizeItems(preOrderProducts.length)}
                   </Text>
-                  <Chip
-                    variant="outline-default"
-                    size="sm"
-                    rounded="md"
-                    className="ml-1 border-warning-500/30 text-warning-700"
+                  <span
+                    className="text-secondary-500 ml-1 rounded-md bg-[#FDEAF0]
+                      px-3 py-1.5 text-xs font-semibold"
                   >
-                    Срок доставки 15 – 20 дней
-                  </Chip>
+                    Ожидание 15 – 20 дней
+                  </span>
                 </div>
 
                 <div className="mt-3 space-y-3">
                   {preOrderProducts.map((product) => (
-                    <CartItem key={product.id} product={product} />
+                    <CartItem
+                      key={product.id}
+                      product={product}
+                    />
                   ))}
                 </div>
               </div>

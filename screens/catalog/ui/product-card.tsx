@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CameraOutlineIcon, HeartIcon, HeartOutlineIcon } from "@/shared/icons";
 import { ROUTES } from "@/shared/lib/routes";
 import { useCartStore, useFavoritesStore } from "@/shared/lib/stores";
-import { cn } from "@/shared/lib/utils";
+import { cn, formatPrice } from "@/shared/lib/utils";
 import { Box, Button, IconButton, Text } from "@/shared/ui/kit";
 import type { Product } from "../model";
 
@@ -31,9 +31,6 @@ const availabilityConfig = {
   },
 } as const;
 
-function formatPrice(price: number): string {
-  return price.toLocaleString("ru-RU");
-}
 
 export function ProductCard({ product }: ProductCardProps) {
   const availability = availabilityConfig[product.availability];
