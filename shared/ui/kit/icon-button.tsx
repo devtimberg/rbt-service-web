@@ -37,7 +37,7 @@ const iconButtonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/90",
+          "bg-[#F3F7FF] text-tertiary hover:bg-[#E8EEFB] active:bg-[#E8EEFB]",
         ghost:
           "bg-transparent text-primary-100 hover:bg-transparent aria-[current=page]:text-primary-500",
         inverse: "bg-transparent text-white",
