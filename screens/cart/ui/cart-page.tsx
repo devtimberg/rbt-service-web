@@ -40,16 +40,16 @@ function CartGroup({
 }) {
   return (
     <div className={cn("rounded-2xl bg-white p-4", className)}>
-      <div className="flex items-center gap-2">
-        <Box className={cn("size-2 rounded-full", dotColor)} />
-        <Text className="py-2 font-semibold">{label}</Text>
-        <Text size="sm" variant="secondary">
+      <div className="flex flex-nowrap items-center gap-2">
+        <Box className={cn("size-2 shrink-0 rounded-full", dotColor)} />
+        <Text className="shrink-0 py-2 font-semibold">{label}</Text>
+        <Text size="sm" variant="secondary" className="shrink-0">
           {pluralizeItems(products.reduce((s, p) => s + p.quantity, 0))}
         </Text>
         {badge && (
           <span
-            className="text-secondary-500 ml-1 rounded-md bg-[#FDEAF0]
-              px-3 py-1.5 text-xs font-semibold"
+            className="text-secondary-500 ml-1 shrink-0 whitespace-nowrap
+              rounded-md bg-[#FDEAF0] px-3 py-1.5 text-xs font-semibold"
           >
             {badge}
           </span>
