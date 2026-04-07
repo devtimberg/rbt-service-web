@@ -43,20 +43,24 @@ function CartGroup({
       <div className="flex flex-nowrap items-center gap-2">
         <Box className={cn("size-2 shrink-0 rounded-full", dotColor)} />
         <Text className="shrink-0 py-2 font-semibold">{label}</Text>
-        <Text size="sm" variant="secondary" className="shrink-0">
+        <Text
+          size="sm"
+          variant="secondary"
+          className="shrink-0"
+        >
           {pluralizeItems(products.reduce((s, p) => s + p.quantity, 0))}
         </Text>
         {badge && (
           <span
-            className="text-secondary-500 ml-1 shrink-0 whitespace-nowrap
-              rounded-md bg-[#FDEAF0] px-3 py-1.5 text-xs font-semibold"
+            className="text-secondary-500 ml-1 shrink-0 rounded-md bg-[#FDEAF0]
+              px-3 py-1.5 text-xs font-semibold whitespace-nowrap"
           >
             {badge}
           </span>
         )}
       </div>
 
-      <div className="mt-3 space-y-8">
+      <div className="mt-3 flex flex-col gap-8">
         {products.map((product) => (
           <CartItem
             key={product.id}
@@ -225,9 +229,7 @@ export function CartPage() {
             size="sm"
             rounded="full"
           >
-            {pluralizeItems(
-              cartProducts.reduce((s, p) => s + p.quantity, 0),
-            )}
+            {pluralizeItems(cartProducts.reduce((s, p) => s + p.quantity, 0))}
           </Chip>
         </div>
 
@@ -283,7 +285,7 @@ export function CartPage() {
       </Container>
 
       {/* Mobile order summary */}
-      <Container className="mt-8 lg:hidden">
+      <Container className="mt-4 lg:hidden">
         <CartSummary
           totalItems={totalItems}
           subtotal={subtotal + discount}
@@ -291,7 +293,7 @@ export function CartPage() {
         />
       </Container>
 
-      <div className="mt-20">
+      <div className="mt-4 sm:mt-20">
         <Footer variant="default" />
       </div>
     </>
