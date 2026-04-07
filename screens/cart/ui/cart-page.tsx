@@ -130,7 +130,7 @@ export function CartPage() {
                     size="sm"
                     variant="secondary"
                   >
-                    {pluralizeItems(inStockProducts.length)}
+                    {pluralizeItems(inStockProducts.reduce((s, p) => s + p.quantity, 0))}
                   </Text>
                 </div>
 
@@ -160,7 +160,7 @@ export function CartPage() {
                     size="sm"
                     variant="secondary"
                   >
-                    {pluralizeItems(preOrderProducts.length)}
+                    {pluralizeItems(preOrderProducts.reduce((s, p) => s + p.quantity, 0))}
                   </Text>
                   <span
                     className="text-secondary-500 ml-1 rounded-md bg-[#FDEAF0]
@@ -183,7 +183,7 @@ export function CartPage() {
           </div>
 
           {/* Order summary sidebar — desktop only */}
-          <div className="hidden w-72 shrink-0 lg:block">
+          <div className="hidden w-85 shrink-0 lg:block">
             <div className="sticky top-6">
               <CartSummary
                 totalItems={totalItems}
