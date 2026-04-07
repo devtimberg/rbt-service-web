@@ -2,7 +2,6 @@
 
 import { DeleteIcon, ShareIcon } from "@/shared/icons";
 import { Button, Checkbox, IconButton, Text } from "@/shared/ui/kit";
-import { Share2 } from "lucide-react";
 
 type CartSelectionBarProps = {
   selectedCount: number;

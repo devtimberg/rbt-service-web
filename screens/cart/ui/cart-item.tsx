@@ -1,7 +1,13 @@
 "use client";
 
 import type { Product } from "@/screens/catalog/model";
-import { CameraOutlineIcon, DeleteIcon, HeartIcon } from "@/shared/icons";
+import {
+  CameraOutlineIcon,
+  DeleteIcon,
+  HeartIcon,
+  MinusIcon,
+  PlusIcon,
+} from "@/shared/icons";
 import { useCartStore } from "@/shared/lib/stores";
 import { formatPrice } from "@/shared/lib/utils";
 import { Box, Checkbox, IconButton, Text } from "@/shared/ui/kit";
@@ -148,11 +154,11 @@ export function CartItem({
             type="button"
             disabled={quantity <= 1}
             onClick={() => decrement(product.id)}
-            className="text-tertiary disabled:text-disabled/40 flex size-9
+            className="text-primary-900 disabled:text-disabled/40 flex size-9
               cursor-pointer items-center justify-center rounded-l-lg
               disabled:cursor-default"
           >
-            <Minus className="size-4" />
+            <MinusIcon className="size-4" />
           </button>
           <div
             className="flex h-9 w-9 items-center justify-center text-sm
@@ -163,10 +169,10 @@ export function CartItem({
           <button
             type="button"
             onClick={() => increment(product.id)}
-            className="text-tertiary flex size-9 cursor-pointer items-center
+            className="text-primary-900 flex size-9 cursor-pointer items-center
               justify-center rounded-r-lg"
           >
-            <Plus className="size-4" />
+            <PlusIcon className="size-4" />
           </button>
         </div>
       </div>

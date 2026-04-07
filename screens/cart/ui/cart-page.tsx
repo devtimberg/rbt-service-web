@@ -264,7 +264,7 @@ export function CartPage() {
                 selectedIds={effectiveSelectedIds}
                 onToggleSelect={toggleSelect}
                 className="mt-8"
-                badge="Ожидание 15 – 20 дней"
+                badge="15 – 20 дней"
               />
             )}
           </div>
