@@ -19,3 +19,4 @@ export { default as ProfileIcon } from "./profile";
 export { default as SearchOutlineIcon } from "./search-outline";
 export { default as SearchIcon } from "./search";
 export { default as ServicesRepairIcon } from "./services-repair";
+export { default as ShareIcon } from "./share";

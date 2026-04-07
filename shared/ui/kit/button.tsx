@@ -57,6 +57,7 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   loading?: boolean;
+  icon?: React.ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -68,6 +69,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       variant,
       size,
+      icon,
       asChild = false,
       ...props
     },
@@ -95,7 +97,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 <Loader2 className="h-5 w-5 animate-spin text-current" />
               </span>
             ) : null}
-            <span className={loading ? "invisible" : ""}>
+            <span className={cn("inline-flex items-center gap-2", loading && "invisible")}>
+              {icon}
               <Slottable>{children}</Slottable>
             </span>
           </>
