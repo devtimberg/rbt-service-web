@@ -12,7 +12,7 @@ function Checkbox({
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        `peer data-[state=checked]:border-primary-300
+        `peer relative data-[state=checked]:border-primary-300
         data-[state=checked]:bg-primary-300 data-[state=checked]:text-inverse
         data-[state=indeterminate]:border-primary-300
         data-[state=indeterminate]:bg-primary-300
@@ -26,7 +26,7 @@ function Checkbox({
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"
-        className="grid place-content-center text-current transition-none"
+        className="absolute inset-0 grid place-content-center text-current transition-none"
       >
         {props.checked === "indeterminate" ? (
           <MinusIcon className="size-3 stroke-3" />
