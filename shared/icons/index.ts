@@ -11,6 +11,7 @@ export { default as FilterIcon } from "./filter";
 export { default as HeartOutlineIcon } from "./heart-outline";
 export { default as HeartIcon } from "./heart";
 export { default as HomeIcon } from "./home";
+export { default as InformationIcon } from "./information";
 export { default as MasterIcon } from "./master";
 export { default as OrderDetailIcon } from "./order-detail";
 export { default as OrderStatusIcon } from "./order-status";

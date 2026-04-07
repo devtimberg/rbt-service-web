@@ -14,6 +14,8 @@ const buttonVariants = cva(
         primary: "bg-[#011232] text-inverse hover:bg-button-primary/90",
         secondary:
           "bg-primary-100/10 text-button-secondary-foreground hover:bg-primary-100/15",
+        disabled:
+          "bg-primary-100/10 text-primary-100/30 hover:bg-primary-100/15",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-link hover:text-link/90",
         inverse: "text-inverse bg-primary-900",
@@ -87,7 +89,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <>
             {loading ? (
-              <span className="absolute inset-0 flex items-center justify-center">
+              <span
+                className="absolute inset-0 flex items-center justify-center"
+              >
                 <Loader2 className="h-5 w-5 animate-spin text-current" />
               </span>
             ) : null}
