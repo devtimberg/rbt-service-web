@@ -206,7 +206,7 @@ export function CartPage() {
                       key={product.id}
                       product={product}
                       isSelected={effectiveSelectedIds.has(product.id)}
-                      onToggleSelect={toggleSelect}
+                      onToggleSelectAction={toggleSelect}
                     />
                   ))}
                 </div>
@@ -240,7 +240,7 @@ export function CartPage() {
                       key={product.id}
                       product={product}
                       isSelected={effectiveSelectedIds.has(product.id)}
-                      onToggleSelect={toggleSelect}
+                      onToggleSelectAction={toggleSelect}
                     />
                   ))}
                 </div>

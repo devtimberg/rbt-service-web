@@ -11,10 +11,10 @@ import Image from "next/image";
 type CartItemProps = {
   product: Product;
   isSelected: boolean;
-  onToggleSelect: (id: string) => void;
+  onToggleSelectAction: (id: string) => void;
 };
 
-export function CartItem({ product, isSelected, onToggleSelect }: CartItemProps) {
+export function CartItem({ product, isSelected, onToggleSelectAction }: CartItemProps) {
   const quantity = useCartStore((s) => s.items.get(product.id) ?? 1);
   const increment = useCartStore((s) => s.increment);
   const decrement = useCartStore((s) => s.decrement);
@@ -30,7 +30,7 @@ export function CartItem({ product, isSelected, onToggleSelect }: CartItemProps)
       {/* Checkbox */}
       <Checkbox
         checked={isSelected}
-        onCheckedChange={() => onToggleSelect(product.id)}
+        onCheckedChange={() => onToggleSelectAction(product.id)}
         className="shrink-0"
       />
 
