@@ -167,18 +167,9 @@ export function CartPage() {
     setSelectedIds(new Set());
   }, [effectiveSelectedIds, removeFromCart]);
 
-  const shareSelected = useCallback(async () => {
-    const products = cartProducts.filter((p) => effectiveSelectedIds.has(p.id));
-    const text = products
-      .map((p) => `${p.name} — ${p.price.toLocaleString("ru-RU")} ₽`)
-      .join("\n");
-
-    if (navigator.share) {
-      await navigator.share({ title: "Корзина", text });
-    } else if (navigator.clipboard) {
-      await navigator.clipboard.writeText(text);
-    }
-  }, [cartProducts, effectiveSelectedIds]);
+  const shareSelected = useCallback(() => {
+    // TODO: реализовать функционал "Поделиться"
+  }, []);
 
   if (cartProducts.length === 0) {
     return (

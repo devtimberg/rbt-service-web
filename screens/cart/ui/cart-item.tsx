@@ -10,8 +10,9 @@ import {
 } from "@/shared/icons";
 import { useCartStore, useFavoritesStore } from "@/shared/lib/stores";
 import { formatPrice } from "@/shared/lib/utils";
-import { Box, Checkbox, IconButton, Text } from "@/shared/ui/kit";
+import { Box, Checkbox, ConfirmDialog, IconButton, Text } from "@/shared/ui/kit";
 import Image from "next/image";
+import { useState } from "react";
 
 type CartItemProps = {
   product: Product;
@@ -30,6 +31,7 @@ export function CartItem({
   const remove = useCartStore((s) => s.remove);
   const isFavorite = useFavoritesStore((s) => s.items.has(product.id));
   const toggleFavorite = useFavoritesStore((s) => s.toggle);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const totalPrice = product.price * quantity;
 
@@ -101,8 +103,17 @@ export function CartItem({
         size="sm"
         icon={DeleteIcon}
         iconSize={20}
-        onClick={() => remove(product.id)}
+        onClick={() => setShowDeleteConfirm(true)}
         className="shrink-0 rounded-lg"
+      />
+      <ConfirmDialog
+        open={showDeleteConfirm}
+        onOpenChange={setShowDeleteConfirm}
+        title="Удалить товар?"
+        description={product.name}
+        confirmLabel="Удалить"
+        variant="danger"
+        onConfirm={() => remove(product.id)}
       />
     </div>
   );

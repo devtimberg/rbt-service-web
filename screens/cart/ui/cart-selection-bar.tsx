@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { DeleteIcon, ShareIcon } from "@/shared/icons";
-import { Button, Checkbox, IconButton, Text } from "@/shared/ui/kit";
+import { Button, Checkbox, ConfirmDialog, IconButton, Text } from "@/shared/ui/kit";
 
 type CartSelectionBarProps = {
   selectedCount: number;
@@ -20,6 +21,7 @@ export function CartSelectionBar({
   onDeleteSelected,
   onShareSelected,
 }: CartSelectionBarProps) {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const allSelected = selectedCount === totalCount;
   const someSelected = selectedCount > 0 && !allSelected;
 
@@ -64,10 +66,19 @@ export function CartSelectionBar({
           size="md"
           icon={DeleteIcon}
           iconSize={20}
-          onClick={onDeleteSelected}
+          onClick={() => setShowDeleteConfirm(true)}
           disabled={selectedCount === 0}
           className="shrink-0 rounded-lg disabled:cursor-default
             disabled:opacity-40"
+        />
+        <ConfirmDialog
+          open={showDeleteConfirm}
+          onOpenChange={setShowDeleteConfirm}
+          title={`Удалить ${selectedCount === totalCount ? "все товары" : "выбранные товары"}?`}
+          description={`Будет удалено: ${selectedCount}`}
+          confirmLabel="Удалить"
+          variant="danger"
+          onConfirm={onDeleteSelected}
         />
       </div>
     </div>
