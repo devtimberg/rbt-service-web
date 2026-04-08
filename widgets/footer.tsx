@@ -2,7 +2,24 @@
 
 import { useEffect, useState } from "react";
 
-import { Box, Button, Container, HStack, Text } from "@/shared/ui/kit";
+import { useIsMobile } from "@/shared/lib/use-media-query";
+import {
+  Box,
+  Button,
+  Container,
+  HStack,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from "@/shared/ui/kit";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/shared/ui/kit/sheet";
+import { WorkingHoursContent } from "@/shared/ui/working-hours";
 
 const GREETINGS = ["Добро пожаловать", "Welcome", "ようこそ", "欢迎"];
 const LONGEST_GREETING = GREETINGS.reduce((longest, current) =>
@@ -15,6 +32,8 @@ type FooterProps = {
 
 export function Footer({ variant = "inverse" }: FooterProps) {
   const isInverse = variant === "inverse";
+  const isMobile = useIsMobile();
+  const [open, setOpen] = useState(false);
   const [greetingIndex, setGreetingIndex] = useState(0);
   const [typedLength, setTypedLength] = useState(0);
 
@@ -46,7 +65,8 @@ export function Footer({ variant = "inverse" }: FooterProps) {
       >
         <Text
           size="xs"
-          className={`min-w-0 flex-1 text-center leading-4 whitespace-pre-wrap md:text-left ${isInverse ? "text-inverse" : "text-tertiary"}`}
+          className={`min-w-0 flex-1 text-center leading-4 whitespace-pre-wrap
+            md:text-left ${isInverse ? "text-inverse" : "text-tertiary"}`}
         >
           {`© 1995 — 2026 ТТЦ Рембыттехника.\nВсе права защищены. Условия использования. Политика конфиденциальности.\nАдрес: г. Челябинск, ул. Производственная д. 8Б, Тел.: +7(351)239-39-39 Email: service@rbt.ru`}
         </Text>
@@ -67,7 +87,10 @@ export function Footer({ variant = "inverse" }: FooterProps) {
                 |
               </span>
             </span>
-            <span className={`absolute inset-0 ${isInverse ? "text-inverse" : "text-primary"}`}>
+            <span
+              className={`absolute inset-0
+                ${isInverse ? "text-inverse" : "text-primary"}`}
+            >
               {GREETINGS[greetingIndex].slice(0, typedLength)}
               <span
                 aria-hidden
@@ -79,12 +102,52 @@ export function Footer({ variant = "inverse" }: FooterProps) {
             </span>
           </Text>
           <Box>
-            <Button
-              variant={isInverse ? "inverse" : "secondary"}
-              size="lg"
-            >
-              Время работы
-            </Button>
+            {isMobile ? (
+              <>
+                <Button
+                  variant={isInverse ? "inverse" : "secondary"}
+                  size="lg"
+                  onClick={() => setOpen(true)}
+                >
+                  Время работы
+                </Button>
+                <Sheet
+                  open={open}
+                  onOpenChange={setOpen}
+                >
+                  <SheetContent side="bottom">
+                    <SheetHeader>
+                      <SheetTitle>Время работы</SheetTitle>
+                    </SheetHeader>
+                    <div className="px-4 pb-6">
+                      <WorkingHoursContent />
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </>
+            ) : (
+              <Popover
+                open={open}
+                onOpenChange={setOpen}
+              >
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={isInverse ? "inverse" : "secondary"}
+                    size="lg"
+                  >
+                    Время работы
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  side="top"
+                  align="end"
+                  sideOffset={16}
+                  className="w-auto border-none p-10"
+                >
+                  <WorkingHoursContent />
+                </PopoverContent>
+              </Popover>
+            )}
           </Box>
         </HStack>
       </HStack>
