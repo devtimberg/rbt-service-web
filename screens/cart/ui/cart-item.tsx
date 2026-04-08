@@ -8,7 +8,7 @@ import {
   MinusIcon,
   PlusIcon,
 } from "@/shared/icons";
-import { useCartStore } from "@/shared/lib/stores";
+import { useCartStore, useFavoritesStore } from "@/shared/lib/stores";
 import { formatPrice } from "@/shared/lib/utils";
 import { Box, Checkbox, IconButton, Text } from "@/shared/ui/kit";
 import Image from "next/image";
@@ -28,6 +28,8 @@ export function CartItem({
   const increment = useCartStore((s) => s.increment);
   const decrement = useCartStore((s) => s.decrement);
   const remove = useCartStore((s) => s.remove);
+  const isFavorite = useFavoritesStore((s) => s.items.has(product.id));
+  const toggleFavorite = useFavoritesStore((s) => s.toggle);
 
   const totalPrice = product.price * quantity;
 
@@ -91,7 +93,8 @@ export function CartItem({
         size="sm"
         icon={HeartIcon}
         iconSize={20}
-        className="shrink-0 rounded-lg"
+        onClick={() => toggleFavorite(product.id)}
+        className={`shrink-0 rounded-lg ${isFavorite ? "text-secondary-500" : ""}`}
       />
       <IconButton
         variant="filled"
