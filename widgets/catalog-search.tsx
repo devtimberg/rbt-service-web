@@ -318,30 +318,28 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
         </span>
       </Link>
 
-      {/* Desktop: search form with autocomplete */}
+      {/* Desktop: search form — each element transitions only its own properties */}
       <div
         ref={wrapperRef}
-        className={cn(
-          "hidden w-full transition-all duration-500 ease-in-out sm:block",
-          expanded ? "max-w-185" : "max-w-110",
-        )}
+        className="hidden w-full max-w-110 transition-[max-width] duration-500
+          ease-in-out sm:block
+          [@media(min-height:700px)]:group-data-home:max-w-185"
       >
         <form
           role="search"
           onSubmit={handleSubmit}
-          className={cn(
-            `flex w-full items-center gap-3 bg-white transition-all duration-500
-            ease-in-out`,
-            expanded
-              ? "h-18.5 rounded-[24px] px-5 py-2"
-              : "h-10 rounded-lg py-2 pr-2 pl-4",
-          )}
+          className="flex h-10 w-full items-center gap-3 rounded-lg bg-white
+            py-2 pr-2 pl-4 transition-[height,padding,border-radius]
+            duration-500 ease-in-out
+            [@media(min-height:700px)]:group-data-home:h-18.5
+            [@media(min-height:700px)]:group-data-home:rounded-[24px]
+            [@media(min-height:700px)]:group-data-home:px-5
+            [@media(min-height:700px)]:group-data-home:py-2"
         >
           <SearchOutlineIcon
-            className={cn(
-              "text-input-placeholder shrink-0 transition-all duration-500",
-              expanded ? "size-6" : "size-5",
-            )}
+            className="text-input-placeholder size-5 shrink-0
+              transition-[width,height] duration-500 ease-in-out
+              [@media(min-height:700px)]:group-data-home:size-6"
             aria-hidden
           />
           <input
@@ -350,12 +348,10 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
             value={query}
             onChange={(e) => handleQueryChange(e.target.value)}
             onFocus={() => setFocused(true)}
-            className={cn(
-              `text-primary placeholder:text-input-placeholder min-w-0 flex-1
-              bg-transparent leading-none transition-all duration-500
-              outline-none`,
-              expanded ? "text-[18px]" : "text-sm",
-            )}
+            className="text-primary placeholder:text-input-placeholder min-w-0
+              flex-1 bg-transparent text-sm leading-none transition-[font-size]
+              duration-500 ease-in-out outline-none
+              [@media(min-height:700px)]:group-data-home:text-[18px]"
             placeholder="Поиск запчастей по артикулу или названию..."
             autoComplete="off"
           />

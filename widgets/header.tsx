@@ -175,14 +175,16 @@ export function Header() {
           />
         </Link>
 
-        {/* Desktop: search — on home drops into content area, otherwise inline in header */}
+        {/* Desktop: search — one element, CSS-driven expanded/compact */}
         <div
+          data-home={isHomePage ? "" : undefined}
           className={cn(
-            "hidden flex-1 justify-center px-6 transition-all duration-500 ease-in-out sm:flex",
-            isHomePage && "translate-y-[clamp(120px,18vh,260px)]",
+            "group hidden flex-1 justify-center px-6 transition-all duration-500 ease-in-out sm:flex",
+            isHomePage &&
+              "[@media(min-height:700px)]:translate-y-[clamp(120px,18vh,260px)]",
           )}
         >
-          <CatalogSearch expanded={isHomePage} />
+          <CatalogSearch />
         </div>
 
         {/* Desktop: icons */}

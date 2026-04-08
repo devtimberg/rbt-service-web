@@ -14,7 +14,7 @@ import { LayoutSheetContent } from "@/shared/ui/kit/layout-sheet";
 import { SheetFooterSlotTarget } from "@/shared/ui/kit/sheet-footer-slot";
 import { ScrollArea } from "@/shared/ui/kit/scroll-area";
 
-const SHEET_CLOSE_DURATION_MS = 300;
+const SHEET_CLOSE_DURATION_MS = 500;
 // mobile: 80px header, desktop: 88px header (+16px outer padding on lg)
 const SHEET_TOP_OFFSET_NORMAL_CLASS =
   "top-20 sm:top-22 lg:top-[calc(16px+88px)]";
@@ -190,7 +190,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
           sm:z-50 lg:rounded-[40px] ${
             disableInitialOpenAnimation
               ? "transition-none"
-              : "transition-[top] duration-300"
+              : "transition-[top] duration-500"
           } ${sheetTopOffsetClass}`}
       >
         <div className="text-primary flex h-full flex-col overflow-hidden rounded-t-[24px] lg:rounded-[40px]">
