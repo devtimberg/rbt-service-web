@@ -112,7 +112,6 @@ export function CartItem({
         title="Удалить товар?"
         description={product.name}
         confirmLabel="Удалить"
-        variant="danger"
         onConfirm={() => remove(product.id)}
       />
     </div>

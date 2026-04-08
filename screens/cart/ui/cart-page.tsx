@@ -3,16 +3,19 @@
 import { useCallback, useMemo, useState } from "react";
 import { BagIcon } from "@/shared/icons";
 import { cn } from "@/shared/lib/utils";
+import { ROUTES } from "@/shared/lib/routes";
 import { useCartStore } from "@/shared/lib/stores";
 import {
   Box,
   Breadcrumb,
+  Button,
   Chip,
   Container,
   Heading,
   Text,
 } from "@/shared/ui/kit";
 import { Footer } from "@/widgets/footer";
+import Link from "next/link";
 import { MOCK_PRODUCTS } from "@/screens/catalog/model";
 import type { Product } from "@/screens/catalog/model";
 import { CartItem } from "./cart-item";
@@ -173,7 +176,7 @@ export function CartPage() {
 
   if (cartProducts.length === 0) {
     return (
-      <div className="flex min-h-full flex-col">
+      <div className="flex flex-1 flex-col">
         <Container className="overflow-x-hidden">
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>
@@ -196,6 +199,15 @@ export function CartPage() {
           >
             Добавьте товары из каталога, чтобы оформить заказ
           </Text>
+          <Button
+            variant="primary"
+            size="md"
+            rounded="default"
+            className="mt-6"
+            asChild
+          >
+            <Link href={ROUTES.CATALOG}>Перейти в каталог</Link>
+          </Button>
         </Container>
 
         <div className="mt-auto">

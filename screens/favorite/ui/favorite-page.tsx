@@ -3,16 +3,19 @@
 import { useState } from "react";
 import { HeartOutlineIcon } from "@/shared/icons";
 import { useStickyScroll } from "@/shared/lib/use-sticky-scroll";
+import { ROUTES } from "@/shared/lib/routes";
 import { useFavoritesStore } from "@/shared/lib/stores";
 import {
   Box,
   Breadcrumb,
+  Button,
   Chip,
   Container,
   Heading,
   Text,
 } from "@/shared/ui/kit";
 import { Footer } from "@/widgets/footer";
+import Link from "next/link";
 import {
   MOCK_PRODUCTS,
   MOCK_AVAILABILITY_OPTIONS,
@@ -53,7 +56,7 @@ export function FavoritePage() {
 
   if (favoriteProducts.length === 0) {
     return (
-      <div className="flex min-h-full flex-col">
+      <div className="flex flex-1 flex-col">
         <Container className="overflow-x-hidden">
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>
@@ -66,6 +69,15 @@ export function FavoritePage() {
           <Text size="sm" variant="secondary" className="mt-2">
             Нажмите на сердечко у товара, чтобы добавить его в избранное
           </Text>
+          <Button
+            variant="primary"
+            size="md"
+            rounded="default"
+            className="mt-6"
+            asChild
+          >
+            <Link href={ROUTES.CATALOG}>Перейти в каталог</Link>
+          </Button>
         </Container>
 
         <div className="mt-auto">

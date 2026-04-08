@@ -77,7 +77,6 @@ export function CartSelectionBar({
           title={`Удалить ${selectedCount === totalCount ? "все товары" : "выбранные товары"}?`}
           description={`Будет удалено: ${selectedCount}`}
           confirmLabel="Удалить"
-          variant="danger"
           onConfirm={onDeleteSelected}
         />
       </div>
