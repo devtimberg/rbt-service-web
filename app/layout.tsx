@@ -56,6 +56,10 @@ export default function RootLayout({
           </ScrollArea>
           <MobileBottomNav />
           {sheet}
+          <div
+            id="portal-root"
+            data-portal-root="true"
+          />
         </TooltipProvider>
       </body>
     </html>

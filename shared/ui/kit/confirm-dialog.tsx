@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
-import { Dialog as DialogPrimitive } from "radix-ui";
+import { useEffect, useState } from "react";
+import { AlertDialog } from "radix-ui";
 import { Button } from "./button";
 
 type ConfirmDialogProps = {
@@ -14,6 +14,14 @@ type ConfirmDialogProps = {
   onConfirm: () => void;
 };
 
+function usePortalContainer() {
+  const [container, setContainer] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    setContainer(document.getElementById("portal-root"));
+  }, []);
+  return container;
+}
+
 export function ConfirmDialog({
   open,
   onOpenChange,
@@ -23,74 +31,79 @@ export function ConfirmDialog({
   cancelLabel = "Отмена",
   onConfirm,
 }: ConfirmDialogProps) {
+  const portalContainer = usePortalContainer();
+
   const handleConfirm = () => {
     onConfirm();
     onOpenChange(false);
   };
 
   return (
-    <DialogPrimitive.Root
+    <AlertDialog.Root
       open={open}
       onOpenChange={onOpenChange}
-      modal={false}
     >
-      <DialogPrimitive.Portal>
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-        <div
-          className="fixed inset-0 z-[100] bg-black/20 animate-in fade-in-0
-            duration-200"
-          onClick={() => onOpenChange(false)}
+      <AlertDialog.Portal container={portalContainer}>
+        <AlertDialog.Overlay
+          className="fixed inset-0 z-[9999] bg-black/20
+            data-[state=open]:animate-in data-[state=open]:fade-in-0
+            data-[state=closed]:animate-out data-[state=closed]:fade-out-0"
         />
 
-        <DialogPrimitive.Content
-          onOpenAutoFocus={(e) => e.preventDefault()}
-          onInteractOutside={(e) => e.preventDefault()}
-          className="fixed z-[100] outline-none bg-white p-6 shadow-xl
+        <AlertDialog.Content
+          className="fixed z-[9999] bg-white p-6 shadow-xl outline-none
             max-sm:inset-x-0 max-sm:bottom-0 max-sm:rounded-t-2xl
+            max-sm:data-[state=open]:animate-in
+            max-sm:data-[state=open]:slide-in-from-bottom
+            max-sm:data-[state=open]:duration-300
+            max-sm:data-[state=closed]:animate-out
+            max-sm:data-[state=closed]:slide-out-to-bottom
+            max-sm:data-[state=closed]:duration-200
             sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2
             sm:rounded-2xl sm:w-full sm:max-w-sm
-            data-[state=open]:animate-in data-[state=closed]:animate-out
-            max-sm:data-[state=open]:slide-in-from-bottom
-            max-sm:data-[state=closed]:slide-out-to-bottom
-            sm:data-[state=open]:fade-in-0 sm:data-[state=open]:zoom-in-95
-            sm:data-[state=closed]:fade-out-0 sm:data-[state=closed]:zoom-out-95
-            data-[state=open]:duration-300 data-[state=closed]:duration-200"
+            sm:data-[state=open]:animate-in sm:data-[state=open]:fade-in-0
+            sm:data-[state=open]:zoom-in-95 sm:data-[state=open]:duration-200
+            sm:data-[state=closed]:animate-out sm:data-[state=closed]:fade-out-0
+            sm:data-[state=closed]:zoom-out-95 sm:data-[state=closed]:duration-200"
         >
-          <DialogPrimitive.Title className="text-lg font-semibold">
+          <AlertDialog.Title className="text-lg font-semibold">
             {title}
-          </DialogPrimitive.Title>
+          </AlertDialog.Title>
 
           {description && (
-            <DialogPrimitive.Description className="text-tertiary mt-2 text-sm">
+            <AlertDialog.Description className="text-tertiary mt-2 text-sm">
               {description}
-            </DialogPrimitive.Description>
+            </AlertDialog.Description>
           )}
 
           <div
             className="mt-6 flex flex-col-reverse gap-3 sm:flex-row
               sm:justify-end"
           >
-            <Button
-              variant="secondary"
-              size="sm"
-              rounded="default"
-              onClick={() => onOpenChange(false)}
-              className="sm:w-auto"
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              rounded="default"
-              onClick={handleConfirm}
-              className="sm:w-auto"
-            >
-              {confirmLabel}
-            </Button>
+            <AlertDialog.Cancel asChild>
+              <Button
+                variant="secondary"
+                size="md"
+                rounded="default"
+                className="sm:w-auto sm:h-9 sm:px-3 sm:text-sm"
+              >
+                {cancelLabel}
+              </Button>
+            </AlertDialog.Cancel>
+            <AlertDialog.Action asChild>
+              <Button
+                variant="primary"
+                size="md"
+                rounded="default"
+                onClick={handleConfirm}
+                className="sm:w-auto sm:h-9 sm:px-3 sm:text-sm"
+              >
+                {confirmLabel}
+              </Button>
+            </AlertDialog.Action>
           </div>
-        </DialogPrimitive.Content>
-      </DialogPrimitive.Portal>
-    </DialogPrimitive.Root>
+        </AlertDialog.Content>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
   );
 }

@@ -40,12 +40,15 @@ html {
   display: none;
 }
 
-/* ScrollArea viewport inner div: override Radix display:table to support flex layout */
+/* ScrollArea viewport inner div: override Radix display:table to support flex layout.
+   height: 100% creates a definite size for percentage-based children.
+   min-height: 100% is the fallback but children can't resolve % from it. */
 [data-slot="scroll-area-viewport"] > div {
   display: flex !important;
   flex-direction: column;
-  min-height: 100%;
+  height: 100%;
 }
+
 
 @layer base {
   * {

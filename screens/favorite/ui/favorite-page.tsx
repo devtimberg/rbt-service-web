@@ -56,7 +56,7 @@ export function FavoritePage() {
 
   if (favoriteProducts.length === 0) {
     return (
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-h-full flex-col">
         <Container className="overflow-x-hidden">
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>

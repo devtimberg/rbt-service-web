@@ -176,7 +176,7 @@ export function CartPage() {
 
   if (cartProducts.length === 0) {
     return (
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-h-full flex-col">
         <Container className="overflow-x-hidden">
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>
@@ -218,7 +218,7 @@ export function CartPage() {
   }
 
   return (
-    <>
+    <div className="flex min-h-full flex-col">
       <Container className="overflow-x-hidden">
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </Container>
@@ -296,9 +296,9 @@ export function CartPage() {
         />
       </Container>
 
-      <div className="mt-4 sm:mt-20">
+      <div className="mt-auto">
         <Footer variant="default" />
       </div>
-    </>
+    </div>
   );
 }
