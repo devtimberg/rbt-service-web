@@ -198,7 +198,7 @@ export default function SheetLayout({ children }: { children: ReactNode }) {
             data-sheet-scroll="true"
             className="flex-1"
             viewportClassName="overscroll-y-contain px-3 pt-6
-              pb-[calc(env(safe-area-inset-bottom)+76px+32px)] sm:pb-8"
+              pb-[calc(env(safe-area-inset-bottom)+100px)] sm:pb-8"
           >
             {children}
           </ScrollArea>

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Breadcrumb, Container, Heading } from "@/shared/ui/kit";
+import { Footer } from "@/widgets/footer";
 import { CATALOG_CATEGORIES } from "../model";
 
 const TEMP_HREF = "/catalog/refrigerators";
 
 export function CatalogPage() {
   return (
-    <>
+    <div className="flex grow flex-col">
       <Container>
         <Breadcrumb items={[{ label: "Каталог" }]} />
       </Container>
@@ -29,6 +30,10 @@ export function CatalogPage() {
           </section>
         ))}
       </Container>
-    </>
+
+      <div className="mt-auto">
+        <Footer variant="default" />
+      </div>
+    </div>
   );
 }

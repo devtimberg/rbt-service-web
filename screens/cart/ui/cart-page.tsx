@@ -176,7 +176,7 @@ export function CartPage() {
 
   if (cartProducts.length === 0) {
     return (
-      <div className="flex min-h-full flex-col">
+      <div className="flex grow flex-col">
         <Container className="overflow-x-hidden">
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>
@@ -185,7 +185,7 @@ export function CartPage() {
           className="flex flex-1 flex-col items-center justify-center
             text-center"
         >
-          <BagIcon className="text-disabled mb-4 size-16" />
+          <BagIcon className="text-secondary-500 mb-4 size-16" />
           <Text
             size="lg"
             className="font-semibold"
@@ -197,7 +197,9 @@ export function CartPage() {
             variant="secondary"
             className="mt-2"
           >
-            Добавьте товары из каталога, чтобы оформить заказ
+            Добавьте товары из каталога,{" "}
+            <br className="sm:hidden" />
+            чтобы оформить заказ
           </Text>
           <Button
             variant="primary"
@@ -210,7 +212,7 @@ export function CartPage() {
           </Button>
         </Container>
 
-        <div className="mt-auto">
+        <div className="mt-auto hidden sm:block">
           <Footer variant="default" />
         </div>
       </div>
@@ -218,7 +220,7 @@ export function CartPage() {
   }
 
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex grow flex-col">
       <Container className="overflow-x-hidden">
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </Container>

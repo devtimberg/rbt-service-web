@@ -56,18 +56,20 @@ export function FavoritePage() {
 
   if (favoriteProducts.length === 0) {
     return (
-      <div className="flex min-h-full flex-col">
+      <div className="flex grow flex-col">
         <Container className="overflow-x-hidden">
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>
 
         <Container className="flex flex-1 flex-col items-center justify-center text-center">
-          <HeartOutlineIcon className="mb-4 size-16 text-disabled" />
+          <HeartOutlineIcon className="mb-4 size-16 text-secondary-500" />
           <Text size="lg" className="font-semibold">
             В избранном пока пусто
           </Text>
           <Text size="sm" variant="secondary" className="mt-2">
-            Нажмите на сердечко у товара, чтобы добавить его в избранное
+            Нажмите на сердечко у товара,{" "}
+            <br className="sm:hidden" />
+            чтобы добавить его в избранное
           </Text>
           <Button
             variant="primary"
@@ -80,7 +82,7 @@ export function FavoritePage() {
           </Button>
         </Container>
 
-        <div className="mt-auto">
+        <div className="mt-auto hidden sm:block">
           <Footer variant="default" />
         </div>
       </div>
