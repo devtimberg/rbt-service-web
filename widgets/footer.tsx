@@ -19,7 +19,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/shared/ui/kit/sheet";
-import { WorkingHoursContent } from "@/shared/ui/working-hours";
+import { WorkingHoursContent } from "@/widgets/working-hours";
 
 const GREETINGS = ["Добро пожаловать", "Welcome", "ようこそ", "欢迎"];
 const LONGEST_GREETING = GREETINGS.reduce((longest, current) =>
@@ -115,7 +115,7 @@ export function Footer({ variant = "inverse" }: FooterProps) {
                   open={open}
                   onOpenChange={setOpen}
                 >
-                  <SheetContent side="bottom">
+                  <SheetContent>
                     <SheetHeader>
                       <SheetTitle>Время работы</SheetTitle>
                     </SheetHeader>

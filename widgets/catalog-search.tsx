@@ -1,6 +1,6 @@
 "use client";
 
-import { CloseCircleIcon, SearchOutlineIcon } from "@/shared/icons";
+import { ClearIcon, SearchOutlineIcon } from "@/shared/icons";
 import { cn } from "@/shared/lib/utils";
 import { IconButton, Skeleton } from "@/shared/ui/kit";
 import Link from "next/link";
@@ -276,7 +276,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
 
   const clearButton = query.length > 0 && (
     <IconButton
-      icon={CloseCircleIcon}
+      icon={ClearIcon}
       size="sm"
       variant="ghost"
       onClick={handleClear}
