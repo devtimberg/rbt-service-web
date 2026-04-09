@@ -4,6 +4,7 @@ import { CatalogPage, CatalogSubcategoryPage } from "@/screens/catalog";
 import { FavoritePage } from "@/screens/favorite";
 import { MasterCallPage } from "@/screens/master-call";
 import { ProfilePage } from "@/screens/profile";
+import { SearchPage } from "@/screens/search";
 
 export const ROUTES = {
   HOME: "/",
@@ -17,6 +18,7 @@ export const ROUTES = {
   SERVICES_REPAIR: "/services-repair",
   MASTER_CALL: "/master-call",
   FEEDBACK: "/feedback",
+  SEARCH: "/search",
 } as const;
 
 /** Пути, при которых в нижней панели активна вкладка «Главная» */
@@ -78,6 +80,11 @@ export const ROUTE_CONFIG: Record<AppRoute, RouteConfig> = {
   [ROUTES.FEEDBACK]: {
     path: ROUTES.FEEDBACK,
     title: "Обратная связь",
+  },
+  [ROUTES.SEARCH]: {
+    path: ROUTES.SEARCH,
+    title: "Поиск",
+    sheetComponent: SearchPage,
   },
 };
 

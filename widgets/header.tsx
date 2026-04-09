@@ -2,20 +2,23 @@
 
 import {
   BagIcon,
+  ClearIcon,
+  CloseIcon,
   FilterIcon,
   HeartIcon,
   ProfileIcon,
   SearchIcon,
+  SearchOutlineIcon,
 } from "@/shared/icons";
 import { ROUTES, getRouteConfig } from "@/shared/lib/routes";
-import { useCartStore, useFavoritesStore } from "@/shared/lib/stores";
+import { useCartStore, useFavoritesStore, useSearchStore } from "@/shared/lib/stores";
 import { cn } from "@/shared/lib/utils";
-import { Container, HStack, IconButton } from "@/shared/ui/kit";
+import { Container, HStack, IconButton, Input } from "@/shared/ui/kit";
 import { CatalogSearch } from "./catalog-search";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import type { MouseEvent } from "react";
+import { type MouseEvent, useRef } from "react";
 
 const CLOSE_BUTTON_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL]);
 
@@ -51,8 +54,14 @@ export function Header() {
   const isCart = pathname === ROUTES.CART;
   const isCatalog = pathname.startsWith(ROUTES.CATALOG);
   const isCatalogSubpage = isCatalog && pathname !== ROUTES.CATALOG;
+  const isSearch = pathname === ROUTES.SEARCH;
   const showCloseButton = CLOSE_BUTTON_ROUTES.has(pathname);
   const pageTitle = getRouteConfig(pathname).title;
+  const searchQuery = useSearchStore((s) => s.query);
+  const setSearchQuery = useSearchStore((s) => s.setQuery);
+  const resetSearch = useSearchStore((s) => s.reset);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
   const headerIconBaseClassName =
     "text-white hover:text-white active:bg-primary-300 rounded-md";
 
@@ -76,8 +85,55 @@ export function Header() {
           sm:static sm:z-auto sm:h-22 sm:px-6
           sm:rounded-t-[40px] sm:pt-1"
       >
+        {/* Mobile: search input on /search */}
+        {isSearch && (
+          <div className="flex flex-1 items-center gap-3 sm:hidden">
+            <div className="flex h-10 flex-1 items-center gap-3 rounded-xl bg-white/20 pl-4 pr-1">
+              <SearchOutlineIcon
+                className="size-5 shrink-0 text-white/60"
+                aria-hidden
+              />
+              <Input
+                ref={searchInputRef}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+                className="h-auto border-0 bg-transparent p-0 text-base
+                  leading-none text-white shadow-none
+                  placeholder:text-white/60 focus-visible:ring-0"
+                placeholder="Поиск запчастей"
+                autoComplete="off"
+              />
+              {searchQuery.length > 0 && (
+                <IconButton
+                  icon={ClearIcon}
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    resetSearch();
+                    searchInputRef.current?.focus();
+                  }}
+                  aria-label="Очистить"
+                  className="text-white/60"
+                />
+              )}
+            </div>
+            <IconButton
+              icon={CloseIcon}
+              size="sm"
+              variant="ghost"
+              onClick={() => {
+                resetSearch();
+                router.back();
+              }}
+              aria-label="Закрыть поиск"
+              className="text-white"
+            />
+          </div>
+        )}
+
         {/* Mobile: logo on home, title on other pages */}
-        {isHomePage ? (
+        {!isSearch && isHomePage && (
           <Link
             href={ROUTES.HOME}
             onClick={handleLogoClick}
@@ -92,7 +148,8 @@ export function Header() {
               priority
             />
           </Link>
-        ) : (
+        )}
+        {!isSearch && !isHomePage && (
           <div className="flex min-h-10 items-center gap-2.5 sm:hidden">
             <p className="text-2xl leading-none font-semibold text-white">
               {isCatalog ? "Каталог" : pageTitle}
@@ -136,7 +193,7 @@ export function Header() {
         )}
 
         {/* Mobile: search on catalog, search + filter on subcategory */}
-        {isCatalog && (
+        {!isSearch && isCatalog && (
           <HStack
             gap={6}
             className="sm:hidden"

@@ -7,6 +7,7 @@ export * from "./container";
 export * from "./h-stack";
 export * from "./heading";
 export * from "./icon-button";
+export * from "./input";
 export * from "./layout-sheet";
 export * from "./pagination";
 export * from "./popover";

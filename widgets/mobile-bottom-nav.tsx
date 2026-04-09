@@ -13,7 +13,7 @@ import { IconButton } from "@/shared/ui/kit";
 import { usePathname } from "next/navigation";
 import type { ComponentType, SVGProps } from "react";
 
-const HIDDEN_NAV_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL]);
+const HIDDEN_NAV_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL, ROUTES.SEARCH]);
 
 type NavItem = {
   label: string;
