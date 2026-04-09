@@ -1,5 +1,6 @@
 "use client";
 
+import { CATALOG_CATEGORIES } from "@/screens/catalog/model";
 import { useSearchStore } from "@/shared/lib/stores";
 import { Skeleton } from "@/shared/ui/kit";
 import * as React from "react";
@@ -34,6 +35,13 @@ const FAKE_PARTS: Part[] = [
   { id: "20", name: "Плата дисплея холодильника Samsung", article: "DA41-00484A", price: 3700 },
 ];
 
+const ALL_CATEGORIES = CATALOG_CATEGORIES.flatMap((group) => group.items);
+
+function searchCategories(query: string): string[] {
+  const q = query.toLowerCase();
+  return ALL_CATEGORIES.filter((c) => c.toLowerCase().includes(q));
+}
+
 function searchParts(query: string): Part[] {
   const q = query.toLowerCase();
   return FAKE_PARTS.filter(
@@ -52,6 +60,7 @@ export function SearchPage() {
   const query = useSearchStore((s) => s.query);
   const [loading, setLoading] = React.useState(false);
   const [results, setResults] = React.useState<Part[]>([]);
+  const [categories, setCategories] = React.useState<string[]>([]);
   const debounceRef = React.useRef<ReturnType<typeof setTimeout>>(null);
 
   const hasQuery = query.length >= 2;
@@ -61,12 +70,14 @@ export function SearchPage() {
 
     if (query.length < 2) {
       setResults([]);
+      setCategories([]);
       setLoading(false);
       return;
     }
 
     setLoading(true);
     debounceRef.current = setTimeout(() => {
+      setCategories(searchCategories(query));
       setResults(searchParts(query));
       setLoading(false);
     }, FAKE_DELAY);
@@ -95,8 +106,42 @@ export function SearchPage() {
         </div>
       )}
 
+      {!loading && hasQuery && categories.length > 0 && (
+        <div className="flex flex-col">
+          <p className="px-2 pt-3 pb-1 text-xs font-medium text-gray-400">
+            Категории
+          </p>
+          {categories.map((category) => (
+            <button
+              key={category}
+              type="button"
+              className="flex w-full items-center justify-between gap-4 px-2
+                py-3 text-left transition-colors active:bg-gray-50"
+            >
+              <p className="text-primary-900 truncate text-sm font-medium">
+                {category}
+              </p>
+              <svg
+                className="size-4 shrink-0 text-gray-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+          ))}
+        </div>
+      )}
+
       {!loading && hasQuery && results.length > 0 && (
         <div className="flex flex-col">
+          <p className="px-2 pt-3 pb-1 text-xs font-medium text-gray-400">
+            Запчасти
+          </p>
           {results.map((part) => (
             <button
               key={part.id}
@@ -118,7 +163,7 @@ export function SearchPage() {
         </div>
       )}
 
-      {!loading && hasQuery && results.length === 0 && (
+      {!loading && hasQuery && results.length === 0 && categories.length === 0 && (
         <div className="py-10 text-center text-sm text-gray-400">
           Ничего не найдено
         </div>

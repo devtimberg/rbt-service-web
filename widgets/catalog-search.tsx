@@ -1,5 +1,6 @@
 "use client";
 
+import { CATALOG_CATEGORIES } from "@/screens/catalog/model";
 import { ClearIcon, SearchOutlineIcon } from "@/shared/icons";
 import { cn } from "@/shared/lib/utils";
 import { IconButton, Skeleton } from "@/shared/ui/kit";
@@ -122,6 +123,13 @@ const FAKE_PARTS: Part[] = [
   },
 ];
 
+const ALL_CATEGORIES = CATALOG_CATEGORIES.flatMap((group) => group.items);
+
+function searchCategories(query: string): string[] {
+  const q = query.toLowerCase();
+  return ALL_CATEGORIES.filter((c) => c.toLowerCase().includes(q));
+}
+
 function searchParts(query: string): Part[] {
   const q = query.toLowerCase();
   return FAKE_PARTS.filter(
@@ -146,6 +154,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
   const [query, setQuery] = React.useState("");
   const [focused, setFocused] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [categories, setCategories] = React.useState<string[]>([]);
   const [results, setResults] = React.useState<Part[]>([]);
   const debounceRef = React.useRef<ReturnType<typeof setTimeout>>(null);
 
@@ -187,6 +196,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     if (value.length < 2) {
+      setCategories([]);
       setResults([]);
       setLoading(false);
       return;
@@ -194,6 +204,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
 
     setLoading(true);
     debounceRef.current = setTimeout(() => {
+      setCategories(searchCategories(value));
       setResults(searchParts(value));
       setLoading(false);
     }, FAKE_DELAY);
@@ -201,6 +212,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
 
   const handleClear = React.useCallback(() => {
     setQuery("");
+    setCategories([]);
     setResults([]);
     setLoading(false);
     inputRef.current?.focus();
@@ -230,29 +242,71 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
     </div>
   );
 
-  const resultRows = results.map((part) => (
-    <button
-      key={part.id}
-      type="button"
-      className="flex w-full items-center justify-between gap-4 px-5 py-3
-        text-left transition-colors hover:bg-gray-50"
-      onClick={() => {
-        setQuery(part.name);
-        setResults([]);
-        setFocused(false);
-      }}
-    >
-      <div className="min-w-0 flex-1">
-        <p className="text-primary-900 truncate text-sm font-medium">
-          {part.name}
-        </p>
-        <p className="text-xs text-gray-400">{part.article}</p>
-      </div>
-      <span className="text-primary-500 shrink-0 text-sm font-semibold">
-        {formatPrice(part.price)}
-      </span>
-    </button>
-  ));
+  const categoryRows = categories.length > 0 && (
+    <div className="flex flex-col">
+      <p className="px-5 pt-3 pb-1 text-xs font-medium text-gray-400">
+        Категории
+      </p>
+      {categories.map((category) => (
+        <button
+          key={category}
+          type="button"
+          className="flex w-full items-center justify-between gap-4 px-5 py-3
+            text-left transition-colors hover:bg-gray-50"
+          onClick={() => {
+            setFocused(false);
+          }}
+        >
+          <p className="text-primary-900 truncate text-sm font-medium">
+            {category}
+          </p>
+          <svg
+            className="size-4 shrink-0 text-gray-300"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+      ))}
+    </div>
+  );
+
+  const resultRows = results.length > 0 && (
+    <div className="flex flex-col">
+      <p className="px-5 pt-3 pb-1 text-xs font-medium text-gray-400">
+        Запчасти
+      </p>
+      {results.map((part) => (
+        <button
+          key={part.id}
+          type="button"
+          className="flex w-full items-center justify-between gap-4 px-5 py-3
+            text-left transition-colors hover:bg-gray-50"
+          onClick={() => {
+            setQuery(part.name);
+            setCategories([]);
+            setResults([]);
+            setFocused(false);
+          }}
+        >
+          <div className="min-w-0 flex-1">
+            <p className="text-primary-900 truncate text-sm font-medium">
+              {part.name}
+            </p>
+            <p className="text-xs text-gray-400">{part.article}</p>
+          </div>
+          <span className="text-primary-500 shrink-0 text-sm font-semibold">
+            {formatPrice(part.price)}
+          </span>
+        </button>
+      ))}
+    </div>
+  );
 
   const dropdown =
     showDropdown &&
@@ -263,8 +317,11 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
       >
         {loading ? (
           skeletonRows
-        ) : results.length > 0 ? (
-          resultRows
+        ) : categories.length > 0 || results.length > 0 ? (
+          <>
+            {categoryRows}
+            {resultRows}
+          </>
         ) : (
           <div className="px-5 py-6 text-center text-sm text-gray-400">
             Ничего не найдено
