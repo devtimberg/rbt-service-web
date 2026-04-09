@@ -204,6 +204,7 @@ export function Header() {
               icon={SearchIcon}
               iconSize={28}
               aria-label="Поиск запчастей"
+              href={ROUTES.SEARCH}
             />
             {isCatalogSubpage && (
               <IconButton
