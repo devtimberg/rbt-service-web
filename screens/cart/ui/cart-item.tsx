@@ -10,7 +10,13 @@ import {
 } from "@/shared/icons";
 import { useCartStore, useFavoritesStore } from "@/shared/lib/stores";
 import { formatPrice } from "@/shared/lib/utils";
-import { Box, Checkbox, ConfirmDialog, IconButton, Text } from "@/shared/ui/kit";
+import {
+  Box,
+  Checkbox,
+  ConfirmDialog,
+  IconButton,
+  Text,
+} from "@/shared/ui/kit";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -96,7 +102,8 @@ export function CartItem({
         icon={HeartIcon}
         iconSize={20}
         onClick={() => toggleFavorite(product.id)}
-        className={`shrink-0 rounded-lg ${isFavorite ? "text-secondary-500" : ""}`}
+        className={`shrink-0 rounded-lg
+          ${isFavorite ? "text-secondary-500" : ""}`}
       />
       <IconButton
         variant="filled"
@@ -186,8 +193,10 @@ export function CartItem({
           </Text>
           <div className="mt-3">{actions}</div>
         </div>
-        <div className="shrink-0 text-right">{priceBlock}</div>
-        {counter}
+        <div className="flex items-center gap-8 text-right">
+          {priceBlock}
+          {counter}
+        </div>
       </div>
 
       {/* Mobile layout */}
