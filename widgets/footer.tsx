@@ -58,7 +58,9 @@ export function Footer({ variant = "inverse" }: FooterProps) {
   }, [greetingIndex, typedLength]);
 
   return (
-    <Container className="mt-auto px-4 py-4 lg:py-[clamp(12px,2.5vh,24px)]">
+    <Container
+      className="mt-auto px-4 pt-8 pb-4 sm:pt-20 lg:pb-[clamp(12px,2.5vh,24px)]"
+    >
       <HStack
         className="xs:gap-10 flex-col-reverse items-center justify-center gap-4
           md:flex-row md:items-end md:justify-between"
