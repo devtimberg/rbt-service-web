@@ -1,41 +1,41 @@
-# syntax=docker/dockerfile:1
+# ---------- STAGE 1: build ----------
+FROM oven/bun:1 AS builder
 
-# --- Base ---
-FROM oven/bun:1 AS base
+# Рабочая директория
 WORKDIR /app
 
-# --- Dependencies ---
-FROM base AS deps
-WORKDIR /app
-COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile --dev
+# Кэшируем зависимости
+COPY package.json bun.lockb* ./
+RUN bun install --frozen-lockfile
 
-# --- Build ---
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Копируем исходники
 COPY . .
 
-ENV NEXT_TELEMETRY_DISABLED=1
+# Переменные окружения для сборки (при необходимости измените)
 ENV NODE_ENV=production
 
-RUN bun run build
+# Сборка Next.js
+RUN bun run next build
 
-# --- Production ---
-FROM node:22-alpine AS runner
+# ---------- STAGE 2: runtime ----------
+FROM oven/bun:1 AS runner
+
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
 
+# Копируем только нужное для рантайма
+COPY --from=builder /app/package.json /app/bun.lockb* ./
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.mjs ./next.config.mjs
+# Если у вас next.config.js/ts — поправьте имя файла
 
-# standalone output contains server.js and minimal node_modules
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Ставим только прод‑зависимости
+RUN bun install --production --frozen-lockfile
 
 EXPOSE 3000
-ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
 
-CMD ["node", "server.js"]
+# Запуск приложения
+CMD ["bun", "run", "next", "start", "-p", "3000"]
