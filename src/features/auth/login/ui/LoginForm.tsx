@@ -1,0 +1,76 @@
+import { useState, type FormEvent } from 'react'
+import { AuthShell, fieldErrors, loginSchema, resultMessage } from '@/entities/session'
+import { ROUTES } from '@/shared/config'
+import { useFormValues } from '@/shared/lib/useFormValues'
+import { Button } from '@/shared/ui/Button'
+import { Field } from '@/shared/ui/Field'
+import { FormAlert } from '@/shared/ui/FormAlert'
+import { SmartLink } from '@/shared/ui/SmartLink'
+import { Text } from '@/shared/ui/Text'
+import { VStack } from '@/shared/ui/VStack'
+import { useLogin } from '../model/useLogin'
+
+/** Форма входа. `redirectTo` — адрес возврата из search-параметра `redirect` (проверяется на безопасность при переходе). */
+export function LoginForm({ redirectTo }: { redirectTo?: string | undefined }) {
+  const mutation = useLogin(redirectTo)
+  const { values, bind } = useFormValues({ email: '', password: '' })
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const parsed = loginSchema.safeParse(values)
+    if (!parsed.success) {
+      setErrors(fieldErrors(parsed.error))
+      return
+    }
+    setErrors({})
+    mutation.mutate(parsed.data)
+  }
+
+  return (
+    <AuthShell
+      title="Вход"
+      description="Войдите, чтобы видеть свои заказы, избранное и корзину"
+      footer={
+        <>
+          <Text variant="secondary" size="sm" className="text-center">
+            Нет аккаунта?{' '}
+            <SmartLink href={ROUTES.SIGNUP} className="text-link font-medium">
+              Зарегистрироваться
+            </SmartLink>
+          </Text>
+          <SmartLink href={ROUTES.PASSWORD_RESET} className="text-link hover:text-link/90 mx-auto font-semibold">
+            Забыли пароль?
+          </SmartLink>
+        </>
+      }
+    >
+      {/* noValidate: нативные подсказки браузера не переводятся и перебивают сообщения zod */}
+      <form onSubmit={handleSubmit} noValidate>
+        <VStack gap={4}>
+          <Field
+            label="Email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            error={errors.email}
+            {...bind('email')}
+          />
+          <Field
+            label="Пароль"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            error={errors.password}
+            {...bind('password')}
+          />
+          <FormAlert message={resultMessage(mutation.data, mutation.error)} />
+          <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
+            Войти
+          </Button>
+        </VStack>
+      </form>
+    </AuthShell>
+  )
+}

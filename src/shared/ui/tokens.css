@@ -1,0 +1,92 @@
+/* Дизайн-токены (OKLCH). Tailwind v4 превращает переменные @theme в утилиты:
+   --color-primary-500 → bg-primary-500 / text-primary-500, --color-surface-subtle → bg-surface-subtle и т.д.
+   Токены shadcn (--background, --foreground, --muted, --accent, --destructive, --ring, --sidebar-*, --chart-*) удалены. */
+@theme {
+  /* Примитивные палитры */
+  --color-primary-100: oklch(0.7594 0.092 262.91);
+  --color-primary-300: oklch(0.5712 0.1732 261.45);
+  --color-primary-500: oklch(0.5328 0.1897 261.32);
+  --color-primary-900: oklch(0.191 0.0689 258.91);
+  --color-secondary-500: oklch(0.62 0.2233 10.33);
+
+  /* Поверхности */
+  --color-surface-canvas: oklch(1 0 0);
+  --color-surface-default: oklch(1 0 0);
+  --color-surface-elevated: oklch(1 0 0);
+  --color-surface-overlay: oklch(1 0 0);
+  --color-surface-subtle: oklch(0.97 0 0);
+
+  /* Текст и ссылки (text-primary, text-secondary, text-tertiary, text-disabled, text-inverse, text-link) */
+  --color-primary: oklch(0.1909 0.0689 258.92);
+  --color-secondary: oklch(0.4953 0.0379 271.71);
+  --color-tertiary: oklch(0.6606 0.0294 269.5);
+  --color-disabled: oklch(0.708 0 0);
+  --color-inverse: oklch(1 0 0);
+  --color-link: oklch(0.5328 0.1898 261.33);
+
+  /* Границы и поля ввода */
+  --color-border-subtle: oklch(0.922 0 0);
+  --color-border-default: oklch(0.922 0 0);
+  --color-border-strong: oklch(0.708 0 0);
+  --color-input-default: oklch(0.922 0 0);
+  --color-input-placeholder: oklch(0.7335 0.0883 262.57);
+  --color-input-error-message: oklch(0.6713 0.1906 5.35);
+  --color-focus-ring: oklch(0.708 0 0);
+
+  /* Действия */
+  --color-action-primary-bg: var(--color-primary-500);
+  --color-action-primary-fg: oklch(0.985 0 0);
+  --color-action-secondary-bg: oklch(0.97 0 0);
+  --color-action-secondary-fg: oklch(0.205 0 0);
+  --color-action-accent-bg: oklch(0.97 0 0);
+  --color-action-accent-fg: oklch(0.205 0 0);
+
+  /* Статус success */
+  --color-success-100: oklch(0.96 0.03 145);
+  --color-success-300: oklch(0.9 0.06 145);
+  --color-success-500: oklch(0.82 0.1 145);
+  --color-success-700: oklch(0.68 0.12 145);
+  --color-success-900: oklch(0.54 0.11 145);
+
+  /* Статус warning */
+  --color-warning-100: oklch(0.97 0.03 85);
+  --color-warning-300: oklch(0.92 0.06 85);
+  --color-warning-500: oklch(0.85 0.11 85);
+  --color-warning-700: oklch(0.72 0.12 85);
+  --color-warning-900: oklch(0.58 0.1 85);
+
+  /* Статус danger */
+  --color-danger-100: oklch(0.95 0.04 25);
+  --color-danger-300: oklch(0.88 0.08 25);
+  --color-danger-500: oklch(0.8 0.14 25);
+  --color-danger-700: oklch(0.68 0.17 25);
+  --color-danger-900: oklch(0.56 0.15 25);
+
+  /* Статус info */
+  --color-info-100: oklch(0.95 0.03 240);
+  --color-info-300: oklch(0.89 0.06 240);
+  --color-info-500: oklch(0.8 0.1 240);
+  --color-info-700: oklch(0.67 0.12 240);
+  --color-info-900: oklch(0.54 0.11 240);
+
+  /* Состояния */
+  --color-state-danger-bg: var(--color-danger-500);
+  --color-state-danger-fg: oklch(0.985 0 0);
+  --color-state-success-bg: var(--color-success-500);
+  --color-state-success-fg: oklch(0.205 0 0);
+  --color-state-warning-bg: var(--color-warning-500);
+  --color-state-warning-fg: oklch(0.205 0 0);
+  --color-state-info-bg: var(--color-info-500);
+  --color-state-info-fg: oklch(0.205 0 0);
+
+  /* Шрифт: Inter Variable подключается в styles.css через @fontsource-variable/inter */
+  --font-sans: 'Inter Variable', Inter, Arial, Helvetica, sans-serif;
+
+  /* Брейкпоинты (как в старом globals.css): xs 384, sm 640, md 768, lg 1024, xl 1280, 2xl 1536 */
+  --breakpoint-xs: 24rem;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+}

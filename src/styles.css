@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import './shared/ui/tokens.css';
+@import './shared/ui/overlay.css';
+
+/* Скрытие нативного скроллбара (прежнее имя утилиты сохранено) */
+@utility scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  * {
+    @apply caret-secondary-500 selection:bg-secondary-500 selection:text-inverse outline-none focus:ring-0 focus-visible:ring-0;
+  }
+  body {
+    @apply bg-white font-sans text-primary;
+  }
+  /* Tailwind v4 убрал pointer у кнопок (preflight ставит cursor: default): возвращаем «руку» активным кнопкам */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}

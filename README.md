@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# rbt-service-web
 
-## Getting Started
+Мобильный веб-сервис ООО ТТЦ «Рембыттехника». Стек: TanStack Start (SSR), React 19, TypeScript, Tailwind 4, TanStack Query, Vite+ (`vp`, Oxlint, Oxfmt), Vitest. Правила для разработки: [AGENTS.md](AGENTS.md), решения: [docs/adr](docs/adr/README.md).
 
-First, run the development server:
+## Требования
+
+- Bun 1.3 (`packageManager`: `bun@1.3.10`)
+- Node 22 ([.nvmrc](.nvmrc), в Docker-образе тоже 22)
+
+## Установка и запуск
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+make install
+cp .env.example .env   # заполнить значения
+make dev               # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Переменные окружения
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Серверные, в браузер не попадают.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Переменная         | Назначение                                                                         |
+| ------------------ | ---------------------------------------------------------------------------------- |
+| `API_INTERNAL_URL` | адрес API rbt-service-api для SSR-запросов                                         |
+| `SESSION_SECRET`   | секрет шифрования cookie-сессии, не короче 32 символов (`openssl rand -base64 32`) |
 
-## Learn More
+## Команды
 
-To learn more about Next.js, take a look at the following resources:
+`make help` показывает все цели. Основные:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Команда                                  | Что делает                            |
+| ---------------------------------------- | ------------------------------------- |
+| `make dev` / `make build` / `make start` | разработка, сборка, запуск сборки     |
+| `make typecheck`                         | `tsc --noEmit`                        |
+| `make check` / `make fmt`                | Oxlint и Oxfmt: проверка / автоформат |
+| `make lint-fsd`                          | проверка слоёв FSD (steiger)          |
+| `make test`                              | юнит-тесты                            |
+| `make ci`                                | всё вместе, как в CI                  |
+| `make icons`                             | пересборка SVGR-иконок                |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Docker
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+make docker-build      # образ rbt-service-web:local
+make docker-run        # контейнер на порту 3000 с env из .env
+make docker-stop
+```

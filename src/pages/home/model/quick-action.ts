@@ -1,0 +1,62 @@
+import type { ElementType, SVGProps } from 'react'
+import { ROUTES } from '@/shared/config'
+import {
+  CatalogIcon,
+  FeedbackIcon,
+  MasterIcon,
+  OrderDetailIcon,
+  OrderStatusIcon,
+  ServicesRepairIcon,
+} from '@/shared/ui/icons'
+
+type IconComponent = ElementType<SVGProps<SVGSVGElement>>
+
+export type QuickActionItem = {
+  key: string
+  text: string
+  href: string
+  icon: IconComponent
+  isAccent?: boolean
+  colorVariant?: 'default' | 'accent'
+}
+
+export const HOME_QUICK_ACTIONS: QuickActionItem[] = [
+  {
+    key: 'catalog',
+    text: 'Каталог\nзапчастей',
+    href: ROUTES.CATALOG,
+    icon: CatalogIcon,
+  },
+  {
+    key: 'order-status',
+    text: 'Статус\nзаказа',
+    href: ROUTES.ORDERS_STATUS,
+    icon: OrderStatusIcon,
+  },
+  {
+    key: 'order-parts',
+    text: 'Заказать\nзапчасть',
+    href: ROUTES.PARTS_REQUEST,
+    icon: OrderDetailIcon,
+  },
+  {
+    key: 'repair-services',
+    text: 'Услуги\nремонта',
+    href: ROUTES.SERVICES_REPAIR,
+    icon: ServicesRepairIcon,
+  },
+  {
+    key: 'call-master',
+    text: 'Вызвать\nмастера',
+    href: ROUTES.MASTER_CALL,
+    icon: MasterIcon,
+    isAccent: true,
+    colorVariant: 'accent',
+  },
+  {
+    key: 'feedback',
+    text: 'Обратная\nсвязь',
+    href: ROUTES.FEEDBACK,
+    icon: FeedbackIcon,
+  },
+]

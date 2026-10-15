@@ -1,0 +1,71 @@
+import { useMutation } from '@tanstack/react-query'
+import { useState, type FormEvent } from 'react'
+import {
+  AuthShell,
+  fieldErrors,
+  passwordResetRequest,
+  passwordResetRequestSchema,
+  resultMessage,
+} from '@/entities/session'
+import { ROUTES } from '@/shared/config'
+import { Button } from '@/shared/ui/Button'
+import { Field } from '@/shared/ui/Field'
+import { FormAlert } from '@/shared/ui/FormAlert'
+import { SmartLink } from '@/shared/ui/SmartLink'
+import { Text } from '@/shared/ui/Text'
+import { VStack } from '@/shared/ui/VStack'
+
+export function PasswordResetRequestStep({ onSubmitted }: { onSubmitted: (email: string, resendIn: number) => void }) {
+  const mutation = useMutation({ mutationFn: (email: string) => passwordResetRequest({ data: { email } }) })
+  const [email, setEmail] = useState('')
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const parsed = passwordResetRequestSchema.safeParse({ email })
+    if (!parsed.success) {
+      setErrors(fieldErrors(parsed.error))
+      return
+    }
+    setErrors({})
+    mutation.mutate(parsed.data.email, {
+      onSuccess: (result) => {
+        if (result.ok) onSubmitted(parsed.data.email, result.resendIn)
+      },
+    })
+  }
+
+  return (
+    <AuthShell
+      title="Восстановление пароля"
+      description="Отправим код для смены пароля на указанный email"
+      footer={
+        <Text variant="secondary" size="sm" className="text-center">
+          Вспомнили пароль?{' '}
+          <SmartLink href={ROUTES.LOGIN} className="text-link font-medium">
+            Войти
+          </SmartLink>
+        </Text>
+      }
+    >
+      <form onSubmit={handleSubmit} noValidate>
+        <VStack gap={4}>
+          <Field
+            label="Email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            error={errors.email}
+          />
+          <FormAlert message={resultMessage(mutation.data, mutation.error)} />
+          <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
+            Отправить код
+          </Button>
+        </VStack>
+      </form>
+    </AuthShell>
+  )
+}

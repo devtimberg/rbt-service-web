@@ -1,24 +1,23 @@
-FROM oven/bun:1 AS builder
+# syntax=docker/dockerfile:1
+
+# --- Сборка (bun) ---
+FROM oven/bun:1.3 AS build
 WORKDIR /app
-
-COPY package.json bun.lockb* ./
-RUN bun install --frozen-lockfile
-
+COPY package.json bun.lock ./
+# --ignore-scripts: в образе нет git, lefthook install не нужен
+RUN bun install --frozen-lockfile --ignore-scripts
 COPY . .
-ENV NODE_ENV=production
-RUN bun run next build
+# VITE_* вшиваются в бандл при сборке (сейчас таких переменных нет)
+RUN bun run build
 
-FROM oven/bun:1 AS runner
+# --- Рантайм (Node 22) ---
+# Nitro кладёт в .output/server свои node_modules с нужными прод-зависимостями,
+# поэтому в рантайме копируется только .output.
+FROM node:22-alpine AS runtime
 WORKDIR /app
-
-ENV NODE_ENV=production
-ENV PORT=3000
-
-COPY --from=builder /app/package.json /app/bun.lockb* ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-
-RUN bun install --production --frozen-lockfile
-
+ENV NODE_ENV=production PORT=3000
+COPY --from=build /app/.output ./.output
+USER node
 EXPOSE 3000
-CMD ["bun", "run", "next", "start", "-p", "3000"]
+# API_INTERNAL_URL и SESSION_SECRET передаются при запуске контейнера
+CMD ["node", ".output/server/index.mjs"]

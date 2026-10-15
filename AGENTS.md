@@ -1,68 +1,107 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+Инструкции для ИИ-агентов, работающих с репозиторием. Обоснования решений: [docs/adr](docs/adr/README.md), запуск: [README.md](README.md). Здесь только правила, которые нужны в каждой сессии.
 
-## Project Overview
+## Проект
 
-Mobile-first web app for a Russian appliance service center (ООО ТТЦ Рембыттехника). Built with Next.js 16 App Router, React 19, TypeScript 5, Tailwind CSS v4, shadcn/ui (New York style), and Radix UI. All user-facing text is in Russian.
+Мобильный веб-сервис ООО ТТЦ «Рембыттехника» (ремонт бытовой техники, каталог запчастей). TanStack Start (SSR) на React 19, TypeScript, Tailwind 4, TanStack Query, тулчейн Vite+ (`vp`). Весь текст интерфейса и комментарии по-русски. Пакеты через Bun 1.3, прод на Node 22 (сборка Nitro в `.output`).
+Проект мигрирован с Next.js 16 ([ADR 0001](docs/adr/0001-tanstack-start.md)) и служит пилотом Vite+ для rbt-web ([ADR 0002](docs/adr/0002-vite-plus.md)).
 
-## Commands
+## Команды
+
+Всё через Makefile (`make help`), он только оборачивает скрипты `package.json`.
 
 ```bash
-bun run dev          # Dev server (localhost:3000)
-bun run build        # Production build
-bun run lint         # ESLint
-bun run icons:sync   # Generate icon components from SVGs in shared/icons/raw/
-make all             # Alias for dev server
-make icon            # Alias for icons:sync
+make install     # bun install --frozen-lockfile
+cp .env.example .env   # один раз; нужны API_INTERNAL_URL и SESSION_SECRET (>= 32 символов)
+make dev         # vp dev, порт 3000
+make build       # vp build (Nitro, .output)
+make start       # запуск прод-сборки
+make typecheck   # tsc --noEmit
+make check       # vp check: Oxfmt + Oxlint (type-aware)
+make fmt         # vp fmt (автоформат)
+make lint-fsd    # steiger ./src
+make test        # vp test (Vitest)
+make ci          # typecheck + check + lint-fsd + test
+make icons       # пересобрать SVGR-иконки из src/shared/ui/icons/raw
+make docker-build / docker-run / docker-stop
 ```
 
-## Commit Convention
+**Перед завершением задачи запусти `make ci`** и исправь всё, что он нашёл.
 
-Conventional Commits required: `<type>(optional-scope): <subject>`
+## Архитектура
 
-Types: `feat`, `fix`, `chore`, `refactor`, `docs`, `test`, `style`, `perf`, `ci`, `build`, `revert`. No vague messages like `update`, `changes`, `wip`.
+Упрощённый Feature-Sliced Design ([ADR 0003](docs/adr/0003-fsd-and-imports.md)). Импорт только вниз:
 
-## Architecture
+```
+routes → app → pages → widgets → features → entities → shared
+```
 
-The project follows a layered structure inspired by Feature-Sliced Design:
+- Слайсы одного слоя друг друга не импортируют.
+- У слайса есть `index.ts`; снаружи импортируем только через него (`@/entities/product`). Пути через сегменты `ui|model|api|lib|config` запрещены. Внутри слайса импорты относительные, между слайсами через `@/` (алиас на `src/`).
+- В `shared` слайсов нет, только сегменты `api`, `config`, `lib`, `ui`; `shared/ui` импортируется по модулю: `@/shared/ui/Button`.
+- Слайсы можно группировать (`features/auth/login`): в группе нет `index.ts` и общего кода.
+- Контроль: правила слоёв в [lint/fsd-rules.ts](lint/fsd-rules.ts) (подключены в `vite.config.ts`, Oxlint `no-restricted-imports`; новый сегмент слайса добавляй в шаблон там) и steiger ([steiger.config.ts](steiger.config.ts)). Оба в pre-commit.
 
-- **`app/`** — Next.js App Router pages and layouts
-- **`screens/`** — Page-level components with `ui/` and `model/` subdirectories
-- **`widgets/`** — Feature-level components (header, footer, mobile nav)
-- **`shared/ui/kit/`** — Reusable UI primitives (Button, IconButton, Input, Sheet, etc.)
-- **`shared/lib/`** — Utilities (`cn()` in utils.ts, route config in routes.ts)
-- **`shared/icons/`** — Auto-generated icon components (don't edit manually, run `icons:sync`)
-- **`shared/styles/`** — Design tokens (OKLCH colors) and Tailwind theme mapping
-- **`entities/`, `features/`** — Placeholder directories for future domain logic
+Что куда:
 
-### Key Architectural Patterns
+| Что                                                                      | Куда                                                                             |
+| ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| Маршруты (файловый роутинг TanStack), `head`, `staticData`, `beforeLoad` | `src/routes/` (без вёрстки)                                                      |
+| Лайауты (корень, шторка)                                                 | `src/app/layouts/`                                                               |
+| Страница и её уникальные блоки                                           | `src/pages/<page>/` (`ui/`, `model.ts`)                                          |
+| Блок на нескольких страницах                                             | `src/widgets/` (header, footer, mobile-bottom-nav, product-card, catalog-search) |
+| Действие пользователя                                                    | `src/features/` (auth/login, signup, logout, password-reset, search-products)    |
+| Сущность                                                                 | `src/entities/` (cart, category, favorite, product, session)                     |
+| UI-кит, API-клиент, конфиг, утилиты, маршруты-константы                  | `src/shared/`                                                                    |
 
-**Routing**: All routes defined in `shared/lib/routes.ts` via `ROUTES` constant and `ROUTE_CONFIG`. Never hardcode route strings.
+Адреса берём из `ROUTES` в `src/shared/config/routes.ts`, строки путей руками не пишем.
 
-**Sheet Modal System**: The `app/@sheet/` parallel route is the core modal system. `SheetLayout` (`app/@sheet/layout.tsx`) manages bottom sheet open/close state based on pathname, with complex animation timing via `requestAnimationFrame` + `setTimeout`. Sheet content is dynamically rendered from `ROUTE_CONFIG.sheetComponent`.
+## Состояние
 
-**IconButton**: Polymorphic component that renders as Next.js `Link` (when `href` provided) or `button`. Supports route-aware active state via `matchPath`, `activeClassName`, and `additionalActivePaths`.
+| Что                                | Где                                                                    |
+| ---------------------------------- | ---------------------------------------------------------------------- |
+| Данные сервера                     | TanStack Query                                                         |
+| Сессия пользователя                | cookie, чтение через `sessionQuery` (`entities/session`)               |
+| Фильтры, поиск, страница           | search-параметры URL, валидация zod                                    |
+| Локальный UI                       | `useState`                                                             |
+| Корзина, избранное, история поиска | zustand, **временно** ([ADR 0007](docs/adr/0007-zustand-temporary.md)) |
 
-**Styling**: Tailwind-only (no CSS modules). Use `cn()` for conditional classes, `cva()` for variant-based components. Design tokens defined as CSS custom properties in `shared/styles/tokens.css`.
+Новые глобальные сторы не заводим. Zustand живёт только в `entities/cart`, `entities/favorite`, `features/search-products` до появления API.
 
-### Adding a New Route
+## Авторизация
 
-1. Add to `ROUTES` and `ROUTE_CONFIG` in `shared/lib/routes.ts`
-2. Create page in `app/[route]/page.tsx`
-3. Optionally add `sheetComponent` to config for sheet modal content
-4. Update navigation in widgets if needed
+Cookie-сессия, AES-256-GCM, ключ из `SESSION_SECRET` ([ADR 0004](docs/adr/0004-cookie-session.md)).
 
-### Adding a New Icon
+- Серверный код лежит в `src/entities/session/api/*.server.ts` и вызывается только из тел `createServerFn` (`auth.functions.ts`). Файлы `*.server.ts` не реэкспортируем из `index.ts`, иначе они попадут в клиентский бандл.
+- Защита маршрутов: `_authed` (только вошедшие) и `_guest` (только гости) в `beforeLoad`; гостя отправляем на вход через `redirect` с `?redirect=` (не `callbackUrl`).
+- Токены никогда не отдаём в браузер: клиент получает только публичные данные пользователя.
 
-1. Place SVG in `shared/icons/raw/`
-2. Run `bun run icons:sync`
-3. Import from `@/shared/icons`
+## Вёрстка
 
-## Tech Stack
+- Tailwind 4, только классы (без CSS-модулей). Токены цветов и размеров: [src/shared/ui/tokens.css](src/shared/ui/tokens.css), используем их, а не произвольные значения.
+- Свои примитивы в `src/shared/ui` (Button, IconButton, Input, Dialog, Sheet, Popover, Tooltip, Checkbox, RadioGroup, HStack/VStack, Text, Heading и др.) без Radix, shadcn, cva и headless-библиотек ([ADR 0005](docs/adr/0005-own-ui-primitives.md)). Модалки на нативном `<dialog>`. Нового модала, кнопки или таба не создавай: расширяй существующий (вариант, prop). Условные классы через `cn()`.
+- Внутренние ссылки через `SmartLink` ([src/shared/ui/SmartLink.tsx](src/shared/ui/SmartLink.tsx)); голый `<a href="/...">` для внутренних адресов не используем.
+- Шторки: маршрут с `staticData: { sheet: true }` рендерится в `app/layouts/SheetLayout` ([ADR 0006](docs/adr/0006-sheets-via-static-data.md)).
+- Иконки: SVG в `src/shared/ui/icons/raw`, затем `make icons`; сгенерированные файлы руками не правим.
 
-- **Package manager**: Bun (primary)
-- **Path alias**: `@/*` maps to project root
-- **Formatting**: Prettier with tailwindcss, classnames, and merge plugins
-- **No test framework configured yet**
-- **No state management library** — app is mostly presentational with route-based navigation
+## Тесты
+
+Vitest через `vp test` (jsdom) + Testing Library, `vitest.setup.ts`. Тесты лежат рядом с кодом: `*.test.ts(x)`; серверные модули с `// @vitest-environment node`. Логику без React (модели, ошибки, шифрование сессии) покрывай unit-тестом, поведение UI компонентным. DOM-снапшоты не делаем. Тестовые env (`API_INTERNAL_URL`, `SESSION_SECRET`) заданы в `vite.config.ts`.
+
+## Коммиты
+
+Conventional Commits, описание по-русски: `<тип>(<область>)?!?: <описание>`. Типы: `feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert`; область `[a-z0-9-]`; описание до 100 символов. Формат проверяет [scripts/check-commit-msg.ts](scripts/check-commit-msg.ts) через lefthook (`make hooks`). Pre-commit: `vp staged` и `lint:fsd`, не обходи (`--no-verify`).
+Не делай `git commit` и `git push`, пока об этом не попросили.
+
+## Запрещено
+
+- Next.js, next-auth и их API ([0001](docs/adr/0001-tanstack-start.md), [0004](docs/adr/0004-cookie-session.md)).
+- shadcn/ui, Radix, любые headless-библиотеки, `class-variance-authority` ([0005](docs/adr/0005-own-ui-primitives.md)).
+- Глобальный стор, кроме временных zustand-сторов из [0007](docs/adr/0007-zustand-temporary.md).
+- Ручная правка `src/routeTree.gen.ts` и сгенерированных файлов.
+- Импорт в обход `index.ts` слайса и между слайсами одного слоя.
+- Реэкспорт `*.server.ts` и токенов сессии в клиентский код.
+- Возврат к ESLint/Prettier/Biome мимо ADR.
+
+Новое архитектурное решение оформляй ADR: скопируй [docs/adr/template.md](docs/adr/template.md) в `docs/adr/NNNN-название.md` и добавь строку в [docs/adr/README.md](docs/adr/README.md). Принятое решение не удаляй, а помечай `superseded`.

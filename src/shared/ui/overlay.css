@@ -1,0 +1,78 @@
+/* Анимации нативных <dialog> (shared/ui/Dialog, Sheet): вход и выход на CSS через @starting-style
+   и transition-behavior: allow-discrete (display/overlay переключаются после окончания перехода).
+   Где браузер не умеет allow-discrete, окно просто появляется и исчезает без анимации. */
+@layer components {
+  dialog.ui-dialog {
+    --ui-dialog-shift: 1rem;
+    opacity: 0;
+    transform: translateY(var(--ui-dialog-shift));
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      overlay 0.2s ease allow-discrete,
+      display 0.2s ease allow-discrete;
+  }
+  dialog.ui-dialog[data-placement='bottom'] {
+    --ui-dialog-shift: 100%;
+    transition-duration: 0.3s;
+  }
+  dialog.ui-dialog[open] {
+    opacity: 1;
+    transform: none;
+  }
+  @starting-style {
+    dialog.ui-dialog[open] {
+      opacity: 0;
+      transform: translateY(var(--ui-dialog-shift));
+    }
+  }
+  dialog.ui-dialog::backdrop {
+    background: rgb(0 0 0 / 0.2);
+    opacity: 0;
+    transition:
+      opacity 0.2s ease,
+      overlay 0.2s ease allow-discrete,
+      display 0.2s ease allow-discrete;
+  }
+  dialog.ui-dialog[open]::backdrop {
+    opacity: 1;
+  }
+  @starting-style {
+    dialog.ui-dialog[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  /* Адаптивная модалка: ниже md шторка снизу, от md окно по центру */
+  @media (min-width: 48rem) {
+    dialog.ui-dialog[data-placement='responsive'] {
+      --ui-dialog-shift: 1rem;
+    }
+  }
+  @media (max-width: 47.999rem) {
+    dialog.ui-dialog[data-placement='responsive'] {
+      --ui-dialog-shift: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    dialog.ui-dialog,
+    dialog.ui-dialog::backdrop {
+      transition-duration: 0.01ms;
+    }
+  }
+
+  /* LayoutSheet: панель, которой управляет родитель (data-state="open" | "closed") */
+  .ui-layout-sheet {
+    transition:
+      transform 0.5s ease-in-out,
+      translate 0.5s ease-in-out,
+      opacity 0.5s ease-in-out;
+  }
+  .ui-layout-sheet[data-state='closed'] {
+    pointer-events: none;
+  }
+  .ui-layout-sheet[data-no-animation='true'] {
+    transition: none;
+  }
+}
