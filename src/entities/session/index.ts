@@ -15,7 +15,7 @@ export {
 export { loadCurrentUser, sessionKeys, sessionQuery, setSessionUser } from './api/session.query'
 export { usePostLoginRedirect } from './lib/usePostLoginRedirect'
 export { useSessionExpired } from './lib/useSessionExpired'
-export { safeRedirectPath } from './model/redirect'
+export { loginRedirectSearch, safeRedirectPath } from './model/redirect'
 export { accessTokenExpiresAt, isAccessTokenFresh, REFRESH_SKEW_MS } from './model/refresh'
 export { failureFrom, resultMessage, type ActionFailure, type ActionResult, type ActionSuccess } from './model/result'
 export {

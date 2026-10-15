@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { useState, type FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import {
   AuthShell,
   fieldErrors,
@@ -33,8 +33,7 @@ export function PasswordResetConfirmStep({
   })
   const resend = useMutation({ mutationFn: () => passwordResetRequest({ data: { email } }) })
   const { canResend, label } = useResendCountdown(resend.data?.resendIn ?? initialResendIn)
-  const { values, bind } = useFormValues({ code: '', newPassword: '', passwordConfirm: '' })
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const { values, bind, errors, setErrors } = useFormValues({ code: '', newPassword: '', passwordConfirm: '' })
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

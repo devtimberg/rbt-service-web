@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import { AuthShell, fieldErrors, resultMessage, signupCompleteSchema } from '@/entities/session'
 import { useFormValues } from '@/shared/lib/useFormValues'
 import { Button } from '@/shared/ui/Button'
@@ -9,8 +9,12 @@ import { useSignupComplete } from '../model/useSignupComplete'
 
 export function SignupProfileStep({ ticket, redirectTo }: { ticket: string; redirectTo?: string | undefined }) {
   const mutation = useSignupComplete(redirectTo)
-  const { values, bind } = useFormValues({ firstName: '', lastName: '', password: '', passwordConfirm: '' })
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const { values, bind, errors, setErrors } = useFormValues({
+    firstName: '',
+    lastName: '',
+    password: '',
+    passwordConfirm: '',
+  })
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

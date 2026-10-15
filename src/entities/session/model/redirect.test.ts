@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vite-plus/test'
-import { safeRedirectPath } from './redirect'
+import { loginRedirectSearch, safeRedirectPath } from './redirect'
 
 describe('safeRedirectPath', () => {
   it('пропускает внутренние пути с query и hash', () => {
@@ -19,5 +19,11 @@ describe('safeRedirectPath', () => {
   })
   it('использует переданный fallback', () => {
     expect(safeRedirectPath('//evil.com', '/')).toBe('/')
+  })
+})
+
+describe('loginRedirectSearch', () => {
+  it('кладёт адрес возврата в параметр redirect', () => {
+    expect(loginRedirectSearch('/profile?tab=1')).toEqual({ redirect: '/profile?tab=1' })
   })
 })

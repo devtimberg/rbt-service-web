@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import { AuthShell, fieldErrors, loginSchema, resultMessage } from '@/entities/session'
 import { ROUTES } from '@/shared/config'
 import { useFormValues } from '@/shared/lib/useFormValues'
@@ -13,8 +13,7 @@ import { useLogin } from '../model/useLogin'
 /** Форма входа. `redirectTo` — адрес возврата из search-параметра `redirect` (проверяется на безопасность при переходе). */
 export function LoginForm({ redirectTo }: { redirectTo?: string | undefined }) {
   const mutation = useLogin(redirectTo)
-  const { values, bind } = useFormValues({ email: '', password: '' })
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const { values, bind, errors, setErrors } = useFormValues({ email: '', password: '' })
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

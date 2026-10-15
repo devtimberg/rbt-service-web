@@ -1,7 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
-import { useState, type FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import { AuthShell, fieldErrors, resultMessage, signupStart, signupStartSchema } from '@/entities/session'
 import { ROUTES } from '@/shared/config'
+import { useFormValues } from '@/shared/lib/useFormValues'
 import { Button } from '@/shared/ui/Button'
 import { Field } from '@/shared/ui/Field'
 import { FormAlert } from '@/shared/ui/FormAlert'
@@ -11,12 +12,11 @@ import { VStack } from '@/shared/ui/VStack'
 
 export function SignupEmailStep({ onSubmitted }: { onSubmitted: (email: string, resendIn: number) => void }) {
   const mutation = useMutation({ mutationFn: (email: string) => signupStart({ data: { email } }) })
-  const [email, setEmail] = useState('')
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const { values, bind, errors, setErrors } = useFormValues({ email: '' })
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const parsed = signupStartSchema.safeParse({ email })
+    const parsed = signupStartSchema.safeParse(values)
     if (!parsed.success) {
       setErrors(fieldErrors(parsed.error))
       return
@@ -50,9 +50,8 @@ export function SignupEmailStep({ onSubmitted }: { onSubmitted: (email: string, 
             type="email"
             autoComplete="email"
             placeholder="you@example.com"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
             error={errors.email}
+            {...bind('email')}
           />
           <FormAlert message={resultMessage(mutation.data, mutation.error)} />
           <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>

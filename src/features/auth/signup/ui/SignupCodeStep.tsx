@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { useState, type FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import {
   AuthShell,
   fieldErrors,
@@ -32,8 +32,7 @@ export function SignupCodeStep({
   })
   const resend = useMutation({ mutationFn: () => signupResendOtp({ data: { email } }) })
   const { canResend, label } = useResendCountdown(resend.data?.resendIn ?? initialResendIn)
-  const { values, bind } = useFormValues({ code: '' })
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const { values, bind, errors, setErrors } = useFormValues({ code: '' })
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

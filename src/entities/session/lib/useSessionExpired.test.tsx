@@ -6,7 +6,9 @@ import { useSessionExpired } from './useSessionExpired'
 
 const navigate = vi.fn()
 const invalidate = vi.fn()
-vi.mock('@tanstack/react-router', () => ({ useRouter: () => ({ navigate, invalidate }) }))
+vi.mock('@tanstack/react-router', () => ({
+  useRouter: () => ({ navigate, invalidate, state: { location: { href: '/profile?tab=security' } } }),
+}))
 vi.mock('../api/auth.functions', () => ({ getCurrentUser: vi.fn() }))
 
 function setup() {
@@ -28,7 +30,7 @@ describe('useSessionExpired', () => {
     const { queryClient, result } = setup()
     expect(result.current({ ok: false, message: 'x', unauthorized: true })).toBe(true)
     expect(queryClient.getQueryData(['session', 'user'])).toBeNull()
-    expect(navigate).toHaveBeenCalledWith({ to: '/login' })
+    expect(navigate).toHaveBeenCalledWith({ to: '/login', search: { redirect: '/profile?tab=security' } })
   })
 
   it('успех и обычные ошибки не трогает', () => {

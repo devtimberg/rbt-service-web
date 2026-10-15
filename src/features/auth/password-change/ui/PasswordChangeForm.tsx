@@ -13,8 +13,7 @@ const EMPTY = { oldPassword: '', newPassword: '' }
  * неверный текущий пароль у своего поля, остальное общей плашкой. */
 export function PasswordChangeForm() {
   const mutation = usePasswordChange()
-  const { values, bind, reset } = useFormValues(EMPTY)
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const { values, bind, reset, setErrors, fieldError } = useFormValues(EMPTY)
   const [done, setDone] = useState(false)
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -49,7 +48,7 @@ export function PasswordChangeForm() {
           name="oldPassword"
           type="password"
           autoComplete="current-password"
-          error={errors.oldPassword ?? serverFields.oldPassword}
+          error={fieldError('oldPassword', serverFields)}
           {...bind('oldPassword')}
         />
         <Field
@@ -57,7 +56,7 @@ export function PasswordChangeForm() {
           name="newPassword"
           type="password"
           autoComplete="new-password"
-          error={errors.newPassword ?? serverFields.newPassword}
+          error={fieldError('newPassword', serverFields)}
           {...bind('newPassword')}
         />
         <FormAlert message={alert} />

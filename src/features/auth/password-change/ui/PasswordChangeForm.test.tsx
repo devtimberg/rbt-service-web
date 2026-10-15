@@ -89,6 +89,32 @@ describe('PasswordChangeForm', () => {
     expect(screen.getByLabelText('Текущий пароль')).toBeInvalid()
   })
 
+  it('ввод в поле убирает серверную ошибку этого поля, ошибка соседнего остаётся', async () => {
+    vi.mocked(passwordChange).mockResolvedValue({
+      ok: false,
+      message: 'Ошибка',
+      fieldErrors: { oldPassword: 'Неверный текущий пароль', newPassword: 'Слишком простой' },
+    })
+    renderForm()
+    await fillAndSubmit()
+    expect(await screen.findByText('Неверный текущий пароль')).toBeInTheDocument()
+
+    await userEvent.type(screen.getByLabelText('Текущий пароль'), '1')
+    expect(screen.queryByText('Неверный текущий пароль')).not.toBeInTheDocument()
+    expect(screen.getByLabelText('Текущий пароль')).toBeValid()
+    expect(screen.getByText('Слишком простой')).toBeInTheDocument()
+  })
+
+  it('ввод в поле убирает клиентскую ошибку этого поля, ошибка соседнего остаётся', async () => {
+    renderForm()
+    await userEvent.click(screen.getByRole('button', { name: 'Сменить пароль' }))
+    expect(await screen.findByText('Введите текущий пароль')).toBeInTheDocument()
+
+    await userEvent.type(screen.getByLabelText('Текущий пароль'), 'x')
+    expect(screen.queryByText('Введите текущий пароль')).not.toBeInTheDocument()
+    expect(screen.getByLabelText('Новый пароль')).toBeInvalid()
+  })
+
   it('прочая ошибка выводится общей плашкой', async () => {
     vi.mocked(passwordChange).mockResolvedValue({ ok: false, message: 'Не удалось связаться с сервером' })
     renderForm()
