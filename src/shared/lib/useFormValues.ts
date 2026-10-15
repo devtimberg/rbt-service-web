@@ -13,5 +13,9 @@ export function useFormValues<T extends Record<string, string>>(initial: T) {
     }
   }
 
-  return { values, bind }
+  function reset() {
+    setValues(initial)
+  }
+
+  return { values, bind, reset }
 }

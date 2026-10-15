@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { sessionQuery } from '@/entities/session'
 import { LogoutButton } from '@/features/auth/logout'
+import { LogoutAllButton } from '@/features/auth/logout-all'
+import { PasswordChangeForm } from '@/features/auth/password-change'
 import { Box } from '@/shared/ui/Box'
 import { Container } from '@/shared/ui/Container'
 import { Heading } from '@/shared/ui/Heading'
@@ -46,7 +48,15 @@ export function ProfilePage() {
         </VStack>
       </Box>
 
-      <LogoutButton />
+      <VStack gap={3}>
+        <Heading size="md">Смена пароля</Heading>
+        <PasswordChangeForm />
+      </VStack>
+
+      <VStack gap={3}>
+        <LogoutButton />
+        <LogoutAllButton />
+      </VStack>
     </Container>
   )
 }
