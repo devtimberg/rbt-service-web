@@ -1,68 +1,27 @@
 import type { ComponentProps } from 'react'
-import { cn } from '@/shared/lib/cn'
-import { Input } from './Input'
-import { Text } from './Text'
-import { VStack } from './VStack'
 
-/** Поле формы: подпись, ввод, ошибка (приоритетнее) или подсказка. `name` служит и id для связки подписи. */
-export function Field({
-  label,
-  name,
-  error,
-  hint,
-  className,
-  ...props
-}: ComponentProps<'input'> & {
-  label: string
-  name: string
-  error?: string | undefined
-  hint?: string
-}) {
-  const errorId = `${name}-error`
-  return (
-    <VStack gap={1.5}>
-      <label htmlFor={name} className="text-secondary text-sm font-medium">
-        {label}
-      </label>
-      <Input
-        id={name}
-        name={name}
-        aria-invalid={Boolean(error) || undefined}
-        aria-describedby={error ? errorId : undefined}
-        className={cn('h-12 rounded-2xl', className)}
-        {...props}
-      />
-      {error ? (
-        <Text id={errorId} variant="error" size="xs">
-          {error}
-        </Text>
-      ) : hint ? (
-        <Text variant="secondary" size="xs">
-          {hint}
-        </Text>
-      ) : null}
-    </VStack>
-  )
+/*
+ * Примитивы полей формы без своих стилей. Готовые поля с подписью (`TextField`, `Select`, `SearchField`, `Checkbox`)
+ * рисуют подпись сами; эти нужны, когда поле собрано вручную.
+ */
+
+/** Подпись `label`: связь с полем через `htmlFor` или вложенностью поля внутрь. */
+export function Label(props: ComponentProps<'label'>) {
+  // oxlint-disable-next-line jsx-a11y/label-has-associated-control -- связь задаёт вызывающий код (htmlFor или поле внутри)
+  return <label {...props} />
 }
 
-/** Поле одноразового кода: только цифры, фиксированная длина. */
-export function OtpField({
-  error,
-  length,
-  ...props
-}: Omit<ComponentProps<'input'>, 'name'> & { error?: string | undefined; length: number }) {
-  return (
-    <Field
-      label="Код из письма"
-      name="code"
-      inputMode="numeric"
-      autoComplete="one-time-code"
-      pattern={`\\d{${length}}`}
-      maxLength={length}
-      placeholder={'0'.repeat(length)}
-      error={error}
-      className="text-center text-lg tracking-[0.5em]"
-      {...props}
-    />
-  )
+/** Группа полей `fieldset` (радио-карточки, блок адреса). Название группы — `Legend` первым ребёнком. */
+export function Fieldset(props: ComponentProps<'fieldset'>) {
+  return <fieldset {...props} />
+}
+
+/** Название группы `legend`. */
+export function Legend(props: ComponentProps<'legend'>) {
+  return <legend {...props} />
+}
+
+/** Живой статус `output` (role=status): «Товар в корзине», «Ничего не найдено». */
+export function Output(props: ComponentProps<'output'>) {
+  return <output {...props} />
 }

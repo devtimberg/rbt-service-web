@@ -3,20 +3,19 @@ import { cleanup } from '@testing-library/react'
 import { afterEach } from 'vite-plus/test'
 
 // jsdom не реализует showModal/close у <dialog>: модалки (shared/ui/Dialog) открываются атрибутом open
+// Проверяем через Reflect.has, а не `typeof proto.x`: чтение метода с прототипа без вызова — unbound-method
 if (typeof HTMLDialogElement !== 'undefined') {
-  const proto = HTMLDialogElement.prototype as unknown as Record<string, unknown>
-  if (typeof proto.showModal !== 'function') {
-    proto.showModal = function (this: HTMLDialogElement) {
+  const dialog = HTMLDialogElement.prototype
+  if (!Reflect.has(dialog, 'showModal'))
+    dialog.showModal = function (this: HTMLDialogElement) {
       this.open = true
     }
-  }
-  if (typeof proto.close !== 'function') {
-    proto.close = function (this: HTMLDialogElement) {
+  if (!Reflect.has(dialog, 'close'))
+    dialog.close = function (this: HTMLDialogElement) {
       if (!this.open) return
       this.open = false
       this.dispatchEvent(new Event('close'))
     }
-  }
 }
 
 afterEach(() => {

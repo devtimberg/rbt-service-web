@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useIsMobile } from '@/shared/lib/useMediaQuery'
-import { Box } from '@/shared/ui/Box'
+import { Box, Stack } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
 import { Container } from '@/shared/ui/Container'
-import { HStack } from '@/shared/ui/HStack'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/Popover'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/shared/ui/Sheet'
 import { Text } from '@/shared/ui/Text'
@@ -45,41 +44,40 @@ export function Footer({ variant = 'inverse' }: FooterProps) {
 
   return (
     <Container className="mt-auto px-4 pt-8 pb-4 sm:pt-20 lg:pb-[clamp(12px,2.5vh,24px)]">
-      <HStack
+      <Stack
+        direction="row"
         className="xs:gap-10 flex-col-reverse items-center justify-center gap-4
           md:flex-row md:items-end md:justify-between"
       >
         <Text
-          size="xs"
-          className={`min-w-0 flex-1 text-center leading-4 whitespace-pre-wrap
+          className={`cursor-default font-normal text-xs min-w-0 flex-1 text-center leading-4 whitespace-pre-wrap
             md:text-left ${isInverse ? 'text-inverse' : 'text-tertiary'}`}
         >
           {`© 1995 — 2026 ТТЦ Рембыттехника.\nВсе права защищены. Условия использования. Политика конфиденциальности.\nАдрес: г. Челябинск, ул. Производственная д. 8Б, Тел.: +7(351)239-39-39 Email: service@rbt.ru`}
         </Text>
-        <HStack className="w-85 shrink-0 items-center justify-center md:justify-end" gap={4}>
-          <Text
-            className="relative shrink-0 text-center text-[18px] leading-5
-              font-semibold whitespace-nowrap md:text-right"
-          >
-            <span className="invisible">
+        <Stack direction="row" className="w-85 shrink-0 items-center justify-center md:justify-end" gap={4}>
+          <Text className="cursor-default text-primary relative shrink-0 text-center text-[18px] leading-5 font-semibold whitespace-nowrap md:text-right">
+            <Text as="span" className="invisible">
               {LONGEST_GREETING}
-              <span aria-hidden className="ml-0.5 inline-block">
+              <Text as="span" aria-hidden className="ml-0.5 inline-block">
                 |
-              </span>
-            </span>
-            <span
+              </Text>
+            </Text>
+            <Text
+              as="span"
               className={`absolute inset-0
                 ${isInverse ? 'text-inverse' : 'text-primary'}`}
             >
               {(GREETINGS[greetingIndex] ?? '').slice(0, typedLength)}
-              <span
+              <Text
+                as="span"
                 aria-hidden
                 className="animation-duration-[450ms] ml-0.5 inline-block
                   animate-pulse"
               >
                 |
-              </span>
-            </span>
+              </Text>
+            </Text>
           </Text>
           <Box>
             {isMobile ? (
@@ -92,9 +90,9 @@ export function Footer({ variant = 'inverse' }: FooterProps) {
                     <SheetHeader>
                       <SheetTitle>Время работы</SheetTitle>
                     </SheetHeader>
-                    <div className="px-4 pb-6">
+                    <Box className="px-4 pb-6">
                       <WorkingHoursContent />
-                    </div>
+                    </Box>
                   </SheetContent>
                 </Sheet>
               </>
@@ -111,8 +109,8 @@ export function Footer({ variant = 'inverse' }: FooterProps) {
               </Popover>
             )}
           </Box>
-        </HStack>
-      </HStack>
+        </Stack>
+      </Stack>
     </Container>
   )
 }

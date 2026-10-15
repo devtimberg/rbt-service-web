@@ -80,7 +80,7 @@
   --color-state-info-fg: oklch(0.205 0 0);
 
   /* Шрифт: Inter Variable подключается в styles.css через @fontsource-variable/inter */
-  --font-sans: 'Inter Variable', Inter, Arial, Helvetica, sans-serif;
+  --font-sans: "Inter Variable", Inter, Arial, Helvetica, sans-serif;
 
   /* Брейкпоинты (как в старом globals.css): xs 384, sm 640, md 768, lg 1024, xl 1280, 2xl 1536 */
   --breakpoint-xs: 24rem;

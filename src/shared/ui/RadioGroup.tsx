@@ -44,7 +44,7 @@ export function RadioGroup({
     <RadioGroupContext
       value={{ name: name ?? generatedName, value: value ?? innerValue, onValueChange: handleValueChange, disabled }}
     >
-      <div role="radiogroup" data-slot="radio-group" className={cn('grid gap-3', className)} {...props} />
+      <div role="radiogroup" className={cn('grid gap-3', className)} {...props} />
     </RadioGroupContext>
   )
 }
@@ -61,7 +61,7 @@ export function RadioGroupItem({ className, value, disabled, onChange, ...props 
   }
 
   return (
-    <span data-slot="radio-group-item" className={cn('relative inline-flex size-4.5 shrink-0', className)}>
+    <span className={cn('relative inline-flex size-4.5 shrink-0', className)}>
       <input
         type="radio"
         name={group.name}

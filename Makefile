@@ -10,7 +10,7 @@ IMAGE ?= rbt-service-web:local
 CONTAINER ?= rbt-service-web
 
 .PHONY: help install dev build start \
-	typecheck check lint lint-fsd fmt fmt-check test test-watch ci icons \
+	typecheck lint lint-fsd format check test test-watch icons \
 	docker-build docker-run docker-stop clean hooks
 
 help: ## Показать этот список целей
@@ -40,28 +40,22 @@ icons: ## Пересобрать SVGR-иконки из src/shared/ui/icons/raw
 typecheck: ## Проверка типов (tsc --noEmit)
 	bun run typecheck
 
-check: ## Формат + линт Oxlint/Oxfmt (vp check)
-	bun run check
-
-lint: ## Линтер (vp lint)
+lint: ## Формат, линт и типы (vp check)
 	bun run lint
 
 lint-fsd: ## Проверка архитектуры FSD (steiger)
 	bun run lint:fsd
 
-fmt: ## Автоформатирование (vp fmt)
-	bun run fmt
+format: ## Автоформатирование и автофиксы (vp check --fix)
+	bun run format
 
-fmt-check: ## Проверка форматирования без правок (vp fmt --check)
-	bun run fmt:check
+check: typecheck lint lint-fsd test ## Typecheck + lint + FSD + test (то, что гоняет CI на PR)
 
-test: ## Юнит-тесты (vp test)
+test: ## Юнит-тесты (vp test run)
 	bun run test
 
 test-watch: ## Юнит-тесты в watch-режиме
-	bun run test:watch
-
-ci: typecheck check lint-fsd test ## То, что гоняет CI на PR
+	bunx vp test
 
 ##@ Docker
 
@@ -80,5 +74,5 @@ docker-stop: ## Остановить контейнер
 clean: ## Удалить node_modules, .output, .tanstack, dist
 	rm -rf node_modules .output .tanstack dist
 
-hooks: ## Установить git-хуки (lefthook install)
-	bunx lefthook install
+hooks: ## Установить git-хуки (vp hooks enable)
+	bunx vp hooks enable

@@ -5,7 +5,8 @@ import { Button } from '@/shared/ui/Button'
 import { Container } from '@/shared/ui/Container'
 import { Heading } from '@/shared/ui/Heading'
 import { SheetFooterSlot } from '@/shared/ui/SheetFooterSlot'
-import { Text } from '@/shared/ui/Text'
+import { SmartLink } from '@/shared/ui/SmartLink'
+import { LineBreak, Text } from '@/shared/ui/Text'
 import type { ApplianceCategory, ServiceType, TimeSlot, TimeSlotGroup } from '../model/types'
 
 const TIMER_SECONDS = 1 * 10
@@ -62,7 +63,7 @@ export function StepConfirmation({
     <Container className="flex flex-col gap-8">
       <Breadcrumb items={[{ label: 'Сервис', href: '/' }, { label: 'Вызвать мастера' }]} />
 
-      <Heading size="xl" className="hidden sm:block">
+      <Heading level={1} size="xl" className="hidden sm:block">
         Вызвать мастера
       </Heading>
 
@@ -70,47 +71,50 @@ export function StepConfirmation({
         className="text-tertiary flex flex-col text-[21px] leading-8
           sm:text-[24px]"
       >
-        <span>
+        <Text as="span">
           {SERVICE_TYPE_LABEL[serviceType]} {category.label.toLowerCase()}
-        </span>
-        <span>{selectedGroup.label},</span>
-        <span>
+        </Text>
+        <Text as="span">{selectedGroup.label},</Text>
+        <Text as="span">
           {selectedSlot.start} — {selectedSlot.end}
-        </span>
+        </Text>
       </Box>
 
       <Box>
         {expired ? (
-          <Heading size="lg">Время истекло</Heading>
+          <Heading level={2} size="lg">
+            Время истекло
+          </Heading>
         ) : (
-          <p className="text-[21px] leading-8 sm:text-[24px]">
-            <span className="font-semibold">Подтвердите заявку</span>
-            <br />
-            <span className="text-tertiary">в течении {formatTimer(remaining)}</span>
-          </p>
+          <Text className="text-[21px] leading-8 sm:text-[24px]">
+            <Text as="span" className="font-semibold">
+              Подтвердите заявку
+            </Text>
+            <LineBreak />
+            <Text as="span" className="text-tertiary">
+              в течении {formatTimer(remaining)}
+            </Text>
+          </Text>
         )}
       </Box>
 
       <Box className="flex flex-col gap-3">
-        <Text size="sm" className="font-semibold">
-          Позвоните на бесплатный номер
-        </Text>
-        <a
+        <Text className="cursor-default text-primary text-sm font-semibold">Позвоните на бесплатный номер</Text>
+        <SmartLink
           href={PHONE_HREF}
           className="text-[32px] leading-tight font-bold tracking-tight
             sm:text-[44px]"
         >
           {PHONE_NUMBER}
-        </a>
+        </SmartLink>
         {!expired && (
           <Box className="flex items-center gap-2">
-            <span
+            <Text
+              as="span"
               className="text-primary-500 inline-block size-4 animate-spin
                 rounded-full border-2 border-current border-t-transparent"
             />
-            <Text size="sm" className="text-primary-500">
-              Ожидаем вашего звонка
-            </Text>
+            <Text className="cursor-default font-normal text-sm text-primary-500">Ожидаем вашего звонка</Text>
           </Box>
         )}
       </Box>
@@ -119,7 +123,7 @@ export function StepConfirmation({
         Отменить заявку
       </Button>
 
-      <Text size="xs" variant="disabled" className="max-w-130">
+      <Text className="cursor-default font-normal text-disabled text-xs max-w-130">
         Позвонив по номеру, вы даете согласие на обработку персональных данных, в соответствии с Федеральным законом от
         27.07.2006 года №152-ФЗ «О персональных данных» для целей и на условиях, представленных в политике
         конфиденциальности

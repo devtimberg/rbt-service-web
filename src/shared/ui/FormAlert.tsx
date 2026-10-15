@@ -4,7 +4,10 @@ import { Text } from './Text'
 export function FormAlert({ message }: { message?: string | undefined }) {
   if (!message) return null
   return (
-    <Text role="alert" variant="error" size="sm" className="bg-destructive/10 rounded-2xl px-4 py-3">
+    <Text
+      role="alert"
+      className="cursor-default font-normal text-input-error-message leading-5! text-sm bg-destructive/10 rounded-2xl px-4 py-3"
+    >
       {message}
     </Text>
   )

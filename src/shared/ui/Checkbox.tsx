@@ -29,7 +29,7 @@ export function Checkbox({ className, checked, onCheckedChange, onChange, disabl
   }
 
   return (
-    <span data-slot="checkbox" className={cn('relative inline-flex size-4.5 shrink-0', className)}>
+    <span className={cn('relative inline-flex size-4.5 shrink-0', className)}>
       <input
         ref={ref}
         type="checkbox"

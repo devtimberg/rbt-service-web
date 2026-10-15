@@ -1,9 +1,13 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { LoaderIcon } from './icons'
 import { SmartLink } from './SmartLink'
 
-export type ButtonVariant = 'default' | 'primary' | 'secondary' | 'disabled' | 'ghost' | 'link' | 'inverse'
+/**
+ * unstyled: голая `<button>` без классов, оболочки и спиннера — вид целиком из `className`
+ * (строки поиска, счётчик количества). У unstyled `size`, `rounded` и `icon` не действуют.
+ */
+export type ButtonVariant = 'default' | 'primary' | 'secondary' | 'disabled' | 'ghost' | 'link' | 'inverse' | 'unstyled'
 export type ButtonSize = 'md' | 'sm' | 'xs' | 'lg' | 'full' | 'icon' | 'iconRight'
 export type ButtonRounded = 'default' | 'full' | 'md' | 'lg'
 
@@ -17,7 +21,7 @@ type ButtonStyleProps = {
 }
 
 type ButtonAsButtonProps = ButtonStyleProps &
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & {
+  Omit<ComponentProps<'button'>, 'className'> & {
     href?: undefined
     /** Показывает спиннер и блокирует кнопку. */
     loading?: boolean
@@ -28,14 +32,14 @@ type ButtonAsButtonProps = ButtonStyleProps &
  * заменяется на `<Button href="...">`.
  */
 type ButtonAsLinkProps = ButtonStyleProps &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'className' | 'href'> & {
+  Omit<ComponentProps<'a'>, 'className' | 'href'> & {
     href: string
     loading?: undefined
   }
 
 export type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps
 
-const variants: Record<ButtonVariant, string> = {
+const variants: Record<Exclude<ButtonVariant, 'unstyled'>, string> = {
   default: 'bg-action-primary-bg text-action-primary-fg hover:bg-action-primary-bg/90',
   primary: 'bg-primary-900 text-inverse hover:bg-primary-900/90',
   secondary: 'bg-primary-100/10 text-primary-900 hover:bg-primary-100/15',
@@ -73,7 +77,7 @@ export function buttonClass({
   return cn(
     'relative inline-flex cursor-pointer items-center justify-center font-semibold whitespace-nowrap transition-colors',
     'focus-visible:outline-none disabled:pointer-events-none disabled:cursor-not-allowed',
-    variants[variant],
+    variant !== 'unstyled' && variants[variant],
     sizes[size],
     radii[rounded],
     className,
@@ -82,12 +86,25 @@ export function buttonClass({
 
 export function Button(props: ButtonProps) {
   const { variant, size, rounded, icon, className, ...rest } = props
+  if (variant === 'unstyled' && props.href === undefined) {
+    const {
+      loading: _loading,
+      type = 'button',
+      children,
+      ...button
+    } = rest as Omit<ButtonAsButtonProps, keyof ButtonStyleProps>
+    return (
+      <button type={type} className={className} {...button}>
+        {children}
+      </button>
+    )
+  }
   const classes = buttonClass({ variant, size, rounded, className })
 
   if (rest.href !== undefined) {
     const { href, loading: _loading, children, ...anchor } = rest
     return (
-      <SmartLink href={href} data-slot="button" className={classes} {...anchor}>
+      <SmartLink href={href} className={classes} {...anchor}>
         <span className="inline-flex items-center gap-2">
           {icon}
           {children}
@@ -100,7 +117,7 @@ export function Button(props: ButtonProps) {
   return (
     <button
       type={type}
-      data-slot="button"
+
       className={classes}
       disabled={loading || disabled}
       aria-busy={loading || undefined}

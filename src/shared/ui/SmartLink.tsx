@@ -1,7 +1,7 @@
 import { Link, useRouter } from '@tanstack/react-router'
-import type { AnchorHTMLAttributes } from 'react'
+import type { ComponentProps } from 'react'
 
-type SmartLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+type SmartLinkProps = Omit<ComponentProps<'a'>, 'href'> & {
   href: string
 }
 

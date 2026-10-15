@@ -11,10 +11,11 @@ import {
 } from '@/entities/session'
 import { useFormValues } from '@/shared/lib/useFormValues'
 import { useResendCountdown } from '@/shared/lib/useResendCountdown'
+import { Stack } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
-import { Field, OtpField } from '@/shared/ui/Field'
+import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
-import { VStack } from '@/shared/ui/VStack'
+import { TextField, OtpField } from '@/shared/ui/TextField'
 
 export function PasswordResetConfirmStep({
   email,
@@ -58,7 +59,7 @@ export function PasswordResetConfirmStep({
       description={`Если аккаунт с ${email} существует, на него отправлен код из ${OTP_LENGTH} цифр. Он действует 5 минут.`}
       footer={
         <>
-          <VStack gap={2}>
+          <Stack gap={2}>
             <Button
               variant="link"
               className="mx-auto"
@@ -68,19 +69,19 @@ export function PasswordResetConfirmStep({
               {canResend ? 'Отправить код заново' : `Повторно через ${label}`}
             </Button>
             <FormAlert message={resultMessage(resend.data, resend.error)} />
-          </VStack>
+          </Stack>
           <Button variant="link" className="mx-auto" onClick={onBack}>
             Изменить email
           </Button>
         </>
       }
     >
-      <form onSubmit={handleSubmit} noValidate>
-        <VStack gap={4}>
+      <Form onSubmit={handleSubmit} noValidate>
+        <Stack gap={4}>
           {/* Фокус в поле кода после смены шага: пользователь сразу вводит код из письма */}
           {/* oxlint-disable-next-line jsx-a11y/no-autofocus */}
           <OtpField length={OTP_LENGTH} error={errors.code} autoFocus {...bind('code')} />
-          <Field
+          <TextField
             label="Новый пароль"
             name="newPassword"
             type="password"
@@ -89,7 +90,7 @@ export function PasswordResetConfirmStep({
             error={errors.newPassword}
             {...bind('newPassword')}
           />
-          <Field
+          <TextField
             label="Повторите пароль"
             name="passwordConfirm"
             type="password"
@@ -101,8 +102,8 @@ export function PasswordResetConfirmStep({
           <Button type="submit" size="full" className="h-12" loading={confirm.isPending}>
             Сменить пароль
           </Button>
-        </VStack>
-      </form>
+        </Stack>
+      </Form>
     </AuthShell>
   )
 }

@@ -61,7 +61,7 @@ export function SheetClose({ onClick, ...props }: ComponentProps<'button'>) {
   return (
     <button
       type="button"
-      data-slot="sheet-close"
+
       onClick={(event) => {
         onClick?.(event)
         if (!event.defaultPrevented) onOpenChange(false)
@@ -72,11 +72,11 @@ export function SheetClose({ onClick, ...props }: ComponentProps<'button'>) {
 }
 
 export function SheetHeader({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="sheet-header" className={cn('flex flex-col gap-1.5 p-4', className)} {...props} />
+  return <div className={cn('flex flex-col gap-1.5 p-4', className)} {...props} />
 }
 
 export function SheetFooter({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="sheet-footer" className={cn('mt-auto flex flex-col gap-2 p-4', className)} {...props} />
+  return <div className={cn('mt-auto flex flex-col gap-2 p-4', className)} {...props} />
 }
 
 export function SheetTitle({ className, ...props }: ComponentProps<'h2'>) {
@@ -86,7 +86,7 @@ export function SheetTitle({ className, ...props }: ComponentProps<'h2'>) {
     // oxlint-disable-next-line jsx-a11y/heading-has-content
     <h2
       id={titleId}
-      data-slot="sheet-title"
+
       className={cn('text-xl font-semibold text-primary', className)}
       {...props}
     />
@@ -95,7 +95,5 @@ export function SheetTitle({ className, ...props }: ComponentProps<'h2'>) {
 
 export function SheetDescription({ className, ...props }: ComponentProps<'p'>) {
   const { descriptionId } = useSheet()
-  return (
-    <p id={descriptionId} data-slot="sheet-description" className={cn('text-sm text-tertiary', className)} {...props} />
-  )
+  return <p id={descriptionId} className={cn('text-sm text-tertiary', className)} {...props} />
 }

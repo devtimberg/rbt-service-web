@@ -11,10 +11,11 @@ import {
 } from '@/entities/session'
 import { useFormValues } from '@/shared/lib/useFormValues'
 import { useResendCountdown } from '@/shared/lib/useResendCountdown'
+import { Stack } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
-import { OtpField } from '@/shared/ui/Field'
+import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
-import { VStack } from '@/shared/ui/VStack'
+import { OtpField } from '@/shared/ui/TextField'
 
 export function SignupCodeStep({
   email,
@@ -56,7 +57,7 @@ export function SignupCodeStep({
       description={`Код из ${OTP_LENGTH} цифр отправлен на ${email}. Он действует 5 минут.`}
       footer={
         <>
-          <VStack gap={2}>
+          <Stack gap={2}>
             <Button
               variant="link"
               className="mx-auto"
@@ -66,15 +67,15 @@ export function SignupCodeStep({
               {canResend ? 'Отправить код заново' : `Повторно через ${label}`}
             </Button>
             <FormAlert message={resultMessage(resend.data, resend.error)} />
-          </VStack>
+          </Stack>
           <Button variant="link" className="mx-auto" onClick={onBack}>
             Изменить email
           </Button>
         </>
       }
     >
-      <form onSubmit={handleSubmit} noValidate>
-        <VStack gap={4}>
+      <Form onSubmit={handleSubmit} noValidate>
+        <Stack gap={4}>
           {/* Фокус в поле кода после смены шага: пользователь сразу вводит код из письма */}
           {/* oxlint-disable-next-line jsx-a11y/no-autofocus */}
           <OtpField length={OTP_LENGTH} error={errors.code} autoFocus {...bind('code')} />
@@ -82,8 +83,8 @@ export function SignupCodeStep({
           <Button type="submit" size="full" className="h-12" loading={verify.isPending}>
             Подтвердить
           </Button>
-        </VStack>
-      </form>
+        </Stack>
+      </Form>
     </AuthShell>
   )
 }

@@ -2,6 +2,7 @@ import { Outlet, useMatches, useRouterState } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { rehydrateCartStore } from '@/entities/cart'
 import { rehydrateFavoritesStore } from '@/entities/favorite'
+import { Box } from '@/shared/ui/Box'
 import { ScrollArea } from '@/shared/ui/ScrollArea'
 import { CatalogSearch } from '@/widgets/catalog-search'
 import { Header } from '@/widgets/header'
@@ -35,13 +36,13 @@ export function RootLayout() {
         style={lockBackground ? { overflowY: 'hidden' } : undefined}
       >
         <Header search={<CatalogSearch />} />
-        <div
+        <Box
           data-layout-main-content="true"
           className="flex min-h-0 flex-1 flex-col"
           style={lockBackground ? { visibility: 'hidden', pointerEvents: 'none' } : undefined}
         >
           {isSheet ? null : <Outlet />}
-        </div>
+        </Box>
       </ScrollArea>
       <MobileBottomNav />
       {rendered ? (
@@ -49,7 +50,7 @@ export function RootLayout() {
           {isSheet ? <Outlet /> : null}
         </SheetLayout>
       ) : null}
-      <div id="portal-root" data-portal-root="true" />
+      <Box id="portal-root" data-portal-root="true" />
     </>
   )
 }

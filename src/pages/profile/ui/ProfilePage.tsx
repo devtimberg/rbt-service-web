@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { sessionQuery } from '@/entities/session'
 import { LogoutButton } from '@/features/auth/logout'
-import { Box } from '@/shared/ui/Box'
+import { Box, Stack } from '@/shared/ui/Box'
 import { Container } from '@/shared/ui/Container'
 import { Heading } from '@/shared/ui/Heading'
 import { Skeleton } from '@/shared/ui/Skeleton'
 import { Text } from '@/shared/ui/Text'
-import { VStack } from '@/shared/ui/VStack'
 
 export function ProfilePage() {
   const { data: user, isPending } = useQuery(sessionQuery())
@@ -30,20 +29,20 @@ export function ProfilePage() {
 
   return (
     <Container className="flex max-w-md flex-col gap-6 px-3 sm:px-0">
-      <Heading size="lg">Профиль</Heading>
+      <Heading level={2} size="lg">
+        Профиль
+      </Heading>
 
       <Box className="bg-primary-100/10 rounded-2xl px-4 py-4">
-        <VStack gap={1}>
-          <Text className="font-medium">{fullName || 'Без имени'}</Text>
-          <Text variant="secondary" size="sm">
-            {user.email}
-          </Text>
+        <Stack gap={1}>
+          <Text className="cursor-default text-primary text-base font-medium">{fullName || 'Без имени'}</Text>
+          <Text className="cursor-default font-normal text-secondary text-sm">{user.email}</Text>
           {!user.isEmailVerified ? (
-            <Text variant="error" size="xs">
+            <Text className="cursor-default font-normal text-input-error-message leading-5! text-xs">
               Email не подтверждён
             </Text>
           ) : null}
-        </VStack>
+        </Stack>
       </Box>
 
       <LogoutButton />

@@ -1,4 +1,5 @@
 import { CATALOG_CATEGORIES } from '@/entities/category'
+import { Box } from '@/shared/ui/Box'
 import { Breadcrumb } from '@/shared/ui/Breadcrumb'
 import { Container } from '@/shared/ui/Container'
 import { Heading } from '@/shared/ui/Heading'
@@ -9,16 +10,18 @@ const TEMP_HREF = '/catalog/refrigerators'
 
 export function CatalogPage() {
   return (
-    <div className="flex grow flex-col">
+    <Box className="flex grow flex-col">
       <Container>
         <Breadcrumb items={[{ label: 'Каталог' }]} />
       </Container>
 
       <Container className="mt-6 flex flex-col gap-10">
         {CATALOG_CATEGORIES.map((category) => (
-          <section key={category.title}>
-            <Heading size="lg">{category.title}</Heading>
-            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+          <Box as="section" key={category.title}>
+            <Heading level={2} size="lg">
+              {category.title}
+            </Heading>
+            <Box className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
               {category.items.map((item) => (
                 <SmartLink
                   key={item}
@@ -28,14 +31,14 @@ export function CatalogPage() {
                   {item}
                 </SmartLink>
               ))}
-            </div>
-          </section>
+            </Box>
+          </Box>
         ))}
       </Container>
 
-      <div className="mt-auto">
+      <Box className="mt-auto">
         <Footer variant="default" />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

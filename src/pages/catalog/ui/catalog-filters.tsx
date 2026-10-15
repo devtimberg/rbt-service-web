@@ -4,7 +4,9 @@ import { cn } from '@/shared/lib/cn'
 import { Box } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
 import { Checkbox } from '@/shared/ui/Checkbox'
+import { Label } from '@/shared/ui/Field'
 import { Heading } from '@/shared/ui/Heading'
+import { Input } from '@/shared/ui/Input'
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/RadioGroup'
 import { Text } from '@/shared/ui/Text'
 
@@ -41,10 +43,10 @@ export function CatalogFilters({ filterGroups, availabilityGroup, priceRange, cl
   }
 
   return (
-    <aside className={cn('flex w-68! flex-col gap-6 rounded-[24px] bg-white p-6', className)}>
+    <Box as="aside" className={cn('flex w-68! flex-col gap-6 rounded-[24px] bg-white p-6', className)}>
       {/* Header */}
       <Box className="flex items-center justify-between gap-3">
-        <Heading size="xs" className="h-5 text-[16px]! font-bold!">
+        <Heading level={5} size="xs" className="h-5 text-[16px]! font-bold!">
           Фильтры
         </Heading>
         {activeCount > 0 && (
@@ -56,69 +58,80 @@ export function CatalogFilters({ filterGroups, availabilityGroup, priceRange, cl
             >
               Сбросить
             </Button>
-            <span
+            <Text
+              as="span"
               className="bg-secondary-500 flex size-5 items-center
                 justify-center rounded-full text-xs font-medium text-white"
             >
               {activeCount}
-            </span>
+            </Text>
           </Box>
         )}
       </Box>
 
       {/* Filter groups */}
       {filterGroups.map((group) => (
-        <div key={group.title} className="flex flex-col gap-3">
-          <Text className="font-medium">{group.title}</Text>
-          <div className="flex flex-col gap-2.5">
+        <Box key={group.title} className="flex flex-col gap-3">
+          <Text className="cursor-default text-primary text-base font-medium">{group.title}</Text>
+          <Box className="flex flex-col gap-2.5">
             {group.options.map((option) => {
               const checked = selectedFilters[group.title]?.has(option.value) ?? false
               return (
-                <label key={option.value} className="flex cursor-pointer items-center gap-2.5">
+                <Label key={option.value} className="flex cursor-pointer items-center gap-2.5">
                   <Checkbox checked={checked} onCheckedChange={() => toggleFilter(group.title, option.value)} />
-                  <span className="text-pretty text-sm">{option.label}</span>
-                  {option.count != null && <span className="text-tertiary text-sm">{option.count}</span>}
-                </label>
+                  <Text as="span" className="text-pretty text-sm">
+                    {option.label}
+                  </Text>
+                  {option.count != null && (
+                    <Text as="span" className="text-tertiary text-sm">
+                      {option.count}
+                    </Text>
+                  )}
+                </Label>
               )
             })}
-          </div>
-        </div>
+          </Box>
+        </Box>
       ))}
 
       {/* Price range */}
-      <div className="flex flex-col gap-3">
-        <Text className="font-medium">Цена, ₽</Text>
-        <div className="flex items-center gap-2">
-          <input
+      <Box className="flex flex-col gap-3">
+        <Text className="cursor-default text-primary text-base font-medium">Цена, ₽</Text>
+        <Box className="flex items-center gap-2">
+          <Input
             type="text"
             placeholder={`от ${priceRange.min}`}
             className="border-border-default placeholder:text-input-placeholder
               focus:border-primary-500 h-10 w-full rounded-xl border px-3
               text-sm outline-none"
           />
-          <span className="text-disabled shrink-0">—</span>
-          <input
+          <Text as="span" className="text-disabled shrink-0">
+            —
+          </Text>
+          <Input
             type="text"
             placeholder={`до ${priceRange.max.toLocaleString('ru-RU')}`}
             className="border-border-default placeholder:text-input-placeholder
               focus:border-primary-500 h-10 w-full rounded-xl border px-3
               text-sm outline-none"
           />
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       {/* Availability */}
-      <div className="flex flex-col gap-3">
-        <Text className="font-medium">{availabilityGroup.title}</Text>
+      <Box className="flex flex-col gap-3">
+        <Text className="cursor-default text-primary text-base font-medium">{availabilityGroup.title}</Text>
         <RadioGroup value={selectedAvailability} onValueChange={setSelectedAvailability} className="gap-2.5">
           {availabilityGroup.options.map((option) => (
-            <label key={option.value} className="flex cursor-pointer items-center gap-2.5">
+            <Label key={option.value} className="flex cursor-pointer items-center gap-2.5">
               <RadioGroupItem value={option.value} />
-              <span className="text-sm">{option.label}</span>
-            </label>
+              <Text as="span" className="text-sm">
+                {option.label}
+              </Text>
+            </Label>
           ))}
         </RadioGroup>
-      </div>
-    </aside>
+      </Box>
+    </Box>
   )
 }

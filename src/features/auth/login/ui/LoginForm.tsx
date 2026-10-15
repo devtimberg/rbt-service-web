@@ -2,12 +2,13 @@ import { useState, type FormEvent } from 'react'
 import { AuthShell, fieldErrors, loginSchema, resultMessage } from '@/entities/session'
 import { ROUTES } from '@/shared/config'
 import { useFormValues } from '@/shared/lib/useFormValues'
+import { Stack } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
-import { Field } from '@/shared/ui/Field'
+import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
 import { SmartLink } from '@/shared/ui/SmartLink'
 import { Text } from '@/shared/ui/Text'
-import { VStack } from '@/shared/ui/VStack'
+import { TextField } from '@/shared/ui/TextField'
 import { useLogin } from '../model/useLogin'
 
 /** Форма входа. `redirectTo` — адрес возврата из search-параметра `redirect` (проверяется на безопасность при переходе). */
@@ -33,7 +34,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string | undefined }) {
       description="Войдите, чтобы видеть свои заказы, избранное и корзину"
       footer={
         <>
-          <Text variant="secondary" size="sm" className="text-center">
+          <Text className="cursor-default font-normal text-secondary text-sm text-center">
             Нет аккаунта?{' '}
             <SmartLink href={ROUTES.SIGNUP} className="text-link font-medium">
               Зарегистрироваться
@@ -46,9 +47,9 @@ export function LoginForm({ redirectTo }: { redirectTo?: string | undefined }) {
       }
     >
       {/* noValidate: нативные подсказки браузера не переводятся и перебивают сообщения zod */}
-      <form onSubmit={handleSubmit} noValidate>
-        <VStack gap={4}>
-          <Field
+      <Form onSubmit={handleSubmit} noValidate>
+        <Stack gap={4}>
+          <TextField
             label="Email"
             name="email"
             type="email"
@@ -57,7 +58,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string | undefined }) {
             error={errors.email}
             {...bind('email')}
           />
-          <Field
+          <TextField
             label="Пароль"
             name="password"
             type="password"
@@ -69,8 +70,8 @@ export function LoginForm({ redirectTo }: { redirectTo?: string | undefined }) {
           <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
             Войти
           </Button>
-        </VStack>
-      </form>
+        </Stack>
+      </Form>
     </AuthShell>
   )
 }

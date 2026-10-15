@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { Box } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
 import { Checkbox } from '@/shared/ui/Checkbox'
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog'
+import { Label } from '@/shared/ui/Field'
 import { IconButton } from '@/shared/ui/IconButton'
 import { DeleteIcon, ShareIcon } from '@/shared/ui/icons'
 import { Text } from '@/shared/ui/Text'
@@ -30,20 +32,18 @@ export function CartSelectionBar({
   const checked = allSelected ? true : someSelected ? 'indeterminate' : false
 
   return (
-    <div
+    <Box
       className="flex items-center justify-between rounded-2xl bg-white px-4
         py-3"
     >
       {/* Left: select all */}
-      <label className="flex cursor-pointer items-center gap-3">
+      <Label className="flex cursor-pointer items-center gap-3">
         <Checkbox checked={checked} onCheckedChange={() => (allSelected ? onDeselectAll() : onSelectAll())} />
-        <Text size="sm" className="font-medium">
-          Выбрать все
-        </Text>
-      </label>
+        <Text className="cursor-default text-primary text-sm font-medium">Выбрать все</Text>
+      </Label>
 
       {/* Right: share + delete */}
-      <div className="flex items-center gap-2">
+      <Box className="flex items-center gap-2">
         <Button
           variant="secondary"
           size="sm"
@@ -73,7 +73,7 @@ export function CartSelectionBar({
           confirmLabel="Удалить"
           onConfirm={onDeleteSelected}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

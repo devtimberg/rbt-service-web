@@ -130,7 +130,7 @@ export function IconButton({
     href !== undefined ? (
       <SmartLink
         href={href}
-        data-slot="icon-button"
+
         data-variant={variant}
         data-size={size}
         className={classes}
@@ -144,7 +144,7 @@ export function IconButton({
     ) : (
       <button
         type="button"
-        data-slot="icon-button"
+
         data-variant={variant}
         data-size={size}
         className={classes}

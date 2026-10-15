@@ -2,12 +2,13 @@ import { useMutation } from '@tanstack/react-query'
 import { useState, type FormEvent } from 'react'
 import { AuthShell, fieldErrors, resultMessage, signupStart, signupStartSchema } from '@/entities/session'
 import { ROUTES } from '@/shared/config'
+import { Stack } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
-import { Field } from '@/shared/ui/Field'
+import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
 import { SmartLink } from '@/shared/ui/SmartLink'
 import { Text } from '@/shared/ui/Text'
-import { VStack } from '@/shared/ui/VStack'
+import { TextField } from '@/shared/ui/TextField'
 
 export function SignupEmailStep({ onSubmitted }: { onSubmitted: (email: string, resendIn: number) => void }) {
   const mutation = useMutation({ mutationFn: (email: string) => signupStart({ data: { email } }) })
@@ -34,7 +35,7 @@ export function SignupEmailStep({ onSubmitted }: { onSubmitted: (email: string, 
       title="Регистрация"
       description="Отправим код подтверждения на ваш email"
       footer={
-        <Text variant="secondary" size="sm" className="text-center">
+        <Text className="cursor-default font-normal text-secondary text-sm text-center">
           Уже есть аккаунт?{' '}
           <SmartLink href={ROUTES.LOGIN} className="text-link font-medium">
             Войти
@@ -42,9 +43,9 @@ export function SignupEmailStep({ onSubmitted }: { onSubmitted: (email: string, 
         </Text>
       }
     >
-      <form onSubmit={handleSubmit} noValidate>
-        <VStack gap={4}>
-          <Field
+      <Form onSubmit={handleSubmit} noValidate>
+        <Stack gap={4}>
+          <TextField
             label="Email"
             name="email"
             type="email"
@@ -58,8 +59,8 @@ export function SignupEmailStep({ onSubmitted }: { onSubmitted: (email: string, 
           <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
             Отправить код
           </Button>
-        </VStack>
-      </form>
+        </Stack>
+      </Form>
     </AuthShell>
   )
 }

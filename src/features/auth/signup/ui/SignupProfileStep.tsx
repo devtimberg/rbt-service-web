@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from 'react'
 import { AuthShell, fieldErrors, resultMessage, signupCompleteSchema } from '@/entities/session'
 import { useFormValues } from '@/shared/lib/useFormValues'
+import { Stack } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
-import { Field } from '@/shared/ui/Field'
+import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
-import { VStack } from '@/shared/ui/VStack'
+import { TextField } from '@/shared/ui/TextField'
 import { useSignupComplete } from '../model/useSignupComplete'
 
 export function SignupProfileStep({ ticket, redirectTo }: { ticket: string; redirectTo?: string | undefined }) {
@@ -25,23 +26,23 @@ export function SignupProfileStep({ ticket, redirectTo }: { ticket: string; redi
 
   return (
     <AuthShell title="Немного о вас" description="Осталось указать имя и придумать пароль">
-      <form onSubmit={handleSubmit} noValidate>
-        <VStack gap={4}>
-          <Field
+      <Form onSubmit={handleSubmit} noValidate>
+        <Stack gap={4}>
+          <TextField
             label="Имя"
             name="firstName"
             autoComplete="given-name"
             error={errors.firstName}
             {...bind('firstName')}
           />
-          <Field
+          <TextField
             label="Фамилия"
             name="lastName"
             autoComplete="family-name"
             error={errors.lastName}
             {...bind('lastName')}
           />
-          <Field
+          <TextField
             label="Пароль"
             name="password"
             type="password"
@@ -50,7 +51,7 @@ export function SignupProfileStep({ ticket, redirectTo }: { ticket: string; redi
             error={errors.password}
             {...bind('password')}
           />
-          <Field
+          <TextField
             label="Повторите пароль"
             name="passwordConfirm"
             type="password"
@@ -62,8 +63,8 @@ export function SignupProfileStep({ ticket, redirectTo }: { ticket: string; redi
           <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
             Создать аккаунт
           </Button>
-        </VStack>
-      </form>
+        </Stack>
+      </Form>
     </AuthShell>
   )
 }
