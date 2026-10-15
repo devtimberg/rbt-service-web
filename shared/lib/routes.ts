@@ -1,35 +1,14 @@
 import type { ComponentType } from "react";
+import { LoginPage, PasswordResetPage, SignupPage } from "@/screens/auth";
 import { CartPage } from "@/screens/cart";
 import { CatalogPage, CatalogSubcategoryPage } from "@/screens/catalog";
 import { FavoritePage } from "@/screens/favorite";
 import { MasterCallPage } from "@/screens/master-call";
 import { ProfilePage } from "@/screens/profile";
 import { SearchPage } from "@/screens/search";
+import { ROUTES, type AppRoute } from "./route-paths";
 
-export const ROUTES = {
-  HOME: "/",
-  CATALOG: "/catalog",
-  FAVORITE: "/favorite",
-  COMPARE: "/compare",
-  CART: "/cart",
-  PROFILE: "/profile",
-  ORDERS_STATUS: "/orders-status",
-  PARTS_REQUEST: "/parts/request",
-  SERVICES_REPAIR: "/services-repair",
-  MASTER_CALL: "/master-call",
-  FEEDBACK: "/feedback",
-  SEARCH: "/search",
-} as const;
-
-/** Пути, при которых в нижней панели активна вкладка «Главная» */
-export const HOME_NAV_PATHS: string[] = [
-  ROUTES.HOME,
-  ROUTES.MASTER_CALL,
-  ROUTES.SERVICES_REPAIR,
-  ROUTES.FEEDBACK,
-];
-
-export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES];
+export * from "./route-paths";
 
 export type RouteConfig = {
   path: string;
@@ -85,6 +64,21 @@ export const ROUTE_CONFIG: Record<AppRoute, RouteConfig> = {
     path: ROUTES.SEARCH,
     title: "Поиск",
     sheetComponent: SearchPage,
+  },
+  [ROUTES.LOGIN]: {
+    path: ROUTES.LOGIN,
+    title: "Вход",
+    sheetComponent: LoginPage,
+  },
+  [ROUTES.SIGNUP]: {
+    path: ROUTES.SIGNUP,
+    title: "Регистрация",
+    sheetComponent: SignupPage,
+  },
+  [ROUTES.PASSWORD_RESET]: {
+    path: ROUTES.PASSWORD_RESET,
+    title: "Восстановление пароля",
+    sheetComponent: PasswordResetPage,
   },
 };
 
