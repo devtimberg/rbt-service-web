@@ -23,8 +23,8 @@ help: ## Показать этот список целей
 install: ## Установить зависимости (bun install --frozen-lockfile)
 	bun install --frozen-lockfile
 
-dev: ## Dev-сервер (vp dev)
-	bun run dev
+dev: ## Dev-сервер, доступен в локальной сети (vp dev --host)
+	bunx vp dev --host 0.0.0.0
 
 build: ## Собрать прод-сборку (vp build)
 	bun run build
