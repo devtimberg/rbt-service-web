@@ -16,6 +16,8 @@ describe('toUserMessage', () => {
     ['refresh_token_expired', 'Сессия истекла, войдите заново'],
     ['refresh_token_revoked', 'Сессия отозвана, войдите заново'],
     ['refresh_token_reused', 'Сессия завершена из соображений безопасности'],
+    ['unauthorized', 'Сессия истекла, войдите заново'],
+    ['token_revoked', 'Сессия отозвана, войдите заново'],
     ['rate_limited', 'Слишком много попыток, попробуйте позже'],
     ['session_not_found', 'Сессия не найдена'],
     ['session_unknown', 'Обновите сессию и повторите'],

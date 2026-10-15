@@ -20,6 +20,12 @@ export class ApiError extends Error {
   get isRateLimited() {
     return this.status === 429
   }
+
+  /** 401: access-токен истёк, отозван или не передан. На `/auth/login` приходит `invalid_credentials` с тем же статусом,
+   * но защищённые эндпоинты (password-change, logout-all) отвечают так только про сессию. */
+  get isUnauthorized() {
+    return this.status === 401
+  }
 }
 
 /** Сеть недоступна / бэкенд не ответил. Отделяем от ApiError:
@@ -31,6 +37,10 @@ export class ApiNetworkError extends Error {
     this.cause = cause
   }
 }
+
+/** Коды для 401 в формате Bolt `{"detail": ...}` (без поля `code`), см. `readErrorBody` в client.ts. */
+export const UNAUTHORIZED_CODE = 'unauthorized'
+export const UNAUTHORIZED_REVOKED_CODE = 'token_revoked'
 
 export const UNKNOWN_ERROR_MESSAGE = 'Что-то пошло не так, попробуйте ещё раз'
 
@@ -45,6 +55,8 @@ const MESSAGES: Record<string, string> = {
   refresh_token_expired: 'Сессия истекла, войдите заново',
   refresh_token_revoked: 'Сессия отозвана, войдите заново',
   refresh_token_reused: 'Сессия завершена из соображений безопасности',
+  [UNAUTHORIZED_CODE]: 'Сессия истекла, войдите заново',
+  [UNAUTHORIZED_REVOKED_CODE]: 'Сессия отозвана, войдите заново',
   rate_limited: 'Слишком много попыток, попробуйте позже',
   session_not_found: 'Сессия не найдена',
   session_unknown: 'Обновите сессию и повторите',

@@ -9,16 +9,11 @@ import {
   signupStartSchema,
   signupVerifySchema,
 } from '../model/schemas'
+import { sessionFromApi } from '../model/session-data'
 import type { SessionUser } from '../model/types'
+import { logoutAction, logoutAllAction, passwordChangeAction } from './auth-actions.server'
 import * as authApi from './auth-api.server'
-import {
-  clearSession,
-  getClientMeta,
-  getValidSession,
-  readSession,
-  sessionFromApi,
-  writeSession,
-} from './session.server'
+import { getClientMeta, getValidSession, writeSession } from './session.server'
 
 // Серверные функции (RPC). Тела handler'ов выполняются только на сервере, `*.server.ts` импортируются
 // из них, поэтому в клиентский бандл серверный код не попадает.
@@ -42,29 +37,11 @@ export const login = createServerFn({ method: 'POST' })
     }
   })
 
-/** Выход: ошибки API глотаем (эндпоинт идемпотентен, токены могли уже протухнуть), cookie чистим всегда. */
-export const logout = createServerFn({ method: 'POST' }).handler(async (): Promise<ActionResult> => {
-  try {
-    const session = (await getValidSession()) ?? readSession()
-    if (session) await authApi.logout(session.accessToken, session.refreshToken)
-  } catch {
-    // см. комментарий выше
-  }
-  clearSession()
-  return { ok: true }
-})
+export const logout = createServerFn({ method: 'POST' }).handler(async (): Promise<ActionResult> => logoutAction())
 
-/** Выход со всех устройств. */
-export const logoutAll = createServerFn({ method: 'POST' }).handler(async (): Promise<ActionResult> => {
-  try {
-    const session = await getValidSession()
-    if (session) await authApi.logoutAll(session.accessToken)
-  } catch {
-    // см. logout
-  }
-  clearSession()
-  return { ok: true }
-})
+export const logoutAll = createServerFn({ method: 'POST' }).handler(async (): Promise<ActionResult> =>
+  logoutAllAction(),
+)
 
 export const signupStart = createServerFn({ method: 'POST' })
   .validator(signupStartSchema)
@@ -139,22 +116,6 @@ export const passwordResetConfirm = createServerFn({ method: 'POST' })
     }
   })
 
-/** Смена пароля: бэкенд отзывает все сессии и выдаёт текущему устройству новую пару токенов, её кладём в cookie. */
 export const passwordChange = createServerFn({ method: 'POST' })
   .validator(passwordChangeSchema)
-  .handler(async ({ data }): Promise<ActionResult<{ user: SessionUser }>> => {
-    try {
-      const current = await getValidSession()
-      if (!current) {
-        return { ok: false, message: 'Сессия недействительна, войдите заново' }
-      }
-      const session = sessionFromApi(
-        await authApi.passwordChange(current.accessToken, data.oldPassword, data.newPassword),
-        current.refreshToken,
-      )
-      writeSession(session)
-      return { ok: true, user: session.user }
-    } catch (error) {
-      return failureFrom(error)
-    }
-  })
+  .handler(async ({ data }): Promise<ActionResult<{ user: SessionUser }>> => passwordChangeAction(data))

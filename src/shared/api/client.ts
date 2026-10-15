@@ -1,5 +1,5 @@
 import { getServerEnv } from '@/shared/config'
-import { ApiError, ApiNetworkError } from './errors'
+import { ApiError, ApiNetworkError, UNAUTHORIZED_CODE, UNAUTHORIZED_REVOKED_CODE } from './errors'
 import type { ApiErrorBody } from './types'
 
 /** Bearer-режим: refresh приходит в теле ответа, а не HttpOnly-кукой.
@@ -68,13 +68,23 @@ export async function apiFetch<T>(
 }
 
 async function readErrorBody(response: Response): Promise<ApiErrorBody> {
+  type Body = (Partial<ApiErrorBody> & { detail?: unknown }) | null
+  let parsed: Body = null
   try {
-    const parsed = (await response.json()) as Partial<ApiErrorBody> | null
-    if (parsed && typeof parsed.code === 'string') {
-      return parsed as ApiErrorBody
-    }
+    parsed = (await response.json()) as Body
   } catch {
     // Не-JSON ответ (502 от прокси, HTML-страница ошибки) — падаем в fallback.
+  }
+  if (parsed && typeof parsed.code === 'string') {
+    return parsed as ApiErrorBody
+  }
+  if (response.status === 401) {
+    // Защищённые эндпоинты отвечают 401 в формате Bolt `{"detail": "token_revoked" | "Authentication required"}` без code.
+    const revoked = parsed?.detail === 'token_revoked'
+    return {
+      code: revoked ? UNAUTHORIZED_REVOKED_CODE : UNAUTHORIZED_CODE,
+      message: revoked ? 'Токен отозван' : 'Требуется авторизация',
+    }
   }
   return { code: `http_${response.status}`, message: 'Ошибка сервера' }
 }

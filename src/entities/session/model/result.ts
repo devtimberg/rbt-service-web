@@ -8,6 +8,8 @@ export type ActionFailure = {
   resendIn?: number
   /** Ошибки по конкретным полям. */
   fieldErrors?: Record<string, string>
+  /** Защищённый эндпоинт ответил 401: сессия мертва (cookie уже очищена), клиент должен сбросить кэш и отправить на вход. */
+  unauthorized?: true
 }
 
 export type ActionSuccess<T extends object = object> = { ok: true } & T

@@ -6,9 +6,10 @@ import {
   getRequestIP,
   setCookie,
 } from '@tanstack/react-start/server'
-import { ApiError, type ApiSession, type ClientMeta } from '@/shared/api'
+import { ApiError, type ClientMeta } from '@/shared/api'
 import { getServerEnv } from '@/shared/config'
-import { accessTokenExpiresAt, isAccessTokenFresh } from '../model/refresh'
+import { isAccessTokenFresh } from '../model/refresh'
+import { type RefreshedSession, sessionFromRefresh } from '../model/session-data'
 import type { SessionData } from '../model/types'
 import { refreshSession } from './auth-api.server'
 import { sealSession, unsealSession } from './cookie-seal.server'
@@ -50,13 +51,17 @@ export function clearSession(): void {
   requestSessions.set(getRequest(), null)
 }
 
-/** UA и IP браузера из входящего запроса: бэкенд пишет их в сессию, иначе в списке устройств окажется сервер приложения. */
+/** UA и IP браузера из входящего запроса: бэкенд пишет их в сессию, иначе в списке устройств окажется сервер приложения.
+ * X-Forwarded-For и X-Real-IP клиента подделываются, поэтому учитываем их только при `TRUST_PROXY=true`
+ * (приложение стоит за собственным прокси, который перезаписывает эти заголовки). Иначе IP берём из сокета. */
 export function getClientMeta(): ClientMeta {
   try {
-    const forwarded = getRequestHeader('x-forwarded-for')?.split(',')[0]?.trim()
+    const trustProxy = getServerEnv().TRUST_PROXY
     return {
       userAgent: getRequestHeader('user-agent'),
-      ip: getRequestIP({ xForwardedFor: true }) || forwarded || getRequestHeader('x-real-ip'),
+      ip: trustProxy
+        ? getRequestIP({ xForwardedFor: true }) || getRequestHeader('x-real-ip')
+        : getRequestIP({ xForwardedFor: false }),
     }
   } catch {
     // Вне контекста запроса заголовков нет.
@@ -64,37 +69,16 @@ export function getClientMeta(): ClientMeta {
   }
 }
 
-/** Данные сессии из ответа API. Без refreshToken в ответе (grace-окно бэкенда при гонке) остаётся прежний. */
-export function sessionFromApi(session: ApiSession, previousRefreshToken?: string): SessionData {
-  const refreshToken = session.refreshToken ?? previousRefreshToken
-  if (!refreshToken) {
-    // Не должно происходить: клиент всегда ходит с `X-Client-Type: native`.
-    throw new Error('API не вернул refreshToken в bearer-режиме')
-  }
-  return {
-    user: {
-      id: session.user.id,
-      email: session.user.email,
-      isEmailVerified: session.user.emailVerified,
-      firstName: session.user.firstName,
-      lastName: session.user.lastName,
-    },
-    accessToken: session.accessToken,
-    refreshToken,
-    accessTokenExpiresAt: accessTokenExpiresAt(session.expiresIn, Date.now()),
-  }
-}
-
 // Один refresh на refreshToken одновременно: параллельные запросы одного посетителя (SSR + RPC) ждут общий результат.
 // Ротация refresh на бэкенде одноразовая, второй параллельный вызов с тем же токеном отозвал бы всю семью.
 // Результат — null, если refresh не удался окончательно (токен отозван/истёк); временный сбой (сеть, 5xx) — исключение.
-const inflightRefresh = new Map<string, Promise<SessionData | null>>()
+const inflightRefresh = new Map<string, Promise<RefreshedSession | null>>()
 
-function refreshOnce(current: SessionData, clientMeta: ClientMeta): Promise<SessionData | null> {
+function refreshOnce(current: SessionData, clientMeta: ClientMeta): Promise<RefreshedSession | null> {
   let promise = inflightRefresh.get(current.refreshToken)
   if (!promise) {
     promise = refreshSession(current.refreshToken, clientMeta)
-      .then((session) => sessionFromApi(session, current.refreshToken))
+      .then((session) => sessionFromRefresh(session, current))
       .catch((error: unknown) => {
         // Токен не принят (4xx) — сессию не спасти. Сеть и 5xx — временно, пробрасываем.
         if (error instanceof ApiError && error.status < 500) return null
@@ -115,7 +99,7 @@ export async function getValidSession(): Promise<SessionData | null> {
   if (!current) return null
   if (isAccessTokenFresh(current.accessTokenExpiresAt, Date.now())) return current
 
-  let refreshed: SessionData | null
+  let refreshed: RefreshedSession | null
   try {
     refreshed = await refreshOnce(current, getClientMeta())
   } catch {
@@ -125,6 +109,12 @@ export async function getValidSession(): Promise<SessionData | null> {
     clearSession()
     return null
   }
-  writeSession(refreshed)
-  return refreshed
+  if (refreshed.rotated) {
+    writeSession(refreshed.data)
+  } else {
+    // Grace-ответ бэкенда (гонка refresh): новый refreshToken получил параллельный запрос и записал его в cookie.
+    // Наш access пригоден только для этого запроса, cookie не трогаем, иначе вернём в неё уже ротированный refresh.
+    requestSessions.set(getRequest(), refreshed.data)
+  }
+  return refreshed.data
 }

@@ -13,7 +13,7 @@
 
 ```bash
 make install     # bun install --frozen-lockfile
-cp .env.example .env   # один раз; нужны API_INTERNAL_URL и SESSION_SECRET (>= 32 символов)
+cp .env.example .env   # один раз; нужны API_INTERNAL_URL и SESSION_SECRET (>= 32 символов), опционально TRUST_PROXY (по умолчанию false)
 make dev         # vp dev, порт 3000
 make build       # vp build (Nitro, .output)
 make start       # запуск прод-сборки

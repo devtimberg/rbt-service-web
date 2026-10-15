@@ -7,9 +7,20 @@ const serverSchema = z.object({
   API_INTERNAL_URL: z.url({ error: 'API_INTERNAL_URL должен быть абсолютным URL' }),
   // Секрет подписи cookie-сессии
   SESSION_SECRET: z.string().min(32, { error: 'SESSION_SECRET должен быть не короче 32 символов' }),
+  // Доверять X-Forwarded-For / X-Real-IP при определении IP клиента. Включать только за прокси, который
+  // перезаписывает эти заголовки, иначе клиент подделает свой IP в списке устройств
+  TRUST_PROXY: z
+    .enum(['true', 'false', '1', '0'], { error: 'TRUST_PROXY должен быть true или false' })
+    .default('false')
+    .transform((value) => value === 'true' || value === '1'),
 })
 
 export type ServerEnv = z.infer<typeof serverSchema>
+
+/** Разбор серверного окружения без кэша и побочных эффектов (для тестов и `getServerEnv`). */
+export function parseServerEnv(source: Record<string, string | undefined>) {
+  return serverSchema.safeParse(source)
+}
 
 let serverEnv: ServerEnv | undefined
 
@@ -19,7 +30,7 @@ export function getServerEnv(): ServerEnv {
     throw new Error('getServerEnv() нельзя вызывать в браузере')
   }
   if (!serverEnv) {
-    const parsed = serverSchema.safeParse(process.env)
+    const parsed = parseServerEnv(process.env)
     if (!parsed.success) {
       const problems = parsed.error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`).join('; ')
       throw new Error(

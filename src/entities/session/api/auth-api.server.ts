@@ -50,6 +50,6 @@ export function passwordResetConfirm(params: { email: string; code: string; newP
 }
 
 /** Отзывает все сессии и выдаёт текущему устройству новую пару токенов. */
-export function passwordChange(accessToken: string, oldPassword: string, newPassword: string) {
-  return apiFetch<ApiSession>('/auth/password-change', { body: { oldPassword, newPassword }, accessToken })
+export function passwordChange(accessToken: string, oldPassword: string, newPassword: string, clientMeta?: ClientMeta) {
+  return apiFetch<ApiSession>('/auth/password-change', { body: { oldPassword, newPassword }, accessToken, clientMeta })
 }
