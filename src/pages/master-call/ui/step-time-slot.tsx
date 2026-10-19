@@ -32,16 +32,20 @@ export function StepTimeSlot({ groups, selected, selectAction, nextAction, backA
     <Container className="flex flex-col gap-10">
       <Breadcrumb items={[{ label: 'Сервис', href: '/' }, { label: 'Вызвать мастера' }]} />
 
-      <Heading size="xl" className="hidden sm:block">
+      <Heading level={1} size="xl" className="hidden sm:block">
         Вызвать мастера
       </Heading>
 
-      <Heading size="lg">Выберите удобное время для визита мастера</Heading>
+      <Heading level={2} size="lg">
+        Выберите удобное время для визита мастера
+      </Heading>
 
       <Box className="flex flex-col gap-8">
         {groups.map((group) => (
           <Box key={group.key} className="flex flex-col gap-4">
-            <Heading size="sm">{group.label}</Heading>
+            <Heading level={4} size="sm">
+              {group.label}
+            </Heading>
             <Box className="-mx-4 flex gap-3 overflow-x-auto px-4 scrollbar-none [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:gap-4 sm:overflow-x-visible sm:px-0">
               {group.slots.map((slot) => {
                 const isSelected = selected?.group.key === group.key && selected?.slot.key === slot.key
@@ -70,7 +74,7 @@ export function StepTimeSlot({ groups, selected, selectAction, nextAction, backA
         </Button>
         <Box className="flex items-center gap-3">
           {submitted && !selected && (
-            <Text variant="error" size="sm">
+            <Text className="cursor-default font-normal text-input-error-message leading-5! text-sm">
               Выберите время
             </Text>
           )}

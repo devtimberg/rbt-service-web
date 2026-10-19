@@ -41,7 +41,7 @@ export function LayoutSheet({
       role="dialog"
       aria-modal="false"
       aria-label={label}
-      data-slot="layout-sheet-content"
+
       data-state={open ? 'open' : 'closed'}
       data-no-animation={disableOpenAnimation ? 'true' : undefined}
       className={cn(

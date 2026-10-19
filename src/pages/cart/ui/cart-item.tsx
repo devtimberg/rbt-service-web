@@ -4,10 +4,13 @@ import { useFavoritesStore } from '@/entities/favorite'
 import type { Product } from '@/entities/product'
 import { formatPrice } from '@/shared/lib/formatPrice'
 import { Box } from '@/shared/ui/Box'
+import { Button } from '@/shared/ui/Button'
 import { Checkbox } from '@/shared/ui/Checkbox'
+import { ClipPathDefs } from '@/shared/ui/ClipPathDefs'
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog'
 import { IconButton } from '@/shared/ui/IconButton'
 import { CameraOutlineIcon, DeleteIcon, HeartIcon, MinusIcon, PlusIcon } from '@/shared/ui/icons'
+import { Image } from '@/shared/ui/Image'
 import { Text } from '@/shared/ui/Text'
 
 type CartItemProps = {
@@ -33,18 +36,12 @@ export function CartItem({ product, isSelected, onToggleSelectAction }: CartItem
   const renderImageBlock = (variant: 'desktop' | 'mobile') => {
     const clipId = `cart-img-clip-${product.id}-${variant}`
     return (
-      <div className="relative h-27.5 w-28.75 shrink-0 self-start">
-        <svg className="absolute" width="0" height="0">
-          <defs>
-            <clipPath id={clipId} clipPathUnits="objectBoundingBox">
-              <path d={clipPath} />
-            </clipPath>
-          </defs>
-        </svg>
+      <Box className="relative h-27.5 w-28.75 shrink-0 self-start">
+        <ClipPathDefs id={clipId} d={clipPath} />
 
-        <div className="absolute inset-0 overflow-hidden bg-[#F3F7FF]" style={{ clipPath: `url(#${clipId})` }}>
+        <Box className="absolute inset-0 overflow-hidden bg-[#F3F7FF]" style={{ clipPath: `url(#${clipId})` }}>
           {product.image ? (
-            <img
+            <Image
               src={product.image}
               alt={product.name}
               loading="lazy"
@@ -54,23 +51,23 @@ export function CartItem({ product, isSelected, onToggleSelectAction }: CartItem
               }}
             />
           ) : (
-            <div className="flex h-full items-center justify-center">
+            <Box className="flex h-full items-center justify-center">
               <CameraOutlineIcon className="size-8 text-[#BDCAE5]" />
-            </div>
+            </Box>
           )}
-        </div>
+        </Box>
 
         <Checkbox
           checked={isSelected}
           onCheckedChange={() => onToggleSelectAction(product.id)}
           className="absolute top-px left-0.5 z-10"
         />
-      </div>
+      </Box>
     )
   }
 
   const actions = (
-    <div className="flex items-center gap-2">
+    <Box className="flex items-center gap-2">
       <IconButton
         variant="filled"
         size="sm"
@@ -96,12 +93,13 @@ export function CartItem({ product, isSelected, onToggleSelectAction }: CartItem
         confirmLabel="Удалить"
         onConfirm={() => remove(product.id)}
       />
-    </div>
+    </Box>
   )
 
   const counter = (
-    <div className="flex shrink-0 items-center gap-0 rounded-lg bg-[#F3F7FF]">
-      <button
+    <Box className="flex shrink-0 items-center gap-0 rounded-lg bg-[#F3F7FF]">
+      <Button
+        variant="unstyled"
         type="button"
         disabled={quantity <= 1}
         onClick={() => decrement(product.id)}
@@ -110,80 +108,71 @@ export function CartItem({ product, isSelected, onToggleSelectAction }: CartItem
           disabled:cursor-default sm:size-10"
       >
         <MinusIcon className="size-4" />
-      </button>
-      <div
+      </Button>
+      <Box
         className="flex h-9 w-9 items-center justify-center text-sm font-medium
           sm:h-10 sm:w-10"
       >
         {quantity}
-      </div>
-      <button
+      </Box>
+      <Button
+        variant="unstyled"
         type="button"
         onClick={() => increment(product.id)}
         className="text-primary-900 flex size-9 cursor-pointer items-center
           justify-center rounded-r-lg sm:size-10"
       >
         <PlusIcon className="size-4" />
-      </button>
-    </div>
+      </Button>
+    </Box>
   )
 
   const priceBlock = (
-    <div>
+    <Box>
       <Box className="text-lg font-bold sm:text-base">{formatPrice(totalPrice)} ₽</Box>
       {quantity > 1 && (
-        <Text size="xs" variant="secondary">
-          {formatPrice(product.price)} ₽ / шт.
-        </Text>
+        <Text className="cursor-default font-normal text-secondary text-xs">{formatPrice(product.price)} ₽ / шт.</Text>
       )}
-    </div>
+    </Box>
   )
 
   return (
     <>
       {/* Desktop layout */}
-      <div className="hidden sm:flex sm:items-start sm:gap-4">
+      <Box className="hidden sm:flex sm:items-start sm:gap-4">
         {renderImageBlock('desktop')}
-        <div className="min-w-0 flex-1">
-          <Text className="text-base font-semibold">{product.name}</Text>
+        <Box className="min-w-0 flex-1">
+          <Text className="cursor-default text-primary text-base font-semibold">{product.name}</Text>
           {product.article && (
-            <Text size="xs" variant="secondary" className="mt-0.5">
-              Арт. {product.article}
-            </Text>
+            <Text className="cursor-default font-normal text-secondary text-xs mt-0.5">Арт. {product.article}</Text>
           )}
-          <Text size="xs" variant="secondary">
-            {product.brand}
-          </Text>
-          <div className="mt-3">{actions}</div>
-        </div>
-        <div className="flex items-center gap-8 text-right">
+          <Text className="cursor-default font-normal text-secondary text-xs">{product.brand}</Text>
+          <Box className="mt-3">{actions}</Box>
+        </Box>
+        <Box className="flex items-center gap-8 text-right">
           {priceBlock}
           {counter}
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       {/* Mobile layout */}
-      <div className="flex flex-col gap-3 sm:hidden">
-        <div className="flex gap-4">
+      <Box className="flex flex-col gap-3 sm:hidden">
+        <Box className="flex gap-4">
           {renderImageBlock('mobile')}
-          <div className="min-w-0 flex-1">
-            <Text className="text-sm font-semibold">{product.name}</Text>
+          <Box className="min-w-0 flex-1">
+            <Text className="cursor-default text-primary text-sm font-semibold">{product.name}</Text>
             {product.article && (
-              <Text size="xs" variant="secondary" className="mt-0.5">
-                Арт. {product.article}
-              </Text>
+              <Text className="cursor-default font-normal text-secondary text-xs mt-0.5">Арт. {product.article}</Text>
             )}
-            <Text size="xs" variant="secondary">
-              {product.brand}
-            </Text>
-            <div className="mt-2">{priceBlock}</div>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
+            <Text className="cursor-default font-normal text-secondary text-xs">{product.brand}</Text>
+            <Box className="mt-2">{priceBlock}</Box>
+          </Box>
+        </Box>
+        <Box className="flex items-center justify-between">
           {actions}
           {counter}
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   )
 }

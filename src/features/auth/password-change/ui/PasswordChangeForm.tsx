@@ -1,10 +1,12 @@
 import { useState, type FormEvent } from 'react'
 import { fieldErrors, passwordChangeSchema, resultMessage } from '@/entities/session'
 import { useFormValues } from '@/shared/lib/useFormValues'
+import { Stack } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
-import { Field } from '@/shared/ui/Field'
+import { Output } from '@/shared/ui/Field'
+import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
-import { VStack } from '@/shared/ui/VStack'
+import { TextField } from '@/shared/ui/TextField'
 import { usePasswordChange } from '../model/usePasswordChange'
 
 const EMPTY = { oldPassword: '', newPassword: '' }
@@ -41,9 +43,9 @@ export function PasswordChangeForm() {
   const alert = Object.keys(serverFields).length > 0 ? undefined : resultMessage(mutation.data, mutation.error)
 
   return (
-    <form onSubmit={handleSubmit} noValidate aria-label="Смена пароля">
-      <VStack gap={4}>
-        <Field
+    <Form onSubmit={handleSubmit} noValidate aria-label="Смена пароля">
+      <Stack gap={4}>
+        <TextField
           label="Текущий пароль"
           name="oldPassword"
           type="password"
@@ -51,7 +53,7 @@ export function PasswordChangeForm() {
           error={fieldError('oldPassword', serverFields)}
           {...bind('oldPassword')}
         />
-        <Field
+        <TextField
           label="Новый пароль"
           name="newPassword"
           type="password"
@@ -60,11 +62,11 @@ export function PasswordChangeForm() {
           {...bind('newPassword')}
         />
         <FormAlert message={alert} />
-        {done ? <output className="text-center text-sm">Пароль изменён</output> : null}
+        {done ? <Output className="text-center text-sm">Пароль изменён</Output> : null}
         <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
           Сменить пароль
         </Button>
-      </VStack>
-    </form>
+      </Stack>
+    </Form>
   )
 }

@@ -76,7 +76,7 @@ export function Popover({ open: openProp, defaultOpen = false, onOpenChange, chi
 
   return (
     <PopoverContext value={{ open, setOpen, panelId }}>
-      <span ref={rootRef} data-slot="popover" className={cn('relative inline-flex', className)}>
+      <span ref={rootRef} className={cn('relative inline-flex', className)}>
         {children}
       </span>
     </PopoverContext>
@@ -146,7 +146,7 @@ export function PopoverContent({
       id={panelId}
       // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
       role="dialog"
-      data-slot="popover-content"
+
       data-side={side}
       style={offsetStyle}
       className={cn(
@@ -161,13 +161,13 @@ export function PopoverContent({
 }
 
 export function PopoverHeader({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="popover-header" className={cn('flex flex-col gap-1 text-sm', className)} {...props} />
+  return <div className={cn('flex flex-col gap-1 text-sm', className)} {...props} />
 }
 
 export function PopoverTitle({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="popover-title" className={cn('font-medium', className)} {...props} />
+  return <div className={cn('font-medium', className)} {...props} />
 }
 
 export function PopoverDescription({ className, ...props }: ComponentProps<'p'>) {
-  return <p data-slot="popover-description" className={cn('text-tertiary', className)} {...props} />
+  return <p className={cn('text-tertiary', className)} {...props} />
 }

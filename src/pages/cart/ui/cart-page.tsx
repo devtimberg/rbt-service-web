@@ -10,7 +10,7 @@ import { Chip } from '@/shared/ui/Chip'
 import { Container } from '@/shared/ui/Container'
 import { Heading } from '@/shared/ui/Heading'
 import { BagIcon } from '@/shared/ui/icons'
-import { Text } from '@/shared/ui/Text'
+import { LineBreak, Text } from '@/shared/ui/Text'
 import { Footer } from '@/widgets/footer'
 import { CartItem } from './cart-item'
 import { CartSelectionBar } from './cart-selection-bar'
@@ -36,24 +36,25 @@ function CartGroup({
   badge?: string
 }) {
   return (
-    <div className={cn('rounded-2xl bg-white p-4', className)}>
-      <div className="flex flex-nowrap items-center gap-2">
+    <Box className={cn('rounded-2xl bg-white p-4', className)}>
+      <Box className="flex flex-nowrap items-center gap-2">
         <Box className={cn('size-2 shrink-0 rounded-full', dotColor)} />
-        <Text className="shrink-0 py-2 font-semibold">{label}</Text>
-        <Text size="sm" variant="secondary" className="shrink-0">
+        <Text className="cursor-default text-primary text-base shrink-0 py-2 font-semibold">{label}</Text>
+        <Text className="cursor-default font-normal text-secondary text-sm shrink-0">
           {pluralizeItems(products.reduce((s, p) => s + p.quantity, 0))}
         </Text>
         {badge && (
-          <span
+          <Text
+            as="span"
             className="text-secondary-500 ml-1 shrink-0 rounded-md bg-[#FDEAF0]
               px-3 py-1.5 text-xs font-semibold whitespace-nowrap"
           >
             {badge}
-          </span>
+          </Text>
         )}
-      </div>
+      </Box>
 
-      <div className="mt-3 flex flex-col gap-8">
+      <Box className="mt-3 flex flex-col gap-8">
         {products.map((product) => (
           <CartItem
             key={product.id}
@@ -62,8 +63,8 @@ function CartGroup({
             onToggleSelectAction={onToggleSelect}
           />
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 
@@ -155,7 +156,7 @@ export function CartPage() {
 
   if (cartProducts.length === 0) {
     return (
-      <div className="flex grow flex-col">
+      <Box className="flex grow flex-col">
         <Container className="overflow-x-hidden">
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>
@@ -165,11 +166,9 @@ export function CartPage() {
             text-center"
         >
           <BagIcon className="text-secondary-500 mb-4 size-16" />
-          <Text size="lg" className="font-semibold">
-            Корзина пуста
-          </Text>
-          <Text size="sm" variant="secondary" className="mt-2">
-            Добавьте товары из каталога, <br className="sm:hidden" />
+          <Text className="cursor-default text-primary text-lg font-semibold">Корзина пуста</Text>
+          <Text className="cursor-default font-normal text-secondary text-sm mt-2">
+            Добавьте товары из каталога, <LineBreak className="sm:hidden" />
             чтобы оформить заказ
           </Text>
           <Button variant="primary" size="md" rounded="default" className="mt-6" href={ROUTES.CATALOG}>
@@ -177,31 +176,33 @@ export function CartPage() {
           </Button>
         </Container>
 
-        <div className="mt-auto hidden sm:block">
+        <Box className="mt-auto hidden sm:block">
           <Footer variant="default" />
-        </div>
-      </div>
+        </Box>
+      </Box>
     )
   }
 
   return (
-    <div className="flex grow flex-col">
+    <Box className="flex grow flex-col">
       <Container className="overflow-x-hidden">
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </Container>
 
       <Container className="sm:mt-6">
         {/* Header — desktop only, mobile has it in the app header */}
-        <div className="hidden items-center gap-3 sm:flex">
-          <Heading size="lg">Корзина</Heading>
+        <Box className="hidden items-center gap-3 sm:flex">
+          <Heading level={2} size="lg">
+            Корзина
+          </Heading>
           <Chip variant="outline-default" size="sm" rounded="full">
             {pluralizeItems(cartProducts.reduce((s, p) => s + p.quantity, 0))}
           </Chip>
-        </div>
+        </Box>
 
         {/* Main content + sidebar aligned to selection bar */}
-        <div className="mt-4 flex items-start gap-8">
-          <div className="min-w-0 flex-1">
+        <Box className="mt-4 flex items-start gap-8">
+          <Box className="min-w-0 flex-1">
             {/* Selection bar */}
             <CartSelectionBar
               selectedCount={effectiveSelectedIds.size}
@@ -235,15 +236,15 @@ export function CartPage() {
                 badge="15 – 20 дней"
               />
             )}
-          </div>
+          </Box>
 
           {/* Order summary sidebar — desktop only */}
-          <div className="hidden w-85 shrink-0 lg:block">
-            <div className="sticky top-6">
+          <Box className="hidden w-85 shrink-0 lg:block">
+            <Box className="sticky top-6">
               <CartSummary totalItems={totalItems} subtotal={subtotal + discount} discount={discount} />
-            </div>
-          </div>
-        </div>
+            </Box>
+          </Box>
+        </Box>
       </Container>
 
       {/* Mobile order summary */}
@@ -251,9 +252,9 @@ export function CartPage() {
         <CartSummary totalItems={totalItems} subtotal={subtotal + discount} discount={discount} />
       </Container>
 
-      <div className="mt-auto">
+      <Box className="mt-auto">
         <Footer variant="default" />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

@@ -1,5 +1,5 @@
+import { Stack } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
-import { VStack } from '@/shared/ui/VStack'
 
 const SCHEDULES = [
   {
@@ -14,19 +14,17 @@ const SCHEDULES = [
 
 export function WorkingHoursContent() {
   return (
-    <VStack gap={10}>
+    <Stack gap={10}>
       {SCHEDULES.map((schedule) => (
-        <VStack key={schedule.title} gap={2}>
-          <Text size="sm" className="font-bold">
-            {schedule.title}
-          </Text>
+        <Stack key={schedule.title} gap={2}>
+          <Text className="cursor-default text-primary text-sm font-bold">{schedule.title}</Text>
           {schedule.lines.map((line) => (
-            <Text key={line} size="sm" className="text-secondary">
+            <Text key={line} className="cursor-default font-normal text-sm text-secondary">
               {line}
             </Text>
           ))}
-        </VStack>
+        </Stack>
       ))}
-    </VStack>
+    </Stack>
   )
 }

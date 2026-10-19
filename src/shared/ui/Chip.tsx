@@ -35,7 +35,7 @@ export function Chip({ className, selected, variant = 'default', size = 'md', ro
   return (
     <button
       type="button"
-      data-slot="chip"
+
       aria-pressed={selected}
       className={cn(
         'inline-flex cursor-pointer items-center justify-center border font-medium transition-colors',

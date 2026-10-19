@@ -10,6 +10,9 @@ import type { ReactNode } from 'react'
 import { RootLayout } from '@/app/layouts'
 import { loadCurrentUser } from '@/entities/session'
 import type { RouterContext } from '@/router'
+import { Box } from '@/shared/ui/Box'
+import { Heading } from '@/shared/ui/Heading'
+import { Text } from '@/shared/ui/Text'
 import appCss from '@/styles.css?url'
 
 const DESCRIPTION =
@@ -50,23 +53,27 @@ function RootDocument({ children }: { children: ReactNode }) {
 
 function NotFound() {
   return (
-    <div className="mt-6 flex-1 rounded-t-[24px] bg-[#F7FAFF] p-4 py-16 text-center text-primary lg:rounded-[40px]">
-      <h1 className="text-3xl font-bold">Страница не найдена</h1>
-      <p className="mt-2 text-secondary">Проверьте адрес или вернитесь на главную.</p>
+    <Box className="mt-6 flex-1 rounded-t-[24px] bg-[#F7FAFF] p-4 py-16 text-center text-primary lg:rounded-[40px]">
+      <Heading level={1} className="text-3xl font-bold">
+        Страница не найдена
+      </Heading>
+      <Text className="mt-2 text-secondary">Проверьте адрес или вернитесь на главную.</Text>
       <Link to="/" className="mt-6 inline-block text-link underline">
         На главную
       </Link>
-    </div>
+    </Box>
   )
 }
 
 function ErrorView({ error }: ErrorComponentProps) {
   return (
-    <div className="mx-auto max-w-xl p-4 py-16 text-center">
-      <h1 className="text-3xl font-bold">Что-то пошло не так</h1>
-      <p className="mt-2 text-tertiary">
+    <Box className="mx-auto max-w-xl p-4 py-16 text-center">
+      <Heading level={1} className="text-3xl font-bold">
+        Что-то пошло не так
+      </Heading>
+      <Text className="mt-2 text-tertiary">
         {import.meta.env.DEV && error instanceof Error ? error.message : 'Попробуйте обновить страницу.'}
-      </p>
-    </div>
+      </Text>
+    </Box>
   )
 }

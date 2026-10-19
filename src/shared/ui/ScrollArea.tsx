@@ -9,14 +9,14 @@ type ScrollAreaProps = ComponentProps<'div'> & {
 
 /**
  * Область с прокруткой на нативном overflow без Radix. Корень обрезает содержимое (relative overflow-hidden),
- * внутри `[data-slot="scroll-area-viewport"]` прокручивается сам. Скроллбар тонкий, на мобильных скрыт.
+ * внутри вложенный блок-viewport прокручивается сам. Скроллбар тонкий, на мобильных скрыт.
  */
 export function ScrollArea({ className, viewportClassName, viewportRef, children, ...props }: ScrollAreaProps) {
   return (
-    <div data-slot="scroll-area" className={cn('relative overflow-hidden', className)} {...props}>
+    <div className={cn('relative overflow-hidden', className)} {...props}>
       <div
         ref={viewportRef}
-        data-slot="scroll-area-viewport"
+
         className={cn(
           'size-full overflow-auto rounded-[inherit] focus-visible:ring-[3px] focus-visible:ring-focus-ring/50 focus-visible:outline-1',
           'max-sm:scrollbar-none [scrollbar-color:oklch(0.7594_0.092_262.91/0.2)_transparent] [scrollbar-width:thin]',

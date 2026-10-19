@@ -1,4 +1,5 @@
 import { type ReactNode, useLayoutEffect, useRef } from 'react'
+import { Box } from '@/shared/ui/Box'
 import { LayoutSheet } from '@/shared/ui/LayoutSheet'
 import { ScrollArea } from '@/shared/ui/ScrollArea'
 import { SheetFooterSlotTarget } from '@/shared/ui/SheetFooterSlot'
@@ -32,7 +33,7 @@ export function SheetLayout({ pathname, open, disableOpenAnimation, children }: 
       inert={!open}
       className="top-20 z-30 rounded-t-[24px] rounded-b-none border-0 sm:top-22 sm:z-50 lg:top-[calc(16px+88px)] lg:rounded-[40px]"
     >
-      <div className="text-primary flex h-full flex-col overflow-hidden rounded-t-[24px] lg:rounded-[40px]">
+      <Box className="text-primary flex h-full flex-col overflow-hidden rounded-t-[24px] lg:rounded-[40px]">
         <ScrollArea
           data-sheet-scroll="true"
           className="flex-1"
@@ -42,7 +43,7 @@ export function SheetLayout({ pathname, open, disableOpenAnimation, children }: 
           {children}
         </ScrollArea>
         <SheetFooterSlotTarget />
-      </div>
+      </Box>
     </LayoutSheet>
   )
 }

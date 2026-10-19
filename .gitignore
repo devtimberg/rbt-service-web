@@ -16,3 +16,4 @@ coverage
 # Локальные настройки Claude Code и Serena
 .claude/
 .serena/
+.vitest/

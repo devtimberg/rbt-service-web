@@ -4,7 +4,7 @@
 FROM oven/bun:1.3 AS build
 WORKDIR /app
 COPY package.json bun.lock ./
-# --ignore-scripts: в образе нет git, lefthook install не нужен
+# --ignore-scripts: в образе нет git, git-хуки (vp config) не нужны
 RUN bun install --frozen-lockfile --ignore-scripts
 COPY . .
 # VITE_* вшиваются в бандл при сборке (сейчас таких переменных нет)

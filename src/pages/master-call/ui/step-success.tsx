@@ -21,7 +21,7 @@ export function StepSuccess() {
     <Container className="flex flex-col gap-8">
       <Breadcrumb items={[{ label: 'Сервис', href: '/' }, { label: 'Вызвать мастера' }]} />
 
-      <Heading size="xl" className="hidden sm:block">
+      <Heading level={1} size="xl" className="hidden sm:block">
         Вызвать мастера
       </Heading>
 
@@ -29,12 +29,16 @@ export function StepSuccess() {
         <Box className="rounded-xl bg-green-600 p-1">
           <CheckIcon className="text-3xl text-white" />
         </Box>
-        <Heading size="lg">Заявка подтверждена</Heading>
+        <Heading level={2} size="lg">
+          Заявка подтверждена
+        </Heading>
       </Box>
 
-      <Heading size="md"># 321-587-15</Heading>
+      <Heading level={3} size="md">
+        # 321-587-15
+      </Heading>
 
-      <Text variant="secondary" className="max-w-120">
+      <Text className="cursor-default font-normal text-secondary text-base max-w-120">
         Спасибо что обратились в наш сервис, в ближайшее время с вами свяжется наш менеджер и уточнит детали
       </Text>
 

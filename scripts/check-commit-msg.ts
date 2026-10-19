@@ -1,5 +1,5 @@
 // Проверка сообщения коммита на Conventional Commits (без commitlint).
-// Вызывается из lefthook: первым аргументом приходит путь к файлу сообщения.
+// Вызывается из .vite-hooks/commit-msg: первым аргументом приходит путь к файлу сообщения.
 import { readFileSync } from 'node:fs'
 
 const file = process.argv[2]

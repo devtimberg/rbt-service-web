@@ -1,36 +1,24 @@
-import { type ElementType, type HTMLAttributes } from 'react'
-import { cn } from '@/shared/lib/cn'
+import type { ComponentProps, ElementType } from 'react'
 
-type TextVariant = 'default' | 'secondary' | 'disabled' | 'error'
-type TextSize = 'default' | 'xs' | 'sm' | 'lg'
+/** Строчные и текстовые элементы: абзац, обёртка, жирный/важный, зачёркнутый (старая цена). */
+export type TextElement = 'p' | 'span' | 'b' | 'strong' | 's' | 'em' | 'small' | 'del' | 'ins' | 'time'
 
-type TextProps = HTMLAttributes<HTMLElement> & {
-  variant?: TextVariant
-  size?: TextSize
-  /** HTML-тег (по умолчанию p). Заменяет прежний asChild: нужен другой элемент, укажите его здесь. */
-  element?: ElementType
+export type TextProps<T extends TextElement = 'p'> = ComponentProps<T> & {
+  /** Элемент: `p` (по умолчанию), `span`, `b`, `strong`, `s` и т. д. */
+  as?: T
 }
 
-const variants = {
-  default: 'text-primary',
-  secondary: 'text-secondary',
-  disabled: 'text-disabled',
-  error: 'text-input-error-message leading-5!',
-} as const
+/**
+ * Текст без своих стилей: рендерит `as` (по умолчанию `p`) с `className`, `ref`, `id`, `role` и прочим как есть.
+ * Типографика задаётся классами (`text-caption font-medium` и т. п.), как и раньше на голом элементе.
+ */
+export function Text<T extends TextElement = 'p'>({ as, ...props }: TextProps<T>) {
+  // Пропсы уже проверены по `ComponentProps<T>`; объединение тегов TS не сопоставляет с пропсами сам
+  const Component = (as ?? 'p') as ElementType
+  return <Component {...props} />
+}
 
-const sizes = {
-  default: 'text-base',
-  xs: 'text-xs',
-  sm: 'text-sm',
-  lg: 'text-lg',
-} as const
-
-export function Text({
-  className,
-  element: Element = 'p',
-  variant = 'default',
-  size = 'default',
-  ...props
-}: TextProps) {
-  return <Element className={cn('cursor-default font-normal', variants[variant], sizes[size], className)} {...props} />
+/** Перенос строки `<br />` внутри текста («Адрес:» и значение на новой строке). */
+export function LineBreak(props: ComponentProps<'br'>) {
+  return <br {...props} />
 }

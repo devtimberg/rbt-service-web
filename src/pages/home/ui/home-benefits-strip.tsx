@@ -1,5 +1,7 @@
+import { Box, Stack } from '@/shared/ui/Box'
 import { Container } from '@/shared/ui/Container'
-import { HStack } from '@/shared/ui/HStack'
+import { Image } from '@/shared/ui/Image'
+import { Text } from '@/shared/ui/Text'
 import { HOME_BENEFITS } from '../model/benefits'
 
 export function HomeBenefitsStrip() {
@@ -15,85 +17,90 @@ export function HomeBenefitsStrip() {
     <Container>
       {/* Мобильный блок "Бесплатный звонок" (виден только до md). */}
       {callBenefit ? (
-        <div
+        <Box
           className="bg-primary-300 mb-8 flex w-full items-center justify-center
             gap-3 rounded-3xl px-6 py-5 md:hidden"
         >
-          <img src={callBenefit.iconSrc} alt="" width={40} height={40} className="block" aria-hidden />
-          <span
+          <Image src={callBenefit.iconSrc} alt="" width={40} height={40} className="block" aria-hidden />
+          <Text
+            as="span"
             className="text-inverse text-[16px] leading-tight font-semibold
               whitespace-pre-wrap"
           >
             {callBenefit.text}
-          </span>
-        </div>
+          </Text>
+        </Box>
       ) : null}
 
       {/* Мобильная сетка преимуществ 2x2 без call-элемента. */}
-      <div
+      <Box
         className="text-inverse mx-auto grid w-max
           grid-cols-[repeat(2,max-content)] gap-x-8 gap-y-10 md:hidden"
       >
         {regularBenefits.map((benefit) => (
-          <HStack key={benefit.key} className="items-center" gap={2}>
-            <img src={benefit.iconSrc} alt="" width={32} height={32} className="block" aria-hidden />
-            <span
+          <Stack direction="row" key={benefit.key} className="items-center" gap={2}>
+            <Image src={benefit.iconSrc} alt="" width={32} height={32} className="block" aria-hidden />
+            <Text
+              as="span"
               className="text-inverse text-[12px] font-medium
                 whitespace-pre-wrap"
             >
               {benefit.text}
-            </span>
-          </HStack>
+            </Text>
+          </Stack>
         ))}
-      </div>
+      </Box>
 
       {/* Планшет/небольшой desktop: преимущества в две строки для лучшей читаемости. */}
-      <div className="hidden md:block xl:hidden">
-        <HStack className="justify-center" gap={10}>
+      <Box className="hidden md:block xl:hidden">
+        <Stack direction="row" className="justify-center" gap={10}>
           {desktopFirstRow.map((benefit) => (
-            <HStack key={benefit.key} className="items-center" gap={2}>
-              <img src={benefit.iconSrc} alt="" width={48} height={48} className="block" aria-hidden />
-              <span
+            <Stack direction="row" key={benefit.key} className="items-center" gap={2}>
+              <Image src={benefit.iconSrc} alt="" width={48} height={48} className="block" aria-hidden />
+              <Text
+                as="span"
                 className="text-inverse text-[14px] font-medium
                   whitespace-pre-wrap"
               >
                 {benefit.text}
-              </span>
-            </HStack>
+              </Text>
+            </Stack>
           ))}
-        </HStack>
-        <HStack className="mt-6 justify-center" gap={10}>
+        </Stack>
+        <Stack direction="row" className="mt-6 justify-center" gap={10}>
           {desktopSecondRow.map((benefit) => (
-            <HStack key={benefit.key} className="items-center" gap={2}>
-              <img src={benefit.iconSrc} alt="" width={48} height={48} className="block" aria-hidden />
-              <span
+            <Stack direction="row" key={benefit.key} className="items-center" gap={2}>
+              <Image src={benefit.iconSrc} alt="" width={48} height={48} className="block" aria-hidden />
+              <Text
+                as="span"
                 className="text-inverse text-[14px] font-medium
                   whitespace-pre-wrap"
               >
                 {benefit.text}
-              </span>
-            </HStack>
+              </Text>
+            </Stack>
           ))}
-        </HStack>
-      </div>
+        </Stack>
+      </Box>
 
       {/* Широкий desktop (xl+): один центрированный ряд из 5 элементов. */}
-      <div
+      <Box
         className="hidden xl:mx-auto xl:grid xl:w-max
           xl:grid-cols-[repeat(5,max-content)] xl:gap-x-10"
       >
         {HOME_BENEFITS.map((benefit) => (
-          <HStack key={benefit.key} className="items-center" gap={2}>
-            <img src={benefit.iconSrc} alt="" width={48} height={48} className="block" aria-hidden />
-            <span
+          <Stack direction="row" key={benefit.key} className="items-center" gap={2}>
+            <Image src={benefit.iconSrc} alt="" width={48} height={48} className="block" aria-hidden />
+            <Text
+              as="span"
               className="text-inverse text-[14px] font-semibold
                 whitespace-pre-wrap"
             >
               {benefit.text}
-            </span>
-          </HStack>
+            </Text>
+          </Stack>
         ))}
-      </div>
+      </Box>
     </Container>
   )
 }

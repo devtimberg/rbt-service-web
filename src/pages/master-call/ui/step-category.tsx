@@ -48,12 +48,14 @@ export function StepCategory({
     <Container className="flex flex-col gap-10">
       <Breadcrumb items={[{ label: 'Сервис', href: '/' }, { label: 'Вызвать мастера' }]} />
 
-      <Heading size="xl" className="hidden sm:block">
+      <Heading level={1} size="xl" className="hidden sm:block">
         Вызвать мастера
       </Heading>
 
       <Box className="flex flex-col gap-6">
-        <Heading size="lg">Вид услуги</Heading>
+        <Heading level={2} size="lg">
+          Вид услуги
+        </Heading>
         <Box className="flex flex-wrap items-start gap-3 sm:gap-6">
           {SERVICE_TYPE_OPTIONS.map((option) => (
             <Chip
@@ -69,7 +71,9 @@ export function StepCategory({
       </Box>
 
       <Box className="flex flex-col gap-6">
-        <Heading size="lg">{QUESTION_BY_SERVICE_TYPE[serviceType]}</Heading>
+        <Heading level={2} size="lg">
+          {QUESTION_BY_SERVICE_TYPE[serviceType]}
+        </Heading>
         <Box className="flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:gap-6">
           {APPLIANCE_CATEGORIES.map((category) => (
             <Chip
@@ -86,7 +90,7 @@ export function StepCategory({
 
       <SheetFooterSlot contentClassName="justify-end gap-3">
         {submitted && !selectedCategory && (
-          <Text variant="error" size="sm">
+          <Text className="cursor-default font-normal text-input-error-message leading-5! text-sm">
             Выберите категорию поломки
           </Text>
         )}

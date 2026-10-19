@@ -2,13 +2,14 @@ import { cn } from '@/shared/lib/cn'
 import { Box } from '@/shared/ui/Box'
 import { Container } from '@/shared/ui/Container'
 import { SmartLink } from '@/shared/ui/SmartLink'
+import { Text } from '@/shared/ui/Text'
 import { HOME_QUICK_ACTIONS } from '../model/quick-action'
 
 export function HomeQuickAction() {
   return (
     <Container>
       <Box className="m-auto max-w-240">
-        <div className="grid grid-cols-3 gap-3 md:grid-cols-3 md:gap-6 lg:gap-8">
+        <Box className="grid grid-cols-3 gap-3 md:grid-cols-3 md:gap-6 lg:gap-8">
           {HOME_QUICK_ACTIONS.map((action) => {
             const Icon = action.icon
             const isAccent = action.colorVariant === 'accent' || action.isAccent
@@ -25,23 +26,25 @@ export function HomeQuickAction() {
                   isAccent && 'bg-secondary-500',
                 )}
               >
-                <span
+                <Text
+                  as="span"
                   className="inline-flex h-14 w-14 shrink-0 items-center
                     justify-center rounded-2xl border border-white/25
                     bg-white/10 md:rounded-xl"
                 >
                   <Icon className="size-8 md:size-10" aria-hidden />
-                </span>
-                <span
+                </Text>
+                <Text
+                  as="span"
                   className="text-[14px] leading-4 font-semibold
                     whitespace-pre-line md:text-lg md:leading-5"
                 >
                   {action.text}
-                </span>
+                </Text>
               </SmartLink>
             )
           })}
-        </div>
+        </Box>
       </Box>
     </Container>
   )

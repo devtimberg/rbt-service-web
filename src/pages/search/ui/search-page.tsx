@@ -1,7 +1,11 @@
 import * as React from 'react'
 import { CATALOG_CATEGORIES } from '@/entities/category'
 import { useSearchStore } from '@/features/search-products'
+import { Box } from '@/shared/ui/Box'
+import { Button } from '@/shared/ui/Button'
+import { ChevronRightIcon } from '@/shared/ui/icons'
 import { Skeleton } from '@/shared/ui/Skeleton'
+import { Text } from '@/shared/ui/Text'
 
 type Part = {
   id: string
@@ -73,75 +77,69 @@ export function SearchPage() {
   const results = React.useMemo(() => (hasQuery && !loading ? searchParts(query) : []), [hasQuery, loading, query])
 
   return (
-    <div className="flex grow flex-col">
+    <Box className="flex grow flex-col">
       {loading && hasQuery && (
-        <div className="flex flex-col gap-1">
+        <Box className="flex flex-col gap-1">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="flex items-center justify-between gap-4 px-2 py-3">
-              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+            <Box key={i} className="flex items-center justify-between gap-4 px-2 py-3">
+              <Box className="flex min-w-0 flex-1 flex-col gap-1.5">
                 <Skeleton className="h-3.5 w-3/4" />
                 <Skeleton className="h-2.5 w-1/3" />
-              </div>
+              </Box>
               <Skeleton className="h-3.5 w-16 shrink-0" />
-            </div>
+            </Box>
           ))}
-        </div>
+        </Box>
       )}
 
       {!loading && hasQuery && categories.length > 0 && (
-        <div className="flex flex-col">
-          <p className="px-2 pt-3 pb-1 text-xs font-medium text-gray-400">Категории</p>
+        <Box className="flex flex-col">
+          <Text className="px-2 pt-3 pb-1 text-xs font-medium text-gray-400">Категории</Text>
           {categories.map((category) => (
-            <button
+            <Button
+              variant="unstyled"
               key={category}
               type="button"
               className="flex w-full items-center justify-between gap-4 px-2
                 py-3 text-left transition-colors active:bg-gray-50"
             >
-              <p className="text-primary-900 truncate text-sm font-medium">{category}</p>
-              <svg
-                className="size-4 shrink-0 text-gray-300"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </button>
+              <Text className="text-primary-900 truncate text-sm font-medium">{category}</Text>
+              <ChevronRightIcon className="size-4 shrink-0 text-gray-300" />
+            </Button>
           ))}
-        </div>
+        </Box>
       )}
 
       {!loading && hasQuery && results.length > 0 && (
-        <div className="flex flex-col">
-          <p className="px-2 pt-3 pb-1 text-xs font-medium text-gray-400">Запчасти</p>
+        <Box className="flex flex-col">
+          <Text className="px-2 pt-3 pb-1 text-xs font-medium text-gray-400">Запчасти</Text>
           {results.map((part) => (
-            <button
+            <Button
+              variant="unstyled"
               key={part.id}
               type="button"
               className="flex w-full items-center justify-between gap-4 px-2
                 py-3 text-left transition-colors active:bg-gray-50"
             >
-              <div className="min-w-0 flex-1">
-                <p className="text-primary-900 truncate text-sm font-medium">{part.name}</p>
-                <p className="text-xs text-gray-400">{part.article}</p>
-              </div>
-              <span className="text-primary-500 shrink-0 text-sm font-semibold">{formatPrice(part.price)}</span>
-            </button>
+              <Box className="min-w-0 flex-1">
+                <Text className="text-primary-900 truncate text-sm font-medium">{part.name}</Text>
+                <Text className="text-xs text-gray-400">{part.article}</Text>
+              </Box>
+              <Text as="span" className="text-primary-500 shrink-0 text-sm font-semibold">
+                {formatPrice(part.price)}
+              </Text>
+            </Button>
           ))}
-        </div>
+        </Box>
       )}
 
       {!loading && hasQuery && results.length === 0 && categories.length === 0 && (
-        <div className="py-10 text-center text-sm text-gray-400">Ничего не найдено</div>
+        <Box className="py-10 text-center text-sm text-gray-400">Ничего не найдено</Box>
       )}
 
       {!hasQuery && (
-        <div className="py-10 text-center text-sm text-gray-400">Введите название или артикул запчасти</div>
+        <Box className="py-10 text-center text-sm text-gray-400">Введите название или артикул запчасти</Box>
       )}
-    </div>
+    </Box>
   )
 }

@@ -4,6 +4,7 @@ import { cn } from '@/shared/lib/cn'
 import { Box } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
 import { Checkbox } from '@/shared/ui/Checkbox'
+import { Label } from '@/shared/ui/Field'
 import { Heading } from '@/shared/ui/Heading'
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/RadioGroup'
 import { Text } from '@/shared/ui/Text'
@@ -38,11 +39,11 @@ export function FavoriteFilters({ categories, availabilityGroup, className }: Fa
   }
 
   return (
-    <aside className={cn('flex w-68! flex-col gap-6 rounded-[24px] bg-white p-6', className)}>
+    <Box as="aside" className={cn('flex w-68! flex-col gap-6 rounded-[24px] bg-white p-6', className)}>
       {/* Category */}
-      <div className="flex flex-col gap-3">
+      <Box className="flex flex-col gap-3">
         <Box className="flex items-center justify-between gap-3">
-          <Heading size="xs" className="h-5 text-[16px]! font-bold!">
+          <Heading level={5} size="xs" className="h-5 text-[16px]! font-bold!">
             Категория
           </Heading>
           {activeCount > 0 && (
@@ -54,42 +55,47 @@ export function FavoriteFilters({ categories, availabilityGroup, className }: Fa
               >
                 Сбросить
               </Button>
-              <span
+              <Text
+                as="span"
                 className="bg-secondary-500 flex size-5 items-center
                   justify-center rounded-full text-xs font-medium text-white"
               >
                 {activeCount}
-              </span>
+              </Text>
             </Box>
           )}
         </Box>
 
-        <div className="flex flex-col gap-2.5">
+        <Box className="flex flex-col gap-2.5">
           {categories.map((category) => (
-            <label key={category} className="flex cursor-pointer items-start gap-2.5">
+            <Label key={category} className="flex cursor-pointer items-start gap-2.5">
               <Checkbox
                 checked={selectedCategories.has(category)}
                 onCheckedChange={() => toggleCategory(category)}
                 className="mt-0.5"
               />
-              <span className="text-pretty text-sm">{category}</span>
-            </label>
+              <Text as="span" className="text-pretty text-sm">
+                {category}
+              </Text>
+            </Label>
           ))}
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       {/* Availability */}
-      <div className="flex flex-col gap-3">
-        <Text className="font-medium">{availabilityGroup.title}</Text>
+      <Box className="flex flex-col gap-3">
+        <Text className="cursor-default text-primary text-base font-medium">{availabilityGroup.title}</Text>
         <RadioGroup value={selectedAvailability} onValueChange={setSelectedAvailability} className="gap-2.5">
           {availabilityGroup.options.map((option) => (
-            <label key={option.value} className="flex cursor-pointer items-center gap-2.5">
+            <Label key={option.value} className="flex cursor-pointer items-center gap-2.5">
               <RadioGroupItem value={option.value} />
-              <span className="text-sm">{option.label}</span>
-            </label>
+              <Text as="span" className="text-sm">
+                {option.label}
+              </Text>
+            </Label>
           ))}
         </RadioGroup>
-      </div>
-    </aside>
+      </Box>
+    </Box>
   )
 }

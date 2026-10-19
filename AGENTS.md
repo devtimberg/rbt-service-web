@@ -18,16 +18,18 @@ make dev         # vp dev, порт 3000
 make build       # vp build (Nitro, .output)
 make start       # запуск прод-сборки
 make typecheck   # tsc --noEmit
-make check       # vp check: Oxfmt + Oxlint (type-aware)
-make fmt         # vp fmt (автоформат)
+make lint        # vp check: Oxfmt + Oxlint (type-aware, правила слоёв и forbid-elements)
+make format      # vp check --fix (Oxfmt + автофиксы Oxlint)
 make lint-fsd    # steiger ./src
-make test        # vp test (Vitest)
-make ci          # typecheck + check + lint-fsd + test
+make test        # vp test run (Vitest, vitest.config.ts)
+make test-watch  # Vitest в watch-режиме
+make check       # typecheck + lint + lint-fsd + test (то, что гоняет CI)
+make hooks       # поставить git-хуки (vp hooks enable); обычно они ставятся сами при bun install (prepare: vp config)
 make icons       # пересобрать SVGR-иконки из src/shared/ui/icons/raw
 make docker-build / docker-run / docker-stop
 ```
 
-**Перед завершением задачи запусти `make ci`** и исправь всё, что он нашёл.
+**Перед завершением задачи запусти `make check`** и исправь всё, что он нашёл.
 
 ## Архитектура
 
@@ -41,7 +43,7 @@ routes → app → pages → widgets → features → entities → shared
 - У слайса есть `index.ts`; снаружи импортируем только через него (`@/entities/product`). Пути через сегменты `ui|model|api|lib|config` запрещены. Внутри слайса импорты относительные, между слайсами через `@/` (алиас на `src/`).
 - В `shared` слайсов нет, только сегменты `api`, `config`, `lib`, `ui`; `shared/ui` импортируется по модулю: `@/shared/ui/Button`.
 - Слайсы можно группировать (`features/auth/login`): в группе нет `index.ts` и общего кода.
-- Контроль: правила слоёв в [lint/fsd-rules.ts](lint/fsd-rules.ts) (подключены в `vite.config.ts`, Oxlint `no-restricted-imports`; новый сегмент слайса добавляй в шаблон там) и steiger ([steiger.config.ts](steiger.config.ts)). Оба в pre-commit.
+- Контроль: правила слоёв inline в блоке `lint` [vite.config.ts](vite.config.ts) (Oxlint `no-restricted-imports`, шаблоны собираются из списка слоёв; новый сегмент слайса добавляй в `sliceSegments` там же) и steiger ([steiger.config.ts](steiger.config.ts)). Оба гоняет `make check`, steiger ещё и pre-commit.
 
 Что куда:
 
@@ -80,18 +82,39 @@ Cookie-сессия, AES-256-GCM, ключ из `SESSION_SECRET` ([ADR 0004](doc
 ## Вёрстка
 
 - Tailwind 4, только классы (без CSS-модулей). Токены цветов и размеров: [src/shared/ui/tokens.css](src/shared/ui/tokens.css), используем их, а не произвольные значения.
-- Свои примитивы в `src/shared/ui` (Button, IconButton, Input, Dialog, Sheet, Popover, Tooltip, Checkbox, RadioGroup, HStack/VStack, Text, Heading и др.) без Radix, shadcn, cva и headless-библиотек ([ADR 0005](docs/adr/0005-own-ui-primitives.md)). Модалки на нативном `<dialog>`. Нового модала, кнопки или таба не создавай: расширяй существующий (вариант, prop). Условные классы через `cn()`.
+- Свои примитивы в `src/shared/ui` (Button, IconButton, TextInput, Dialog, Sheet, Popover, Tooltip, Checkbox, RadioGroup, Box/Stack, Text, Heading и др.) без Radix, shadcn, cva и headless-библиотек ([ADR 0005](docs/adr/0005-own-ui-primitives.md)). Модалки на нативном `<dialog>`. Нового модала, кнопки или таба не создавай: расширяй существующий (вариант, prop). Условные классы через `cn()`.
+- Голые HTML-элементы вне `src/shared/ui` и `*.test.tsx` запрещает линт ([ADR 0008](docs/adr/0008-no-bare-html-elements.md), `react/forbid-elements`, список и подсказки в `forbiddenElements` в [vite.config.ts](vite.config.ts); `html/head/body` в `routes/__root.tsx` разрешены). Примитивы без своих стилей, семантика задаётся через `as`/`level`. Соответствия для этого проекта:
+
+| Элемент | Примитив из `@/shared/ui` |
+| --- | --- |
+| `div`, `section`, `article`, `aside`, `header`, `footer`, `main`, `nav` | `Container`, `Box`, `Stack` (`as` для семантики) |
+| `h1`–`h6` | `Heading` (`level`, `size?`) |
+| `p`, `span`, `b`, `strong`, `s`, `em`, `small`, `time` | `Text` (`as`) |
+| `br` | `LineBreak` |
+| `ul`, `ol`, `li` | `List` (`as`), `ListItem` |
+| `dl`, `dt`, `dd` | `DescriptionList` |
+| `img`, `picture`, `source` | `Image` (`sources`) |
+| `svg` | иконки из `@/shared/ui/icons` |
+| `hr` | `Divider` |
+| `a` | `SmartLink` |
+| `button` | `Button` (`variant="unstyled"` для голой), `IconButton`, `Chip` |
+| `input` | `TextField`/`OtpField` (с подписью), `TextInput`, `Input` (голое поле), `Checkbox`, `RadioGroup` |
+| `form` | `Form` |
+| `label`, `fieldset`, `legend`, `output` | `Label`, `Fieldset`, `Legend`, `Output` из `Field` |
+| `dialog` | `Dialog`, `Sheet` |
+
+  Нужного примитива нет: добавь его в `shared/ui` (и в витрину), не верстай на месте. Витрина всех примитивов: `/_dev/ui` (`src/routes/[_]dev/ui.tsx`).
 - Внутренние ссылки через `SmartLink` ([src/shared/ui/SmartLink.tsx](src/shared/ui/SmartLink.tsx)); голый `<a href="/...">` для внутренних адресов не используем.
 - Шторки: маршрут с `staticData: { sheet: true }` рендерится в `app/layouts/SheetLayout` ([ADR 0006](docs/adr/0006-sheets-via-static-data.md)).
 - Иконки: SVG в `src/shared/ui/icons/raw`, затем `make icons`; сгенерированные файлы руками не правим.
 
 ## Тесты
 
-Vitest через `vp test` (jsdom) + Testing Library, `vitest.setup.ts`. Тесты лежат рядом с кодом: `*.test.ts(x)`; серверные модули с `// @vitest-environment node`. Логику без React (модели, ошибки, шифрование сессии) покрывай unit-тестом, поведение UI компонентным. DOM-снапшоты не делаем. Тестовые env (`API_INTERNAL_URL`, `SESSION_SECRET`) заданы в `vite.config.ts`.
+Vitest через `vp test run` (jsdom) + Testing Library, конфиг в отдельном [vitest.config.ts](vitest.config.ts) (тестам не нужны плагины Start/Nitro/Tailwind), `vitest.setup.ts`. API тестов импортируем из `vite-plus/test` (не из `vitest`), иначе `vite-plus/prefer-vite-plus-imports` ругнётся. Матчер `toHaveTextContent` с RegExp не используем (конфликт типов): `expect(el.textContent).toMatch(/.../)`. Тесты лежат рядом с кодом: `*.test.ts(x)`; серверные модули с `// @vitest-environment node`. Логику без React (модели, ошибки, шифрование сессии) покрывай unit-тестом, поведение UI компонентным. DOM-снапшоты не делаем. Тестовые env (`API_INTERNAL_URL`, `SESSION_SECRET`) заданы в `vitest.config.ts`.
 
 ## Коммиты
 
-Conventional Commits, описание по-русски: `<тип>(<область>)?!?: <описание>`. Типы: `feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert`; область `[a-z0-9-]`; описание до 100 символов. Формат проверяет [scripts/check-commit-msg.ts](scripts/check-commit-msg.ts) через lefthook (`make hooks`). Pre-commit: `vp staged` и `lint:fsd`, не обходи (`--no-verify`).
+Conventional Commits, описание по-русски: `<тип>(<область>)?!?: <описание>`. Типы: `feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert`; область `[a-z0-9-]`; описание до 100 символов. Хуки лежат в [.vite-hooks](.vite-hooks) (ставит `prepare`: `vp config`, вручную `make hooks`): `commit-msg` запускает [scripts/check-commit-msg.ts](scripts/check-commit-msg.ts), `pre-commit` запускает `vp staged` (блок `staged` в [vite.config.ts](vite.config.ts): `vp check --fix` и steiger). Хуки не обходи (`--no-verify`): упало, значит чини.
 Не делай `git commit` и `git push`, пока об этом не попросили.
 
 ## Запрещено
@@ -102,6 +125,7 @@ Conventional Commits, описание по-русски: `<тип>(<облас�
 - Ручная правка `src/routeTree.gen.ts` и сгенерированных файлов.
 - Импорт в обход `index.ts` слайса и между слайсами одного слоя.
 - Реэкспорт `*.server.ts` и токенов сессии в клиентский код.
-- Возврат к ESLint/Prettier/Biome мимо ADR.
+- Возврат к ESLint, Prettier, Biome и lefthook мимо ADR ([0002](docs/adr/0002-vite-plus.md)).
+- Голые HTML-элементы вне `src/shared/ui` и `*.test.tsx`, `--no-verify`, отключение `react/forbid-elements` точечными комментариями ([0008](docs/adr/0008-no-bare-html-elements.md)).
 
 Новое архитектурное решение оформляй ADR: скопируй [docs/adr/template.md](docs/adr/template.md) в `docs/adr/NNNN-название.md` и добавь строку в [docs/adr/README.md](docs/adr/README.md). Принятое решение не удаляй, а помечай `superseded`.

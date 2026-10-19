@@ -8,6 +8,7 @@ import { Box } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
 import { IconButton } from '@/shared/ui/IconButton'
 import { CameraOutlineIcon, HeartIcon, HeartOutlineIcon } from '@/shared/ui/icons'
+import { Image } from '@/shared/ui/Image'
 import { Text } from '@/shared/ui/Text'
 
 type ProductCardProps = {
@@ -57,7 +58,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         />
         {product.image ? (
-          <img
+          <Image
             src={product.image}
             alt={product.name}
             loading="lazy"
@@ -75,9 +76,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
       {/* Content */}
       <Box className="mt-1 flex flex-1 flex-col gap-1 p-1">
-        <Text size="xs" variant="secondary" className="truncate">
-          {product.brand}
-        </Text>
+        <Text className="cursor-default font-normal text-secondary text-xs truncate">{product.brand}</Text>
 
         {/* Price */}
         <Box className="flex items-baseline gap-2">
@@ -94,12 +93,12 @@ export function ProductCard({ product }: ProductCardProps) {
         </Box>
 
         {/* Name */}
-        <Text size="sm" className="mt-1 line-clamp-2 min-h-10 text-[13px] font-semibold">
+        <Text className="cursor-default text-primary mt-1 line-clamp-2 min-h-10 text-[13px] font-semibold">
           {product.name}
         </Text>
 
         {/* Action button */}
-        <div className="mt-auto pt-2">
+        <Box className="mt-auto pt-2">
           {isInCart ? (
             <Button variant="secondary" size="full" className="rounded-md text-sm" href={ROUTES.CART}>
               В корзине
@@ -109,7 +108,7 @@ export function ProductCard({ product }: ProductCardProps) {
               {product.preOrderDate ?? 'В корзину'}
             </Button>
           )}
-        </div>
+        </Box>
       </Box>
     </Box>
   )
