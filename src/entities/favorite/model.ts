@@ -36,7 +36,10 @@ export const useFavoritesStore = create<FavoritesStore>()(
       // Set сериализуется массивом (формат прежней версии)
       storage: createJSONStorage(getBrowserStorage, {
         replacer: (_key, value) => (value instanceof Set ? [...value] : value),
-        reviver: (key, value) => (key === 'items' && Array.isArray(value) ? new Set<string>(value as string[]) : value),
+        reviver: (key, value) =>
+          key === 'items' && Array.isArray(value)
+            ? new Set((value as unknown[]).filter((v): v is string => typeof v === 'string'))
+            : value,
       }),
       partialize: (state) => ({ items: state.items }),
     },

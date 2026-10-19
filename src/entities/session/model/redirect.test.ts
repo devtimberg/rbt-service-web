@@ -14,6 +14,8 @@ describe('safeRedirectPath', () => {
     expect(safeRedirectPath('https://evil.com')).toBe('/profile')
     expect(safeRedirectPath('//evil.com')).toBe('/profile')
     expect(safeRedirectPath('/\\evil.com')).toBe('/profile')
+    expect(safeRedirectPath('/\t/evil.com')).toBe('/profile')
+    expect(safeRedirectPath('/\n/evil.com')).toBe('/profile')
     expect(safeRedirectPath('javascript:alert(1)')).toBe('/profile')
     expect(safeRedirectPath('profile')).toBe('/profile')
   })

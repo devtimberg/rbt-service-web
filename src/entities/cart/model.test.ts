@@ -56,4 +56,14 @@ describe('стор корзины', () => {
     rehydrateCartStore()
     expect(store().getQuantity('a')).toBe(2)
   })
+
+  it('при rehydrate отбрасывает мусор: нестроковый id, дробное и нулевое количество', () => {
+    const bad = JSON.stringify({
+      state: { items: [['a', 2], ['b', 0], ['c', 1.5], [5, 1], ['d', '3'], 'x'] },
+      version: 0,
+    })
+    localStorage.setItem('rbt-cart', bad)
+    rehydrateCartStore()
+    expect([...store().items]).toEqual([['a', 2]])
+  })
 })

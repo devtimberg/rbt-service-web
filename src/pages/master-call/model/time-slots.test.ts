@@ -20,8 +20,20 @@ describe('getTimeSlotGroups', () => {
     expect(groups[2]?.label).toBe('Послезавтра, 1 февраля')
   })
 
+  it('сегодняшние слоты, которые уже начались, недоступны', () => {
+    const today = getTimeSlotGroups(new Date(2026, 0, 30, 12, 0))[0]!
+    expect(today.slots.map((s) => s.available)).toEqual([false, false, true, true])
+    // завтра прошедшее время не влияет (кроме заданных недоступных)
+    expect(getTimeSlotGroups(new Date(2026, 0, 30, 17, 0))[1]?.slots.map((s) => s.available)).toEqual([
+      true,
+      true,
+      false,
+      true,
+    ])
+  })
+
   it('в каждом дне четыре слота, недоступны только заданные', () => {
-    const groups = getTimeSlotGroups()
+    const groups = getTimeSlotGroups(new Date(2026, 0, 30, 8, 0))
     for (const group of groups) expect(group.slots).toHaveLength(4)
     const unavailable = groups.flatMap((g) => g.slots).filter((s) => !s.available)
     expect(unavailable.map((s) => s.key)).toEqual(['0-0', '1-2', '2-3'])

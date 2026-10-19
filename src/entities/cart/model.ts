@@ -13,6 +13,17 @@ type CartStore = {
   getQuantity: (productId: string) => number
 }
 
+/** Из localStorage берём только валидные пары [id: string, qty: целое >= 1]; остальное отбрасываем. */
+export function parseCartItems(raw: unknown[]): Map<string, number> {
+  const items = new Map<string, number>()
+  for (const entry of raw) {
+    if (!Array.isArray(entry)) continue
+    const [id, qty] = entry as [unknown, unknown]
+    if (typeof id === 'string' && typeof qty === 'number' && Number.isInteger(qty) && qty >= 1) items.set(id, qty)
+  }
+  return items
+}
+
 /**
  * ВРЕМЕННОЕ решение: корзина живёт в zustand + localStorage.
  * Заменить на Query/API, когда появится бекенд корзины (ADR 0008: серверные данные хранит TanStack Query).
@@ -64,8 +75,7 @@ export const useCartStore = create<CartStore>()(
       // Map сериализуется массивом пар (формат прежней версии, сохранённые корзины совместимы)
       storage: createJSONStorage(getBrowserStorage, {
         replacer: (_key, value) => (value instanceof Map ? [...value] : value),
-        reviver: (key, value) =>
-          key === 'items' && Array.isArray(value) ? new Map<string, number>(value as [string, number][]) : value,
+        reviver: (key, value) => (key === 'items' && Array.isArray(value) ? parseCartItems(value) : value),
       }),
       partialize: (state) => ({ items: state.items }),
     },

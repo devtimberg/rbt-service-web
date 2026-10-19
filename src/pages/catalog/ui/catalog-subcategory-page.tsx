@@ -35,7 +35,7 @@ const BREADCRUMB_ITEMS = [
 
 export function CatalogSubcategoryPage() {
   const [sort, setSort] = useState('popular')
-  const { ref: filtersRef, top: filtersTop } = useStickyScroll<HTMLDivElement>()
+  const { ref: filtersRef } = useStickyScroll<HTMLDivElement>()
 
   return (
     <>
@@ -46,11 +46,7 @@ export function CatalogSubcategoryPage() {
       <Container className="mt-6">
         <Box className="flex gap-8">
           {/* Filters sidebar — desktop only */}
-          <Box
-            ref={filtersRef}
-            className="hidden shrink-0 self-start lg:block"
-            style={{ position: 'sticky', top: filtersTop }}
-          >
+          <Box ref={filtersRef} className="hidden shrink-0 self-start lg:block" style={{ position: 'sticky' }}>
             <CatalogFilters
               filterGroups={MOCK_FILTER_GROUPS}
               availabilityGroup={MOCK_AVAILABILITY_OPTIONS}

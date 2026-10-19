@@ -34,7 +34,7 @@ const FAVORITE_CATEGORIES = [
 export function FavoritePage() {
   const [sort, setSort] = useState('popular')
   const favoriteIds = useFavoritesStore((s) => s.items)
-  const { ref: filtersRef, top: filtersTop } = useStickyScroll<HTMLDivElement>()
+  const { ref: filtersRef } = useStickyScroll<HTMLDivElement>()
 
   // TODO: заменить на реальную загрузку товаров по ID
   const favoriteProducts = MOCK_PRODUCTS.filter((p) => favoriteIds.has(p.id))
@@ -80,11 +80,7 @@ export function FavoritePage() {
       <Container className="mt-6">
         <Box className="flex gap-8">
           {/* Filters sidebar — desktop only */}
-          <Box
-            ref={filtersRef}
-            className="hidden shrink-0 self-start lg:block"
-            style={{ position: 'sticky', top: filtersTop }}
-          >
+          <Box ref={filtersRef} className="hidden shrink-0 self-start lg:block" style={{ position: 'sticky' }}>
             <FavoriteFilters categories={FAVORITE_CATEGORIES} availabilityGroup={MOCK_AVAILABILITY_OPTIONS} />
           </Box>
 

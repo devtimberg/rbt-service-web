@@ -10,7 +10,6 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 2450,
     oldPrice: 3100,
     availability: 'in-stock',
-    isFavorite: true,
   },
   {
     id: '2',
@@ -21,7 +20,6 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 4140,
     oldPrice: 5175,
     availability: 'low-stock',
-    isFavorite: true,
   },
   {
     id: '3',
@@ -100,7 +98,6 @@ export const MOCK_PRODUCTS: Product[] = [
     image: '',
     price: 3250,
     availability: 'low-stock',
-    isInCart: true,
   },
   {
     id: '11',
@@ -111,7 +108,6 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 8900,
     oldPrice: 10500,
     availability: 'in-stock',
-    isFavorite: true,
   },
   {
     id: '12',

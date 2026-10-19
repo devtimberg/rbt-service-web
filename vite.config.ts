@@ -141,7 +141,17 @@ export default defineConfig(({ mode }) => {
         tailwindcss(),
         tanstackStart(),
         // Nitro собирает Node-сервер в .output (см. Dockerfile)
-        nitro(),
+        nitro({
+          routeRules: {
+            '/**': {
+              headers: {
+                'X-Frame-Options': 'DENY',
+                'X-Content-Type-Options': 'nosniff',
+                'Referrer-Policy': 'strict-origin-when-cross-origin',
+              },
+            },
+          },
+        }),
         // Плагин React обязан идти после tanstackStart
         viteReact(),
       ]) ?? [],

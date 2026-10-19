@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 /**
  * Хук для двунаправленного sticky-поведения:
@@ -11,7 +11,6 @@ export function useStickyScroll<T extends HTMLElement>() {
   const ref = useRef<T>(null)
   const topRef = useRef(0)
   const lastScrollTopRef = useRef(0)
-  const [top, setTop] = useState(0)
 
   useEffect(() => {
     const el = ref.current
@@ -21,6 +20,7 @@ export function useStickyScroll<T extends HTMLElement>() {
     if (!scrollParent) return
 
     lastScrollTopRef.current = scrollParent.scrollTop
+    el.style.top = '0px'
 
     const onScroll = () => {
       const scrollTop = scrollParent.scrollTop
@@ -37,14 +37,15 @@ export function useStickyScroll<T extends HTMLElement>() {
         topRef.current = Math.max(minTop, Math.min(0, topRef.current - delta))
       }
 
-      setTop(topRef.current)
+      // Пишем в DOM напрямую: setState на каждый scroll перерисовывал бы всю страницу. `position: sticky` задаёт вызывающий.
+      el.style.top = `${topRef.current}px`
     }
 
     scrollParent.addEventListener('scroll', onScroll, { passive: true })
     return () => scrollParent.removeEventListener('scroll', onScroll)
   }, [])
 
-  return { ref, top }
+  return { ref }
 }
 
 function findScrollParent(node: HTMLElement): HTMLElement | null {

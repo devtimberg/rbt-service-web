@@ -79,7 +79,13 @@ describe('getValidSession', () => {
     expect(refreshSession).toHaveBeenCalledTimes(1)
   })
 
-  it('refresh отклонён (4xx): cookie очищается, гость', async () => {
+  it('429 от прокси: cookie сохраняется', async () => {
+    vi.mocked(refreshSession).mockRejectedValue(new ApiError(429, { code: 'http_429', message: 'x' }))
+    expect(await getValidSession()).toBeNull()
+    expect(deleteCookie).not.toHaveBeenCalled()
+  })
+
+  it('refresh отклонён (401): cookie очищается, гость', async () => {
     vi.mocked(refreshSession).mockRejectedValue(new ApiError(401, { code: 'refresh_token_revoked', message: 'x' }))
     expect(await getValidSession()).toBeNull()
     expect(deleteCookie).toHaveBeenCalled()

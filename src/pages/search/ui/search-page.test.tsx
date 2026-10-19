@@ -4,7 +4,8 @@ import { SearchPage } from './search-page'
 
 const state = vi.hoisted(() => ({ query: '' }))
 
-vi.mock('@/features/search-products', () => ({
+vi.mock('@/features/search-products', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/features/search-products')>()),
   useSearchStore: (selector: (s: { query: string }) => unknown) => selector({ query: state.query }),
 }))
 vi.mock('@/entities/category', () => ({

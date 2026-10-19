@@ -9,8 +9,6 @@ export type Product = {
   price: number
   oldPrice?: number
   availability: ProductAvailability
-  isFavorite?: boolean
-  isInCart?: boolean
   preOrderDate?: string
 }
 

@@ -80,8 +80,8 @@ function refreshOnce(current: SessionData, clientMeta: ClientMeta): Promise<Refr
     promise = refreshSession(current.refreshToken, clientMeta)
       .then((session) => sessionFromRefresh(session, current))
       .catch((error: unknown) => {
-        // Токен не принят (4xx) — сессию не спасти. Сеть и 5xx — временно, пробрасываем.
-        if (error instanceof ApiError && error.status < 500) return null
+        // Бэкенд отвечает на невалидный refresh только 401. Прочее (429 от прокси, 5xx, сеть) — временно, пробрасываем.
+        if (error instanceof ApiError && error.status === 401) return null
         throw error
       })
       .finally(() => {

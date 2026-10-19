@@ -16,8 +16,10 @@ const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
 
 const DAY_LABELS = ['Сегодня', 'Завтра', 'Послезавтра']
 
-export function getTimeSlotGroups(): TimeSlotGroup[] {
-  const today = new Date()
+const toMinutes = (hhmm: string) => Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slice(3))
+
+export function getTimeSlotGroups(today = new Date()): TimeSlotGroup[] {
+  const nowMinutes = today.getHours() * 60 + today.getMinutes()
 
   return Array.from({ length: 3 }, (_, dayIndex) => {
     const date = new Date(today)
@@ -30,7 +32,9 @@ export function getTimeSlotGroups(): TimeSlotGroup[] {
       key: `${dayIndex}-${slotIndex}`,
       start: template.start,
       end: template.end,
-      available: !UNAVAILABLE_SLOTS.has(`${dayIndex}-${slotIndex}`),
+      available:
+        !UNAVAILABLE_SLOTS.has(`${dayIndex}-${slotIndex}`) &&
+        !(dayIndex === 0 && toMinutes(template.start) <= nowMinutes),
     }))
 
     return { key: `day-${dayIndex}`, label, slots }

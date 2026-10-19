@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { getTimeSlotGroups } from '../model/time-slots'
 import type { ApplianceCategory, MasterCallStep, ServiceType, TimeSlot, TimeSlotGroup } from '../model/types'
 import { StepCategory } from './step-category'
@@ -15,7 +15,8 @@ export function MasterCallPage() {
     slot: TimeSlot
   } | null>(null)
 
-  const timeSlotGroups = useMemo(() => getTimeSlotGroups(), [])
+  // Считаем на клиенте при переходе к выбору времени: на сервере дата/часовой пояс другие (рассинхрон SSR).
+  const [timeSlotGroups, setTimeSlotGroups] = useState<TimeSlotGroup[]>([])
 
   const handleSelectCategory = (cat: ApplianceCategory) => {
     setCategory((prev) => (prev?.key === cat.key ? null : cat))
@@ -23,6 +24,7 @@ export function MasterCallPage() {
 
   const handleNext = () => {
     if (category) {
+      setTimeSlotGroups(getTimeSlotGroups())
       setStep(1)
     }
   }
@@ -64,7 +66,6 @@ export function MasterCallPage() {
           selectedGroup={selected!.group}
           selectedSlot={selected!.slot}
           cancelAction={handleBack}
-          confirmedAction={() => setStep(3)}
         />
       )
     case 3:

@@ -13,7 +13,7 @@ import { sessionFromApi } from '../model/session-data'
 import type { SessionUser } from '../model/types'
 import { logoutAction, logoutAllAction, passwordChangeAction } from './auth-actions.server'
 import * as authApi from './auth-api.server'
-import { getClientMeta, getValidSession, writeSession } from './session.server'
+import { getClientMeta, getValidSession, readSession, writeSession } from './session.server'
 
 // Серверные функции (RPC). Тела handler'ов выполняются только на сервере, `*.server.ts` импортируются
 // из них, поэтому в клиентский бандл серверный код не попадает.
@@ -22,6 +22,8 @@ import { getClientMeta, getValidSession, writeSession } from './session.server'
 /** Текущий пользователь или null (гость). Токены наружу не отдаются. */
 export const getCurrentUser = createServerFn({ method: 'GET' }).handler(async (): Promise<SessionUser | null> => {
   const session = await getValidSession()
+  // Cookie сохранена, а сессии нет — временный сбой refresh: бросаем, чтобы гость не закэшировался на staleTime.
+  if (!session && readSession()) throw new Error('session_refresh_unavailable')
   return session?.user ?? null
 })
 

@@ -8,12 +8,16 @@ export const emailSchema = z
   .trim()
   .min(1, 'Введите email')
   .email('Некорректный email')
+  .max(254, 'Не длиннее 254 символов')
   .transform((value) => value.toLowerCase())
 
 /** Полную проверку пароля делает Django-валидатор на бэкенде и возвращает
  * список требований в `details`. Здесь — только минимум, чтобы не гонять
  * заведомо пустой запрос. */
-export const passwordSchema = z.string().min(8, 'Пароль должен быть не короче 8 символов')
+export const passwordSchema = z
+  .string()
+  .min(8, 'Пароль должен быть не короче 8 символов')
+  .max(128, 'Не длиннее 128 символов')
 
 export const otpSchema = z
   .string()
@@ -22,7 +26,7 @@ export const otpSchema = z
 
 export const loginSchema = z.object({
   email: emailSchema,
-  password: z.string().min(1, 'Введите пароль'),
+  password: z.string().min(1, 'Введите пароль').max(128, 'Не длиннее 128 символов'),
 })
 
 export const signupStartSchema = z.object({ email: emailSchema })
@@ -35,8 +39,8 @@ export const signupVerifySchema = z.object({
 export const signupCompleteSchema = z
   .object({
     ticket: z.string().min(1),
-    firstName: z.string().trim().min(1, 'Введите имя'),
-    lastName: z.string().trim().min(1, 'Введите фамилию'),
+    firstName: z.string().trim().min(1, 'Введите имя').max(80, 'Не длиннее 80 символов'),
+    lastName: z.string().trim().min(1, 'Введите фамилию').max(80, 'Не длиннее 80 символов'),
     password: passwordSchema,
     passwordConfirm: z.string(),
   })

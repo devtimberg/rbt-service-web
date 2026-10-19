@@ -51,6 +51,8 @@ export async function apiFetch<T>(
       headers,
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       cache: 'no-store',
+      // Зависший API не должен держать SSR-запросы бесконечно; таймаут попадает в catch как сетевой сбой.
+      signal: AbortSignal.timeout(10_000),
     })
   } catch (cause) {
     throw new ApiNetworkError(cause)

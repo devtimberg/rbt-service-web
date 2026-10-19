@@ -12,6 +12,7 @@ import { Heading } from '@/shared/ui/Heading'
 import { BagIcon } from '@/shared/ui/icons'
 import { LineBreak, Text } from '@/shared/ui/Text'
 import { Footer } from '@/widgets/footer'
+import { calcCartTotals } from '../model/totals'
 import { CartItem } from './cart-item'
 import { CartSelectionBar } from './cart-selection-bar'
 import { CartSummary } from './cart-summary'
@@ -113,14 +114,7 @@ export function CartPage() {
 
   // Compute totals from selected products only
   const selectedProducts = cartProducts.filter((p) => effectiveSelectedIds.has(p.id))
-  const totalItems = selectedProducts.reduce((sum, p) => sum + p.quantity, 0)
-  const subtotal = selectedProducts.reduce((sum, p) => sum + p.price * p.quantity, 0)
-  const discount = selectedProducts.reduce((sum, p) => {
-    if (p.oldPrice) {
-      return sum + (p.oldPrice - p.price) * p.quantity
-    }
-    return sum
-  }, 0)
+  const { totalItems, subtotal, discount } = calcCartTotals(selectedProducts)
 
   // Selection callbacks
   const toggleSelect = useCallback((id: string) => {

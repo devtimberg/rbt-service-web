@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 import { apiFetch } from './client'
-import { ApiError, toUserMessage } from './errors'
+import { ApiError, ApiNetworkError, toUserMessage } from './errors'
 
 vi.mock('@/shared/config', () => ({
   getServerEnv: () => ({ API_INTERNAL_URL: 'http://api.test/', SESSION_SECRET: 'x'.repeat(32), TRUST_PROXY: false }),
@@ -63,6 +63,15 @@ describe('apiFetch: ошибки', () => {
     const error = await failure(apiFetch('/x'))
     expect(error.code).toBe('http_500')
     expect(error.isUnauthorized).toBe(false)
+  })
+})
+
+describe('apiFetch: таймаут', () => {
+  it('передаёт signal, а abort превращается в ApiNetworkError', async () => {
+    const fetchMock = vi.fn().mockRejectedValue(new DOMException('timeout', 'TimeoutError'))
+    vi.stubGlobal('fetch', fetchMock)
+    await expect(apiFetch('/x')).rejects.toBeInstanceOf(ApiNetworkError)
+    expect((fetchMock.mock.calls[0] as [string, RequestInit])[1].signal).toBeInstanceOf(AbortSignal)
   })
 })
 

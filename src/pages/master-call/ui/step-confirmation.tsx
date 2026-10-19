@@ -9,7 +9,7 @@ import { SmartLink } from '@/shared/ui/SmartLink'
 import { LineBreak, Text } from '@/shared/ui/Text'
 import type { ApplianceCategory, ServiceType, TimeSlot, TimeSlotGroup } from '../model/types'
 
-const TIMER_SECONDS = 1 * 10
+const TIMER_SECONDS = 5 * 60
 const PHONE_NUMBER = '8-800-333-555-6'
 const PHONE_HREF = 'tel:88003335556'
 
@@ -32,7 +32,6 @@ type StepConfirmationProps = {
   selectedGroup: TimeSlotGroup
   selectedSlot: TimeSlot
   cancelAction: () => void
-  confirmedAction: () => void
 }
 
 export function StepConfirmation({
@@ -41,7 +40,6 @@ export function StepConfirmation({
   selectedGroup,
   selectedSlot,
   cancelAction,
-  confirmedAction,
 }: StepConfirmationProps) {
   const [remaining, setRemaining] = useState(TIMER_SECONDS)
 
@@ -50,12 +48,6 @@ export function StepConfirmation({
     const id = setInterval(() => setRemaining((r) => r - 1), 1000)
     return () => clearInterval(id)
   }, [remaining])
-
-  useEffect(() => {
-    if (remaining <= 0) {
-      confirmedAction()
-    }
-  }, [remaining, confirmedAction])
 
   const expired = remaining <= 0
 
@@ -92,7 +84,7 @@ export function StepConfirmation({
             </Text>
             <LineBreak />
             <Text as="span" className="text-tertiary">
-              в течении {formatTimer(remaining)}
+              в течение {formatTimer(remaining)}
             </Text>
           </Text>
         )}
