@@ -3,6 +3,7 @@ import { useCartStore } from '@/entities/cart'
 import { MOCK_PRODUCTS, type Product } from '@/entities/product'
 import { ROUTES } from '@/shared/config'
 import { cn } from '@/shared/lib/cn'
+import { usePersistHydrated } from '@/shared/lib/usePersistHydrated'
 import { Box } from '@/shared/ui/Box'
 import { Breadcrumb } from '@/shared/ui/Breadcrumb'
 import { Button } from '@/shared/ui/Button'
@@ -80,6 +81,7 @@ function pluralizeItems(count: number): string {
 }
 
 export function CartPage() {
+  const hydrated = usePersistHydrated(useCartStore.persist)
   const cartItems = useCartStore((s) => s.items)
   const removeFromCart = useCartStore((s) => s.remove)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set<string>())
@@ -147,6 +149,9 @@ export function CartPage() {
   const shareSelected = useCallback(() => {
     // TODO: реализовать функционал "Поделиться"
   }, [])
+
+  // До подтягивания из localStorage корзина пуста: не мигаем пустым состоянием
+  if (!hydrated) return null
 
   if (cartProducts.length === 0) {
     return (

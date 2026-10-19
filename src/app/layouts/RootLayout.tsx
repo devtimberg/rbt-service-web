@@ -9,6 +9,7 @@ import { Header } from '@/widgets/header'
 import { MobileBottomNav } from '@/widgets/mobile-bottom-nav'
 import { SheetLayout } from './SheetLayout'
 import { useSheetState } from './useSheetState'
+import { useStorageSync } from './useStorageSync'
 
 /**
  * Корневая раскладка: шапка, основной контент, нижняя навигация и шторка.
@@ -26,6 +27,7 @@ export function RootLayout() {
     rehydrateCartStore()
     rehydrateFavoritesStore()
   }, [])
+  useStorageSync()
 
   return (
     <>

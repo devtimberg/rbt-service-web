@@ -61,6 +61,18 @@ describe('TextInput и TextField', () => {
     expect(screen.queryByText('Подсказка')).toBeNull()
   })
 
+  it('TextField: подсказка связана через aria-describedby', () => {
+    render(<TextField label="Имя" name="name" hint="Как к вам обращаться" />)
+    expect(screen.getByLabelText('Имя')).toHaveAccessibleDescription('Как к вам обращаться')
+  })
+
+  it('TextField: id вызывающего связывает подпись и поле, id описаний производны от него', () => {
+    render(<TextField label="Email" name="email" id="custom" error="Ошибка" />)
+    const input = screen.getByLabelText('Email')
+    expect(input).toHaveAttribute('id', 'custom')
+    expect(input).toHaveAttribute('aria-describedby', 'custom-error')
+  })
+
   it('TextField показывает подсказку без ошибки', () => {
     render(<TextField label="Имя" name="name" hint="Как к вам обращаться" />)
     expect(screen.getByText('Как к вам обращаться')).toBeInTheDocument()

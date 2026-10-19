@@ -19,5 +19,8 @@ ENV NODE_ENV=production PORT=3000
 COPY --from=build /app/.output ./.output
 USER node
 EXPOSE 3000
-# API_INTERNAL_URL и SESSION_SECRET передаются при запуске контейнера
+# API_INTERNAL_URL и SESSION_SECRET передаются при запуске контейнера.
+# За реверс-прокси обязательно TRUST_PROXY=true (по умолчанию false): иначе API видит IP прокси у всех и свой лимит
+# 20 OTP-писем/час на IP считает на весь сайт. Прокси должен перезаписывать X-Forwarded-For/X-Real-IP,
+# приложение и API не должны быть доступны напрямую.
 CMD ["node", ".output/server/index.mjs"]

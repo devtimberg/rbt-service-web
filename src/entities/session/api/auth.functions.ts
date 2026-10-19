@@ -11,21 +11,18 @@ import {
 } from '../model/schemas'
 import { sessionFromApi } from '../model/session-data'
 import type { SessionUser } from '../model/types'
-import { logoutAction, logoutAllAction, passwordChangeAction } from './auth-actions.server'
+import { currentUserAction, logoutAction, logoutAllAction, passwordChangeAction } from './auth-actions.server'
 import * as authApi from './auth-api.server'
-import { getClientMeta, getValidSession, readSession, writeSession } from './session.server'
+import { getClientMeta, writeSession } from './session.server'
 
 // Серверные функции (RPC). Тела handler'ов выполняются только на сервере, `*.server.ts` импортируются
 // из них, поэтому в клиентский бандл серверный код не попадает.
 // Ошибки API не бросаются, а возвращаются как `{ ok: false, message }` с русским сообщением.
 
 /** Текущий пользователь или null (гость). Токены наружу не отдаются. */
-export const getCurrentUser = createServerFn({ method: 'GET' }).handler(async (): Promise<SessionUser | null> => {
-  const session = await getValidSession()
-  // Cookie сохранена, а сессии нет — временный сбой refresh: бросаем, чтобы гость не закэшировался на staleTime.
-  if (!session && readSession()) throw new Error('session_refresh_unavailable')
-  return session?.user ?? null
-})
+export const getCurrentUser = createServerFn({ method: 'GET' }).handler(async (): Promise<SessionUser | null> =>
+  currentUserAction(),
+)
 
 export const login = createServerFn({ method: 'POST' })
   .validator(loginSchema)
@@ -49,7 +46,7 @@ export const signupStart = createServerFn({ method: 'POST' })
   .validator(signupStartSchema)
   .handler(async ({ data }): Promise<ActionResult<{ resendIn: number }>> => {
     try {
-      const info = await authApi.signupStart(data.email)
+      const info = await authApi.signupStart(data.email, getClientMeta())
       return { ok: true, resendIn: info.nextResendIn }
     } catch (error) {
       return failureFrom(error)
@@ -60,7 +57,7 @@ export const signupResendOtp = createServerFn({ method: 'POST' })
   .validator(signupStartSchema)
   .handler(async ({ data }): Promise<ActionResult<{ resendIn: number }>> => {
     try {
-      const info = await authApi.signupResendOtp(data.email)
+      const info = await authApi.signupResendOtp(data.email, getClientMeta())
       return { ok: true, resendIn: info.nextResendIn }
     } catch (error) {
       return failureFrom(error)
@@ -71,7 +68,7 @@ export const signupVerify = createServerFn({ method: 'POST' })
   .validator(signupVerifySchema)
   .handler(async ({ data }): Promise<ActionResult<{ ticket: string }>> => {
     try {
-      const { ticket } = await authApi.signupVerify(data.email, data.code)
+      const { ticket } = await authApi.signupVerify(data.email, data.code, getClientMeta())
       return { ok: true, ticket }
     } catch (error) {
       return failureFrom(error)
@@ -100,7 +97,7 @@ export const passwordResetRequest = createServerFn({ method: 'POST' })
   .validator(passwordResetRequestSchema)
   .handler(async ({ data }): Promise<ActionResult<{ resendIn: number }>> => {
     try {
-      const info = await authApi.passwordResetRequest(data.email)
+      const info = await authApi.passwordResetRequest(data.email, getClientMeta())
       return { ok: true, resendIn: info.nextResendIn }
     } catch (error) {
       return failureFrom(error)
@@ -111,7 +108,10 @@ export const passwordResetConfirm = createServerFn({ method: 'POST' })
   .validator(passwordResetConfirmSchema)
   .handler(async ({ data }): Promise<ActionResult> => {
     try {
-      await authApi.passwordResetConfirm({ email: data.email, code: data.code, newPassword: data.newPassword })
+      await authApi.passwordResetConfirm(
+        { email: data.email, code: data.code, newPassword: data.newPassword },
+        getClientMeta(),
+      )
       return { ok: true }
     } catch (error) {
       return failureFrom(error)

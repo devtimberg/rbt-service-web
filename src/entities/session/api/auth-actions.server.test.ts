@@ -2,7 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import { ApiError, ApiNetworkError, type ApiSession } from '@/shared/api'
 import type { SessionData } from '../model/types'
-import { logoutAction, logoutAllAction, passwordChangeAction } from './auth-actions.server'
+import { currentUserAction, logoutAction, logoutAllAction, passwordChangeAction } from './auth-actions.server'
 import * as authApi from './auth-api.server'
 import { clearSession, getValidSession, readSession, writeSession } from './session.server'
 
@@ -136,5 +136,22 @@ describe('logoutAction', () => {
     vi.mocked(authApi.logout).mockRejectedValue(new ApiNetworkError())
     expect(await logoutAction()).toEqual({ ok: true })
     expect(clearSession).toHaveBeenCalled()
+  })
+})
+
+describe('currentUserAction', () => {
+  it('есть сессия — отдаёт пользователя', async () => {
+    expect(await currentUserAction()).toEqual(session.user)
+  })
+
+  it('нет сессии и нет cookie — гость (null)', async () => {
+    vi.mocked(getValidSession).mockResolvedValue(null)
+    vi.mocked(readSession).mockReturnValue(null)
+    expect(await currentUserAction()).toBeNull()
+  })
+
+  it('нет сессии, но cookie сохранена (сбой refresh) — бросает, чтобы гость не кэшировался', async () => {
+    vi.mocked(getValidSession).mockResolvedValue(null)
+    await expect(currentUserAction()).rejects.toThrow('session_refresh_unavailable')
   })
 })

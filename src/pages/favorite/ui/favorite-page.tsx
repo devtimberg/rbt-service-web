@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useFavoritesStore } from '@/entities/favorite'
 import { MOCK_AVAILABILITY_OPTIONS, MOCK_PRODUCTS } from '@/entities/product'
 import { ROUTES } from '@/shared/config'
+import { usePersistHydrated } from '@/shared/lib/usePersistHydrated'
 import { useStickyScroll } from '@/shared/lib/useStickyScroll'
 import { Box } from '@/shared/ui/Box'
 import { Breadcrumb } from '@/shared/ui/Breadcrumb'
@@ -33,6 +34,7 @@ const FAVORITE_CATEGORIES = [
 
 export function FavoritePage() {
   const [sort, setSort] = useState('popular')
+  const hydrated = usePersistHydrated(useFavoritesStore.persist)
   const favoriteIds = useFavoritesStore((s) => s.items)
   const { ref: filtersRef } = useStickyScroll<HTMLDivElement>()
 
@@ -44,6 +46,9 @@ export function FavoritePage() {
     if (sort === 'price-desc') return b.price - a.price
     return 0
   })
+
+  // До подтягивания из localStorage избранное пусто: не мигаем пустым состоянием
+  if (!hydrated) return null
 
   if (favoriteProducts.length === 0) {
     return (

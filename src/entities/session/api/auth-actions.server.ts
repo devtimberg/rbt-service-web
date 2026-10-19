@@ -19,6 +19,14 @@ async function requireSession(): Promise<SessionCheck> {
   return { ok: false, failure: { ok: false, message: messageForCode('unauthorized'), unauthorized: true } }
 }
 
+/** Текущий пользователь или null (гость). Cookie сохранена, а сессии нет — временный сбой refresh:
+ * бросаем, чтобы гость не закэшировался на staleTime. */
+export async function currentUserAction(): Promise<SessionUser | null> {
+  const session = await getValidSession()
+  if (!session && readSession()) throw new Error('session_refresh_unavailable')
+  return session?.user ?? null
+}
+
 /** 401 от защищённого эндпоинта: access отозван или истёк (например, logout-all на другом устройстве).
  * Сессия мертва, cookie чистим и просим войти заново. Прочие ошибки возвращаем как есть. */
 function failureFromProtected(error: unknown): ActionFailure {
