@@ -121,6 +121,15 @@ Cookie-сессия, AES-256-GCM, ключ из `SESSION_SECRET` ([ADR 0004](doc
 - Шторки: маршрут с `staticData: { sheet: true }` рендерится в `app/layouts/SheetLayout` ([ADR 0006](docs/adr/0006-sheets-via-static-data.md)).
 - Иконки: SVG в `src/shared/ui/icons/raw`, затем `make icons`; сгенерированные файлы руками не правим.
 
+## Формы
+
+Формы на react-hook-form + `zodResolver` из `@hookform/resolvers` ([ADR 0009](docs/adr/0009-nextjs-css-modules-rtk-query.md), фаза 1.4). Схема и тексты ошибок в `model` фичи или `entities/session` (как `loginSchema`), с unit-тестом. Примитивы `shared/ui` не импортируют react-hook-form. Соглашения (как в rbt-web):
+- поля с `ref` и `name` (`TextField`, `TextInput`, `Input`, `Checkbox`) через `{...register('x')}`, контролируемые (`OtpField`, `RadioGroup`) через `Controller`;
+- `<Form noValidate onSubmit={handleSubmit(onValid)}>`: проверяет схема, не браузер;
+- ошибка сервера по полю кладётся через `setError('x', { type: 'server', message })` в `onSuccess`/`onError` мутации; общая ошибка формы (`FormAlert`) по-прежнему из результата мутации (`resultMessage`);
+- правка поля убирает его ошибку (клиентскую и серверную): режим по умолчанию (`mode: 'onSubmit'`, `reValidateMode: 'onChange'`) это даёт, своих `useState` для значений и ошибок не заводим;
+- многошаговые формы (регистрация, сброс пароля): форма на шаг, значения прошлых шагов передаются пропсами, как сейчас.
+
 ## Тесты
 
 Vitest через `vp test run` (jsdom) + Testing Library, конфиг в отдельном [vitest.config.ts](vitest.config.ts) (тестам не нужны плагины Start/Nitro/Tailwind), `vitest.setup.ts`. API тестов импортируем из `vite-plus/test` (не из `vitest`), иначе `vite-plus/prefer-vite-plus-imports` ругнётся. Матчер `toHaveTextContent` с RegExp не используем (конфликт типов): `expect(el.textContent).toMatch(/.../)`. Тесты лежат рядом с кодом: `*.test.ts(x)`; серверные модули с `// @vitest-environment node`. Логику без React (модели, ошибки, шифрование сессии) покрывай unit-тестом, поведение UI компонентным. DOM-снапшоты не делаем. Тестовые env (`API_INTERNAL_URL`, `SESSION_SECRET`) заданы в `vitest.config.ts`.
