@@ -18,7 +18,7 @@
     height: 100%;
     cursor: pointer;
     appearance: none;
-    border-radius: calc(infinity * 1px);
+    border-radius: 9999px;
     border: 2px solid #dee9fe;
     background-color: #f7faff;
     transition-property: box-shadow;
@@ -48,7 +48,7 @@
     width: calc(var(--spacing) * 2.5);
     height: calc(var(--spacing) * 2.5);
     translate: -50% -50%;
-    border-radius: calc(infinity * 1px);
+    border-radius: 9999px;
     background-color: var(--color-primary-300);
   }
 

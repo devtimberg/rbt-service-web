@@ -1,4 +1,4 @@
-/* Чип (ADR 0009). gray-50/gray-200: значения палитры Tailwind (в tokens.css их нет). */
+/* Чип (ADR 0009). gray-50/gray-200: серые из стандартной палитры (в tokens.css их нет). */
 @layer components {
   .root {
     display: inline-flex;
@@ -8,9 +8,7 @@
     border-width: 1px;
     border-style: solid;
     font-weight: 500;
-    transition-property:
-      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from,
-      --tw-gradient-via, --tw-gradient-to;
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
@@ -64,7 +62,7 @@
   }
 
   .roundedFull {
-    border-radius: calc(infinity * 1px);
+    border-radius: 9999px;
   }
 
   .roundedMd {

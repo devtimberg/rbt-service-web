@@ -1,0 +1,35 @@
+/* Страница 404 (ADR 0009) */
+@layer slices {
+  .root {
+    flex: 1 1 0%;
+    margin-top: 1.5rem;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    background-color: #f7faff;
+    padding: 4rem 1rem;
+    text-align: center;
+    color: var(--color-primary);
+
+    @media (--lg) {
+      border-radius: 40px;
+    }
+  }
+
+  .title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+  }
+
+  .hint {
+    margin-top: 0.5rem;
+    color: var(--color-secondary);
+  }
+
+  .link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: var(--color-link);
+    text-decoration-line: underline;
+  }
+}

@@ -53,7 +53,7 @@ const justifies = {
 export type StackProps<T extends BoxElement = 'div'> = BoxProps<T> & {
   /** column: колонка (по умолчанию), row: строка. */
   direction?: 'column' | 'row'
-  /** Зазор по шкале Tailwind: 4 → `gap-4` (16px). Адаптивные зазоры — через `className` (`tablet:gap-6`). */
+  /** Зазор по шкале 0.25rem: 4 → 16px. Адаптивные зазоры — через `className` слайса. */
   gap?: keyof typeof gaps
   align?: keyof typeof aligns
   justify?: keyof typeof justifies
@@ -61,8 +61,8 @@ export type StackProps<T extends BoxElement = 'div'> = BoxProps<T> & {
 }
 
 /**
- * Flex-колонка или строка: классы модуля из пропсов (зазор, выравнивание, перенос). Tailwind-классы из `className`
- * идут следом и перекрывают модуль (`md:flex-row`, `hidden` и т. п.).
+ * Flex-колонка или строка: классы модуля из пропсов (зазор, выравнивание, перенос). Класс слайса из `className`
+ * идёт следом и перекрывает модуль (слой `slices` выше `components`).
  */
 export function Stack<T extends BoxElement = 'div'>({
   as,

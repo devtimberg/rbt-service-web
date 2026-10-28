@@ -1,7 +1,7 @@
 import viteReact from '@vitejs/plugin-react'
 import { defineConfig } from 'vite-plus'
 
-// Отдельный конфиг: тестам не нужны плагины Start/Nitro/Tailwind
+// Отдельный конфиг: тестам не нужны плагины Start/Nitro
 export default defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [viteReact()],

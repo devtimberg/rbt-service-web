@@ -1,10 +1,8 @@
-/* Дизайн-токены (OKLCH). Tailwind v4 превращает переменные @theme в утилиты:
-   --color-primary-500 → bg-primary-500 / text-primary-500, --color-surface-subtle → bg-surface-subtle и т.д.
-   `static`: все переменные всегда попадают в :root, даже если утилита не используется. CSS Modules читают их
-   напрямую (`var(--color-primary-500)`, ADR 0009). После удаления Tailwind (фаза 1.5) блок станет обычным `:root`.
+/* Дизайн-токены (OKLCH) на :root. Цвета читают CSS Modules через `var(--color-primary-500)` (ADR 0009).
+   Размеры, шрифты и переходы ниже сохраняют значения прежней темы, на которой свёрстан сайт.
    Брейкпоинты для CSS Modules: media.css (`@custom-media`), значения совпадают с --breakpoint-* ниже.
    Токены shadcn (--background, --foreground, --muted, --accent, --destructive, --ring, --sidebar-*, --chart-*) удалены. */
-@theme static {
+:root {
   /* Примитивные палитры */
   --color-primary-100: oklch(0.7594 0.092 262.91);
   --color-primary-300: oklch(0.5712 0.1732 261.45);
@@ -82,8 +80,30 @@
   --color-state-info-bg: var(--color-info-500);
   --color-state-info-fg: oklch(0.205 0 0);
 
-  /* Шрифт: Inter Variable подключается в styles.css через @fontsource-variable/inter */
+  /* Шрифт: Inter Variable подключается в global.css через @fontsource-variable/inter */
   --font-sans: "Inter Variable", Inter, Arial, Helvetica, sans-serif;
+
+  /* Шкала размеров: 1 единица отступа = 0.25rem (`calc(var(--spacing) * 4)` = 16px) */
+  --spacing: 0.25rem;
+
+  /* Размеры текста с междустрочным интервалом (`--text-sm--line-height`) */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: calc(1 / 0.75);
+  --text-sm: 0.875rem;
+  --text-sm--line-height: calc(1.25 / 0.875);
+  --text-base: 1rem;
+  --text-base--line-height: calc(1.5 / 1);
+  --text-lg: 1.125rem;
+  --text-lg--line-height: calc(1.75 / 1.125);
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+
+  --radius-2xl: 1rem;
+
+  /* Переход по умолчанию (150ms, ease-out-in) */
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Брейкпоинты (как в старом globals.css): xs 384, sm 640, md 768, lg 1024, xl 1280, 2xl 1536.
      Меняешь значение: поменяй и media.css */

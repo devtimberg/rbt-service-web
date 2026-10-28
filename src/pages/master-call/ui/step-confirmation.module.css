@@ -78,7 +78,7 @@
     width: 1rem;
     height: 1rem;
     animation: spin 1s linear infinite;
-    border-radius: calc(infinity * 1px);
+    border-radius: 9999px;
     border: 2px solid currentColor;
     border-top-color: transparent;
     color: var(--color-primary-500);

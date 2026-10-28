@@ -8,7 +8,7 @@
   }
 
   .root {
-    /* Через переменную: сборка не сворачивает color-mix заранее, и computed совпадает с Tailwind (white/20) */
+    /* Через переменную: сборка не сворачивает color-mix заранее, белый 20% */
     --white: #fff;
 
     position: fixed;
@@ -82,16 +82,6 @@
     &::placeholder {
       color: color-mix(in oklab, var(--white) 60%, transparent);
     }
-
-    /* Нулевое кольцо (focus-visible:ring-0): список слоёв как у Tailwind, чтобы computed совпал */
-    &:focus-visible {
-      box-shadow:
-        0 0 #0000,
-        0 0 #0000,
-        0 0 #0000,
-        0 0 0 0 var(--ring-color),
-        0 0 #0000;
-    }
   }
 
   .clearButton {
@@ -136,7 +126,7 @@
   }
 
   .cartBadge {
-    border-radius: calc(infinity * 1px);
+    border-radius: 9999px;
     background-color: color-mix(in oklab, var(--white) 20%, transparent);
     padding: 0.125rem 0.625rem;
     color: #fff;

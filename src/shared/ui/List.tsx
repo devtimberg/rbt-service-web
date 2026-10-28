@@ -5,7 +5,7 @@ export type ListProps<T extends 'ul' | 'ol' = 'ul'> = ComponentProps<T> & {
   as?: T
 }
 
-/** Список без своих стилей (маркеры и отступы и так сброшены в preflight Tailwind). */
+/** Список без своих стилей (маркеры и отступы сбрасывает reset.css). */
 export function List<T extends 'ul' | 'ol' = 'ul'>({ as, ...props }: ListProps<T>) {
   // Пропсы уже проверены по `ComponentProps<T>`; объединение тегов TS не сопоставляет с пропсами сам
   const Component = (as ?? 'ul') as ElementType

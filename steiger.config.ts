@@ -6,7 +6,7 @@ export default defineConfig([
   ...fsd.configs.recommended,
   {
     // src/routes — файловые роуты TanStack Router, а не FSD-слой; корневые файлы src/*
-    // (router.tsx, client.tsx, server.ts, request-info.ts, routeTree.gen.ts, styles.css) —
+    // (router.tsx, client.tsx, server.ts, request-info.ts, routeTree.gen.ts) —
     // точки входа TanStack Start. Steiger их не разбирает.
     ignores: [
       './src/routes/**',
@@ -15,7 +15,6 @@ export default defineConfig([
       './src/client.tsx',
       './src/server.ts',
       './src/request-info.ts',
-      './src/styles.css',
     ],
   },
   {

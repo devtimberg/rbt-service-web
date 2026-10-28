@@ -106,7 +106,7 @@
   }
 
   .dot {
-    border-radius: calc(infinity * 1px);
+    border-radius: 9999px;
     width: 0.375rem;
     height: 0.375rem;
   }

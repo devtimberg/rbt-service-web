@@ -13,12 +13,10 @@
     height: 100%;
     cursor: pointer;
     appearance: none;
-    border-radius: var(--radius-sm);
+    border-radius: 0.25rem;
     border: 2px solid #dee9fe;
     background-color: #f7faff;
-    transition-property:
-      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from,
-      --tw-gradient-via, --tw-gradient-to;
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
     transition-timing-function: var(--default-transition-timing-function);
     transition-duration: var(--default-transition-duration);
 

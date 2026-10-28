@@ -1,5 +1,5 @@
 /* Кнопка (ADR 0009). Порядок правил важен: варианты, затем размеры, затем скругления: позднее правило
-   с той же специфичностью побеждает (так же `link` и `iconRight` раньше перебивали соседние классы через tailwind-merge). */
+   с той же специфичностью побеждает (так же `link` и `iconRight` перебивают соседние классы). */
 @layer components {
   .root {
     position: relative;
@@ -9,9 +9,7 @@
     cursor: pointer;
     font-weight: 600;
     white-space: nowrap;
-    transition-property:
-      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from,
-      --tw-gradient-via, --tw-gradient-to;
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 
@@ -153,7 +151,7 @@
   }
 
   .roundedFull {
-    border-radius: calc(infinity * 1px);
+    border-radius: 9999px;
   }
 
   .roundedMd {

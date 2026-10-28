@@ -1,5 +1,5 @@
 /* Брейкпоинты для CSS Modules (ADR 0009): `@media (--md) { ... }`.
-   Значения совпадают с --breakpoint-* в tokens.css (варианты Tailwind `md:` и т.д.).
+   Значения совпадают с --breakpoint-* в tokens.css .
    Файл подмешивается в каждый CSS через @csstools/postcss-global-data (postcss.config.js), импортировать его не нужно. */
 @custom-media --xs (width >= 24rem);
 @custom-media --sm (width >= 40rem);

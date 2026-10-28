@@ -19,7 +19,7 @@
     gap: 0.75rem;
   }
 
-  /* green-600 из палитры Tailwind (в tokens.css нет) */
+  /* green-600 (в tokens.css нет) */
   .badge {
     border-radius: 0.75rem;
     background-color: oklch(62.7% 0.194 149.214);

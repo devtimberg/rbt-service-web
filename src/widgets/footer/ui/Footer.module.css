@@ -100,7 +100,7 @@
     margin-left: 0.125rem;
   }
 
-  /* Пульсация каретки только без reduce-motion; длительность 2s, как у Tailwind animate-pulse
+  /* Пульсация каретки только без reduce-motion; длительность 2s
      (класс animation-duration-[450ms] не существовал и ничего не задавал) */
   .caretPulse {
     @media (prefers-reduced-motion: no-preference) {

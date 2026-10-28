@@ -1,6 +1,6 @@
 # rbt-service-web
 
-Мобильный веб-сервис ООО ТТЦ «Рембыттехника». Стек: TanStack Start (SSR), React 19, TypeScript, Tailwind 4, TanStack Query, Vite+ (`vp`, Oxlint, Oxfmt), Vitest. Правила для разработки: [AGENTS.md](AGENTS.md), решения: [docs/adr](docs/adr/README.md).
+Мобильный веб-сервис ООО ТТЦ «Рембыттехника». Стек: TanStack Start (SSR), React 19, TypeScript, CSS Modules, TanStack Query, Vite+ (`vp`, Oxlint, Oxfmt), Vitest. Правила для разработки: [AGENTS.md](AGENTS.md), решения: [docs/adr](docs/adr/README.md).
 
 ## Требования
 

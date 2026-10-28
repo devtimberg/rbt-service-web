@@ -1,0 +1,63 @@
+/* Глобальные стили сайта (ADR 0009): порядок каскадных слоёв, сброс, шрифт, токены и несколько глобальных классов.
+   Подключается в routes/__root.tsx первым, раньше любых CSS Modules (во фазе 2 так же в корневом лайауте Next).
+
+   Порядок слоёв объявлен до импортов (CSS это разрешает), поэтому действует, какой бы файл ни загрузился первым:
+   - base: сброс стилей браузера (reset.css) и правила элементов ниже;
+   - components: примитивы shared/ui и глобальные классы ниже;
+   - slices: CSS Modules слоёв выше shared/ui (app, pages, widgets, features, entities). Их класс, переданный примитиву
+     через className, перебивает стиль примитива без повышения специфичности.
+   Брейкпоинты `@media (--lg)` и др. из shared/ui/media.css (PostCSS подмешивает их в каждый CSS). */
+@layer base, components, slices;
+
+@import "./reset.css" layer(base);
+@import "@fontsource-variable/inter";
+@import "../../shared/ui/tokens.css";
+
+@layer base {
+  * {
+    caret-color: var(--color-secondary-500);
+    outline-style: none;
+  }
+  ::selection {
+    background-color: var(--color-secondary-500);
+    color: var(--color-inverse);
+  }
+
+  /* Оболочка страницы: синий фон, на lg тёмный с полем 16. Шторки и контент скроллятся внутри, не body. */
+  body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--color-primary-500);
+    font-family: var(--font-sans);
+    color: var(--color-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @media (--lg) {
+      padding: 1rem;
+      background-color: var(--color-primary-900);
+    }
+  }
+
+  /* Сброс оставляет кнопкам курсор браузера (default): возвращаем «руку» активным кнопкам. Disabled не трогаем. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* Скрытие нативного скроллбара (прежнее имя класса сохранено). Лежит в слое components (ADR 0009): класс слайса,
+   переданный снаружи через className, перебивает его. */
+@layer components {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

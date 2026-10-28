@@ -6,19 +6,13 @@
     height: calc(var(--spacing) * 9);
     width: 100%;
     min-width: 0;
-    border-radius: var(--radius-md);
+    border-radius: 0.375rem;
     border: 1px solid var(--color-border-default);
     background-color: transparent;
     padding: calc(var(--spacing) * 1) calc(var(--spacing) * 3);
     font-size: var(--text-base);
     line-height: var(--text-base--line-height);
-    /* Пустые слои тянет Tailwind (inset, inset-ring, ring-offset); повторяем список, чтобы computed совпадал */
-    box-shadow:
-      0 0 #0000,
-      0 0 #0000,
-      0 0 #0000,
-      0 0 #0000,
-      0 1px 2px 0 #0000000d;
+    box-shadow: 0 1px 2px 0 #0000000d;
     transition-property: color, box-shadow;
     transition-timing-function: var(--default-transition-timing-function);
     transition-duration: var(--default-transition-duration);
@@ -50,9 +44,6 @@
     &:focus-visible {
       border-color: var(--color-border-strong);
       box-shadow:
-        0 0 #0000,
-        0 0 #0000,
-        0 0 #0000,
         0 0 0 3px var(--ring-color),
         0 1px 2px 0 #0000000d;
     }

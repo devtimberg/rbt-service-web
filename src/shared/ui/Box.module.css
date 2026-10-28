@@ -1,4 +1,4 @@
-/* Stack (ADR 0009): зазоры по шкале Tailwind, 1 единица = 0.25rem (var(--spacing) в :root есть только пока Tailwind видит утилиты). */
+/* Stack (ADR 0009): зазоры по шкале: 1 единица = 0.25rem (`--spacing` из tokens.css). */
 @layer components {
   .stack {
     display: flex;

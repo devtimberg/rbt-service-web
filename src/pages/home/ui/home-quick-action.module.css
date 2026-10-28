@@ -30,9 +30,7 @@
     padding: 1rem 0.75rem;
     color: var(--color-inverse);
     text-align: center;
-    transition-property:
-      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from,
-      --tw-gradient-via, --tw-gradient-to;
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 
@@ -50,7 +48,7 @@
   }
 
   .iconBox {
-    /* Через переменную: сборка не сворачивает color-mix заранее, и computed совпадает с Tailwind (white/25) */
+    /* Через переменную: сборка не сворачивает color-mix заранее, белый 25% */
     --white: #fff;
 
     display: inline-flex;

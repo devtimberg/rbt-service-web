@@ -142,7 +142,7 @@
     width: 0.5rem;
     height: 0.5rem;
     flex-shrink: 0;
-    border-radius: calc(infinity * 1px);
+    border-radius: 9999px;
   }
 
   .dotInStock {
