@@ -5,14 +5,6 @@ import { z } from 'zod'
 const serverSchema = z.object({
   // Адрес rbt-service-api для SSR-запросов
   API_INTERNAL_URL: z.url({ error: 'API_INTERNAL_URL должен быть абсолютным URL' }),
-  // Секрет подписи cookie-сессии
-  SESSION_SECRET: z.string().min(32, { error: 'SESSION_SECRET должен быть не короче 32 символов' }),
-  // Доверять X-Forwarded-For / X-Real-IP при определении IP клиента. Включать только за прокси, который
-  // перезаписывает эти заголовки, иначе клиент подделает свой IP в списке устройств
-  TRUST_PROXY: z
-    .enum(['true', 'false', '1', '0'], { error: 'TRUST_PROXY должен быть true или false' })
-    .default('false')
-    .transform((value) => value === 'true' || value === '1'),
 })
 
 export type ServerEnv = z.infer<typeof serverSchema>

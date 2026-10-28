@@ -1,25 +1,13 @@
 import { describe, expect, it } from 'vite-plus/test'
 import { parseServerEnv } from './env'
 
-const base = { API_INTERNAL_URL: 'http://api.test', SESSION_SECRET: 'x'.repeat(32) }
-
 describe('parseServerEnv', () => {
-  it('TRUST_PROXY по умолчанию выключен', () => {
-    const parsed = parseServerEnv(base)
-    expect(parsed.success && parsed.data.TRUST_PROXY).toBe(false)
+  it('принимает абсолютный API_INTERNAL_URL', () => {
+    expect(parseServerEnv({ API_INTERNAL_URL: 'http://api.test' }).success).toBe(true)
   })
 
-  it.each([
-    ['true', true],
-    ['1', true],
-    ['false', false],
-    ['0', false],
-  ])('TRUST_PROXY=%s', (value, expected) => {
-    const parsed = parseServerEnv({ ...base, TRUST_PROXY: value })
-    expect(parsed.success && parsed.data.TRUST_PROXY).toBe(expected)
-  })
-
-  it('неизвестное значение TRUST_PROXY — ошибка', () => {
-    expect(parseServerEnv({ ...base, TRUST_PROXY: 'yes' }).success).toBe(false)
+  it('без API_INTERNAL_URL или с относительным — ошибка', () => {
+    expect(parseServerEnv({}).success).toBe(false)
+    expect(parseServerEnv({ API_INTERNAL_URL: '/api' }).success).toBe(false)
   })
 })

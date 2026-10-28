@@ -1,34 +1,11 @@
 import { describe, expect, it } from 'vite-plus/test'
 import { ApiError, ApiNetworkError, messageForCode, toUserMessage } from './errors'
 
-const apiError = (code: string, details?: string[], status = 400) =>
-  new ApiError(status, { code, message: `raw:${code}`, details: details ?? null })
+const apiError = (code: string, status = 400) => new ApiError(status, { code, message: `raw:${code}` })
 
 describe('toUserMessage', () => {
-  it.each([
-    ['invalid_credentials', 'Неверный email или пароль'],
-    ['email_already_registered', 'Этот email уже зарегистрирован'],
-    ['invalid_code', 'Неверный или устаревший код'],
-    ['invalid_ticket', 'Сессия регистрации недействительна, начните заново'],
-    ['ticket_expired', 'Время регистрации истекло, начните заново'],
-    ['invalid_password', 'Пароль не соответствует требованиям'],
-    ['invalid_refresh_token', 'Сессия недействительна, войдите заново'],
-    ['refresh_token_expired', 'Сессия истекла, войдите заново'],
-    ['refresh_token_revoked', 'Сессия отозвана, войдите заново'],
-    ['refresh_token_reused', 'Сессия завершена из соображений безопасности'],
-    ['unauthorized', 'Сессия истекла, войдите заново'],
-    ['token_revoked', 'Сессия отозвана, войдите заново'],
-    ['rate_limited', 'Слишком много попыток, попробуйте позже'],
-    ['session_not_found', 'Сессия не найдена'],
-    ['session_unknown', 'Обновите сессию и повторите'],
-  ])('код %s', (code, message) => {
-    expect(toUserMessage(apiError(code))).toBe(message)
-  })
-
-  it('invalid_password с details разворачивается в список требований', () => {
-    expect(toUserMessage(apiError('invalid_password', ['Слишком короткий.', 'Только цифры.']))).toBe(
-      'Слишком короткий. Только цифры.',
-    )
+  it('известный код', () => {
+    expect(toUserMessage(apiError('rate_limited', 429))).toBe('Слишком много попыток, попробуйте позже')
   })
 
   it('неизвестный код отдаёт message из ответа бэкенда', () => {
@@ -54,8 +31,8 @@ describe('toUserMessage', () => {
 
 describe('messageForCode', () => {
   it('чистый маппинг без экземпляра ошибки', () => {
-    expect(messageForCode('invalid_code')).toBe('Неверный или устаревший код')
+    expect(messageForCode('rate_limited')).toBe('Слишком много попыток, попробуйте позже')
     expect(messageForCode('unknown')).toBe('Что-то пошло не так, попробуйте ещё раз')
-    expect(messageForCode('unknown', [], 'сообщение')).toBe('сообщение')
+    expect(messageForCode('unknown', 'сообщение')).toBe('сообщение')
   })
 })

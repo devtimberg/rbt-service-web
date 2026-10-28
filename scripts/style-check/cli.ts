@@ -3,7 +3,7 @@
 //       снимает обе сборки одновременно (одни данные API) и сравнивает все элементы полностью
 //   bun scripts/style-check/cli.ts snapshot --url <url> --out <file.json> [опции] [путь ...]
 //   bun scripts/style-check/cli.ts diff <before.json> <after.json> [--ignore <regex>]
-// Пути: `/cart`, ожидаемый статус через `@`: `/some-unknown-page@404`, `/profile@307` (у нас адреса без слэша на конце: слэш перед `@` входит в путь). Без путей: DEFAULT_PATHS.
+// Пути: `/cart`, ожидаемый статус через `@`: `/some-unknown-page@404` (у нас адреса без слэша на конце: слэш перед `@` входит в путь). Без путей: DEFAULT_PATHS.
 // Опции: --widths 375,1440  --no-scroll  --ignore <regex> (повторяемая, по `<ширина> <путь> <элемент>`)
 //   --ignore-prop <regex> (повторяемая, по имени свойства)  --module-class <regex>  --out-dir <dir>
 // Выход: 0 — отличий нет, 1 — есть отличия, 2 — снимок негоден (404 вместо страницы, редирект, стили не загрузились,

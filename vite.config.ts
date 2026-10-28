@@ -94,7 +94,7 @@ const forbiddenElements = [
 
 export default defineConfig(({ mode }) => {
   // Vite отдаёт в process.env только VITE_*-переменные из .env. Серверные
-  // (API_INTERNAL_URL, SESSION_SECRET) нужны SSR-коду через process.env, поэтому подмешиваем их сами.
+  // (API_INTERNAL_URL) нужны SSR-коду через process.env, поэтому подмешиваем их сами.
   // Уже заданные в окружении значения не перезаписываем.
   const env = loadEnv(mode, process.cwd(), '')
   for (const [key, value] of Object.entries(env)) {

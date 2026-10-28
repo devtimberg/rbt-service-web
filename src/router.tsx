@@ -1,14 +1,11 @@
 import { QueryClient } from '@tanstack/react-query'
 import { createRouter } from '@tanstack/react-router'
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query'
-import type { SessionUser } from '@/entities/session'
 import { routeTree } from './routeTree.gen'
 
 /** Контекст роутера (то, что известно до beforeLoad). */
 export type RouterContext = {
   queryClient: QueryClient
-  /** Текущий пользователь (null — гость). Заполняет beforeLoad корневого роута. */
-  user: SessionUser | null
 }
 
 // Start создаёт роутер на каждый SSR-запрос, поэтому QueryClient тоже на запрос:
@@ -20,7 +17,7 @@ export function getRouter() {
 
   const router = createRouter({
     routeTree,
-    context: { queryClient, user: null } satisfies RouterContext,
+    context: { queryClient } satisfies RouterContext,
     defaultPreload: 'intent',
     defaultPreloadStaleTime: 0,
     scrollRestoration: true,

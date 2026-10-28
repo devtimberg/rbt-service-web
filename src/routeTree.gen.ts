@@ -10,32 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthedRouteImport } from './routes/_authed'
-import { Route as GuestRouteImport } from './routes/_guest'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as FavoriteRouteImport } from './routes/favorite'
 import { Route as MasterCallRouteImport } from './routes/master-call'
 import { Route as SearchRouteImport } from './routes/search'
-import { Route as AuthedProfileRouteImport } from './routes/_authed/profile'
 import { Route as DevUiRouteImport } from './routes/[_]dev/ui'
-import { Route as GuestLoginRouteImport } from './routes/_guest/login'
-import { Route as GuestPasswordResetRouteImport } from './routes/_guest/password-reset'
-import { Route as GuestSignupRouteImport } from './routes/_guest/signup'
 import { Route as CatalogIndexRouteImport } from './routes/catalog/index'
 import { Route as CatalogSplatRouteImport } from './routes/catalog/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthedRoute = AuthedRouteImport.update({
-  id: '/_authed',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GuestRoute = GuestRouteImport.update({
-  id: '/_guest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CartRoute = CartRouteImport.update({
@@ -63,30 +49,10 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthedProfileRoute = AuthedProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AuthedRoute,
-} as any)
 const DevUiRoute = DevUiRouteImport.update({
   id: '/_dev/ui',
   path: '/_dev/ui',
   getParentRoute: () => rootRouteImport,
-} as any)
-const GuestLoginRoute = GuestLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => GuestRoute,
-} as any)
-const GuestPasswordResetRoute = GuestPasswordResetRouteImport.update({
-  id: '/password-reset',
-  path: '/password-reset',
-  getParentRoute: () => GuestRoute,
-} as any)
-const GuestSignupRoute = GuestSignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => GuestRoute,
 } as any)
 const CatalogIndexRoute = CatalogIndexRouteImport.update({
   id: '/catalog/',
@@ -106,11 +72,7 @@ export interface FileRoutesByFullPath {
   '/favorite': typeof FavoriteRoute
   '/master-call': typeof MasterCallRoute
   '/search': typeof SearchRoute
-  '/profile': typeof AuthedProfileRoute
   '/_dev/ui': typeof DevUiRoute
-  '/login': typeof GuestLoginRoute
-  '/password-reset': typeof GuestPasswordResetRoute
-  '/signup': typeof GuestSignupRoute
   '/catalog/$': typeof CatalogSplatRoute
   '/catalog/': typeof CatalogIndexRoute
 }
@@ -121,29 +83,19 @@ export interface FileRoutesByTo {
   '/favorite': typeof FavoriteRoute
   '/master-call': typeof MasterCallRoute
   '/search': typeof SearchRoute
-  '/profile': typeof AuthedProfileRoute
   '/_dev/ui': typeof DevUiRoute
-  '/login': typeof GuestLoginRoute
-  '/password-reset': typeof GuestPasswordResetRoute
-  '/signup': typeof GuestSignupRoute
   '/catalog/$': typeof CatalogSplatRoute
   '/catalog': typeof CatalogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_authed': typeof AuthedRouteWithChildren
-  '/_guest': typeof GuestRouteWithChildren
   '/cart': typeof CartRoute
   '/compare': typeof CompareRoute
   '/favorite': typeof FavoriteRoute
   '/master-call': typeof MasterCallRoute
   '/search': typeof SearchRoute
-  '/_authed/profile': typeof AuthedProfileRoute
   '/_dev/ui': typeof DevUiRoute
-  '/_guest/login': typeof GuestLoginRoute
-  '/_guest/password-reset': typeof GuestPasswordResetRoute
-  '/_guest/signup': typeof GuestSignupRoute
   '/catalog/$': typeof CatalogSplatRoute
   '/catalog/': typeof CatalogIndexRoute
 }
@@ -156,11 +108,7 @@ export interface FileRouteTypes {
     | '/favorite'
     | '/master-call'
     | '/search'
-    | '/profile'
     | '/_dev/ui'
-    | '/login'
-    | '/password-reset'
-    | '/signup'
     | '/catalog/$'
     | '/catalog/'
   fileRoutesByTo: FileRoutesByTo
@@ -171,36 +119,24 @@ export interface FileRouteTypes {
     | '/favorite'
     | '/master-call'
     | '/search'
-    | '/profile'
     | '/_dev/ui'
-    | '/login'
-    | '/password-reset'
-    | '/signup'
     | '/catalog/$'
     | '/catalog'
   id:
     | '__root__'
     | '/'
-    | '/_authed'
-    | '/_guest'
     | '/cart'
     | '/compare'
     | '/favorite'
     | '/master-call'
     | '/search'
-    | '/_authed/profile'
     | '/_dev/ui'
-    | '/_guest/login'
-    | '/_guest/password-reset'
-    | '/_guest/signup'
     | '/catalog/$'
     | '/catalog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthedRoute: typeof AuthedRouteWithChildren
-  GuestRoute: typeof GuestRouteWithChildren
   CartRoute: typeof CartRoute
   CompareRoute: typeof CompareRoute
   FavoriteRoute: typeof FavoriteRoute
@@ -218,20 +154,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authed': {
-      id: '/_authed'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_guest': {
-      id: '/_guest'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof GuestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cart': {
@@ -269,40 +191,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authed/profile': {
-      id: '/_authed/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthedProfileRouteImport
-      parentRoute: typeof AuthedRoute
-    }
     '/_dev/ui': {
       id: '/_dev/ui'
       path: '/_dev/ui'
       fullPath: '/_dev/ui'
       preLoaderRoute: typeof DevUiRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_guest/login': {
-      id: '/_guest/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof GuestLoginRouteImport
-      parentRoute: typeof GuestRoute
-    }
-    '/_guest/password-reset': {
-      id: '/_guest/password-reset'
-      path: '/password-reset'
-      fullPath: '/password-reset'
-      preLoaderRoute: typeof GuestPasswordResetRouteImport
-      parentRoute: typeof GuestRoute
-    }
-    '/_guest/signup': {
-      id: '/_guest/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof GuestSignupRouteImport
-      parentRoute: typeof GuestRoute
     }
     '/catalog/': {
       id: '/catalog/'
@@ -321,35 +215,8 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthedRouteChildren {
-  AuthedProfileRoute: typeof AuthedProfileRoute
-}
-
-const AuthedRouteChildren: AuthedRouteChildren = {
-  AuthedProfileRoute: AuthedProfileRoute,
-}
-
-const AuthedRouteWithChildren =
-  AuthedRoute._addFileChildren(AuthedRouteChildren)
-
-interface GuestRouteChildren {
-  GuestLoginRoute: typeof GuestLoginRoute
-  GuestPasswordResetRoute: typeof GuestPasswordResetRoute
-  GuestSignupRoute: typeof GuestSignupRoute
-}
-
-const GuestRouteChildren: GuestRouteChildren = {
-  GuestLoginRoute: GuestLoginRoute,
-  GuestPasswordResetRoute: GuestPasswordResetRoute,
-  GuestSignupRoute: GuestSignupRoute,
-}
-
-const GuestRouteWithChildren = GuestRoute._addFileChildren(GuestRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthedRoute: AuthedRouteWithChildren,
-  GuestRoute: GuestRouteWithChildren,
   CartRoute: CartRoute,
   CompareRoute: CompareRoute,
   FavoriteRoute: FavoriteRoute,

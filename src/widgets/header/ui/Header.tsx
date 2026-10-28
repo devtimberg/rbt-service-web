@@ -17,7 +17,6 @@ import {
   CrossIcon,
   FilterIcon,
   HeartIcon,
-  ProfileIcon,
   SearchIcon,
   SearchOutlineIcon,
 } from '@/shared/ui/icons'
@@ -54,12 +53,6 @@ export function Header({ search }: HeaderProps) {
       href: ROUTES.CART,
       ariaLabel: 'Корзина',
       counter: cartCount || undefined,
-    },
-    {
-      id: 'profile',
-      icon: ProfileIcon,
-      href: ROUTES.PROFILE,
-      ariaLabel: 'Профиль',
     },
   ]
   const router = useRouter()

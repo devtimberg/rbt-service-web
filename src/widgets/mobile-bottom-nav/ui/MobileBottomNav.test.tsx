@@ -21,10 +21,10 @@ describe('MobileBottomNav', () => {
     state.favorites = 0
   })
 
-  it('показывает пять вкладок навигации', () => {
+  it('показывает четыре вкладки навигации', () => {
     render(<MobileBottomNav />)
     expect(screen.getByRole('navigation', { name: 'Мобильная навигация' })).toBeInTheDocument()
-    for (const name of ['Главная', 'Каталог', 'Избранное', 'Корзина', 'Профиль']) {
+    for (const name of ['Главная', 'Каталог', 'Избранное', 'Корзина']) {
       expect(screen.getByRole('link', { name })).toBeInTheDocument()
     }
   })

@@ -5,7 +5,7 @@ import { HOME_NAV_PATHS, ROUTES } from '@/shared/config'
 import { usePathname } from '@/shared/lib/usePathname'
 import { Box } from '@/shared/ui/Box'
 import { IconButton } from '@/shared/ui/IconButton'
-import { BagIcon, CatalogIcon, HeartIcon, HomeIcon, ProfileIcon } from '@/shared/ui/icons'
+import { BagIcon, CatalogIcon, HeartIcon, HomeIcon } from '@/shared/ui/icons'
 import { List, ListItem } from '@/shared/ui/List'
 import styles from './MobileBottomNav.module.css'
 
@@ -47,11 +47,6 @@ export function MobileBottomNav() {
       href: ROUTES.CART,
       icon: BagIcon,
       counter: cartCount || undefined,
-    },
-    {
-      label: 'Профиль',
-      href: ROUTES.PROFILE,
-      icon: ProfileIcon,
     },
   ]
 

@@ -8,7 +8,6 @@ import {
 } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 import { RootLayout } from '@/app/layouts'
-import { loadCurrentUser } from '@/entities/session'
 import type { RouterContext } from '@/router'
 import { Box } from '@/shared/ui/Box'
 import { Heading } from '@/shared/ui/Heading'
@@ -19,8 +18,6 @@ const DESCRIPTION =
   'На сегодняшний день, практически все люди без исключения пользуются различными видами бытовой техники, компьютерами и смартфонами. Трудно представить дом без стиральной или посудомоечной машины, холодильника или морозильной камеры, водонагревательных приборов или варочной поверхности. Однако любая техника иногда подводит, выходя из строя или отказываясь работать. Причины неисправности могут быть абсолютно разные, от неправильной эксплуатации техники до естественного износа деталей и их поломки. '
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  // Пользователь из cookie-сессии кладём в контекст: guard-роуты (_guest, _authed) читают context.user
-  beforeLoad: async ({ context }) => ({ user: await loadCurrentUser(context.queryClient) }),
   head: () => ({
     meta: [
       { charSet: 'utf-8' },

@@ -74,14 +74,14 @@ describe('healthProblems', () => {
     const problems = healthProblems(
       snapshot({
         '375 /': page({
-          finalPath: '/login/',
+          finalPath: '/elsewhere/',
           failedStylesheets: ['/assets/x.css'],
           unstyledModuleClasses: ['_root_ab12c_3'],
         }),
       }),
     )
     expect(problems).toHaveLength(3)
-    expect(problems[0]).toMatch(/редирект на \/login\//)
+    expect(problems[0]).toMatch(/редирект на \/elsewhere\//)
     expect(problems[1]).toMatch(/не загрузились стили/)
     expect(problems[2]).toMatch(/до пересборки \.output/)
   })

@@ -21,7 +21,7 @@ export type Snapshot = {
   pages: Record<string, PageSnapshot>
 }
 
-/** Путь страницы и ожидаемый статус: `/cart` (200), `/some-unknown-page@404`, `/profile@307`. */
+/** Путь страницы и ожидаемый статус: `/cart` (200), `/some-unknown-page@404`. */
 export type PathTarget = { path: string; status: number }
 
 /**

@@ -7,16 +7,12 @@ const ROUTE_TITLES: Record<string, string> = {
   [ROUTES.FAVORITE]: 'Избранное',
   [ROUTES.COMPARE]: 'Сравнение',
   [ROUTES.CART]: 'Корзина',
-  [ROUTES.PROFILE]: 'Профиль',
   [ROUTES.ORDERS_STATUS]: 'Статус заказа',
   [ROUTES.PARTS_REQUEST]: 'Заказ запчастей',
   [ROUTES.SERVICES_REPAIR]: 'Услуги ремонта',
   [ROUTES.MASTER_CALL]: 'Вызов мастера',
   [ROUTES.FEEDBACK]: 'Обратная связь',
   [ROUTES.SEARCH]: 'Поиск',
-  [ROUTES.LOGIN]: 'Вход',
-  [ROUTES.SIGNUP]: 'Регистрация',
-  [ROUTES.PASSWORD_RESET]: 'Восстановление пароля',
 }
 
 /** Заголовок по pathname; для неизвестных путей — последний сегмент или «Страница». */

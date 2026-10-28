@@ -12,7 +12,6 @@ export default defineConfig({
     include: ['src/**/*.test.{ts,tsx}', 'scripts/**/*.test.ts'],
     env: {
       API_INTERNAL_URL: 'http://api.test',
-      SESSION_SECRET: 'test-secret-test-secret-test-secret-0000',
     },
   },
 })
