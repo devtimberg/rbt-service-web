@@ -9,12 +9,13 @@
 | [0003](0003-fsd-and-imports.md)        | Упрощённый FSD и правила импортов                  | accepted, частично заменён 0012 (импорт shared/ui) |
 | [0004](0004-cookie-session.md)         | Cookie-сессия вместо next-auth                     | superseded by 0010 |
 | [0005](0005-own-ui-primitives.md)      | Свои UI-примитивы без shadcn, Radix и cva          | accepted, частично заменён 0009 |
-| [0006](0006-sheets-via-static-data.md) | Шторки через staticData.sheet                      | accepted, заменяется в фазе 2 (0009) |
+| [0006](0006-sheets-via-static-data.md) | Шторки через staticData.sheet                      | superseded by 0013 |
 | [0007](0007-zustand-temporary.md)      | Zustand как временное решение до API               | accepted, частично заменён 0009 |
 | [0008](0008-no-bare-html-elements.md)  | Без голых HTML-элементов вне shared/ui             | accepted |
-| [0009](0009-nextjs-css-modules-rtk-query.md) | Next.js, CSS Modules, RTK Query, react-hook-form вслед за rbt-web | accepted, в процессе |
+| [0009](0009-nextjs-css-modules-rtk-query.md) | Next.js, CSS Modules, RTK Query, react-hook-form вслед за rbt-web | accepted, фаза 2 выполнена (Next), фаза 3 впереди |
 | [0010](0010-no-auth-in-mvp.md) | Без авторизации в MVP | accepted |
 | [0011](0011-pnpm-node-24.md) | pnpm вместо Bun, Node 24 LTS (ADR 0021 rbt-web) | accepted |
 | [0012](0012-kebab-case-filenames-ui-folders.md) | Имена файлов в kebab-case, папка на компонент в shared/ui (ADR 0020 rbt-web) | accepted |
+| [0013](0013-sheets-in-next.md) | Шторки в Next.js: признак по пути в корневом лайауте (заменяет 0006) | accepted |
 
 Шаблон нового ADR: [template.md](template.md).

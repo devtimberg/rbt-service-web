@@ -1,6 +1,6 @@
 # rbt-service-web
 
-Мобильный веб-сервис ООО ТТЦ «Рембыттехника». Стек: TanStack Start (SSR), React 19, TypeScript, CSS Modules, TanStack Query, Vite+ (`vp`, Oxlint, Oxfmt), Vitest. Правила для разработки: [AGENTS.md](AGENTS.md), решения: [docs/adr](docs/adr/README.md).
+Мобильный веб-сервис ООО ТТЦ «Рембыттехника». Стек: Next.js (App Router, SSR), React 19, TypeScript, CSS Modules, TanStack Query (до RTK Query), Vite+ (`vp`: Oxlint, Oxfmt, тесты), Vitest. Правила для разработки: [AGENTS.md](AGENTS.md), решения: [docs/adr](docs/adr/README.md).
 
 ## Требования
 
@@ -12,7 +12,7 @@
 ```bash
 make install
 cp .env.example .env   # заполнить значения
-make dev               # http://localhost:3000
+make dev               # http://localhost:3000 (next dev)
 ```
 
 ## Переменные окружения
@@ -29,8 +29,8 @@ make dev               # http://localhost:3000
 
 | Команда                                  | Что делает                                         |
 | ---------------------------------------- | -------------------------------------------------- |
-| `make dev` / `make build` / `make start` | разработка, сборка, запуск сборки                  |
-| `make typecheck`                         | `tsc --noEmit`                                     |
+| `make dev` / `make build` / `make start` | `next dev`, `next build` (standalone), `node .next/standalone/server.js` |
+| `make typecheck`                         | типы CSS Modules и маршрутов Next, `tsc --noEmit`  |
 | `make lint` / `make format`              | `vp check` (Oxlint, Oxfmt) / `vp check --fix`      |
 | `make lint-fsd`                          | проверка слоёв FSD (steiger)                       |
 | `make test` / `make test-watch`          | юнит-тесты (`vp test run`) / watch-режим           |

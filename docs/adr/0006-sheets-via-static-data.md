@@ -1,7 +1,7 @@
 # 0006. Шторки через staticData.sheet
 
 Дата: 2026-10-15
-Статус: accepted, заменяется в фазе 2 [0009](0009-nextjs-css-modules-rtk-query.md) (механизм шторок под Next)
+Статус: superseded by [0013](0013-sheets-in-next.md)
 
 ## Контекст
 
