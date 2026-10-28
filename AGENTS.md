@@ -86,7 +86,13 @@ Cookie-сессия, AES-256-GCM, ключ из `SESSION_SECRET` ([ADR 0004](doc
 
 ## Вёрстка
 
-- Tailwind 4, только классы (без CSS-модулей). Токены цветов и размеров: [src/shared/ui/tokens.css](src/shared/ui/tokens.css), используем их, а не произвольные значения.
+- Tailwind 4 и CSS Modules (идёт перевод на модули, [план](docs/nextjs-migration.md)). Новые Tailwind-утилиты не добавляй; существующий компонент переводи на модуль целиком. Образец: [Container.module.css](src/shared/ui/Container.module.css). Соглашения:
+  - файл `<Component>.module.css` рядом с `<Component>.tsx`, импорт `import styles from './<Component>.module.css'`, классы в camelCase (`styles.root`), склейка с внешним `className` через `cn()`;
+  - типы классов генерирует happy-css-modules в `.css-types/` (в git нет; `make dev`, `make typecheck`, `make lint` и pre-commit запускают генерацию сами, вручную `make css-types`). Обходы вроде `?? ''` не нужны; в тестах `expect(el).toHaveClass(styles.root)`, имена классов не сравниваем;
+  - все правила модуля внутри `@layer components { ... }`: так Tailwind-класс, переданный снаружи, перебивает модуль. Внешний класс без брейкпоинта перебьёт и медиазапрос модуля (раньше `tailwind-merge` их не склеивал), поэтому внешние `px-*`/`max-w-*` у вызова пиши с границей (`max-md:px-4`);
+  - значения из токенов через `var(--color-primary-500)` ([tokens.css](src/shared/ui/tokens.css), `@theme static`: всё лежит в `:root`);
+  - брейкпоинты `@media (--md) { ... }` (`--xs`, `--sm`, `--md`, `--lg`, `--xl`, `--2xl` из [media.css](src/shared/ui/media.css), значения как в `--breakpoint-*`), вложенно в правило; в `src/styles.css` `@custom-media` не работает (его компилирует Tailwind).
+  - `src/styles.css` подключается в `routes/__root.tsx` первым и задаёт порядок слоёв, модули идут после него. Токены цветов и размеров: [src/shared/ui/tokens.css](src/shared/ui/tokens.css), используем их, а не произвольные значения.
 - Свои примитивы в `src/shared/ui` (Button, IconButton, TextInput, Dialog, Sheet, Popover, Tooltip, Checkbox, RadioGroup, Box/Stack, Text, Heading и др.) без Radix, shadcn, cva и headless-библиотек ([ADR 0005](docs/adr/0005-own-ui-primitives.md)). Модалки на нативном `<dialog>`. Нового модала, кнопки или таба не создавай: расширяй существующий (вариант, prop). Условные классы через `cn()`.
 - Голые HTML-элементы вне `src/shared/ui` и `*.test.tsx` запрещает линт ([ADR 0008](docs/adr/0008-no-bare-html-elements.md), `react/forbid-elements`, список и подсказки в `forbiddenElements` в [vite.config.ts](vite.config.ts); `html/head/body` в `routes/__root.tsx` разрешены). Примитивы без своих стилей, семантика задаётся через `as`/`level`. Соответствия для этого проекта:
 

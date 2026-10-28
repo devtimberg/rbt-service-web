@@ -12,7 +12,7 @@
 
 ## Фаза 1. CSS Modules и react-hook-form на текущем стеке (в `main`)
 
-- [ ] 1.1. Основа стилей: токены на `:root`, `@custom-media` через PostCSS, каскадные слои `base, components, slices`, глобальные классы из `@utility`. `Container` переведён на модуль как образец, `style-check` без отличий.
+- [x] 1.1. Основа стилей: токены на `:root` (`@theme static`), `@custom-media` через PostCSS ([media.css](../src/shared/ui/media.css), `postcss.config.js`; в `src/styles.css` не работает: его компилирует Tailwind раньше PostCSS), модули `shared/ui` в `@layer components` ниже Tailwind `utilities` (`styles.css` подключается первым и задаёт порядок слоёв; в фазе 2 корневой лайаут Next обязан импортировать его раньше модулей), `scrollbar-none` стал глобальным классом в `@layer components` (вариант `max-sm:scrollbar-none` перестал существовать, `ScrollArea` переписан на произвольные свойства), типы модулей генерирует happy-css-modules в `.css-types/`. `Container` переведён на модуль, внешние `px-*`/`max-w-*` вызывающих мест уточнены брейкпоинтом (`max-md:`), потому что раньше их на md перебивал `md:px-10`; `style-check` без отличий.
 - [ ] 1.2. `shared/ui` по группам (раскладка и текст; кнопки и ссылки; поля и формы; оверлеи; медиа и товар).
 - [ ] 1.3. `entities`, `features`, `widgets`, `pages`, `app/layouts`.
 - [ ] 1.4. Формы на react-hook-form и `zodResolver`: вход, регистрация, сброс пароля, смена пароля, вызов мастера.

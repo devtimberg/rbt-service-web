@@ -82,8 +82,8 @@ export function Header({ search }: HeaderProps) {
       <Container
         data-layout-header="true"
         className="bg-primary-500 fixed inset-x-0 top-0 z-40 flex h-20 items-center
-          justify-between rounded-none px-4
-          sm:static sm:z-auto sm:h-22 sm:px-6
+          justify-between rounded-none max-md:px-4
+          sm:static sm:z-auto sm:h-22 sm:max-md:px-6
           sm:rounded-t-[40px] sm:pt-1"
       >
         {/* Mobile: search input on /search */}

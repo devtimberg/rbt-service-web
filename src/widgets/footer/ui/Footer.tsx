@@ -43,7 +43,7 @@ export function Footer({ variant = 'inverse' }: FooterProps) {
   }, [greetingIndex, typedLength])
 
   return (
-    <Container className="mt-auto px-4 pt-8 pb-4 sm:pt-20 lg:pb-[clamp(12px,2.5vh,24px)]">
+    <Container className="mt-auto max-md:px-4 pt-8 pb-4 sm:pt-20 lg:pb-[clamp(12px,2.5vh,24px)]">
       <Stack
         direction="row"
         className="xs:gap-10 flex-col-reverse items-center justify-center gap-4

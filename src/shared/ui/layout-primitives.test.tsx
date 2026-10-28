@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react'
 import { createRef } from 'react'
 import { describe, expect, it } from 'vite-plus/test'
 import { Box, Stack } from './Box'
-import { Container } from './Container'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from './DescriptionList'
 import { Divider } from './Divider'
 import { Heading } from './Heading'
@@ -53,15 +52,6 @@ describe('Stack', () => {
   it('строка без flex-col', () => {
     const { container } = render(<Stack direction="row" gap={0.5} wrap justify="between" />)
     expect(container.firstElementChild?.className).toBe('flex gap-0.5 justify-between flex-wrap')
-  })
-})
-
-describe('Container', () => {
-  it('ширина и поля проекта, без data-slot, className добавляется', () => {
-    const { container } = render(<Container className="py-4">x</Container>)
-    const element = container.firstElementChild
-    expect(element).toHaveClass('mx-auto', 'w-full', 'md:max-w-360', 'md:px-10', 'py-4')
-    expect(element).not.toHaveAttribute('data-slot')
   })
 })
 

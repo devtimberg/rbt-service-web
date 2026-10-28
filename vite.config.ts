@@ -5,7 +5,15 @@ import { nitro } from 'nitro/vite'
 import { defineConfig, lazyPlugins, loadEnv } from 'vite-plus'
 
 // Генерируемые файлы не линтим и не форматируем
-const ignorePatterns = ['**/routeTree.gen.ts', '**/generated/**', 'docs/**', '**/*.svg', '.output/**', '.tanstack/**']
+const ignorePatterns = [
+  '**/routeTree.gen.ts',
+  '.css-types/**',
+  '**/generated/**',
+  'docs/**',
+  '**/*.svg',
+  '.output/**',
+  '.tanstack/**',
+]
 
 // Публичный API слайсов (ADR 0012, 0013): снаружи слайса импортируем только его index.ts.
 // Слайс может лежать в группе (`features/cart/add-to-cart`), поэтому глубину пути шаблон не считает:

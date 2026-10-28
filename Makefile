@@ -10,7 +10,7 @@ IMAGE ?= rbt-service-web:local
 CONTAINER ?= rbt-service-web
 
 .PHONY: help install dev build start \
-	typecheck lint lint-fsd format check test test-watch style-check icons \
+	css-types typecheck lint lint-fsd format check test test-watch style-check icons \
 	docker-build docker-run docker-stop clean hooks
 
 help: ## Показать этот список целей
@@ -24,7 +24,7 @@ install: ## Установить зависимости (bun install --frozen-lo
 	bun install --frozen-lockfile
 
 dev: ## Dev-сервер, доступен в локальной сети (vp dev --host)
-	bunx vp dev --host 0.0.0.0
+	bun run dev --host 0.0.0.0
 
 build: ## Собрать прод-сборку (vp build)
 	bun run build
@@ -37,10 +37,13 @@ icons: ## Пересобрать SVGR-иконки из src/shared/ui/icons/raw
 
 ##@ Качество
 
-typecheck: ## Проверка типов (tsc --noEmit)
+css-types: ## Типы CSS Modules в .css-types (happy-css-modules); dev, typecheck, lint делают это сами
+	bun run css:types
+
+typecheck: ## Типы CSS Modules + проверка типов (tsc --noEmit)
 	bun run typecheck
 
-lint: ## Формат, линт и типы (vp check)
+lint: ## Типы CSS Modules + формат, линт и типы (vp check)
 	bun run lint
 
 lint-fsd: ## Проверка архитектуры FSD (steiger)

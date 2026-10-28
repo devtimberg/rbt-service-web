@@ -59,7 +59,7 @@ export function UiKitPage() {
 
   return (
     <Box className="mt-6 flex-1 rounded-t-[24px] bg-[#F7FAFF] text-primary lg:rounded-[40px]">
-      <Container className="px-4 py-8">
+      <Container className="max-md:px-4 py-8">
         <Heading level={1} size="xl">
           UI-кит
         </Heading>

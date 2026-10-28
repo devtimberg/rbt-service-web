@@ -14,7 +14,7 @@ export function ProfilePage() {
 
   if (isPending) {
     return (
-      <Container className="flex max-w-md flex-col gap-4 px-3 sm:px-0">
+      <Container className="flex max-md:max-w-md flex-col gap-4 max-sm:px-3">
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-24 w-full rounded-2xl" />
       </Container>
@@ -30,7 +30,7 @@ export function ProfilePage() {
   const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ')
 
   return (
-    <Container className="flex max-w-md flex-col gap-6 px-3 sm:px-0">
+    <Container className="flex max-md:max-w-md flex-col gap-6 max-sm:px-3">
       <Heading level={2} size="lg">
         Профиль
       </Heading>

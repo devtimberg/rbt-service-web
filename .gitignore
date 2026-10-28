@@ -18,3 +18,6 @@ coverage
 .serena/
 .vitest/
 .style-check/
+
+# Типы CSS Modules (bun run css:types, happy-css-modules): генерируются из *.module.css, в git не храним
+.css-types/

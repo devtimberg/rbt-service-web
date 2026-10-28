@@ -19,7 +19,7 @@ export function ScrollArea({ className, viewportClassName, viewportRef, children
 
         className={cn(
           'size-full overflow-auto rounded-[inherit] focus-visible:ring-[3px] focus-visible:ring-focus-ring/50 focus-visible:outline-1',
-          'max-sm:scrollbar-none [scrollbar-color:oklch(0.7594_0.092_262.91/0.2)_transparent] [scrollbar-width:thin]',
+          'max-sm:[-ms-overflow-style:none] max-sm:[&::-webkit-scrollbar]:hidden [scrollbar-color:oklch(0.7594_0.092_262.91/0.2)_transparent] [scrollbar-width:thin] max-sm:[scrollbar-width:none]',
           viewportClassName,
         )}
       >

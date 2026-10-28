@@ -1,7 +1,10 @@
 /* Дизайн-токены (OKLCH). Tailwind v4 превращает переменные @theme в утилиты:
    --color-primary-500 → bg-primary-500 / text-primary-500, --color-surface-subtle → bg-surface-subtle и т.д.
+   `static`: все переменные всегда попадают в :root, даже если утилита не используется. CSS Modules читают их
+   напрямую (`var(--color-primary-500)`, ADR 0009). После удаления Tailwind (фаза 1.5) блок станет обычным `:root`.
+   Брейкпоинты для CSS Modules: media.css (`@custom-media`), значения совпадают с --breakpoint-* ниже.
    Токены shadcn (--background, --foreground, --muted, --accent, --destructive, --ring, --sidebar-*, --chart-*) удалены. */
-@theme {
+@theme static {
   /* Примитивные палитры */
   --color-primary-100: oklch(0.7594 0.092 262.91);
   --color-primary-300: oklch(0.5712 0.1732 261.45);
@@ -82,7 +85,8 @@
   /* Шрифт: Inter Variable подключается в styles.css через @fontsource-variable/inter */
   --font-sans: "Inter Variable", Inter, Arial, Helvetica, sans-serif;
 
-  /* Брейкпоинты (как в старом globals.css): xs 384, sm 640, md 768, lg 1024, xl 1280, 2xl 1536 */
+  /* Брейкпоинты (как в старом globals.css): xs 384, sm 640, md 768, lg 1024, xl 1280, 2xl 1536.
+     Меняешь значение: поменяй и media.css */
   --breakpoint-xs: 24rem;
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;

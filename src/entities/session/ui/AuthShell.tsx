@@ -17,7 +17,7 @@ export function AuthShell({
   footer?: ReactNode
 }) {
   return (
-    <Container className="flex max-w-md flex-col gap-6 px-3 sm:px-0">
+    <Container className="flex max-md:max-w-md flex-col gap-6 max-sm:px-3">
       <Stack gap={2}>
         <Heading level={2} size="lg">
           {title}
