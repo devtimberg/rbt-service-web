@@ -12,6 +12,7 @@ import { Input } from '@/shared/ui/Input'
 import { Skeleton } from '@/shared/ui/Skeleton'
 import { SmartLink } from '@/shared/ui/SmartLink'
 import { Text } from '@/shared/ui/Text'
+import styles from './CatalogSearch.module.css'
 
 const FAKE_DELAY = 600
 
@@ -89,50 +90,48 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
   }, [])
 
   const skeletonRows = (
-    <Box className="flex flex-col gap-1 p-3">
+    <Box className={styles.skeletons}>
       {Array.from({ length: 4 }).map((_, i) => (
-        <Box key={i} className="flex items-center justify-between gap-4 px-2 py-2">
-          <Box className="flex min-w-0 flex-1 flex-col gap-1.5">
-            <Skeleton className="h-3.5 w-3/4" />
-            <Skeleton className="h-2.5 w-1/3" />
+        <Box key={i} className={styles.skeletonRow}>
+          <Box className={styles.skeletonText}>
+            <Skeleton className={styles.skeletonTitle} />
+            <Skeleton className={styles.skeletonSub} />
           </Box>
-          <Skeleton className="h-3.5 w-16 shrink-0" />
+          <Skeleton className={styles.skeletonPrice} />
         </Box>
       ))}
     </Box>
   )
 
   const categoryRows = categories.length > 0 && (
-    <Box className="flex flex-col">
-      <Text className="px-5 pt-3 pb-1 text-xs font-medium text-gray-400">Категории</Text>
+    <Box className={styles.section}>
+      <Text className={styles.sectionTitle}>Категории</Text>
       {categories.map((category) => (
         <Button
           variant="unstyled"
           key={category}
           type="button"
-          className="flex w-full items-center justify-between gap-4 px-5 py-3
-            text-left transition-colors hover:bg-gray-50"
+          className={styles.row}
           onClick={() => {
             setFocused(false)
           }}
         >
-          <Text className="text-primary-900 truncate text-sm font-medium">{category}</Text>
-          <ChevronRightIcon className="size-4 shrink-0 text-gray-300" />
+          <Text className={styles.name}>{category}</Text>
+          <ChevronRightIcon className={styles.chevron} />
         </Button>
       ))}
     </Box>
   )
 
   const resultRows = results.length > 0 && (
-    <Box className="flex flex-col">
-      <Text className="px-5 pt-3 pb-1 text-xs font-medium text-gray-400">Запчасти</Text>
+    <Box className={styles.section}>
+      <Text className={styles.sectionTitle}>Запчасти</Text>
       {results.map((part) => (
         <Button
           variant="unstyled"
           key={part.id}
           type="button"
-          className="flex w-full items-center justify-between gap-4 px-5 py-3
-            text-left transition-colors hover:bg-gray-50"
+          className={styles.row}
           onClick={() => {
             setQuery(part.name)
             setCategories([])
@@ -140,11 +139,11 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
             setFocused(false)
           }}
         >
-          <Box className="min-w-0 flex-1">
-            <Text className="text-primary-900 truncate text-sm font-medium">{part.name}</Text>
-            <Text className="text-xs text-gray-400">{part.article}</Text>
+          <Box className={styles.partInfo}>
+            <Text className={styles.name}>{part.name}</Text>
+            <Text className={styles.article}>{part.article}</Text>
           </Box>
-          <Text as="span" className="text-primary-500 shrink-0 text-sm font-semibold">
+          <Text as="span" className={styles.price}>
             {formatPrice(part.price)} ₽
           </Text>
         </Button>
@@ -155,7 +154,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
   const dropdown =
     showDropdown &&
     createPortal(
-      <Box className="z-50 overflow-hidden rounded-lg bg-white shadow-xl" style={dropdownStyle}>
+      <Box className={styles.dropdown} style={dropdownStyle}>
         {loading ? (
           skeletonRows
         ) : categories.length > 0 || results.length > 0 ? (
@@ -164,7 +163,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
             {resultRows}
           </>
         ) : (
-          <Box className="px-5 py-6 text-center text-sm text-gray-400">Ничего не найдено</Box>
+          <Box className={styles.empty}>Ничего не найдено</Box>
         )}
       </Box>,
       document.body,
@@ -177,7 +176,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
       variant="ghost"
       onClick={handleClear}
       aria-label="Очистить"
-      className="text-gray-300"
+      className={styles.clear}
     />
   )
 
@@ -187,62 +186,31 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
       <SmartLink
         href="/search"
         aria-label="Поиск запчастей"
-        className={cn(
-          `flex w-full items-center gap-3 bg-white outline-none
-          [-webkit-tap-highlight-color:transparent] focus:outline-none
-          focus-visible:outline-none sm:hidden`,
-          expanded ? 'h-18.5 rounded-[24px] px-5 py-2' : 'h-10 rounded-lg px-4 py-2',
-        )}
+        className={cn(styles.mobileLink, expanded ? styles.mobileExpanded : styles.mobileCompact)}
       >
         <SearchOutlineIcon
-          className={cn('text-input-placeholder shrink-0', expanded ? 'size-6' : 'size-5')}
+          className={cn(styles.mobileIcon, expanded ? styles.mobileIconExpanded : styles.mobileIconCompact)}
           aria-hidden
         />
         <Text
           as="span"
-          className={cn(
-            `text-input-placeholder h-full min-w-0 flex-1 content-center
-            leading-none`,
-            expanded ? 'text-[18px]' : 'text-sm',
-          )}
+          className={cn(styles.mobileText, expanded ? styles.mobileTextExpanded : styles.mobileTextCompact)}
         >
           Поиск запчастей
         </Text>
       </SmartLink>
 
       {/* Desktop: search form — each element transitions only its own properties */}
-      <search
-        ref={wrapperRef}
-        className="hidden w-full max-w-110 transition-[max-width] duration-500
-          ease-in-out sm:block
-          [@media(min-height:700px)]:group-data-home:max-w-185"
-      >
-        <Form
-          onSubmit={handleSubmit}
-          className="flex h-10 w-full items-center gap-3 rounded-lg bg-white
-            py-2 pr-2 pl-4 transition-[height,padding,border-radius]
-            duration-500 ease-in-out
-            [@media(min-height:700px)]:group-data-home:h-18.5
-            [@media(min-height:700px)]:group-data-home:rounded-[24px]
-            [@media(min-height:700px)]:group-data-home:px-5
-            [@media(min-height:700px)]:group-data-home:py-2"
-        >
-          <SearchOutlineIcon
-            className="text-input-placeholder size-5 shrink-0
-              transition-[width,height] duration-500 ease-in-out
-              [@media(min-height:700px)]:group-data-home:size-6"
-            aria-hidden
-          />
+      <search ref={wrapperRef} className={styles.search}>
+        <Form onSubmit={handleSubmit} className={styles.form}>
+          <SearchOutlineIcon className={styles.icon} aria-hidden />
           <Input
             ref={inputRef}
 
             value={query}
             onChange={(e) => handleQueryChange(e.target.value)}
             onFocus={() => setFocused(true)}
-            className="text-primary placeholder:text-input-placeholder min-w-0
-              flex-1 bg-transparent text-sm leading-none transition-[font-size]
-              duration-500 ease-in-out outline-none
-              [@media(min-height:700px)]:group-data-home:text-[18px]"
+            className={styles.input}
             placeholder="Поиск запчастей по артикулу или названию..."
             autoComplete="off"
           />

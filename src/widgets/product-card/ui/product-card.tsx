@@ -10,6 +10,7 @@ import { IconButton } from '@/shared/ui/IconButton'
 import { CameraOutlineIcon, HeartIcon, HeartOutlineIcon } from '@/shared/ui/icons'
 import { Image } from '@/shared/ui/Image'
 import { Text } from '@/shared/ui/Text'
+import styles from './product-card.module.css'
 
 type ProductCardProps = {
   product: Product
@@ -18,18 +19,18 @@ type ProductCardProps = {
 const availabilityConfig = {
   'in-stock': {
     label: 'В наличии',
-    className: 'text-success-700',
-    dot: 'bg-success-500',
+    className: styles.inStock,
+    dot: styles.dotInStock,
   },
   'low-stock': {
     label: 'Мало',
-    className: 'text-danger-700',
-    dot: 'bg-danger-500',
+    className: styles.lowStock,
+    dot: styles.dotLowStock,
   },
   'pre-order': {
     label: 'Под заказ',
-    className: 'text-tertiary',
-    dot: 'bg-disabled',
+    className: styles.preOrder,
+    dot: styles.dotPreOrder,
   },
 } as const
 
@@ -42,9 +43,9 @@ export function ProductCard({ product }: ProductCardProps) {
   const toggleCart = useCartStore((s) => s.toggle)
 
   return (
-    <Box className="flex flex-col overflow-hidden rounded-2xl bg-white p-1">
+    <Box className={styles.root}>
       {/* Image area */}
-      <Box className="relative! aspect-square rounded-t-xl bg-[#F3F7FF]">
+      <Box className={styles.imageArea}>
         <IconButton
           variant="ghost"
           icon={isFavorite ? HeartIcon : HeartOutlineIcon}
@@ -52,59 +53,57 @@ export function ProductCard({ product }: ProductCardProps) {
           aria-label={isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'}
           aria-pressed={isFavorite}
           onClick={() => toggleFavorite(product.id)}
-          className={cn(
-            'absolute! top-0 right-0 z-10',
-            isFavorite ? 'text-secondary-500' : 'text-primary-900 [&_path]:fill-white',
-          )}
+          className={cn(styles.heart, isFavorite ? styles.heartActive : styles.heartIdle)}
         />
         {product.image ? (
           <Image
             src={product.image}
             alt={product.name}
             loading="lazy"
-            className="absolute inset-0 size-full rounded-t-xl object-cover"
+            className={styles.image}
             onError={(e) => {
               e.currentTarget.style.display = 'none'
             }}
           />
         ) : (
-          <Box className="flex h-full items-center justify-center">
-            <CameraOutlineIcon className="size-12 text-[#BDCAE5]" />
+          <Box className={styles.placeholder}>
+            <CameraOutlineIcon className={styles.placeholderIcon} />
           </Box>
         )}
       </Box>
 
       {/* Content */}
-      <Box className="mt-1 flex flex-1 flex-col gap-1 p-1">
-        <Text className="cursor-default font-normal text-secondary text-xs truncate">{product.brand}</Text>
+      <Box className={styles.content}>
+        <Text className={styles.brand}>{product.brand}</Text>
 
         {/* Price */}
-        <Box className="flex items-baseline gap-2">
-          <Box className="text-base font-semibold">{formatPrice(product.price)} ₽</Box>
-          {product.oldPrice && (
-            <Box className="text-disabled text-sm line-through">{formatPrice(product.oldPrice)} ₽</Box>
-          )}
+        <Box className={styles.priceRow}>
+          <Box className={styles.price}>{formatPrice(product.price)} ₽</Box>
+          {product.oldPrice && <Box className={styles.oldPrice}>{formatPrice(product.oldPrice)} ₽</Box>}
         </Box>
 
         {/* Availability */}
-        <Box className={cn('flex items-center gap-1.5 text-xs', availability.className)}>
-          <Box className={cn('size-1.5 rounded-full', availability.dot)} />
+        <Box className={cn(styles.availability, availability.className)}>
+          <Box className={cn(styles.dot, availability.dot)} />
           {availability.label}
         </Box>
 
         {/* Name */}
-        <Text className="cursor-default text-primary mt-1 line-clamp-2 min-h-10 text-[13px] font-semibold">
-          {product.name}
-        </Text>
+        <Text className={styles.name}>{product.name}</Text>
 
         {/* Action button */}
-        <Box className="mt-auto pt-2">
+        <Box className={styles.action}>
           {isInCart ? (
-            <Button variant="secondary" size="full" className="rounded-md text-sm" href={ROUTES.CART}>
+            <Button variant="secondary" size="full" className={styles.actionButton} href={ROUTES.CART}>
               В корзине
             </Button>
           ) : (
-            <Button variant="primary" size="full" className="rounded-md text-sm" onClick={() => toggleCart(product.id)}>
+            <Button
+              variant="primary"
+              size="full"
+              className={styles.actionButton}
+              onClick={() => toggleCart(product.id)}
+            >
               {product.preOrderDate ?? 'В корзину'}
             </Button>
           )}

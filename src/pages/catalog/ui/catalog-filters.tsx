@@ -9,6 +9,7 @@ import { Heading } from '@/shared/ui/Heading'
 import { Input } from '@/shared/ui/Input'
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/RadioGroup'
 import { Text } from '@/shared/ui/Text'
+import styles from './catalog-filters.module.css'
 
 type CatalogFiltersProps = {
   filterGroups: FilterGroup[]
@@ -43,26 +44,18 @@ export function CatalogFilters({ filterGroups, availabilityGroup, priceRange, cl
   }
 
   return (
-    <Box as="aside" className={cn('flex w-68! flex-col gap-6 rounded-[24px] bg-white p-6', className)}>
+    <Box as="aside" className={cn(styles.root, className)}>
       {/* Header */}
-      <Box className="flex items-center justify-between gap-3">
-        <Heading level={5} size="xs" className="h-5 text-[16px]! font-bold!">
+      <Box className={styles.header}>
+        <Heading level={5} size="xs" className={styles.title}>
           Фильтры
         </Heading>
         {activeCount > 0 && (
-          <Box className="flex gap-1.5">
-            <Button
-              variant="link"
-              onClick={resetFilters}
-              className="inline-flex items-center gap-1.5 text-sm leading-[16px]"
-            >
+          <Box className={styles.resetBox}>
+            <Button variant="link" onClick={resetFilters} className={styles.reset}>
               Сбросить
             </Button>
-            <Text
-              as="span"
-              className="bg-secondary-500 flex size-5 items-center
-                justify-center rounded-full text-xs font-medium text-white"
-            >
+            <Text as="span" className={styles.badge}>
               {activeCount}
             </Text>
           </Box>
@@ -71,19 +64,19 @@ export function CatalogFilters({ filterGroups, availabilityGroup, priceRange, cl
 
       {/* Filter groups */}
       {filterGroups.map((group) => (
-        <Box key={group.title} className="flex flex-col gap-3">
-          <Text className="cursor-default text-primary text-base font-medium">{group.title}</Text>
-          <Box className="flex flex-col gap-2.5">
+        <Box key={group.title} className={styles.group}>
+          <Text className={styles.groupTitle}>{group.title}</Text>
+          <Box className={styles.options}>
             {group.options.map((option) => {
               const checked = selectedFilters[group.title]?.has(option.value) ?? false
               return (
-                <Label key={option.value} className="flex cursor-pointer items-center gap-2.5">
+                <Label key={option.value} className={styles.option}>
                   <Checkbox checked={checked} onCheckedChange={() => toggleFilter(group.title, option.value)} />
-                  <Text as="span" className="text-pretty text-sm">
+                  <Text as="span" className={styles.optionText}>
                     {option.label}
                   </Text>
                   {option.count != null && (
-                    <Text as="span" className="text-tertiary text-sm">
+                    <Text as="span" className={styles.optionCount}>
                       {option.count}
                     </Text>
                   )}
@@ -95,37 +88,29 @@ export function CatalogFilters({ filterGroups, availabilityGroup, priceRange, cl
       ))}
 
       {/* Price range */}
-      <Box className="flex flex-col gap-3">
-        <Text className="cursor-default text-primary text-base font-medium">Цена, ₽</Text>
-        <Box className="flex items-center gap-2">
-          <Input
-            type="text"
-            placeholder={`от ${priceRange.min}`}
-            className="border-border-default placeholder:text-input-placeholder
-              focus:border-primary-500 h-10 w-full rounded-xl border px-3
-              text-sm outline-none"
-          />
-          <Text as="span" className="text-disabled shrink-0">
+      <Box className={styles.group}>
+        <Text className={styles.groupTitle}>Цена, ₽</Text>
+        <Box className={styles.priceRow}>
+          <Input type="text" placeholder={`от ${priceRange.min}`} className={styles.priceInput} />
+          <Text as="span" className={styles.priceDash}>
             —
           </Text>
           <Input
             type="text"
             placeholder={`до ${priceRange.max.toLocaleString('ru-RU')}`}
-            className="border-border-default placeholder:text-input-placeholder
-              focus:border-primary-500 h-10 w-full rounded-xl border px-3
-              text-sm outline-none"
+            className={styles.priceInput}
           />
         </Box>
       </Box>
 
       {/* Availability */}
-      <Box className="flex flex-col gap-3">
-        <Text className="cursor-default text-primary text-base font-medium">{availabilityGroup.title}</Text>
-        <RadioGroup value={selectedAvailability} onValueChange={setSelectedAvailability} className="gap-2.5">
+      <Box className={styles.group}>
+        <Text className={styles.groupTitle}>{availabilityGroup.title}</Text>
+        <RadioGroup value={selectedAvailability} onValueChange={setSelectedAvailability} className={styles.radioGroup}>
           {availabilityGroup.options.map((option) => (
-            <Label key={option.value} className="flex cursor-pointer items-center gap-2.5">
+            <Label key={option.value} className={styles.option}>
               <RadioGroupItem value={option.value} />
-              <Text as="span" className="text-sm">
+              <Text as="span" className={styles.optionLabel}>
                 {option.label}
               </Text>
             </Label>

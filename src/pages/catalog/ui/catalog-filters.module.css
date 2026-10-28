@@ -1,0 +1,130 @@
+/* Панель фильтров каталога (ADR 0009). */
+@layer slices {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-radius: 24px;
+    background-color: #fff;
+    padding: 1.5rem;
+    width: 17rem;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .title {
+    height: 1.25rem;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .resetBox {
+    display: flex;
+    gap: 0.375rem;
+  }
+
+  .reset {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem; /* leading-[16px] из прежних классов tailwind-merge отбрасывал */
+  }
+
+  .badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: calc(infinity * 1px);
+    background-color: var(--color-secondary-500);
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    color: #fff;
+  }
+
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .groupTitle {
+    cursor: default;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .radioGroup {
+    gap: 0.625rem;
+  }
+
+  .option {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .optionLabel {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .optionText {
+    text-wrap: pretty;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .optionCount {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-tertiary);
+  }
+
+  .priceRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .priceInput {
+    border: 1px solid var(--color-border-default);
+    border-radius: 0.75rem;
+    padding-inline: 0.75rem;
+    width: 100%;
+    height: 2.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    outline-style: none;
+
+    &::placeholder {
+      color: var(--color-input-placeholder);
+    }
+
+    &:focus {
+      border-color: var(--color-primary-500);
+    }
+  }
+
+  .priceDash {
+    flex-shrink: 0;
+    color: var(--color-disabled);
+  }
+}

@@ -6,6 +6,7 @@ import { Button } from '@/shared/ui/Button'
 import { ChevronRightIcon } from '@/shared/ui/icons'
 import { Skeleton } from '@/shared/ui/Skeleton'
 import { Text } from '@/shared/ui/Text'
+import styles from './search-page.module.css'
 
 const FAKE_DELAY = 600
 
@@ -31,55 +32,43 @@ export function SearchPage() {
   const results = React.useMemo(() => (hasQuery && !loading ? searchParts(query) : []), [hasQuery, loading, query])
 
   return (
-    <Box className="flex grow flex-col">
+    <Box className={styles.root}>
       {loading && hasQuery && (
-        <Box className="flex flex-col gap-1">
+        <Box className={styles.skeletons}>
           {Array.from({ length: 4 }).map((_, i) => (
-            <Box key={i} className="flex items-center justify-between gap-4 px-2 py-3">
-              <Box className="flex min-w-0 flex-1 flex-col gap-1.5">
-                <Skeleton className="h-3.5 w-3/4" />
-                <Skeleton className="h-2.5 w-1/3" />
+            <Box key={i} className={styles.skeletonRow}>
+              <Box className={styles.skeletonText}>
+                <Skeleton className={styles.skeletonTitle} />
+                <Skeleton className={styles.skeletonSub} />
               </Box>
-              <Skeleton className="h-3.5 w-16 shrink-0" />
+              <Skeleton className={styles.skeletonPrice} />
             </Box>
           ))}
         </Box>
       )}
 
       {!loading && hasQuery && categories.length > 0 && (
-        <Box className="flex flex-col">
-          <Text className="px-2 pt-3 pb-1 text-xs font-medium text-gray-400">Категории</Text>
+        <Box className={styles.section}>
+          <Text className={styles.sectionTitle}>Категории</Text>
           {categories.map((category) => (
-            <Button
-              variant="unstyled"
-              key={category}
-              type="button"
-              className="flex w-full items-center justify-between gap-4 px-2
-                py-3 text-left transition-colors active:bg-gray-50"
-            >
-              <Text className="text-primary-900 truncate text-sm font-medium">{category}</Text>
-              <ChevronRightIcon className="size-4 shrink-0 text-gray-300" />
+            <Button variant="unstyled" key={category} type="button" className={styles.row}>
+              <Text className={styles.name}>{category}</Text>
+              <ChevronRightIcon className={styles.chevron} />
             </Button>
           ))}
         </Box>
       )}
 
       {!loading && hasQuery && results.length > 0 && (
-        <Box className="flex flex-col">
-          <Text className="px-2 pt-3 pb-1 text-xs font-medium text-gray-400">Запчасти</Text>
+        <Box className={styles.section}>
+          <Text className={styles.sectionTitle}>Запчасти</Text>
           {results.map((part) => (
-            <Button
-              variant="unstyled"
-              key={part.id}
-              type="button"
-              className="flex w-full items-center justify-between gap-4 px-2
-                py-3 text-left transition-colors active:bg-gray-50"
-            >
-              <Box className="min-w-0 flex-1">
-                <Text className="text-primary-900 truncate text-sm font-medium">{part.name}</Text>
-                <Text className="text-xs text-gray-400">{part.article}</Text>
+            <Button variant="unstyled" key={part.id} type="button" className={styles.row}>
+              <Box className={styles.partInfo}>
+                <Text className={styles.name}>{part.name}</Text>
+                <Text className={styles.article}>{part.article}</Text>
               </Box>
-              <Text as="span" className="text-primary-500 shrink-0 text-sm font-semibold">
+              <Text as="span" className={styles.price}>
                 {formatPrice(part.price)} ₽
               </Text>
             </Button>
@@ -88,12 +77,10 @@ export function SearchPage() {
       )}
 
       {!loading && hasQuery && results.length === 0 && categories.length === 0 && (
-        <Box className="py-10 text-center text-sm text-gray-400">Ничего не найдено</Box>
+        <Box className={styles.empty}>Ничего не найдено</Box>
       )}
 
-      {!hasQuery && (
-        <Box className="py-10 text-center text-sm text-gray-400">Введите название или артикул запчасти</Box>
-      )}
+      {!hasQuery && <Box className={styles.empty}>Введите название или артикул запчасти</Box>}
     </Box>
   )
 }

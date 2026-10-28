@@ -1,0 +1,33 @@
+@layer slices {
+  .root {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+  }
+
+  .sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+  }
+
+  /* Раньше был ещё hover:text-primary-700, но такого токена нет: при наведении цвет не менялся */
+  .link {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    color: var(--color-primary-500);
+  }
+
+  .footer {
+    margin-top: auto;
+  }
+}

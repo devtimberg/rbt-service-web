@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { MOCK_AVAILABILITY_OPTIONS, MOCK_FILTER_GROUPS, MOCK_PRICE_RANGE, MOCK_PRODUCTS } from '@/entities/product'
+import { cn } from '@/shared/lib/cn'
 import { useStickyScroll } from '@/shared/lib/useStickyScroll'
 import { Box } from '@/shared/ui/Box'
 import { Breadcrumb } from '@/shared/ui/Breadcrumb'
@@ -20,6 +21,7 @@ import { Text } from '@/shared/ui/Text'
 import { Footer } from '@/widgets/footer'
 import { ProductCard } from '@/widgets/product-card'
 import { CatalogFilters } from './catalog-filters'
+import styles from './catalog-subcategory-page.module.css'
 
 const SORT_OPTIONS = [
   { label: 'По популярности', value: 'popular' },
@@ -39,14 +41,14 @@ export function CatalogSubcategoryPage() {
 
   return (
     <>
-      <Container className="overflow-x-hidden">
+      <Container className={styles.breadcrumb}>
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </Container>
 
-      <Container className="mt-6">
-        <Box className="flex gap-8">
+      <Container className={styles.main}>
+        <Box className={styles.layout}>
           {/* Filters sidebar — desktop only */}
-          <Box ref={filtersRef} className="hidden shrink-0 self-start lg:block" style={{ position: 'sticky' }}>
+          <Box ref={filtersRef} className={styles.sidebar} style={{ position: 'sticky' }}>
             <CatalogFilters
               filterGroups={MOCK_FILTER_GROUPS}
               availabilityGroup={MOCK_AVAILABILITY_OPTIONS}
@@ -55,14 +57,14 @@ export function CatalogSubcategoryPage() {
           </Box>
 
           {/* Main content */}
-          <Box className="min-w-0 flex-1 overflow-x-hidden">
+          <Box className={styles.content}>
             <Heading level={2} size="lg">
               Запчасти для холодильников
             </Heading>
 
             {/* Sort chips */}
-            <Box className="-mx-4 mt-4 flex items-center gap-3 overflow-x-auto px-4 scrollbar-none">
-              <Text as="span" className="hidden shrink-0 text-sm text-tertiary sm:inline">
+            <Box className={cn('scrollbar-none', styles.sortRow)}>
+              <Text as="span" className={styles.sortLabel}>
                 Сортировка:
               </Text>
               {SORT_OPTIONS.map((option) => (
@@ -73,7 +75,7 @@ export function CatalogSubcategoryPage() {
                   rounded="md"
                   selected={sort === option.value}
                   onClick={() => setSort(option.value)}
-                  className="shrink-0"
+                  className={styles.sortChip}
                 >
                   {option.label}
                 </Chip>
@@ -81,21 +83,21 @@ export function CatalogSubcategoryPage() {
             </Box>
 
             {/* Product grid */}
-            <Box className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
+            <Box className={styles.grid}>
               {MOCK_PRODUCTS.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </Box>
 
             {/* Show more */}
-            <Box className="mt-12 flex justify-center">
-              <Button variant="secondary" rounded="full" className="px-10">
+            <Box className={styles.more}>
+              <Button variant="secondary" rounded="full" className={styles.moreButton}>
                 Показать ещё
               </Button>
             </Box>
 
             {/* Pagination */}
-            <Pagination className="mt-10">
+            <Pagination className={styles.pagination}>
               <PaginationContent>
                 <PaginationItem>
                   <PaginationPrevious href="#" />
@@ -126,7 +128,7 @@ export function CatalogSubcategoryPage() {
         </Box>
       </Container>
 
-      <Box className="mt-20">
+      <Box className={styles.footer}>
         <Footer variant="default" />
       </Box>
     </>
