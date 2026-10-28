@@ -1,3 +1,13 @@
+/* Порядок каскадных слоёв (ADR 0009). Объявлен до импортов (CSS это разрешает), поэтому действует, какой бы файл ни
+   загрузился первым:
+   - properties, theme, base, utilities: слои Tailwind (properties первым, иначе его значения по умолчанию для --tw-*
+     перебьют утилиты);
+   - components: примитивы shared/ui и глобальные классы ниже;
+   - slices: CSS Modules слоёв выше shared/ui (app, pages, widgets, features, entities). Их класс, переданный примитиву
+     через className, перебивает стиль примитива, как раньше tailwind-merge;
+   - utilities выше всех: Tailwind-классы, которые ещё не переведены, перебивают модули (до фазы 1.5). */
+@layer properties, theme, base, components, slices, utilities;
+
 @import "tailwindcss";
 @import "@fontsource-variable/inter";
 @import "./shared/ui/tokens.css";
