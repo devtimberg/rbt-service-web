@@ -188,8 +188,7 @@ export function Header({ search }: HeaderProps) {
         {/* Desktop: search — one element, CSS-driven expanded/compact */}
         <Box
           data-home={isHomePage ? '' : undefined}
-          // `group`: маркер для group-data-home в CatalogSearch (пока тот на Tailwind)
-          className={cn(styles.desktopSearch, 'group', isHomePage && styles.desktopSearchHome)}
+          className={cn(styles.desktopSearch, isHomePage && styles.desktopSearchHome)}
         >
           {search}
         </Box>
