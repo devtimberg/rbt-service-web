@@ -1,7 +1,7 @@
 # 0004. Cookie-сессия вместо next-auth
 
 Дата: 2026-10-15
-Статус: accepted
+Статус: superseded by [0010](0010-no-auth-in-mvp.md)
 
 ## Контекст
 

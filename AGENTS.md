@@ -17,7 +17,7 @@
 
 ```bash
 make install     # bun install --frozen-lockfile
-cp .env.example .env   # один раз; нужны API_INTERNAL_URL и SESSION_SECRET (>= 32 символов), опционально TRUST_PROXY (по умолчанию false)
+cp .env.example .env   # один раз; нужен API_INTERNAL_URL
 make dev         # vp dev, порт 3000
 make build       # vp build (Nitro, .output)
 make start       # запуск прод-сборки
@@ -47,7 +47,7 @@ routes → app → pages → widgets → features → entities → shared
 - Слайсы одного слоя друг друга не импортируют.
 - У слайса есть `index.ts`; снаружи импортируем только через него (`@/entities/product`). Пути через сегменты `ui|model|api|lib|config` запрещены. Внутри слайса импорты относительные, между слайсами через `@/` (алиас на `src/`).
 - В `shared` слайсов нет, только сегменты `api`, `config`, `lib`, `ui`; `shared/ui` импортируется по модулю: `@/shared/ui/Button`.
-- Слайсы можно группировать (`features/auth/login`): в группе нет `index.ts` и общего кода.
+- Слайсы можно группировать (`features/<группа>/<слайс>`): в группе нет `index.ts` и общего кода.
 - Контроль: правила слоёв inline в блоке `lint` [vite.config.ts](vite.config.ts) (Oxlint `no-restricted-imports`, шаблоны собираются из списка слоёв; новый сегмент слайса добавляй в `sliceSegments` там же) и steiger ([steiger.config.ts](steiger.config.ts)). Оба гоняет `make check`, steiger ещё и pre-commit.
 
 Что куда:
@@ -58,8 +58,8 @@ routes → app → pages → widgets → features → entities → shared
 | Лайауты (корень, шторка)                                                 | `src/app/layouts/`                                                               |
 | Страница и её уникальные блоки                                           | `src/pages/<page>/` (`ui/`, `model.ts`)                                          |
 | Блок на нескольких страницах                                             | `src/widgets/` (header, footer, mobile-bottom-nav, product-card, catalog-search) |
-| Действие пользователя                                                    | `src/features/` (auth/login, signup, logout, password-reset, search-products)    |
-| Сущность                                                                 | `src/entities/` (cart, category, favorite, product, session)                     |
+| Действие пользователя                                                    | `src/features/` (search-products)                                                 |
+| Сущность                                                                 | `src/entities/` (cart, category, favorite, product)                              |
 | UI-кит, API-клиент, конфиг, утилиты, маршруты-константы                  | `src/shared/`                                                                    |
 
 Адреса берём из `ROUTES` в `src/shared/config/routes.ts`, строки путей руками не пишем.
@@ -69,7 +69,6 @@ routes → app → pages → widgets → features → entities → shared
 | Что                                | Где                                                                    |
 | ---------------------------------- | ---------------------------------------------------------------------- |
 | Данные сервера                     | TanStack Query                                                         |
-| Сессия пользователя                | cookie, чтение через `sessionQuery` (`entities/session`)               |
 | Фильтры, поиск, страница           | search-параметры URL, валидация zod                                    |
 | Локальный UI                       | `useState`                                                             |
 | Корзина, избранное, история поиска | zustand, **временно** ([ADR 0007](docs/adr/0007-zustand-temporary.md)) |
@@ -78,11 +77,7 @@ routes → app → pages → widgets → features → entities → shared
 
 ## Авторизация
 
-Cookie-сессия, AES-256-GCM, ключ из `SESSION_SECRET` ([ADR 0004](docs/adr/0004-cookie-session.md)).
-
-- Серверный код лежит в `src/entities/session/api/*.server.ts` и вызывается только из тел `createServerFn` (`auth.functions.ts`). Файлы `*.server.ts` не реэкспортируем из `index.ts`, иначе они попадут в клиентский бандл.
-- Защита маршрутов: `_authed` (только вошедшие) и `_guest` (только гости) в `beforeLoad`; гостя отправляем на вход через `redirect` с `?redirect=` (не `callbackUrl`).
-- Токены никогда не отдаём в браузер: клиент получает только публичные данные пользователя.
+В MVP авторизации нет ([ADR 0010](docs/adr/0010-no-auth-in-mvp.md)): ни входа, ни сессии, ни защищённых маршрутов. Не добавляй её без нового ADR.
 
 ## Вёрстка
 
@@ -132,7 +127,7 @@ Cookie-сессия, AES-256-GCM, ключ из `SESSION_SECRET` ([ADR 0004](doc
 
 ## Тесты
 
-Vitest через `vp test run` (jsdom) + Testing Library, конфиг в отдельном [vitest.config.ts](vitest.config.ts) (тестам не нужны плагины Start/Nitro/Tailwind), `vitest.setup.ts`. API тестов импортируем из `vite-plus/test` (не из `vitest`), иначе `vite-plus/prefer-vite-plus-imports` ругнётся. Матчер `toHaveTextContent` с RegExp не используем (конфликт типов): `expect(el.textContent).toMatch(/.../)`. Тесты лежат рядом с кодом: `*.test.ts(x)`; серверные модули с `// @vitest-environment node`. Логику без React (модели, ошибки, шифрование сессии) покрывай unit-тестом, поведение UI компонентным. DOM-снапшоты не делаем. Тестовые env (`API_INTERNAL_URL`, `SESSION_SECRET`) заданы в `vitest.config.ts`.
+Vitest через `vp test run` (jsdom) + Testing Library, конфиг в отдельном [vitest.config.ts](vitest.config.ts) (тестам не нужны плагины Start/Nitro/Tailwind), `vitest.setup.ts`. API тестов импортируем из `vite-plus/test` (не из `vitest`), иначе `vite-plus/prefer-vite-plus-imports` ругнётся. Матчер `toHaveTextContent` с RegExp не используем (конфликт типов): `expect(el.textContent).toMatch(/.../)`. Тесты лежат рядом с кодом: `*.test.ts(x)`; серверные модули с `// @vitest-environment node`. Логику без React (модели, ошибки) покрывай unit-тестом, поведение UI компонентным. DOM-снапшоты не делаем. Тестовый env (`API_INTERNAL_URL`) задан в `vitest.config.ts`.
 
 ## Коммиты
 
@@ -141,12 +136,11 @@ Conventional Commits, описание по-русски: `<тип>(<облас�
 
 ## Запрещено
 
-- next-auth ([0004](docs/adr/0004-cookie-session.md)). Next.js разрешён как цель перехода ([0009](docs/adr/0009-nextjs-css-modules-rtk-query.md)), но код на нём появляется только в фазе 2.
+- Next.js разрешён как цель перехода ([0009](docs/adr/0009-nextjs-css-modules-rtk-query.md)), но код на нём появляется только в фазе 2.
 - shadcn/ui, Radix, любые headless-библиотеки, `class-variance-authority` ([0005](docs/adr/0005-own-ui-primitives.md)).
 - Глобальный стор, кроме временных zustand-сторов из [0007](docs/adr/0007-zustand-temporary.md).
 - Ручная правка `src/routeTree.gen.ts` и сгенерированных файлов.
 - Импорт в обход `index.ts` слайса и между слайсами одного слоя.
-- Реэкспорт `*.server.ts` и токенов сессии в клиентский код.
 - Возврат к ESLint, Prettier, Biome и lefthook мимо ADR ([0002](docs/adr/0002-vite-plus.md)).
 - Голые HTML-элементы вне `src/shared/ui` и `*.test.tsx`, `--no-verify`, отключение `react/forbid-elements` точечными комментариями ([0008](docs/adr/0008-no-bare-html-elements.md)).
 
