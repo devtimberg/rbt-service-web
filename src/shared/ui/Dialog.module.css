@@ -1,0 +1,152 @@
+/* Нативный <dialog> (Dialog, Sheet): вход и выход на CSS через @starting-style и transition-behavior: allow-discrete
+   (display/overlay переключаются после окончания перехода). Где браузер не умеет allow-discrete,
+   окно просто появляется и исчезает без анимации. */
+@layer components {
+  .root {
+    --ui-dialog-shift: 1rem;
+    max-height: 90vh;
+    width: 100%;
+    overflow-y: auto;
+    background-color: #fff;
+    color: var(--color-primary);
+    /* shadow-xl */
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+    opacity: 0;
+    transform: translateY(var(--ui-dialog-shift));
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      overlay 0.2s ease allow-discrete,
+      display 0.2s ease allow-discrete;
+
+    &[open] {
+      opacity: 1;
+      transform: none;
+    }
+
+    @starting-style {
+      &[open] {
+        opacity: 0;
+        transform: translateY(var(--ui-dialog-shift));
+      }
+    }
+
+    &::backdrop {
+      background: rgb(0 0 0 / 0.2);
+      opacity: 0;
+      transition:
+        opacity 0.2s ease,
+        overlay 0.2s ease allow-discrete,
+        display 0.2s ease allow-discrete;
+    }
+
+    &[open]::backdrop {
+      opacity: 1;
+    }
+
+    @starting-style {
+      &[open]::backdrop {
+        opacity: 0;
+      }
+    }
+  }
+
+  /* Отступы Dialog; у Sheet их нет, поэтому не в .root */
+  .padded {
+    padding: 1.5rem;
+  }
+
+  .center {
+    margin: auto;
+    max-width: 24rem;
+    border-radius: 1rem;
+  }
+
+  .bottom {
+    --ui-dialog-shift: 100%;
+    margin: 0;
+    margin-top: auto;
+    max-width: none;
+    border-radius: 1.5rem 1.5rem 0 0;
+    transition-duration: 0.3s;
+  }
+
+  /* Адаптивная модалка: ниже md шторка снизу, от md окно по центру */
+  .responsive {
+    --ui-dialog-shift: 100%;
+    margin: 0;
+    margin-top: auto;
+    max-width: none;
+    border-radius: 1.5rem 1.5rem 0 0;
+
+    @media (--md) {
+      --ui-dialog-shift: 1rem;
+      margin: auto;
+      max-width: 24rem;
+      border-radius: 1rem;
+    }
+  }
+
+  /* Размер lg (идёт после placement: от md перебивает max-w-sm) */
+  .sizeLg {
+    @media (--md) {
+      max-width: 32rem;
+    }
+  }
+
+  /* Как и раньше, шторка снизу (.bottom) prefers-reduced-motion не учитывает: её 0.3s перебивали этот блок */
+  @media (prefers-reduced-motion: reduce) {
+    .root:not(.bottom),
+    .root::backdrop {
+      transition-duration: 0.01ms;
+    }
+  }
+
+  .close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    color: var(--color-tertiary);
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
+
+  .closeIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .title {
+    padding-right: 2rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .description {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-tertiary);
+  }
+
+  .body {
+    margin-top: 1rem;
+  }
+
+  .footer {
+    margin-top: 1.5rem;
+  }
+}

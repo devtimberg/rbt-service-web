@@ -2,6 +2,7 @@ import { type ComponentProps, createContext, type ReactNode, use, useId } from '
 import { cn } from '@/shared/lib/cn'
 import { DialogShell } from './Dialog'
 import { CloseIcon } from './icons'
+import styles from './Sheet.module.css'
 
 type SheetContextValue = {
   onOpenChange: (open: boolean) => void
@@ -42,13 +43,13 @@ export function SheetContent({ className, children, showCloseButton = true }: Sh
       labelledBy={titleId}
       describedBy={descriptionId}
       placement="bottom"
-      className={cn('flex flex-col gap-4 p-0', className)}
+      className={cn(styles.content, className)}
     >
       {children}
       {showCloseButton ? (
-        <SheetClose className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100">
-          <CloseIcon className="size-6" />
-          <span className="sr-only">Закрыть</span>
+        <SheetClose className={styles.close}>
+          <CloseIcon className={styles.closeIcon} />
+          <span className={styles.srOnly}>Закрыть</span>
         </SheetClose>
       ) : null}
     </DialogShell>
@@ -72,11 +73,11 @@ export function SheetClose({ onClick, ...props }: ComponentProps<'button'>) {
 }
 
 export function SheetHeader({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cn('flex flex-col gap-1.5 p-4', className)} {...props} />
+  return <div className={cn(styles.header, className)} {...props} />
 }
 
 export function SheetFooter({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cn('mt-auto flex flex-col gap-2 p-4', className)} {...props} />
+  return <div className={cn(styles.footer, className)} {...props} />
 }
 
 export function SheetTitle({ className, ...props }: ComponentProps<'h2'>) {
@@ -87,7 +88,7 @@ export function SheetTitle({ className, ...props }: ComponentProps<'h2'>) {
     <h2
       id={titleId}
 
-      className={cn('text-xl font-semibold text-primary', className)}
+      className={cn(styles.title, className)}
       {...props}
     />
   )
@@ -95,5 +96,5 @@ export function SheetTitle({ className, ...props }: ComponentProps<'h2'>) {
 
 export function SheetDescription({ className, ...props }: ComponentProps<'p'>) {
   const { descriptionId } = useSheet()
-  return <p id={descriptionId} className={cn('text-sm text-tertiary', className)} {...props} />
+  return <p id={descriptionId} className={cn(styles.description, className)} {...props} />
 }

@@ -14,6 +14,7 @@ import {
   useState,
 } from 'react'
 import { cn } from '@/shared/lib/cn'
+import styles from './Popover.module.css'
 
 type PopoverContextValue = {
   open: boolean
@@ -76,7 +77,7 @@ export function Popover({ open: openProp, defaultOpen = false, onOpenChange, chi
 
   return (
     <PopoverContext value={{ open, setOpen, panelId }}>
-      <span ref={rootRef} className={cn('relative inline-flex', className)}>
+      <span ref={rootRef} className={cn(styles.root, className)}>
         {children}
       </span>
     </PopoverContext>
@@ -108,15 +109,16 @@ type PopoverContentProps = ComponentProps<'div'> & {
 }
 
 const SIDE_CLASS = {
-  bottom: 'top-full',
-  top: 'bottom-full',
-  left: 'right-full',
-  right: 'left-full',
+  bottom: styles.sideBottom,
+  top: styles.sideTop,
+  left: styles.sideLeft,
+  right: styles.sideRight,
 } as const
 
 const ALIGN_CLASS = {
-  vertical: { start: 'left-0', center: 'left-1/2 -translate-x-1/2', end: 'right-0' },
-  horizontal: { start: 'top-0', center: 'top-1/2 -translate-y-1/2', end: 'bottom-0' },
+  start: styles.alignStart,
+  center: styles.alignCenter,
+  end: styles.alignEnd,
 } as const
 
 const OFFSET_PROP = {
@@ -137,7 +139,6 @@ export function PopoverContent({
   const { open, panelId } = usePopover()
   if (!open) return null
 
-  const axis = side === 'top' || side === 'bottom' ? 'vertical' : 'horizontal'
   const offsetStyle: CSSProperties = { ...style, [OFFSET_PROP[side]]: sideOffset }
 
   return (
@@ -149,25 +150,20 @@ export function PopoverContent({
 
       data-side={side}
       style={offsetStyle}
-      className={cn(
-        'absolute z-50 w-72 rounded-md border border-border-default bg-white p-4 text-primary shadow-md',
-        SIDE_CLASS[side],
-        ALIGN_CLASS[axis][align],
-        className,
-      )}
+      className={cn(styles.panel, SIDE_CLASS[side], ALIGN_CLASS[align], className)}
       {...props}
     />
   )
 }
 
 export function PopoverHeader({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cn('flex flex-col gap-1 text-sm', className)} {...props} />
+  return <div className={cn(styles.header, className)} {...props} />
 }
 
 export function PopoverTitle({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cn('font-medium', className)} {...props} />
+  return <div className={cn(styles.title, className)} {...props} />
 }
 
 export function PopoverDescription({ className, ...props }: ComponentProps<'p'>) {
-  return <p className={cn('text-tertiary', className)} {...props} />
+  return <p className={cn(styles.description, className)} {...props} />
 }

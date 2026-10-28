@@ -1,5 +1,6 @@
 import type { ComponentProps } from 'react'
 import { cn } from '@/shared/lib/cn'
+import styles from './LayoutSheet.module.css'
 
 type Side = 'top' | 'right' | 'bottom' | 'left'
 
@@ -14,16 +15,16 @@ type LayoutSheetProps = Omit<ComponentProps<'div'>, 'role'> & {
 }
 
 const SIDE_CLASS: Record<Side, string> = {
-  right: 'inset-y-0 right-0 h-full w-3/4 border-l data-[state=closed]:translate-x-full sm:max-w-sm',
-  left: 'inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:-translate-x-full sm:max-w-sm',
-  top: 'inset-x-0 top-0 h-auto border-b data-[state=closed]:-translate-y-full',
-  bottom: 'inset-x-0 bottom-0 data-[state=closed]:translate-y-full lg:bottom-4 lg:mx-4',
+  right: styles.right,
+  left: styles.left,
+  top: styles.top,
+  bottom: styles.bottom,
 }
 
 /**
  * Страничная панель-шторка, закрепляемая поверх раскладки (замена Radix Dialog с modal=false и LayoutSheetContent).
  * Не модальна и не закрывается по Esc или клику снаружи: открытием управляет только родитель (по маршруту).
- * Состояние отдаётся атрибутом data-state="open|closed", анимация на CSS (shared/ui/overlay.css).
+ * Состояние отдаётся атрибутом data-state="open|closed", анимация на CSS (LayoutSheet.module.css).
  */
 export function LayoutSheet({
   open,
@@ -44,11 +45,7 @@ export function LayoutSheet({
 
       data-state={open ? 'open' : 'closed'}
       data-no-animation={disableOpenAnimation ? 'true' : undefined}
-      className={cn(
-        'ui-layout-sheet fixed z-50 flex flex-col gap-4 bg-[#F7FAFF] text-primary shadow-lg',
-        SIDE_CLASS[side],
-        className,
-      )}
+      className={cn(styles.root, SIDE_CLASS[side], className)}
       {...props}
     >
       {children}

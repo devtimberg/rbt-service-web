@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "@fontsource-variable/inter";
 @import "./shared/ui/tokens.css";
-@import "./shared/ui/overlay.css";
 
 /* Скрытие нативного скроллбара (прежнее имя класса сохранено). Глобальные классы и стили CSS Modules лежат в слое
    components (ADR 0009): Tailwind-классы, переданные снаружи через className, перебивают их, как раньше через cn().

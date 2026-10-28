@@ -2,6 +2,7 @@ import { type ReactNode, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '@/shared/lib/cn'
 import { Box } from './Box'
+import styles from './SheetFooterSlot.module.css'
 
 const SHEET_FOOTER_SLOT_ID = 'sheet-footer-slot'
 
@@ -27,13 +28,8 @@ export function SheetFooterSlot({ children, className, contentClassName }: Sheet
 
   if (!target) return null
   return createPortal(
-    <Box
-      className={cn(
-        'flex items-center justify-center rounded-t-[24px] bg-[#F7FAFF] px-4 py-4 shadow-[0_-0px_60px_-0px] shadow-primary-900/15 sm:rounded-none sm:rounded-b-[40px] sm:bg-white sm:px-6 sm:py-8 sm:shadow-none',
-        className,
-      )}
-    >
-      <Box className={cn('flex w-full max-w-360 items-center', contentClassName)}>{children}</Box>
+    <Box className={cn(styles.root, className)}>
+      <Box className={cn(styles.content, contentClassName)}>{children}</Box>
     </Box>,
     target,
   )

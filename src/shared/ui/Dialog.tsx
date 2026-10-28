@@ -1,6 +1,7 @@
 import { type MouseEvent, type ReactNode, useEffect, useId, useRef } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { CloseIcon } from './icons'
+import styles from './Dialog.module.css'
 
 type Placement = 'center' | 'bottom' | 'responsive'
 
@@ -17,15 +18,15 @@ type DialogShellProps = {
 }
 
 const PLACEMENT_CLASS: Record<Placement, string> = {
-  center: 'm-auto max-w-sm rounded-2xl',
-  bottom: 'm-0 mt-auto max-w-none rounded-t-3xl',
-  responsive: 'm-0 mt-auto max-w-none rounded-t-3xl md:m-auto md:max-w-sm md:rounded-2xl',
+  center: styles.center,
+  bottom: styles.bottom,
+  responsive: styles.responsive,
 }
 
 /**
  * Основа модальных окон на нативном `<dialog>`: фокус-ловушку, Esc и затемнение даёт браузер.
  * Открытием управляет проп `open` (showModal/close), закрытие (Esc, клик по затемнению) сообщается в `onClose`.
- * Анимации входа и выхода на CSS (shared/ui/overlay.css). Страница под окном не прокручивается.
+ * Анимации входа и выхода на CSS (Dialog.module.css). Страница под окном не прокручивается.
  */
 export function DialogShell({
   open,
@@ -69,11 +70,7 @@ export function DialogShell({
       data-placement={placement}
       onClose={onClose}
       onClick={handleBackdropClick}
-      className={cn(
-        'ui-dialog max-h-[90vh] w-full overflow-y-auto bg-white p-6 text-primary shadow-xl',
-        PLACEMENT_CLASS[placement],
-        className,
-      )}
+      className={cn(styles.root, PLACEMENT_CLASS[placement], className)}
     >
       {children}
     </dialog>
@@ -89,7 +86,7 @@ type DialogProps = {
   /** Прибитый к низу блок действий. */
   footer?: ReactNode
   placement?: Placement
-  /** md: max-w-sm (по умолчанию), lg: max-w-lg. */
+  /** md: 24rem (по умолчанию), lg: 32rem от md. */
   size?: 'md' | 'lg'
   className?: string
 }
@@ -116,26 +113,21 @@ export function Dialog({
       labelledBy={titleId}
       {...(description ? { describedBy: descriptionId } : {})}
       placement={placement}
-      className={cn(size === 'lg' && 'md:max-w-lg', className)}
+      className={cn(styles.padded, size === 'lg' && styles.sizeLg, className)}
     >
-      <button
-        type="button"
-        aria-label="Закрыть"
-        onClick={onClose}
-        className="absolute top-3 right-3 flex size-8 items-center justify-center rounded-lg text-tertiary hover:text-primary"
-      >
-        <CloseIcon className="size-6" />
+      <button type="button" aria-label="Закрыть" onClick={onClose} className={styles.close}>
+        <CloseIcon className={styles.closeIcon} />
       </button>
-      <h2 id={titleId} className="pr-8 text-lg font-semibold">
+      <h2 id={titleId} className={styles.title}>
         {title}
       </h2>
       {description ? (
-        <p id={descriptionId} className="mt-2 text-sm text-tertiary">
+        <p id={descriptionId} className={styles.description}>
           {description}
         </p>
       ) : null}
-      {children ? <div className="mt-4">{children}</div> : null}
-      {footer ? <div className="mt-6">{footer}</div> : null}
+      {children ? <div className={styles.body}>{children}</div> : null}
+      {footer ? <div className={styles.footer}>{footer}</div> : null}
     </DialogShell>
   )
 }

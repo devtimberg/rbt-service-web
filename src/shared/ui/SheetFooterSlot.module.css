@@ -1,0 +1,26 @@
+@layer components {
+  .root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px 24px 0 0;
+    background-color: #f7faff;
+    padding: 1rem;
+    box-shadow: 0 0 60px 0 color-mix(in oklab, var(--color-primary-900) 15%, transparent);
+
+    @media (--sm) {
+      border-radius: 0 0 40px 40px;
+      background-color: #fff;
+      padding: 2rem 1.5rem;
+      box-shadow: none;
+    }
+  }
+
+  .content {
+    display: flex;
+    width: 100%;
+    /* 90rem, как раньше max-w-360 */
+    max-width: 90rem;
+    align-items: center;
+  }
+}

@@ -1,0 +1,56 @@
+@layer components {
+  .root {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .tip {
+    pointer-events: none;
+    visibility: hidden;
+    position: absolute;
+    left: 50%;
+    z-index: 50;
+    translate: -50% 0;
+    border-radius: 0.375rem;
+    background-color: var(--color-primary);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    text-wrap: balance;
+    white-space: nowrap;
+    color: var(--color-inverse);
+    opacity: 0;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+
+    .root:focus-within > & {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    @media (hover: hover) {
+      .root:hover > & {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 300ms;
+      }
+    }
+
+    /* Esc скрывает подсказку (WCAG 1.4.13), сильнее hover и focus */
+    &[data-dismissed="true"] {
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+  }
+
+  .top {
+    bottom: 100%;
+    margin-bottom: 0.25rem;
+  }
+
+  .bottom {
+    top: 100%;
+    margin-top: 0.125rem;
+  }
+}

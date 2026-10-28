@@ -1,0 +1,12 @@
+@layer components {
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    @media (--md) {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+}

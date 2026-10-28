@@ -1,5 +1,6 @@
 import { Button } from './Button'
 import { Dialog } from './Dialog'
+import styles from './ConfirmDialog.module.css'
 
 type ConfirmDialogProps = {
   open: boolean
@@ -34,7 +35,7 @@ export function ConfirmDialog({
       {...(description ? { description } : {})}
       placement="responsive"
       footer={
-        <div className="flex flex-col gap-3 md:flex-row md:justify-end">
+        <div className={styles.actions}>
           <Button variant="primary" onClick={handleConfirm}>
             {confirmLabel}
           </Button>

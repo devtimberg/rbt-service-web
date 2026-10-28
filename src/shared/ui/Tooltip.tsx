@@ -1,5 +1,6 @@
 import { type ReactNode, useEffect, useState } from 'react'
 import { cn } from '@/shared/lib/cn'
+import styles from './Tooltip.module.css'
 
 type TooltipProps = {
   /** Текст подсказки. */
@@ -11,8 +12,8 @@ type TooltipProps = {
 }
 
 const SIDE = {
-  top: 'bottom-full mb-1',
-  bottom: 'top-full mt-0.5',
+  top: styles.top,
+  bottom: styles.bottom,
 } as const
 
 /**
@@ -45,24 +46,14 @@ export function Tooltip({ content, side = 'bottom', children, className }: Toolt
 
   return (
     <span
-      className={cn('group/tooltip relative inline-flex', className)}
+      className={cn(styles.root, className)}
       onMouseEnter={activate}
       onMouseLeave={deactivate}
       onFocus={activate}
       onBlur={deactivate}
     >
       {children}
-      <span
-        role="tooltip"
-        data-dismissed={dismissed ? 'true' : undefined}
-        className={cn(
-          'pointer-events-none invisible absolute left-1/2 z-50 -translate-x-1/2 rounded-md bg-primary px-3 py-1.5 text-xs text-balance whitespace-nowrap text-inverse opacity-0 transition-opacity',
-          'group-focus-within/tooltip:visible group-focus-within/tooltip:opacity-100',
-          'group-hover/tooltip:visible group-hover/tooltip:opacity-100 group-hover/tooltip:delay-300',
-          'data-[dismissed=true]:invisible! data-[dismissed=true]:opacity-0!',
-          SIDE[side],
-        )}
-      >
+      <span role="tooltip" data-dismissed={dismissed ? 'true' : undefined} className={cn(styles.tip, SIDE[side])}>
         {content}
       </span>
     </span>

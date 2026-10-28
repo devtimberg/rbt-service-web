@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-/** Длительность анимации закрытия шторки (совпадает с .ui-layout-sheet в shared/ui/overlay.css). */
+/** Длительность анимации закрытия шторки (совпадает с .ui-layout-sheet в shared/ui/LayoutSheet.module.css). */
 export const SHEET_CLOSE_DURATION_MS = 500
 
 export type SheetState = {
