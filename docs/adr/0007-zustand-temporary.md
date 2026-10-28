@@ -1,7 +1,7 @@
 # 0007. Zustand как временное решение до API
 
 Дата: 2026-10-15
-Статус: accepted
+Статус: accepted, частично заменён [0009](0009-nextjs-css-modules-rtk-query.md) (данные сервера в RTK Query с фазы 3)
 
 ## Контекст
 

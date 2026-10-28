@@ -10,7 +10,7 @@ IMAGE ?= rbt-service-web:local
 CONTAINER ?= rbt-service-web
 
 .PHONY: help install dev build start \
-	typecheck lint lint-fsd format check test test-watch icons \
+	typecheck lint lint-fsd format check test test-watch style-check icons \
 	docker-build docker-run docker-stop clean hooks
 
 help: ## Показать этот список целей
@@ -56,6 +56,13 @@ test: ## Юнит-тесты (vp test run)
 
 test-watch: ## Юнит-тесты в watch-режиме
 	bunx vp test
+
+REF ?=
+TARGET ?=
+PATHS ?=
+style-check: ## Сравнить вёрстку двух сборок: make style-check REF=http://localhost:3210 TARGET=http://localhost:3200 [PATHS="/ /cart /x@404"] [ARGS=...]
+	@test -n "$(REF)" -a -n "$(TARGET)" || { echo "Нужны REF и TARGET (адреса запущенных сборок)"; exit 2; }
+	bun scripts/style-check/cli.ts compare --ref $(REF) --target $(TARGET) $(ARGS) $(PATHS)
 
 ##@ Docker
 

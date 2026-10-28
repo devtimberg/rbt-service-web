@@ -1,7 +1,7 @@
 # 0005. Свои UI-примитивы без shadcn, Radix и cva
 
 Дата: 2026-10-15
-Статус: accepted
+Статус: accepted, частично заменён [0009](0009-nextjs-css-modules-rtk-query.md) (стили на CSS Modules и `clsx` вместо Tailwind и `tailwind-merge` с фазы 1)
 
 ## Контекст
 

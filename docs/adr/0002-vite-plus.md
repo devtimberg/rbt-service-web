@@ -1,7 +1,7 @@
 # 0002. Vite+ (vp, Oxlint, Oxfmt) вместо ESLint и Prettier
 
 Дата: 2026-10-15
-Статус: accepted
+Статус: accepted, частично заменён [0009](0009-nextjs-css-modules-rtk-query.md) (сборка и dev через Next с фазы 2)
 
 ## Контекст
 

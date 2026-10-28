@@ -73,7 +73,7 @@ export function Footer({ variant = 'inverse' }: FooterProps) {
                 as="span"
                 aria-hidden
                 className="animation-duration-[450ms] ml-0.5 inline-block
-                  animate-pulse"
+                  motion-safe:animate-pulse"
               >
                 |
               </Text>

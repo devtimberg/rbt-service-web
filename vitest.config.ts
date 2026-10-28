@@ -9,7 +9,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: false,
     setupFiles: ['./vitest.setup.ts'],
-    include: ['src/**/*.test.{ts,tsx}'],
+    include: ['src/**/*.test.{ts,tsx}', 'scripts/**/*.test.ts'],
     env: {
       API_INTERNAL_URL: 'http://api.test',
       SESSION_SECRET: 'test-secret-test-secret-test-secret-0000',

@@ -5,7 +5,11 @@
 ## Проект
 
 Мобильный веб-сервис ООО ТТЦ «Рембыттехника» (ремонт бытовой техники, каталог запчастей). TanStack Start (SSR) на React 19, TypeScript, Tailwind 4, TanStack Query, тулчейн Vite+ (`vp`). Весь текст интерфейса и комментарии по-русски. Пакеты через Bun 1.3, прод на Node 22 (сборка Nitro в `.output`).
-Проект мигрирован с Next.js 16 ([ADR 0001](docs/adr/0001-tanstack-start.md)) и служит пилотом Vite+ для rbt-web ([ADR 0002](docs/adr/0002-vite-plus.md)).
+Проект был мигрирован с Next.js 16 ([ADR 0001](docs/adr/0001-tanstack-start.md)) и служит пилотом Vite+ для rbt-web ([ADR 0002](docs/adr/0002-vite-plus.md)).
+
+## Переход на Next.js ([ADR 0009](docs/adr/0009-nextjs-css-modules-rtk-query.md), [план](docs/nextjs-migration.md))
+
+Идём вслед за rbt-web: Next.js App Router, CSS Modules вместо Tailwind, react-hook-form, RTK Query. Фазы по очереди, после каждой `make check` зелёный: 0 — подготовка, 1 — CSS Modules и формы в `main` на текущем стеке, 2 — Next своей веткой, 3 — RTK Query своей веткой. Пока фаза не закрыта, правила остальных разделов этого файла действуют как написано. Изменения вёрстки, которые не должны менять вид, сверяй `make style-check` с эталоном из плана. Отметки о готовности фаз ставь в плане.
 
 ## Команды
 
@@ -26,6 +30,7 @@ make test-watch  # Vitest в watch-режиме
 make check       # typecheck + lint + lint-fsd + test (то, что гоняет CI)
 make hooks       # поставить git-хуки (vp hooks enable); обычно они ставятся сами при bun install (prepare: vp config)
 make icons       # пересобрать SVGR-иконки из src/shared/ui/icons/raw
+make style-check REF=<url> TARGET=<url> [PATHS="/ /cart"]  # сравнить вёрстку двух запущенных сборок (Playwright, отчёт в .style-check/)
 make docker-build / docker-run / docker-stop
 ```
 
@@ -119,7 +124,7 @@ Conventional Commits, описание по-русски: `<тип>(<облас�
 
 ## Запрещено
 
-- Next.js, next-auth и их API ([0001](docs/adr/0001-tanstack-start.md), [0004](docs/adr/0004-cookie-session.md)).
+- next-auth ([0004](docs/adr/0004-cookie-session.md)). Next.js разрешён как цель перехода ([0009](docs/adr/0009-nextjs-css-modules-rtk-query.md)), но код на нём появляется только в фазе 2.
 - shadcn/ui, Radix, любые headless-библиотеки, `class-variance-authority` ([0005](docs/adr/0005-own-ui-primitives.md)).
 - Глобальный стор, кроме временных zustand-сторов из [0007](docs/adr/0007-zustand-temporary.md).
 - Ручная правка `src/routeTree.gen.ts` и сгенерированных файлов.

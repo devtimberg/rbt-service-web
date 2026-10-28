@@ -1,7 +1,7 @@
 # 0001. TanStack Start вместо Next.js
 
 Дата: 2026-10-15
-Статус: accepted
+Статус: superseded by [0009](0009-nextjs-css-modules-rtk-query.md)
 
 ## Контекст
 
