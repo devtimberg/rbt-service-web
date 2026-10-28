@@ -1,0 +1,17 @@
+@layer slices {
+  .title {
+    cursor: default;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 700;
+  }
+
+  .line {
+    cursor: default;
+    color: var(--color-secondary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+}

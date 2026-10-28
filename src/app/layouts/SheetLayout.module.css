@@ -1,0 +1,47 @@
+@layer slices {
+  /* Шторка ниже шапки: mobile 80px, sm 88px, lg 88px + внешний отступ 16px */
+  .sheet {
+    top: 5rem;
+    z-index: 30;
+    border-width: 0;
+    border-radius: 24px 24px 0 0;
+
+    @media (--sm) {
+      top: 5.5rem;
+      z-index: 50;
+    }
+
+    @media (--lg) {
+      top: calc(16px + 88px);
+      border-radius: 40px;
+    }
+  }
+
+  .inner {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 24px 24px 0 0;
+    color: var(--color-primary);
+
+    @media (--lg) {
+      border-radius: 40px;
+    }
+  }
+
+  .scroll {
+    flex: 1 1 0%;
+  }
+
+  .viewport {
+    display: flex;
+    flex-direction: column;
+    overscroll-behavior-y: contain;
+    padding: 1.5rem 0.75rem calc(env(safe-area-inset-bottom) + 100px);
+
+    @media (--sm) {
+      padding-bottom: 2rem;
+    }
+  }
+}

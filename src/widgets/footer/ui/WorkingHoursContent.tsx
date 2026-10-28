@@ -1,5 +1,6 @@
 import { Stack } from '@/shared/ui/Box'
 import { Text } from '@/shared/ui/Text'
+import styles from './WorkingHoursContent.module.css'
 
 const SCHEDULES = [
   {
@@ -17,9 +18,9 @@ export function WorkingHoursContent() {
     <Stack gap={10}>
       {SCHEDULES.map((schedule) => (
         <Stack key={schedule.title} gap={2}>
-          <Text className="cursor-default text-primary text-sm font-bold">{schedule.title}</Text>
+          <Text className={styles.title}>{schedule.title}</Text>
           {schedule.lines.map((line) => (
-            <Text key={line} className="cursor-default font-normal text-sm text-secondary">
+            <Text key={line} className={styles.line}>
               {line}
             </Text>
           ))}

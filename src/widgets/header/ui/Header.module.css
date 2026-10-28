@@ -1,0 +1,220 @@
+@layer slices {
+  .spacer {
+    height: 5rem;
+
+    @media (--sm) {
+      height: 0;
+    }
+  }
+
+  .root {
+    /* Через переменную: сборка не сворачивает color-mix заранее, и computed совпадает с Tailwind (white/20) */
+    --white: #fff;
+
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    height: 5rem;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0;
+    background-color: var(--color-primary-500);
+
+    @media (width < 48rem) {
+      padding-inline: 1rem;
+    }
+
+    @media (--sm) {
+      position: static;
+      z-index: auto;
+      height: 5.5rem;
+      border-radius: 40px 40px 0 0;
+      padding-top: 0.25rem;
+    }
+
+    @media (--sm) and (width < 48rem) {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  .mobileSearch {
+    display: flex;
+    flex: 1 1 0%;
+    align-items: center;
+    gap: 0.75rem;
+
+    @media (--sm) {
+      display: none;
+    }
+  }
+
+  .searchField {
+    display: flex;
+    height: 2.5rem;
+    flex: 1 1 0%;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 0.75rem;
+    background-color: color-mix(in oklab, var(--white) 20%, transparent);
+    padding-left: 1rem;
+    padding-right: 0.25rem;
+  }
+
+  .searchIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    color: color-mix(in oklab, var(--white) 60%, transparent);
+  }
+
+  /* Размер шрифта задаёт TextInput (base, на md sm): тут только междустрочный и сброс рамки, фона и кольца */
+  .searchInput {
+    height: auto;
+    border-width: 0;
+    background-color: transparent;
+    padding: 0;
+    color: #fff;
+    line-height: 1;
+    box-shadow: none;
+
+    &::placeholder {
+      color: color-mix(in oklab, var(--white) 60%, transparent);
+    }
+
+    /* Нулевое кольцо (focus-visible:ring-0): список слоёв как у Tailwind, чтобы computed совпал */
+    &:focus-visible {
+      box-shadow:
+        0 0 #0000,
+        0 0 #0000,
+        0 0 #0000,
+        0 0 0 0 var(--ring-color),
+        0 0 #0000;
+    }
+  }
+
+  .clearButton {
+    color: color-mix(in oklab, var(--white) 60%, transparent);
+  }
+
+  .closeSearchButton {
+    color: #fff;
+  }
+
+  .mobileLogo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (--sm) {
+      display: none;
+    }
+  }
+
+  .logo {
+    width: 11.25rem;
+    height: 2.5rem;
+  }
+
+  .mobileTitle {
+    display: flex;
+    min-height: 2.5rem;
+    align-items: center;
+    gap: 0.625rem;
+
+    @media (--sm) {
+      display: none;
+    }
+  }
+
+  .title {
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 600;
+  }
+
+  .cartBadge {
+    border-radius: calc(infinity * 1px);
+    background-color: color-mix(in oklab, var(--white) 20%, transparent);
+    padding: 0.125rem 0.625rem;
+    color: #fff;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+  }
+
+  .closeButton {
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    color: #fff;
+
+    @media (--sm) {
+      display: none;
+    }
+  }
+
+  .catalogActions {
+    @media (--sm) {
+      display: none;
+    }
+  }
+
+  .desktopLogo {
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    @media (--sm) {
+      display: inline-flex;
+    }
+  }
+
+  .desktopSearch {
+    display: none;
+    flex: 1 1 0%;
+    justify-content: center;
+    padding-inline: 1.5rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+
+    @media (--sm) {
+      display: flex;
+    }
+  }
+
+  /* На главной поиск уезжает вниз, в центр экрана (на низких экранах остаётся в шапке) */
+  .desktopSearchHome {
+    @media (min-height: 700px) {
+      translate: 0 clamp(120px, 18vh, 260px);
+    }
+  }
+
+  .desktopIcons {
+    display: none;
+
+    @media (--sm) {
+      display: flex;
+    }
+  }
+
+  /* Hover не нужен: цвет уже белый, а фон у ghost при наведении прозрачный */
+  .headerIcon {
+    border-radius: 0.375rem;
+    color: #fff;
+
+    &:active {
+      background-color: var(--color-primary-300);
+    }
+  }
+
+  .headerIconActive {
+    color: var(--color-inverse);
+  }
+}

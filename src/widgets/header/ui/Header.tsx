@@ -26,6 +26,7 @@ import { SmartLink } from '@/shared/ui/SmartLink'
 import { Text } from '@/shared/ui/Text'
 import { TextInput } from '@/shared/ui/TextInput'
 import { getRouteTitle } from '../lib/getRouteTitle'
+import styles from './Header.module.css'
 
 const CLOSE_BUTTON_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL])
 
@@ -74,23 +75,15 @@ export function Header({ search }: HeaderProps) {
   const resetSearch = useSearchStore((s) => s.reset)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  const headerIconBaseClassName = 'text-white hover:text-white active:bg-primary-300 rounded-md'
-
   return (
     <>
-      <Box aria-hidden className="h-20 sm:h-0" />
-      <Container
-        data-layout-header="true"
-        className="bg-primary-500 fixed inset-x-0 top-0 z-40 flex h-20 items-center
-          justify-between rounded-none max-md:px-4
-          sm:static sm:z-auto sm:h-22 sm:max-md:px-6
-          sm:rounded-t-[40px] sm:pt-1"
-      >
+      <Box aria-hidden className={styles.spacer} />
+      <Container data-layout-header="true" className={styles.root}>
         {/* Mobile: search input on /search */}
         {isSearch && (
-          <Box className="flex flex-1 items-center gap-3 sm:hidden">
-            <Box className="flex h-10 flex-1 items-center gap-3 rounded-xl bg-white/20 pl-4 pr-1">
-              <SearchOutlineIcon className="size-5 shrink-0 text-white/60" aria-hidden />
+          <Box className={styles.mobileSearch}>
+            <Box className={styles.searchField}>
+              <SearchOutlineIcon className={styles.searchIcon} aria-hidden />
               <TextInput
                 ref={searchInputRef}
                 value={searchQuery}
@@ -98,9 +91,7 @@ export function Header({ search }: HeaderProps) {
                 // Страница поиска на мобильном: поле сразу готово к вводу
                 // oxlint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
-                className="h-auto border-0 bg-transparent p-0 max-md:text-base
-                  leading-none text-white shadow-none
-                  placeholder:text-white/60 focus-visible:ring-0"
+                className={styles.searchInput}
                 placeholder="Поиск запчастей"
                 autoComplete="off"
               />
@@ -114,7 +105,7 @@ export function Header({ search }: HeaderProps) {
                     searchInputRef.current?.focus()
                   }}
                   aria-label="Очистить"
-                  className="text-white/60"
+                  className={styles.clearButton}
                 />
               )}
             </Box>
@@ -127,29 +118,29 @@ export function Header({ search }: HeaderProps) {
                 router.history.back()
               }}
               aria-label="Закрыть поиск"
-              className="text-white"
+              className={styles.closeSearchButton}
             />
           </Box>
         )}
 
         {/* Mobile: logo on home, title on other pages */}
         {!isSearch && isHomePage && (
-          <SmartLink href={ROUTES.HOME} className="inline-flex items-center justify-center sm:hidden">
+          <SmartLink href={ROUTES.HOME} className={styles.mobileLogo}>
             <Image
               src="/brand/logo.svg"
               alt="ООО ТТЦ Рембыттехника"
               width={180}
               height={40}
               fetchPriority="high"
-              className="h-10 w-45"
+              className={styles.logo}
             />
           </SmartLink>
         )}
         {!isSearch && !isHomePage && (
-          <Box className="flex min-h-10 items-center gap-2.5 sm:hidden">
-            <Text className="text-2xl leading-none font-semibold text-white">{isCatalog ? 'Каталог' : pageTitle}</Text>
+          <Box className={styles.mobileTitle}>
+            <Text className={styles.title}>{isCatalog ? 'Каталог' : pageTitle}</Text>
             {isCart && cartCount > 0 && (
-              <Text as="span" className="rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-medium text-white">
+              <Text as="span" className={styles.cartBadge}>
                 {cartCount}
               </Text>
             )}
@@ -165,8 +156,7 @@ export function Header({ search }: HeaderProps) {
               // Закрытие мастера вызова: возврат на главную, шторка закроется по смене маршрута
               void router.navigate({ to: ROUTES.HOME })
             }}
-            className="inline-flex size-8 items-center justify-center
-              rounded-md text-white sm:hidden"
+            className={styles.closeButton}
             aria-label="Закрыть"
           >
             <CrossIcon width={24} height={24} />
@@ -175,7 +165,7 @@ export function Header({ search }: HeaderProps) {
 
         {/* Mobile: search on catalog, search + filter on subcategory */}
         {!isSearch && isCatalog && (
-          <Stack direction="row" gap={6} className="sm:hidden">
+          <Stack direction="row" gap={6} className={styles.catalogActions}>
             <IconButton
               variant="inverse"
               size="sm"
@@ -191,23 +181,21 @@ export function Header({ search }: HeaderProps) {
         )}
 
         {/* Desktop: logo */}
-        <SmartLink href={ROUTES.HOME} className="hidden items-center justify-center sm:inline-flex">
-          <Image src="/brand/logo.svg" alt="ООО ТТЦ Рембыттехника" width={180} height={40} className="h-10 w-45" />
+        <SmartLink href={ROUTES.HOME} className={styles.desktopLogo}>
+          <Image src="/brand/logo.svg" alt="ООО ТТЦ Рембыттехника" width={180} height={40} className={styles.logo} />
         </SmartLink>
 
         {/* Desktop: search — one element, CSS-driven expanded/compact */}
         <Box
           data-home={isHomePage ? '' : undefined}
-          className={cn(
-            'group hidden flex-1 justify-center px-6 transition-all duration-500 ease-in-out sm:flex',
-            isHomePage && '[@media(min-height:700px)]:translate-y-[clamp(120px,18vh,260px)]',
-          )}
+          // `group`: маркер для group-data-home в CatalogSearch (пока тот на Tailwind)
+          className={cn(styles.desktopSearch, 'group', isHomePage && styles.desktopSearchHome)}
         >
           {search}
         </Box>
 
         {/* Desktop: icons */}
-        <Stack direction="row" className="hidden sm:flex" gap={10}>
+        <Stack direction="row" className={styles.desktopIcons} gap={10}>
           {desktopIcons.map(({ id, icon, href, ariaLabel, counter }) => (
             <IconButton
               key={id}
@@ -216,8 +204,8 @@ export function Header({ search }: HeaderProps) {
               iconSize={28}
               counter={counter ?? null}
               tooltip={ariaLabel}
-              className={headerIconBaseClassName}
-              activeClassName="text-inverse aria-[current=page]:text-inverse"
+              className={styles.headerIcon}
+              activeClassName={styles.headerIconActive}
               aria-label={ariaLabel}
               href={href}
             />

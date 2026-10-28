@@ -4,41 +4,23 @@ import { Container } from '@/shared/ui/Container'
 import { SmartLink } from '@/shared/ui/SmartLink'
 import { Text } from '@/shared/ui/Text'
 import { HOME_QUICK_ACTIONS } from '../model/quick-action'
+import styles from './home-quick-action.module.css'
 
 export function HomeQuickAction() {
   return (
     <Container>
-      <Box className="m-auto max-w-240">
-        <Box className="grid grid-cols-3 gap-3 md:grid-cols-3 md:gap-6 lg:gap-8">
+      <Box className={styles.wrap}>
+        <Box className={styles.grid}>
           {HOME_QUICK_ACTIONS.map((action) => {
             const Icon = action.icon
             const isAccent = action.colorVariant === 'accent' || action.isAccent
 
             return (
-              <SmartLink
-                key={action.key}
-                href={action.href}
-                className={cn(
-                  `text-inverse bg-primary-300 flex w-full flex-col items-center
-                  justify-center gap-3 rounded-3xl px-3 py-4 text-center
-                  transition-colors md:flex-row md:justify-start md:rounded-2xl
-                  md:px-4 md:py-3 md:text-left`,
-                  isAccent && 'bg-secondary-500',
-                )}
-              >
-                <Text
-                  as="span"
-                  className="inline-flex h-14 w-14 shrink-0 items-center
-                    justify-center rounded-2xl border border-white/25
-                    bg-white/10 md:rounded-xl"
-                >
-                  <Icon className="size-8 md:size-10" aria-hidden />
+              <SmartLink key={action.key} href={action.href} className={cn(styles.action, isAccent && styles.accent)}>
+                <Text as="span" className={styles.iconBox}>
+                  <Icon className={styles.icon} aria-hidden />
                 </Text>
-                <Text
-                  as="span"
-                  className="text-[14px] leading-4 font-semibold
-                    whitespace-pre-line md:text-lg md:leading-5"
-                >
+                <Text as="span" className={styles.text}>
                   {action.text}
                 </Text>
               </SmartLink>

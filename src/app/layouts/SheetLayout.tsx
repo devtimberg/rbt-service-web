@@ -3,6 +3,7 @@ import { Box } from '@/shared/ui/Box'
 import { LayoutSheet } from '@/shared/ui/LayoutSheet'
 import { ScrollArea } from '@/shared/ui/ScrollArea'
 import { SheetFooterSlotTarget } from '@/shared/ui/SheetFooterSlot'
+import styles from './SheetLayout.module.css'
 
 type SheetLayoutProps = {
   /** Путь текущей страницы: при его смене прокрутка шторки сбрасывается. */
@@ -31,14 +32,14 @@ export function SheetLayout({ pathname, open, disableOpenAnimation, children }: 
       disableOpenAnimation={disableOpenAnimation}
       // Закрытая шторка не получает фокус и не читается скринридером
       inert={!open}
-      className="top-20 z-30 rounded-t-[24px] rounded-b-none border-0 sm:top-22 sm:z-50 lg:top-[calc(16px+88px)] lg:rounded-[40px]"
+      className={styles.sheet}
     >
-      <Box className="text-primary flex h-full flex-col overflow-hidden rounded-t-[24px] lg:rounded-[40px]">
+      <Box className={styles.inner}>
         <ScrollArea
           data-sheet-scroll="true"
-          className="flex-1"
+          className={styles.scroll}
           viewportRef={viewportRef}
-          viewportClassName="flex flex-col overscroll-y-contain px-3 pt-6 pb-[calc(env(safe-area-inset-bottom)+100px)] sm:pb-8"
+          viewportClassName={styles.viewport}
         >
           {children}
         </ScrollArea>

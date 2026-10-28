@@ -1,0 +1,92 @@
+@layer slices {
+  .callBlock {
+    margin-bottom: 2rem;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    border-radius: 1.5rem;
+    background-color: var(--color-primary-300);
+    padding: 1.25rem 1.5rem;
+
+    @media (--md) {
+      display: none;
+    }
+  }
+
+  .callText {
+    color: var(--color-inverse);
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 600;
+    white-space: pre-wrap;
+  }
+
+  .icon {
+    display: block;
+  }
+
+  .mobileGrid {
+    margin-inline: auto;
+    display: grid;
+    width: max-content;
+    grid-template-columns: repeat(2, max-content);
+    column-gap: 2rem;
+    row-gap: 2.5rem;
+    color: var(--color-inverse);
+
+    @media (--md) {
+      display: none;
+    }
+  }
+
+  .mobileText {
+    color: var(--color-inverse);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: pre-wrap;
+  }
+
+  .tablet {
+    display: none;
+
+    @media (--md) {
+      display: block;
+    }
+
+    @media (--xl) {
+      display: none;
+    }
+  }
+
+  .secondRow {
+    margin-top: 1.5rem;
+  }
+
+  .tabletText {
+    color: var(--color-inverse);
+    font-size: 14px;
+    font-weight: 500;
+    white-space: pre-wrap;
+  }
+
+  .wide {
+    display: none;
+
+    @media (--xl) {
+      margin-inline: auto;
+      display: grid;
+      width: max-content;
+      grid-template-columns: repeat(5, max-content);
+      column-gap: 2.5rem;
+    }
+  }
+
+  .wideText {
+    color: var(--color-inverse);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: pre-wrap;
+  }
+}

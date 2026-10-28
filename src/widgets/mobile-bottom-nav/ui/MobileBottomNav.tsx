@@ -7,6 +7,7 @@ import { Box } from '@/shared/ui/Box'
 import { IconButton } from '@/shared/ui/IconButton'
 import { BagIcon, CatalogIcon, HeartIcon, HomeIcon, ProfileIcon } from '@/shared/ui/icons'
 import { List, ListItem } from '@/shared/ui/List'
+import styles from './MobileBottomNav.module.css'
 
 const HIDDEN_NAV_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL, ROUTES.SEARCH])
 
@@ -57,17 +58,10 @@ export function MobileBottomNav() {
   if (HIDDEN_NAV_ROUTES.has(pathname)) return null
 
   return (
-    <Box
-      as="nav"
-      className="shadow-primary-900/15 fixed inset-x-0 bottom-0 z-40
-        rounded-t-[24px] bg-[#F7FAFF] px-2 pt-2
-        pb-[max(env(safe-area-inset-bottom),8px)] shadow-[0_-0px_60px_-0px]
-        sm:hidden"
-      aria-label="Мобильная навигация"
-    >
-      <List className="grid grid-cols-5 gap-0.5">
+    <Box as="nav" className={styles.root} aria-label="Мобильная навигация">
+      <List className={styles.list}>
         {navItems.map((item) => (
-          <ListItem key={item.href} className="flex min-h-13 items-center justify-center">
+          <ListItem key={item.href} className={styles.item}>
             <IconButton
               href={item.href}
               variant="ghost"
@@ -75,8 +69,8 @@ export function MobileBottomNav() {
               icon={item.icon}
               iconSize={32}
               counter={item.counter ?? null}
-              className="rounded-xl"
-              activeClassName="text-primary-500"
+              className={styles.button}
+              activeClassName={styles.active}
               matchPath="prefix"
               {...(item.additionalActivePaths ? { additionalActivePaths: item.additionalActivePaths } : {})}
               disableHover

@@ -10,6 +10,7 @@ import { MobileBottomNav } from '@/widgets/mobile-bottom-nav'
 import { SheetLayout } from './SheetLayout'
 import { useSheetState } from './useSheetState'
 import { useStorageSync } from './useStorageSync'
+import styles from './RootLayout.module.css'
 
 /**
  * Корневая раскладка: шапка, основной контент, нижняя навигация и шторка.
@@ -33,14 +34,14 @@ export function RootLayout() {
     <>
       <ScrollArea
         data-layout-scroll-container="true"
-        className="bg-primary-500 relative min-h-0 flex-1 rounded-none lg:rounded-[40px]"
-        viewportClassName="flex flex-col"
+        className={styles.scroll}
+        viewportClassName={styles.viewport}
         style={lockBackground ? { overflowY: 'hidden' } : undefined}
       >
         <Header search={<CatalogSearch />} />
         <Box
           data-layout-main-content="true"
-          className="flex min-h-0 flex-1 flex-col"
+          className={styles.main}
           style={lockBackground ? { visibility: 'hidden', pointerEvents: 'none' } : undefined}
         >
           {isSheet ? null : <Outlet />}

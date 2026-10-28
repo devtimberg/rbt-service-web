@@ -1,0 +1,127 @@
+@layer slices {
+  .root {
+    margin-top: auto;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+
+    @media (width < 48rem) {
+      padding-inline: 1rem;
+    }
+
+    @media (--sm) {
+      padding-top: 5rem;
+    }
+
+    @media (--lg) {
+      padding-bottom: clamp(12px, 2.5vh, 24px);
+    }
+  }
+
+  .row {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    @media (--xs) {
+      gap: 2.5rem;
+    }
+
+    @media (--md) {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  .copyright {
+    min-width: 0;
+    flex: 1 1 0%;
+    cursor: default;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+    white-space: pre-wrap;
+
+    @media (--md) {
+      text-align: left;
+    }
+  }
+
+  .inverse {
+    color: var(--color-inverse);
+  }
+
+  .tertiary {
+    color: var(--color-tertiary);
+  }
+
+  .primary {
+    color: var(--color-primary);
+  }
+
+  .hours {
+    width: 21.25rem;
+    flex-shrink: 0;
+
+    @media (--md) {
+      justify-content: flex-end;
+    }
+  }
+
+  .greeting {
+    position: relative;
+    flex-shrink: 0;
+    cursor: default;
+    color: var(--color-primary);
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.25rem;
+    font-weight: 600;
+    white-space: nowrap;
+
+    @media (--md) {
+      text-align: right;
+    }
+  }
+
+  .sizer {
+    visibility: hidden;
+  }
+
+  .typed {
+    position: absolute;
+    inset: 0;
+  }
+
+  .caret {
+    display: inline-block;
+    margin-left: 0.125rem;
+  }
+
+  /* Пульсация каретки только без reduce-motion; длительность 2s, как у Tailwind animate-pulse
+     (класс animation-duration-[450ms] не существовал и ничего не задавал) */
+  .caretPulse {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .popover {
+    width: auto;
+    border-style: none;
+    padding: 2.5rem;
+  }
+
+  .sheetBody {
+    padding-inline: 1rem;
+    padding-bottom: 1.5rem;
+  }
+}

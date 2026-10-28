@@ -1,0 +1,37 @@
+@layer slices {
+  .root {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    border-radius: 24px 24px 0 0;
+    background-color: #f7faff;
+    padding: 0.5rem 0.5rem max(env(safe-area-inset-bottom), 8px);
+    box-shadow: 0 0 60px 0 color-mix(in oklab, var(--color-primary-900) 15%, transparent);
+
+    @media (--sm) {
+      display: none;
+    }
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.125rem;
+  }
+
+  .item {
+    display: flex;
+    min-height: 3.25rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .button {
+    border-radius: 0.75rem;
+  }
+
+  .active {
+    color: var(--color-primary-500);
+  }
+}
