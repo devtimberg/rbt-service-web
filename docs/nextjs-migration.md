@@ -29,7 +29,7 @@
 
 ## Фаза 2. Next.js App Router (своя ветка)
 
-- [ ] ADR о менеджере пакетов и рантайме (Bun или pnpm с Node 24) и об именах файлов (kebab-case, папка на компонент).
+- [x] ADR 0011 (pnpm, Node 24) сделан до фазы 2, ADR 0012 (kebab-case, папка на компонент) тоже.
 - [ ] Маршруты в корневой `app/`, пустая `pages/` с README, лайауты в `src/app/layouts`.
 - [ ] Шторки без `staticData` (замена [0006](adr/0006-sheets-via-static-data.md)).
 - [ ] Удалить TanStack Start, TanStack Router, Nitro.
@@ -47,7 +47,8 @@
 
 ```bash
 git worktree add ../rbt-service-web-ref style-baseline
-cd ../rbt-service-web-ref && bun install && make build && PORT=3210 node --env-file-if-exists=.env .output/server/index.mjs
+cd ../rbt-service-web-ref && bun install --frozen-lockfile && make build && PORT=3210 node --env-file-if-exists=.env .output/server/index.mjs
+# тег style-baseline старше ADR 0011: там ещё Bun (bun.lock), поэтому эталон ставится через bun, а не pnpm
 # в основном каталоге: make build && PORT=3200 node --env-file-if-exists=.env .output/server/index.mjs
 make style-check REF=http://localhost:3210 TARGET=http://localhost:3200
 ```

@@ -4,8 +4,8 @@
 
 ## Требования
 
-- Bun 1.3 (`packageManager`: `bun@1.3.10`)
-- Node 22 ([.nvmrc](.nvmrc), в Docker-образе тоже 22)
+- Node 24 ([.nvmrc](.nvmrc), в Docker-образе тоже 24)
+- pnpm 10 (`packageManager`, ставится через `corepack enable pnpm`), [ADR 0011](docs/adr/0011-pnpm-node-24.md)
 
 ## Установка и запуск
 
@@ -40,7 +40,7 @@ make dev               # http://localhost:3000
 
 ## Git-хуки
 
-Хуки Vite+ лежат в [.vite-hooks](.vite-hooks) и ставятся при `bun install` (скрипт `prepare`: `vp config`), вручную: `make hooks`. `pre-commit` запускает `vp staged` (`vp check --fix` по изменённым файлам и steiger, блок `staged` в [vite.config.ts](vite.config.ts)), `commit-msg` проверяет формат Conventional Commits ([scripts/check-commit-msg.ts](scripts/check-commit-msg.ts)). Хуки не обходим (`--no-verify`). Markdown и YAML не форматируются.
+Хуки Vite+ лежат в [.vite-hooks](.vite-hooks) и ставятся при `pnpm install` (скрипт `prepare`: `vp config`), вручную: `make hooks`. `pre-commit` запускает `vp staged` (`vp check --fix` по изменённым файлам и steiger, блок `staged` в [vite.config.ts](vite.config.ts)), `commit-msg` проверяет формат Conventional Commits ([scripts/check-commit-msg.ts](scripts/check-commit-msg.ts)). Хуки не обходим (`--no-verify`). Markdown и YAML не форматируются.
 
 ## Docker
 

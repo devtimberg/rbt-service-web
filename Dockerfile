@@ -1,19 +1,20 @@
 # syntax=docker/dockerfile:1
 
-# --- Сборка (bun) ---
-FROM oven/bun:1.3 AS build
+# --- Сборка (Node 24 + pnpm через corepack) ---
+FROM node:24-slim AS build
+RUN corepack enable pnpm
 WORKDIR /app
-COPY package.json bun.lock ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 # --ignore-scripts: в образе нет git, git-хуки (vp config) не нужны
-RUN bun install --frozen-lockfile --ignore-scripts
+RUN pnpm install --frozen-lockfile --ignore-scripts
 COPY . .
 # VITE_* вшиваются в бандл при сборке (сейчас таких переменных нет)
-RUN bun run build
+RUN pnpm run build
 
-# --- Рантайм (Node 22) ---
+# --- Рантайм (Node 24) ---
 # Nitro кладёт в .output/server свои node_modules с нужными прод-зависимостями,
 # поэтому в рантайме копируется только .output.
-FROM node:22-alpine AS runtime
+FROM node:24-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production PORT=3000
 COPY --from=build /app/.output ./.output

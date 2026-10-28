@@ -1,7 +1,7 @@
 import fsd from '@feature-sliced/steiger-plugin'
 import { defineConfig } from 'steiger'
 
-// Проверка структуры по Feature-Sliced Design (ADR 0012). Запуск: `bun run lint:fsd`.
+// Проверка структуры по Feature-Sliced Design (ADR 0012). Запуск: `pnpm lint:fsd`.
 export default defineConfig([
   ...fsd.configs.recommended,
   {

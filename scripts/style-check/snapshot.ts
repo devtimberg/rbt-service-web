@@ -1,7 +1,7 @@
 // Снимок страниц в Playwright: геометрия и ~100 вычисленных свойств каждого элемента (с ::before/::after/::placeholder)
 // на нескольких ширинах, плюс сведения для проверки здоровья снимка (analyze.ts → healthProblems).
 import { type Browser, chromium, type Page } from '@playwright/test'
-import { type ElementEntry, type PageSnapshot, pathOf, type PathTarget, type Snapshot } from './analyze'
+import { type ElementEntry, type PageSnapshot, pathOf, type PathTarget, type Snapshot } from './analyze.ts'
 
 export const DEFAULT_WIDTHS = [375, 768, 1024, 1280, 1440]
 

@@ -1,7 +1,7 @@
 # 0002. Vite+ (vp, Oxlint, Oxfmt) вместо ESLint и Prettier
 
 Дата: 2026-10-15
-Статус: accepted, частично заменён [0009](0009-nextjs-css-modules-rtk-query.md) (сборка и dev через Next с фазы 2)
+Статус: accepted, частично заменён [0009](0009-nextjs-css-modules-rtk-query.md) (сборка и dev через Next с фазы 2) и [0011](0011-pnpm-node-24.md) (`overrides` теперь в `pnpm-workspace.yaml`)
 
 ## Контекст
 

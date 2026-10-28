@@ -1,5 +1,5 @@
-# Makefile для rbt-service-web (TanStack Start, Vite+, Bun, Node 22 в проде).
-# Файл только оборачивает скрипты bun (package.json) и команды docker, своей логики не содержит.
+# Makefile для rbt-service-web (TanStack Start, Vite+, pnpm, Node 24 в проде).
+# Файл только оборачивает скрипты pnpm (package.json) и команды docker, своей логики не содержит.
 # `make help` (цель по умолчанию) показывает все цели с описаниями.
 
 SHELL := /bin/bash
@@ -20,52 +20,52 @@ help: ## Показать этот список целей
 
 ##@ Разработка
 
-install: ## Установить зависимости (bun install --frozen-lockfile)
-	bun install --frozen-lockfile
+install: ## Установить зависимости (pnpm install --frozen-lockfile)
+	pnpm install --frozen-lockfile
 
 dev: ## Dev-сервер, доступен в локальной сети (vp dev --host)
-	bun run dev --host 0.0.0.0
+	pnpm run dev --host 0.0.0.0
 
 build: ## Собрать прод-сборку (vp build)
-	bun run build
+	pnpm run build
 
 start: ## Запустить прод-сборку локально (нужен предварительный make build)
-	PORT=$(PORT) bun run start
+	PORT=$(PORT) pnpm run start
 
 icons: ## Пересобрать SVGR-иконки из src/shared/ui/icons/raw
-	bun run icons:sync
+	pnpm run icons:sync
 
 ##@ Качество
 
 css-types: ## Типы CSS Modules в .css-types (happy-css-modules); dev, typecheck, lint делают это сами
-	bun run css:types
+	pnpm run css:types
 
 typecheck: ## Типы CSS Modules + проверка типов (tsc --noEmit)
-	bun run typecheck
+	pnpm run typecheck
 
 lint: ## Типы CSS Modules + формат, линт и типы (vp check)
-	bun run lint
+	pnpm run lint
 
 lint-fsd: ## Проверка архитектуры FSD (steiger)
-	bun run lint:fsd
+	pnpm run lint:fsd
 
 format: ## Автоформатирование и автофиксы (vp check --fix)
-	bun run format
+	pnpm run format
 
 check: typecheck lint lint-fsd test ## Typecheck + lint + FSD + test (то, что гоняет CI на PR)
 
 test: ## Юнит-тесты (vp test run)
-	bun run test
+	pnpm run test
 
 test-watch: ## Юнит-тесты в watch-режиме
-	bunx vp test
+	pnpm exec vp test
 
 REF ?=
 TARGET ?=
 PATHS ?=
 style-check: ## Сравнить вёрстку двух сборок: make style-check REF=http://localhost:3210 TARGET=http://localhost:3200 [PATHS="/ /cart /x@404"] [ARGS=...]
 	@test -n "$(REF)" -a -n "$(TARGET)" || { echo "Нужны REF и TARGET (адреса запущенных сборок)"; exit 2; }
-	bun scripts/style-check/cli.ts compare --ref $(REF) --target $(TARGET) $(ARGS) $(PATHS)
+	node scripts/style-check/cli.ts compare --ref $(REF) --target $(TARGET) $(ARGS) $(PATHS)
 
 ##@ Docker
 
@@ -85,4 +85,4 @@ clean: ## Удалить node_modules, .output, .tanstack, dist
 	rm -rf node_modules .output .tanstack dist
 
 hooks: ## Установить git-хуки (vp hooks enable)
-	bunx vp hooks enable
+	pnpm exec vp hooks enable

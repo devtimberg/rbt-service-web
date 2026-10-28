@@ -7,7 +7,7 @@ import {
   type PageSnapshot,
   parseTargets,
   type Snapshot,
-} from './analyze'
+} from './analyze.ts'
 
 const element = (overrides: Record<string, unknown> = {}): ElementEntry => ({
   rect: [0, 0, 100, 20],

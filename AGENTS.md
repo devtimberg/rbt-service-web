@@ -4,7 +4,7 @@
 
 ## Проект
 
-Мобильный веб-сервис ООО ТТЦ «Рембыттехника» (ремонт бытовой техники, каталог запчастей). TanStack Start (SSR) на React 19, TypeScript, CSS Modules, TanStack Query, тулчейн Vite+ (`vp`). Весь текст интерфейса и комментарии по-русски. Пакеты через Bun 1.3, прод на Node 22 (сборка Nitro в `.output`).
+Мобильный веб-сервис ООО ТТЦ «Рембыттехника» (ремонт бытовой техники, каталог запчастей). TanStack Start (SSR) на React 19, TypeScript, CSS Modules, TanStack Query, тулчейн Vite+ (`vp`). Весь текст интерфейса и комментарии по-русски. Пакеты через pnpm, прод на Node 24 ([ADR 0011](docs/adr/0011-pnpm-node-24.md), сборка Nitro в `.output`).
 Проект был мигрирован с Next.js 16 ([ADR 0001](docs/adr/0001-tanstack-start.md)) и служит пилотом Vite+ для rbt-web ([ADR 0002](docs/adr/0002-vite-plus.md)).
 
 ## Переход на Next.js ([ADR 0009](docs/adr/0009-nextjs-css-modules-rtk-query.md), [план](docs/nextjs-migration.md))
@@ -16,7 +16,7 @@
 Всё через Makefile (`make help`), он только оборачивает скрипты `package.json`.
 
 ```bash
-make install     # bun install --frozen-lockfile
+make install     # pnpm install --frozen-lockfile
 cp .env.example .env   # один раз; нужен API_INTERNAL_URL
 make dev         # vp dev, порт 3000
 make build       # vp build (Nitro, .output)
@@ -28,7 +28,7 @@ make lint-fsd    # steiger ./src
 make test        # vp test run (Vitest, vitest.config.ts)
 make test-watch  # Vitest в watch-режиме
 make check       # typecheck + lint + lint-fsd + test (то, что гоняет CI)
-make hooks       # поставить git-хуки (vp hooks enable); обычно они ставятся сами при bun install (prepare: vp config)
+make hooks       # поставить git-хуки (vp hooks enable); обычно они ставятся сами при pnpm install (prepare: vp config)
 make icons       # пересобрать SVGR-иконки из src/shared/ui/icons/raw
 make style-check REF=<url> TARGET=<url> [PATHS="/ /cart"]  # сравнить вёрстку двух запущенных сборок (Playwright, отчёт в .style-check/)
 make docker-build / docker-run / docker-stop

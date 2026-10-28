@@ -1,8 +1,8 @@
 // Сравнение вёрстки двух сборок по снимкам стилей Запуск: make style-check.
-//   bun scripts/style-check/cli.ts compare --ref <url> --target <url> [опции] [путь ...]
+//   node scripts/style-check/cli.ts compare --ref <url> --target <url> [опции] [путь ...]
 //       снимает обе сборки одновременно (одни данные API) и сравнивает все элементы полностью
-//   bun scripts/style-check/cli.ts snapshot --url <url> --out <file.json> [опции] [путь ...]
-//   bun scripts/style-check/cli.ts diff <before.json> <after.json> [--ignore <regex>]
+//   node scripts/style-check/cli.ts snapshot --url <url> --out <file.json> [опции] [путь ...]
+//   node scripts/style-check/cli.ts diff <before.json> <after.json> [--ignore <regex>]
 // Пути: `/cart`, ожидаемый статус через `@`: `/some-unknown-page@404` (у нас адреса без слэша на конце: слэш перед `@` входит в путь). Без путей: DEFAULT_PATHS.
 // Опции: --widths 375,1440  --no-scroll  --ignore <regex> (повторяемая, по `<ширина> <путь> <элемент>`)
 //   --ignore-prop <regex> (повторяемая, по имени свойства)  --module-class <regex>  --out-dir <dir>
@@ -12,8 +12,8 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { parseArgs } from 'node:util'
 import { chromium } from '@playwright/test'
-import { compareSnapshots, formatReport, healthProblems, parseTargets, type Snapshot } from './analyze'
-import { DEFAULT_WIDTHS, takeSnapshot } from './snapshot'
+import { compareSnapshots, formatReport, healthProblems, parseTargets, type Snapshot } from './analyze.ts'
+import { DEFAULT_WIDTHS, takeSnapshot } from './snapshot.ts'
 
 /** Страницы по умолчанию: главная, каталог, корзина, вызов мастера, 404. Служебная /_dev/ui есть только в dev-сборке. */
 const DEFAULT_PATHS = ['/', '/catalog', '/cart', '/master-call', '/some-unknown-page@404']

@@ -112,7 +112,7 @@ export default defineConfig(({ mode }) => {
       overrides: [{ files: ['**/*.css'], options: { singleQuote: false } }],
     },
     lint: {
-      // SVGR-генерация (bun run icons:build): `import * as React` в ней неиспользуемый, поэтому линтим без неё
+      // SVGR-генерация (pnpm run icons:build): `import * as React` в ней неиспользуемый, поэтому линтим без неё
       ignorePatterns: [...ignorePatterns, 'src/shared/ui/icons/**'],
       plugins: ['typescript', 'react', 'jsx-a11y', 'vitest'],
       categories: { correctness: 'error' },
@@ -138,7 +138,7 @@ export default defineConfig(({ mode }) => {
     // pre-commit (.vite-hooks/pre-commit → vp staged). Steiger проверяет src целиком, поэтому без списка файлов
     staged: {
       '*': 'vp check --fix',
-      'src/**': () => 'bun --bun steiger ./src',
+      'src/**': () => 'steiger ./src',
     },
     server: { port: 3000 },
     // Алиас `@/` → `src/` берётся из tsconfig.json (paths)

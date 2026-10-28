@@ -26,7 +26,7 @@ TanStack Start выбран в [0001](0001-tanstack-start.md) ради одно�
 - FSD ([0003](0003-fsd-and-imports.md)), свои примитивы без Radix и shadcn ([0005](0005-own-ui-primitives.md)), запрет голых HTML-элементов ([0008](0008-no-bare-html-elements.md));
 - линт, форматирование, тесты и хуки на Vite+ ([0002](0002-vite-plus.md)).
 
-Открытые вопросы, которые решаются отдельными ADR не позже фазы 2: Bun или pnpm с Node 24 (ADR 0021 rbt-web), имена файлов в kebab-case и папка на компонент в `shared/ui` (ADR 0020 rbt-web).
+Открытые вопросы решены отдельными ADR до фазы 2: pnpm с Node 24 ([0011](0011-pnpm-node-24.md), ADR 0021 rbt-web), имена файлов в kebab-case и папка на компонент в `shared/ui` ([0012](0012-kebab-case-filenames-ui-folders.md), ADR 0020 rbt-web).
 
 ## Последствия
 

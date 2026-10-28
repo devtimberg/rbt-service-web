@@ -1,0 +1,13 @@
+# Vite+ подменяет vite своей сборкой (ADR 0002, ADR 0011)
+overrides:
+  vite@*: npm:@voidzero-dev/vite-plus-core@1.4.0
+
+# Пакеты просят vite 3-8, а по алиасу приходит vite-plus-core: это ожидаемо, не ошибка
+peerDependencyRules:
+  allowedVersions:
+    vite: '*'
+
+# Нативные пакеты, которым нужен postinstall (раньше trustedDependencies в package.json для Bun)
+onlyBuiltDependencies:
+  - sharp
+  - unrs-resolver

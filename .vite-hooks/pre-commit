@@ -1,2 +1,2 @@
-bun run css:types
+pnpm run css:types
 vp staged
