@@ -8,6 +8,8 @@ import { Heading } from './Heading'
 import { Image } from './Image'
 import { List, ListItem } from './List'
 import { LineBreak, Text } from './Text'
+import boxStyles from './Box.module.css'
+import headingStyles from './Heading.module.css'
 
 describe('Box', () => {
   it('по умолчанию div без классов и атрибутов data-*', () => {
@@ -45,13 +47,17 @@ describe('Stack', () => {
       </Stack>,
     )
     const section = screen.getByRole('region', { name: 'Секция' })
-    expect(section.className).toBe('flex flex-col gap-4 items-center md:flex-row md:gap-6')
+    expect(section.className).toBe(
+      `${boxStyles.stack} ${boxStyles.column} ${boxStyles.gap4} ${boxStyles.alignCenter} md:flex-row md:gap-6`,
+    )
     expect(section).not.toHaveAttribute('style')
   })
 
   it('строка без flex-col', () => {
     const { container } = render(<Stack direction="row" gap={0.5} wrap justify="between" />)
-    expect(container.firstElementChild?.className).toBe('flex gap-0.5 justify-between flex-wrap')
+    expect(container.firstElementChild?.className).toBe(
+      `${boxStyles.stack} ${boxStyles.gap0_5} ${boxStyles.justifyBetween} ${boxStyles.wrap}`,
+    )
   })
 })
 
@@ -82,15 +88,14 @@ describe('Heading', () => {
     expect(heading).not.toHaveAttribute('class')
   })
 
-  it('size добавляет размер, className идёт следом и перекрывает конфликты', () => {
+  it('size добавляет класс модуля, className идёт следом', () => {
     render(
       <Heading level={1} size="xl" className="text-primary-500">
         Заказы
       </Heading>,
     )
     const heading = screen.getByRole('heading', { level: 1 })
-    expect(heading).toHaveClass('text-[40px]', 'font-semibold', 'text-primary-500')
-    expect(heading).not.toHaveClass('text-current')
+    expect(heading).toHaveClass(headingStyles.xl, 'text-primary-500')
   })
 
   it('level и size независимы', () => {
@@ -99,7 +104,7 @@ describe('Heading', () => {
         Мелкий h2
       </Heading>,
     )
-    expect(screen.getByRole('heading', { level: 2 })).toHaveClass('text-[14px]')
+    expect(screen.getByRole('heading', { level: 2 })).toHaveClass(headingStyles.xs)
   })
 })
 

@@ -1,6 +1,7 @@
 import { cn } from '@/shared/lib/cn'
 import { HomeIcon } from './icons'
 import { SmartLink } from './SmartLink'
+import styles from './Breadcrumb.module.css'
 
 export type BreadcrumbItem = {
   label: string
@@ -16,22 +17,16 @@ type BreadcrumbProps = {
 
 export function Breadcrumb({ items, homeHref = '/', className }: BreadcrumbProps) {
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className={cn(
-        'scrollbar-none -mx-4 flex items-center gap-1.5 overflow-x-auto px-4 text-sm whitespace-nowrap text-primary-100',
-        className,
-      )}
-    >
-      <SmartLink href={homeHref} aria-label="Главная" className="hover:text-primary-500">
-        <HomeIcon className="size-4" />
+    <nav aria-label="Breadcrumb" className={cn('scrollbar-none', styles.root, className)}>
+      <SmartLink href={homeHref} aria-label="Главная" className={styles.link}>
+        <HomeIcon className={styles.homeIcon} />
       </SmartLink>
 
       {items.map((item, index) => (
-        <span key={`${index}-${item.label}`} className="flex shrink-0 items-center gap-1.5">
+        <span key={`${index}-${item.label}`} className={styles.item}>
           <span aria-hidden>—</span>
           {item.href ? (
-            <SmartLink href={item.href} className="hover:text-primary-500">
+            <SmartLink href={item.href} className={styles.link}>
               {item.label}
             </SmartLink>
           ) : (

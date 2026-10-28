@@ -1,0 +1,44 @@
+/* Размеры заголовков (ADR 0009): tokens.css не задаёт text-h*, поэтому размер, высота строки и жирность лежат здесь. */
+@layer components {
+  .xs,
+  .sm,
+  .md,
+  .lg,
+  .xl {
+    cursor: default;
+    color: currentColor;
+  }
+
+  .xs {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 500;
+  }
+
+  .sm {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .md {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .lg {
+    font-size: 21px;
+    line-height: 28px;
+    font-weight: 600;
+
+    @media (--sm) {
+      font-size: 24px;
+      line-height: 38px;
+    }
+  }
+
+  .xl {
+    font-size: 40px;
+    line-height: 48px;
+    font-weight: 600;
+  }
+}

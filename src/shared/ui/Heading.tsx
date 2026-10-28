@@ -1,16 +1,14 @@
 import type { ComponentProps } from 'react'
 import { cn } from '@/shared/lib/cn'
+import styles from './Heading.module.css'
 
-/**
- * Размеры заголовков этого проекта (tokens.css не задаёт text-h*, поэтому размер, высота строки и жирность
- * лежат здесь). Вместе с размером идут `cursor-default text-current`, как у прежнего Heading.
- */
+/** Размеры заголовков этого проекта: классы в Heading.module.css (вместе с размером идут `cursor: default` и `currentColor`). */
 const sizes = {
-  xs: 'cursor-default text-current text-[14px] leading-[18px] font-medium',
-  sm: 'cursor-default text-current text-[18px] font-medium',
-  md: 'cursor-default text-current text-[20px] font-medium',
-  lg: 'cursor-default text-current text-[21px] leading-[28px] font-semibold sm:text-[24px] sm:leading-[38px]',
-  xl: 'cursor-default text-current text-[40px] leading-[48px] font-semibold',
+  xs: styles.xs,
+  sm: styles.sm,
+  md: styles.md,
+  lg: styles.lg,
+  xl: styles.xl,
 } as const
 
 export type HeadingProps = ComponentProps<'h2'> & {

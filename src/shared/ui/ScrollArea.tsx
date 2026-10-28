@@ -1,5 +1,6 @@
 import type { ComponentProps, Ref } from 'react'
 import { cn } from '@/shared/lib/cn'
+import styles from './ScrollArea.module.css'
 
 type ScrollAreaProps = ComponentProps<'div'> & {
   /** Классы прокручиваемой области (padding, overscroll и т.п.). */
@@ -8,21 +9,13 @@ type ScrollAreaProps = ComponentProps<'div'> & {
 }
 
 /**
- * Область с прокруткой на нативном overflow без Radix. Корень обрезает содержимое (relative overflow-hidden),
+ * Область с прокруткой на нативном overflow без Radix. Корень обрезает содержимое (relative, overflow hidden),
  * внутри вложенный блок-viewport прокручивается сам. Скроллбар тонкий, на мобильных скрыт.
  */
 export function ScrollArea({ className, viewportClassName, viewportRef, children, ...props }: ScrollAreaProps) {
   return (
-    <div className={cn('relative overflow-hidden', className)} {...props}>
-      <div
-        ref={viewportRef}
-
-        className={cn(
-          'size-full overflow-auto rounded-[inherit] focus-visible:ring-[3px] focus-visible:ring-focus-ring/50 focus-visible:outline-1',
-          'max-sm:[-ms-overflow-style:none] max-sm:[&::-webkit-scrollbar]:hidden [scrollbar-color:oklch(0.7594_0.092_262.91/0.2)_transparent] [scrollbar-width:thin] max-sm:[scrollbar-width:none]',
-          viewportClassName,
-        )}
-      >
+    <div className={cn(styles.root, className)} {...props}>
+      <div ref={viewportRef} className={cn(styles.viewport, viewportClassName)}>
         {children}
       </div>
     </div>

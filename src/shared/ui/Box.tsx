@@ -1,5 +1,6 @@
 import type { ComponentProps, ElementType } from 'react'
 import { cn } from '@/shared/lib/cn'
+import styles from './Box.module.css'
 
 /** Блочные элементы, которые рисует `Box`/`Stack`. Строчные обёртки (`span`) — это `Text as="span"`. */
 export type BoxElement = 'div' | 'section' | 'article' | 'aside' | 'header' | 'footer' | 'main' | 'nav'
@@ -20,37 +21,37 @@ export function Box<T extends BoxElement = 'div'>({ as, ...props }: BoxProps<T>)
 }
 
 const gaps = {
-  0: 'gap-0',
-  0.5: 'gap-0.5',
-  1: 'gap-1',
-  1.5: 'gap-1.5',
-  2: 'gap-2',
-  3: 'gap-3',
-  4: 'gap-4',
-  5: 'gap-5',
-  6: 'gap-6',
-  8: 'gap-8',
-  10: 'gap-10',
-  12: 'gap-12',
+  0: styles.gap0,
+  0.5: styles.gap0_5,
+  1: styles.gap1,
+  1.5: styles.gap1_5,
+  2: styles.gap2,
+  3: styles.gap3,
+  4: styles.gap4,
+  5: styles.gap5,
+  6: styles.gap6,
+  8: styles.gap8,
+  10: styles.gap10,
+  12: styles.gap12,
 } as const
 
 const aligns = {
-  start: 'items-start',
-  center: 'items-center',
-  end: 'items-end',
-  baseline: 'items-baseline',
-  stretch: 'items-stretch',
+  start: styles.alignStart,
+  center: styles.alignCenter,
+  end: styles.alignEnd,
+  baseline: styles.alignBaseline,
+  stretch: styles.alignStretch,
 } as const
 
 const justifies = {
-  start: 'justify-start',
-  center: 'justify-center',
-  end: 'justify-end',
-  between: 'justify-between',
+  start: styles.justifyStart,
+  center: styles.justifyCenter,
+  end: styles.justifyEnd,
+  between: styles.justifyBetween,
 } as const
 
 export type StackProps<T extends BoxElement = 'div'> = BoxProps<T> & {
-  /** column: `flex-col` (по умолчанию), row: строка. */
+  /** column: колонка (по умолчанию), row: строка. */
   direction?: 'column' | 'row'
   /** Зазор по шкале Tailwind: 4 → `gap-4` (16px). Адаптивные зазоры — через `className` (`tablet:gap-6`). */
   gap?: keyof typeof gaps
@@ -60,8 +61,8 @@ export type StackProps<T extends BoxElement = 'div'> = BoxProps<T> & {
 }
 
 /**
- * Flex-колонка или строка: `flex` + `flex-col` (или ничего для строки) + `gap-*`/`items-*`/`justify-*` из пропсов.
- * Классы из `className` склеиваются через `cn` и перекрывают пропсы (`tablet:flex-row` и т. п.).
+ * Flex-колонка или строка: классы модуля из пропсов (зазор, выравнивание, перенос). Tailwind-классы из `className`
+ * идут следом и перекрывают модуль (`md:flex-row`, `hidden` и т. п.).
  */
 export function Stack<T extends BoxElement = 'div'>({
   as,
@@ -78,12 +79,12 @@ export function Stack<T extends BoxElement = 'div'>({
     <Component
       {...props}
       className={cn(
-        'flex',
-        direction === 'column' && 'flex-col',
+        styles.stack,
+        direction === 'column' && styles.column,
         gap !== undefined && gaps[gap],
         align && aligns[align],
         justify && justifies[justify],
-        wrap && 'flex-wrap',
+        wrap && styles.wrap,
         className,
       )}
     />

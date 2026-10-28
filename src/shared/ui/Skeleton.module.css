@@ -1,0 +1,13 @@
+@layer components {
+  .root {
+    border-radius: 0.5rem; /* rounded-lg */
+    background-color: oklch(96.7% 0.003 264.542); /* gray-100 */
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
