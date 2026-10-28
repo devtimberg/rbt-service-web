@@ -98,7 +98,7 @@ export function Header({ search }: HeaderProps) {
                 // Страница поиска на мобильном: поле сразу готово к вводу
                 // oxlint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
-                className="h-auto border-0 bg-transparent p-0 text-base
+                className="h-auto border-0 bg-transparent p-0 max-md:text-base
                   leading-none text-white shadow-none
                   placeholder:text-white/60 focus-visible:ring-0"
                 placeholder="Поиск запчастей"
