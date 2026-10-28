@@ -1,0 +1,58 @@
+/* Панель выбора в корзине (ADR 0009). */
+@layer slices {
+  .root {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 1rem;
+    background-color: #fff;
+    padding: 0.75rem 1rem;
+  }
+
+  .selectAll {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .selectAllText {
+    cursor: default;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .shareButton {
+    gap: 0.375rem;
+    color: var(--color-tertiary);
+    font-weight: 500;
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.4;
+    }
+  }
+
+  .shareIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .deleteButton {
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.4;
+    }
+  }
+}

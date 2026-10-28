@@ -1,0 +1,194 @@
+/* Страница корзины (ADR 0009). */
+@layer slices {
+  .root {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+  }
+
+  .breadcrumb {
+    overflow-x: hidden;
+  }
+
+  .empty {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .emptyIcon {
+    margin-bottom: 1rem;
+    width: 4rem;
+    height: 4rem;
+    color: var(--color-secondary-500);
+  }
+
+  .emptyTitle {
+    cursor: default;
+    color: var(--color-primary);
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .emptyText {
+    margin-top: 0.5rem;
+    cursor: default;
+    color: var(--color-secondary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+
+  .emptyBreak {
+    @media (--sm) {
+      display: none;
+    }
+  }
+
+  .emptyButton {
+    margin-top: 1.5rem;
+  }
+
+  .emptyFooter {
+    margin-top: auto;
+    display: none;
+
+    @media (--sm) {
+      display: block;
+    }
+  }
+
+  .footer {
+    margin-top: auto;
+  }
+
+  .main {
+    @media (--sm) {
+      margin-top: 1.5rem;
+    }
+  }
+
+  .header {
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+
+    @media (--sm) {
+      display: flex;
+    }
+  }
+
+  .layout {
+    margin-top: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .content {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .sidebar {
+    display: none;
+    width: 21.25rem;
+    flex-shrink: 0;
+
+    @media (--lg) {
+      display: block;
+    }
+  }
+
+  .sidebarSticky {
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  .mobileSummary {
+    margin-top: 1rem;
+
+    @media (--lg) {
+      display: none;
+    }
+  }
+
+  .group {
+    border-radius: 1rem;
+    background-color: #fff;
+    padding: 1rem;
+  }
+
+  .groupInStock {
+    margin-top: 1rem;
+  }
+
+  .groupPreOrder {
+    margin-top: 2rem;
+  }
+
+  .groupHeader {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    flex-shrink: 0;
+    border-radius: calc(infinity * 1px);
+  }
+
+  .dotInStock {
+    background-color: var(--color-success-500);
+  }
+
+  .dotPreOrder {
+    background-color: var(--color-warning-500);
+  }
+
+  .groupLabel {
+    flex-shrink: 0;
+    cursor: default;
+    padding-block: 0.5rem;
+    color: var(--color-primary);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .groupCount {
+    flex-shrink: 0;
+    cursor: default;
+    color: var(--color-secondary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+
+  .badge {
+    margin-left: 0.25rem;
+    flex-shrink: 0;
+    border-radius: 0.375rem;
+    background-color: #fdeaf0;
+    padding: 0.375rem 0.75rem;
+    color: var(--color-secondary-500);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .items {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+}

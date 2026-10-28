@@ -7,6 +7,7 @@ import { Label } from '@/shared/ui/Field'
 import { IconButton } from '@/shared/ui/IconButton'
 import { DeleteIcon, ShareIcon } from '@/shared/ui/icons'
 import { Text } from '@/shared/ui/Text'
+import styles from './cart-selection-bar.module.css'
 
 type CartSelectionBarProps = {
   selectedCount: number
@@ -32,26 +33,22 @@ export function CartSelectionBar({
   const checked = allSelected ? true : someSelected ? 'indeterminate' : false
 
   return (
-    <Box
-      className="flex items-center justify-between rounded-2xl bg-white px-4
-        py-3"
-    >
+    <Box className={styles.root}>
       {/* Left: select all */}
-      <Label className="flex cursor-pointer items-center gap-3">
+      <Label className={styles.selectAll}>
         <Checkbox checked={checked} onCheckedChange={() => (allSelected ? onDeselectAll() : onSelectAll())} />
-        <Text className="cursor-default text-primary text-sm font-medium">Выбрать все</Text>
+        <Text className={styles.selectAllText}>Выбрать все</Text>
       </Label>
 
       {/* Right: share + delete */}
-      <Box className="flex items-center gap-2">
+      <Box className={styles.actions}>
         <Button
           variant="secondary"
           size="sm"
-          icon={<ShareIcon className="size-5" />}
+          icon={<ShareIcon className={styles.shareIcon} />}
           onClick={onShareSelected}
           disabled={selectedCount === 0}
-          className="text-tertiary gap-1.5 font-medium disabled:cursor-default
-            disabled:opacity-40"
+          className={styles.shareButton}
         >
           Поделиться
         </Button>
@@ -62,8 +59,7 @@ export function CartSelectionBar({
           iconSize={20}
           onClick={() => setShowDeleteConfirm(true)}
           disabled={selectedCount === 0}
-          className="shrink-0 rounded-lg disabled:cursor-default
-            disabled:opacity-40"
+          className={styles.deleteButton}
         />
         <ConfirmDialog
           open={showDeleteConfirm}

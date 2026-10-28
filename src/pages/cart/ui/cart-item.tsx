@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useCartStore } from '@/entities/cart'
 import { useFavoritesStore } from '@/entities/favorite'
 import type { Product } from '@/entities/product'
+import { cn } from '@/shared/lib/cn'
 import { formatPrice } from '@/shared/lib/formatPrice'
 import { Box } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
@@ -12,6 +13,7 @@ import { IconButton } from '@/shared/ui/IconButton'
 import { CameraOutlineIcon, DeleteIcon, HeartIcon, MinusIcon, PlusIcon } from '@/shared/ui/icons'
 import { Image } from '@/shared/ui/Image'
 import { Text } from '@/shared/ui/Text'
+import styles from './cart-item.module.css'
 
 type CartItemProps = {
   product: Product
@@ -36,23 +38,23 @@ export function CartItem({ product, isSelected, onToggleSelectAction }: CartItem
   const renderImageBlock = (variant: 'desktop' | 'mobile') => {
     const clipId = `cart-img-clip-${product.id}-${variant}`
     return (
-      <Box className="relative h-27.5 w-28.75 shrink-0 self-start">
+      <Box className={styles.image}>
         <ClipPathDefs id={clipId} d={clipPath} />
 
-        <Box className="absolute inset-0 overflow-hidden bg-[#F3F7FF]" style={{ clipPath: `url(#${clipId})` }}>
+        <Box className={styles.imageClip} style={{ clipPath: `url(#${clipId})` }}>
           {product.image ? (
             <Image
               src={product.image}
               alt={product.name}
               loading="lazy"
-              className="absolute inset-0 size-full object-cover"
+              className={styles.photo}
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
             />
           ) : (
-            <Box className="flex h-full items-center justify-center">
-              <CameraOutlineIcon className="size-8 text-[#BDCAE5]" />
+            <Box className={styles.placeholder}>
+              <CameraOutlineIcon className={styles.placeholderIcon} />
             </Box>
           )}
         </Box>
@@ -60,22 +62,21 @@ export function CartItem({ product, isSelected, onToggleSelectAction }: CartItem
         <Checkbox
           checked={isSelected}
           onCheckedChange={() => onToggleSelectAction(product.id)}
-          className="absolute top-px left-0.5 z-10"
+          className={styles.checkbox}
         />
       </Box>
     )
   }
 
   const actions = (
-    <Box className="flex items-center gap-2">
+    <Box className={styles.actions}>
       <IconButton
         variant="filled"
         size="sm"
         icon={HeartIcon}
         iconSize={20}
         onClick={() => toggleFavorite(product.id)}
-        className={`shrink-0 rounded-lg
-          ${isFavorite ? 'text-secondary-500' : ''}`}
+        className={cn(styles.actionButton, isFavorite && styles.favoriteActive)}
       />
       <IconButton
         variant="filled"
@@ -83,7 +84,7 @@ export function CartItem({ product, isSelected, onToggleSelectAction }: CartItem
         icon={DeleteIcon}
         iconSize={20}
         onClick={() => setShowDeleteConfirm(true)}
-        className="shrink-0 rounded-lg"
+        className={styles.actionButton}
       />
       <ConfirmDialog
         open={showDeleteConfirm}
@@ -97,78 +98,64 @@ export function CartItem({ product, isSelected, onToggleSelectAction }: CartItem
   )
 
   const counter = (
-    <Box className="flex shrink-0 items-center gap-0 rounded-lg bg-[#F3F7FF]">
+    <Box className={styles.counter}>
       <Button
         variant="unstyled"
         type="button"
         disabled={quantity <= 1}
         onClick={() => decrement(product.id)}
-        className="text-primary-900 disabled:text-disabled/40 flex size-9
-          cursor-pointer items-center justify-center rounded-l-lg
-          disabled:cursor-default sm:size-10"
+        className={cn(styles.counterButton, styles.minus)}
       >
-        <MinusIcon className="size-4" />
+        <MinusIcon className={styles.counterIcon} />
       </Button>
-      <Box
-        className="flex h-9 w-9 items-center justify-center text-sm font-medium
-          sm:h-10 sm:w-10"
-      >
-        {quantity}
-      </Box>
+      <Box className={styles.quantity}>{quantity}</Box>
       <Button
         variant="unstyled"
         type="button"
         onClick={() => increment(product.id)}
-        className="text-primary-900 flex size-9 cursor-pointer items-center
-          justify-center rounded-r-lg sm:size-10"
+        className={cn(styles.counterButton, styles.plus)}
       >
-        <PlusIcon className="size-4" />
+        <PlusIcon className={styles.counterIcon} />
       </Button>
     </Box>
   )
 
   const priceBlock = (
     <Box>
-      <Box className="text-lg font-bold sm:text-base">{formatPrice(totalPrice)} ₽</Box>
-      {quantity > 1 && (
-        <Text className="cursor-default font-normal text-secondary text-xs">{formatPrice(product.price)} ₽ / шт.</Text>
-      )}
+      <Box className={styles.price}>{formatPrice(totalPrice)} ₽</Box>
+      {quantity > 1 && <Text className={styles.unitPrice}>{formatPrice(product.price)} ₽ / шт.</Text>}
     </Box>
   )
 
   return (
     <>
       {/* Desktop layout */}
-      <Box className="hidden sm:flex sm:items-start sm:gap-4">
+      <Box className={styles.desktop}>
         {renderImageBlock('desktop')}
-        <Box className="min-w-0 flex-1">
-          <Text className="cursor-default text-primary text-base font-semibold">{product.name}</Text>
-          {product.article && (
-            <Text className="cursor-default font-normal text-secondary text-xs mt-0.5">Арт. {product.article}</Text>
-          )}
-          <Text className="cursor-default font-normal text-secondary text-xs">{product.brand}</Text>
-          <Box className="mt-3">{actions}</Box>
+        <Box className={styles.info}>
+          <Text className={styles.name}>{product.name}</Text>
+          {product.article && <Text className={cn(styles.meta, styles.article)}>Арт. {product.article}</Text>}
+          <Text className={styles.meta}>{product.brand}</Text>
+          <Box className={styles.desktopActions}>{actions}</Box>
         </Box>
-        <Box className="flex items-center gap-8 text-right">
+        <Box className={styles.desktopSide}>
           {priceBlock}
           {counter}
         </Box>
       </Box>
 
       {/* Mobile layout */}
-      <Box className="flex flex-col gap-3 sm:hidden">
-        <Box className="flex gap-4">
+      <Box className={styles.mobile}>
+        <Box className={styles.mobileTop}>
           {renderImageBlock('mobile')}
-          <Box className="min-w-0 flex-1">
-            <Text className="cursor-default text-primary text-sm font-semibold">{product.name}</Text>
-            {product.article && (
-              <Text className="cursor-default font-normal text-secondary text-xs mt-0.5">Арт. {product.article}</Text>
-            )}
-            <Text className="cursor-default font-normal text-secondary text-xs">{product.brand}</Text>
-            <Box className="mt-2">{priceBlock}</Box>
+          <Box className={styles.info}>
+            <Text className={cn(styles.name, styles.nameMobile)}>{product.name}</Text>
+            {product.article && <Text className={cn(styles.meta, styles.article)}>Арт. {product.article}</Text>}
+            <Text className={styles.meta}>{product.brand}</Text>
+            <Box className={styles.mobilePrice}>{priceBlock}</Box>
           </Box>
         </Box>
-        <Box className="flex items-center justify-between">
+        <Box className={styles.mobileBottom}>
           {actions}
           {counter}
         </Box>

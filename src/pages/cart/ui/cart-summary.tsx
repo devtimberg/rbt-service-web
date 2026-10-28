@@ -1,9 +1,11 @@
+import { cn } from '@/shared/lib/cn'
 import { formatPrice } from '@/shared/lib/formatPrice'
 import { Box } from '@/shared/ui/Box'
 import { Button } from '@/shared/ui/Button'
 import { Heading } from '@/shared/ui/Heading'
 import { InformationIcon } from '@/shared/ui/icons'
 import { Text } from '@/shared/ui/Text'
+import styles from './cart-summary.module.css'
 
 type CartSummaryProps = {
   totalItems: number
@@ -16,69 +18,59 @@ export function CartSummary({ totalItems, subtotal, discount }: CartSummaryProps
   const hasSelection = totalItems > 0
 
   return (
-    <Box className="space-y-4">
+    <Box className={styles.root}>
       {/* Button + hint */}
-      <Box className="rounded-2xl bg-white p-4">
+      <Box className={styles.card}>
         <Button
           variant={hasSelection ? 'primary' : 'disabled'}
           size="full"
-          className="h-12 rounded-xl text-base"
+          className={styles.checkout}
           disabled={!hasSelection}
         >
           Перейти к оформлению
         </Button>
         {hasSelection ? (
-          <Text className="cursor-default font-normal text-secondary text-xs mt-3 text-center">
-            Доступные способы и время доставки можно выбрать при оформлении заказа
-          </Text>
+          <Text className={styles.hint}>Доступные способы и время доставки можно выбрать при оформлении заказа</Text>
         ) : (
-          <Box
-            className="mt-3 flex items-center gap-2 rounded-lg bg-[#F0F4FF] px-3
-              py-2.5"
-          >
-            <InformationIcon className="text-tertiary size-5 shrink-0" />
-            <Text className="cursor-default font-normal text-secondary text-xs">
-              Выберите товары, чтобы перейти к оформлению заказа
-            </Text>
+          <Box className={styles.emptyHint}>
+            <InformationIcon className={styles.emptyHintIcon} />
+            <Text className={styles.emptyHintText}>Выберите товары, чтобы перейти к оформлению заказа</Text>
           </Box>
         )}
       </Box>
 
       {/* Order details — only when items selected */}
       {hasSelection && (
-        <Box className="rounded-2xl bg-white p-4">
-          <Box className="flex items-baseline justify-between">
-            <Heading level={3} className="text-base font-semibold">
+        <Box className={styles.card}>
+          <Box className={styles.head}>
+            <Heading level={3} className={styles.title}>
               Ваша корзина
             </Heading>
-            <Text className="cursor-default font-normal text-secondary text-xs">{totalItems} шт.</Text>
+            <Text className={styles.count}>{totalItems} шт.</Text>
           </Box>
 
-          <Box className="mt-4 space-y-3">
-            <Box className="flex items-center justify-between">
-              <Text className="cursor-default font-normal text-secondary text-sm">Товары ({totalItems})</Text>
-              <Text className="cursor-default text-primary text-sm font-medium">{formatPrice(subtotal)} ₽</Text>
+          <Box className={styles.rows}>
+            <Box className={styles.row}>
+              <Text className={styles.label}>Товары ({totalItems})</Text>
+              <Text className={styles.value}>{formatPrice(subtotal)} ₽</Text>
             </Box>
 
             {discount > 0 && (
-              <Box className="flex items-center justify-between">
-                <Text className="cursor-default font-normal text-secondary text-sm">Скидка</Text>
-                <Text className="cursor-default text-primary text-sm font-medium">− {formatPrice(discount)} ₽</Text>
+              <Box className={styles.row}>
+                <Text className={styles.label}>Скидка</Text>
+                <Text className={styles.value}>− {formatPrice(discount)} ₽</Text>
               </Box>
             )}
 
-            <Box className="flex items-center justify-between">
-              <Text className="cursor-default font-normal text-secondary text-sm">Самовывоз</Text>
-              <Text className="cursor-default text-primary text-sm font-semibold">Бесплатно</Text>
+            <Box className={styles.row}>
+              <Text className={styles.label}>Самовывоз</Text>
+              <Text className={cn(styles.value, styles.valueStrong)}>Бесплатно</Text>
             </Box>
           </Box>
 
-          <Box
-            className="border-border-default mt-4 flex items-center
-              justify-between border-t pt-4"
-          >
-            <Text className="cursor-default text-primary text-base font-semibold">Итого</Text>
-            <Text className="cursor-default text-primary text-lg font-bold">{formatPrice(total)} ₽</Text>
+          <Box className={styles.total}>
+            <Text className={styles.totalLabel}>Итого</Text>
+            <Text className={styles.totalValue}>{formatPrice(total)} ₽</Text>
           </Box>
         </Box>
       )}

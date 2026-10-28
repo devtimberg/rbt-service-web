@@ -1,0 +1,133 @@
+/* Итоги заказа в корзине (ADR 0009). */
+@layer slices {
+  .root > :where(:not(:last-child)) {
+    margin-block-end: 1rem;
+  }
+
+  .card {
+    border-radius: 1rem;
+    background-color: #fff;
+    padding: 1rem;
+  }
+
+  .checkout {
+    height: 3rem;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .hint {
+    margin-top: 0.75rem;
+    cursor: default;
+    text-align: center;
+    color: var(--color-secondary);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+  }
+
+  .emptyHint {
+    margin-top: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #f0f4ff;
+    padding: 0.625rem 0.75rem;
+  }
+
+  .emptyHintIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    color: var(--color-tertiary);
+  }
+
+  .emptyHintText {
+    cursor: default;
+    color: var(--color-secondary);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+  }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .title {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .count {
+    cursor: default;
+    color: var(--color-secondary);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+  }
+
+  .rows {
+    margin-top: 1rem;
+  }
+
+  .rows > :where(:not(:last-child)) {
+    margin-block-end: 0.75rem;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .label {
+    cursor: default;
+    color: var(--color-secondary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+
+  .value {
+    cursor: default;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  .valueStrong {
+    font-weight: 600;
+  }
+
+  .total {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--color-border-default);
+    padding-top: 1rem;
+  }
+
+  .totalLabel {
+    cursor: default;
+    color: var(--color-primary);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .totalValue {
+    cursor: default;
+    color: var(--color-primary);
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+  }
+}

@@ -17,12 +17,13 @@ import { calcCartTotals } from '../model/totals'
 import { CartItem } from './cart-item'
 import { CartSelectionBar } from './cart-selection-bar'
 import { CartSummary } from './cart-summary'
+import styles from './cart-page.module.css'
 
 const BREADCRUMB_ITEMS = [{ label: 'Корзина' }]
 
 function CartGroup({
   label,
-  dotColor,
+  dotClassName,
   products,
   selectedIds,
   onToggleSelect,
@@ -30,7 +31,7 @@ function CartGroup({
   badge,
 }: {
   label: string
-  dotColor: string
+  dotClassName: string
   products: (Product & { quantity: number })[]
   selectedIds: Set<string>
   onToggleSelect: (id: string) => void
@@ -38,25 +39,19 @@ function CartGroup({
   badge?: string
 }) {
   return (
-    <Box className={cn('rounded-2xl bg-white p-4', className)}>
-      <Box className="flex flex-nowrap items-center gap-2">
-        <Box className={cn('size-2 shrink-0 rounded-full', dotColor)} />
-        <Text className="cursor-default text-primary text-base shrink-0 py-2 font-semibold">{label}</Text>
-        <Text className="cursor-default font-normal text-secondary text-sm shrink-0">
-          {pluralizeItems(products.reduce((s, p) => s + p.quantity, 0))}
-        </Text>
+    <Box className={cn(styles.group, className)}>
+      <Box className={styles.groupHeader}>
+        <Box className={cn(styles.dot, dotClassName)} />
+        <Text className={styles.groupLabel}>{label}</Text>
+        <Text className={styles.groupCount}>{pluralizeItems(products.reduce((s, p) => s + p.quantity, 0))}</Text>
         {badge && (
-          <Text
-            as="span"
-            className="text-secondary-500 ml-1 shrink-0 rounded-md bg-[#FDEAF0]
-              px-3 py-1.5 text-xs font-semibold whitespace-nowrap"
-          >
+          <Text as="span" className={styles.badge}>
             {badge}
           </Text>
         )}
       </Box>
 
-      <Box className="mt-3 flex flex-col gap-8">
+      <Box className={styles.items}>
         {products.map((product) => (
           <CartItem
             key={product.id}
@@ -155,27 +150,24 @@ export function CartPage() {
 
   if (cartProducts.length === 0) {
     return (
-      <Box className="flex grow flex-col">
-        <Container className="overflow-x-hidden">
+      <Box className={styles.root}>
+        <Container className={styles.breadcrumb}>
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>
 
-        <Container
-          className="flex flex-1 flex-col items-center justify-center
-            text-center"
-        >
-          <BagIcon className="text-secondary-500 mb-4 size-16" />
-          <Text className="cursor-default text-primary text-lg font-semibold">Корзина пуста</Text>
-          <Text className="cursor-default font-normal text-secondary text-sm mt-2">
-            Добавьте товары из каталога, <LineBreak className="sm:hidden" />
+        <Container className={styles.empty}>
+          <BagIcon className={styles.emptyIcon} />
+          <Text className={styles.emptyTitle}>Корзина пуста</Text>
+          <Text className={styles.emptyText}>
+            Добавьте товары из каталога, <LineBreak className={styles.emptyBreak} />
             чтобы оформить заказ
           </Text>
-          <Button variant="primary" size="md" rounded="default" className="mt-6" href={ROUTES.CATALOG}>
+          <Button variant="primary" size="md" rounded="default" className={styles.emptyButton} href={ROUTES.CATALOG}>
             Перейти в каталог
           </Button>
         </Container>
 
-        <Box className="mt-auto hidden sm:block">
+        <Box className={styles.emptyFooter}>
           <Footer variant="default" />
         </Box>
       </Box>
@@ -183,14 +175,14 @@ export function CartPage() {
   }
 
   return (
-    <Box className="flex grow flex-col">
-      <Container className="overflow-x-hidden">
+    <Box className={styles.root}>
+      <Container className={styles.breadcrumb}>
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </Container>
 
-      <Container className="sm:mt-6">
+      <Container className={styles.main}>
         {/* Header — desktop only, mobile has it in the app header */}
-        <Box className="hidden items-center gap-3 sm:flex">
+        <Box className={styles.header}>
           <Heading level={2} size="lg">
             Корзина
           </Heading>
@@ -200,8 +192,8 @@ export function CartPage() {
         </Box>
 
         {/* Main content + sidebar aligned to selection bar */}
-        <Box className="mt-4 flex items-start gap-8">
-          <Box className="min-w-0 flex-1">
+        <Box className={styles.layout}>
+          <Box className={styles.content}>
             {/* Selection bar */}
             <CartSelectionBar
               selectedCount={effectiveSelectedIds.size}
@@ -216,30 +208,30 @@ export function CartPage() {
             {inStockProducts.length > 0 && (
               <CartGroup
                 label="В наличии"
-                dotColor="bg-success-500"
+                dotClassName={styles.dotInStock}
                 products={inStockProducts}
                 selectedIds={effectiveSelectedIds}
                 onToggleSelect={toggleSelect}
-                className="mt-4"
+                className={styles.groupInStock}
               />
             )}
 
             {preOrderProducts.length > 0 && (
               <CartGroup
                 label="Под заказ"
-                dotColor="bg-warning-500"
+                dotClassName={styles.dotPreOrder}
                 products={preOrderProducts}
                 selectedIds={effectiveSelectedIds}
                 onToggleSelect={toggleSelect}
-                className="mt-8"
+                className={styles.groupPreOrder}
                 badge="15 – 20 дней"
               />
             )}
           </Box>
 
           {/* Order summary sidebar — desktop only */}
-          <Box className="hidden w-85 shrink-0 lg:block">
-            <Box className="sticky top-6">
+          <Box className={styles.sidebar}>
+            <Box className={styles.sidebarSticky}>
               <CartSummary totalItems={totalItems} subtotal={subtotal + discount} discount={discount} />
             </Box>
           </Box>
@@ -247,11 +239,11 @@ export function CartPage() {
       </Container>
 
       {/* Mobile order summary */}
-      <Container className="mt-4 lg:hidden">
+      <Container className={styles.mobileSummary}>
         <CartSummary totalItems={totalItems} subtotal={subtotal + discount} discount={discount} />
       </Container>
 
-      <Box className="mt-auto">
+      <Box className={styles.footer}>
         <Footer variant="default" />
       </Box>
     </Box>
