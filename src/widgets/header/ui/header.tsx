@@ -20,6 +20,7 @@ import {
   CrossIcon,
   FilterIcon,
   HeartIcon,
+  ProfileIcon,
   SearchIcon,
   SearchOutlineIcon,
   Image,
@@ -205,6 +206,16 @@ export function Header({ search }: HeaderProps) {
               href={href}
             />
           ))}
+          {/* По клику будет общая подсказка «скоро заработает» (отдельная задача) */}
+          <IconButton
+            size="lg"
+            icon={ProfileIcon}
+            iconSize={28}
+            tooltip="Профиль"
+            className={styles.headerIcon}
+            aria-label="Профиль"
+            type="button"
+          />
         </Stack>
       </Container>
     </>

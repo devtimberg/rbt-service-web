@@ -21,12 +21,13 @@ describe('MobileBottomNav', () => {
     state.favorites = 0
   })
 
-  it('показывает четыре вкладки навигации', () => {
+  it('показывает пять вкладок навигации, профиль кнопкой без перехода', () => {
     render(<MobileBottomNav />)
     expect(screen.getByRole('navigation', { name: 'Мобильная навигация' })).toBeInTheDocument()
     for (const name of ['Главная', 'Каталог', 'Избранное', 'Корзина']) {
       expect(screen.getByRole('link', { name })).toBeInTheDocument()
     }
+    expect(screen.getByRole('button', { name: 'Профиль' })).not.toHaveAttribute('aria-current')
   })
 
   it.each(['/master-call', '/search'])('скрыта на %s', (pathname) => {

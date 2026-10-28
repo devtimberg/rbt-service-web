@@ -3,14 +3,14 @@ import { useCartStore } from '@/entities/cart'
 import { useFavoritesStore } from '@/entities/favorite'
 import { HOME_NAV_PATHS, ROUTES } from '@/shared/config'
 import { usePathname } from '@/shared/lib/use-pathname'
-import { Box, IconButton, BagIcon, CatalogIcon, HeartIcon, HomeIcon, List, ListItem } from '@/shared/ui'
+import { Box, IconButton, BagIcon, CatalogIcon, HeartIcon, HomeIcon, ProfileIcon, List, ListItem } from '@/shared/ui'
 import styles from './mobile-bottom-nav.module.css'
 
 const HIDDEN_NAV_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL, ROUTES.SEARCH])
 
 type NavItem = {
   label: string
-  href: string
+  href?: string
   icon: ComponentType<SVGProps<SVGSVGElement>>
   counter?: number | undefined
   additionalActivePaths?: string[]
@@ -45,6 +45,11 @@ export function MobileBottomNav() {
       icon: BagIcon,
       counter: cartCount || undefined,
     },
+    // Без перехода: по клику будет общая подсказка «скоро заработает» (отдельная задача)
+    {
+      label: 'Профиль',
+      icon: ProfileIcon,
+    },
   ]
 
   if (HIDDEN_NAV_ROUTES.has(pathname)) return null
@@ -53,9 +58,9 @@ export function MobileBottomNav() {
     <Box as="nav" className={styles.root} aria-label="Мобильная навигация">
       <List className={styles.list}>
         {navItems.map((item) => (
-          <ListItem key={item.href} className={styles.item}>
+          <ListItem key={item.label} className={styles.item}>
             <IconButton
-              href={item.href}
+              {...(item.href ? { href: item.href } : { type: 'button' as const })}
               variant="ghost"
               size="lg"
               icon={item.icon}
