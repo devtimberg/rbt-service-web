@@ -1,0 +1,43 @@
+/* Постраничная навигация (ADR 0009). Вид ссылки собирает buttonClass из button.module.css. */
+@layer components {
+  .root {
+    display: flex;
+    justify-content: center;
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  /* `a.link` вместо `.link`: при наведении перебивает hover-фон и цвет вариантов кнопки независимо от порядка модулей */
+  a.link {
+    @media (hover: hover) {
+      &:hover {
+        background-color: transparent;
+        color: currentColor;
+      }
+    }
+  }
+
+  .withGap {
+    gap: 0.25rem;
+  }
+
+  .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}

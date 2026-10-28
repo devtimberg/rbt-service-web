@@ -1,8 +1,5 @@
 import { ROUTES } from '@/shared/config'
-import { Box } from '@/shared/ui/Box'
-import { Heading } from '@/shared/ui/Heading'
-import { SmartLink } from '@/shared/ui/SmartLink'
-import { Text } from '@/shared/ui/Text'
+import { Box, Heading, SmartLink, Text } from '@/shared/ui'
 import styles from './not-found-page.module.css'
 
 /** Страница 404 внутри оболочки корневого лайаута. */

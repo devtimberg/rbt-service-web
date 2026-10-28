@@ -1,12 +1,5 @@
 import { useState } from 'react'
-import { Box } from '@/shared/ui/Box'
-import { Button } from '@/shared/ui/Button'
-import { Checkbox } from '@/shared/ui/Checkbox'
-import { ConfirmDialog } from '@/shared/ui/ConfirmDialog'
-import { Label } from '@/shared/ui/Field'
-import { IconButton } from '@/shared/ui/IconButton'
-import { DeleteIcon, ShareIcon } from '@/shared/ui/icons'
-import { Text } from '@/shared/ui/Text'
+import { Box, Button, Checkbox, ConfirmDialog, Label, IconButton, DeleteIcon, ShareIcon, Text } from '@/shared/ui'
 import styles from './cart-selection-bar.module.css'
 
 type CartSelectionBarProps = {

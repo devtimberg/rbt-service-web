@@ -1,8 +1,5 @@
 import { cn } from '@/shared/lib/cn'
-import { Box } from '@/shared/ui/Box'
-import { Container } from '@/shared/ui/Container'
-import { SmartLink } from '@/shared/ui/SmartLink'
-import { Text } from '@/shared/ui/Text'
+import { Box, Container, SmartLink, Text } from '@/shared/ui'
 import { HOME_QUICK_ACTIONS } from '../model/quick-action'
 import styles from './home-quick-action.module.css'
 

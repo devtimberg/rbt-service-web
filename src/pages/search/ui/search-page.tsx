@@ -1,11 +1,7 @@
 import * as React from 'react'
 import { searchCategories, searchParts, useSearchStore } from '@/features/search-products'
-import { formatPrice } from '@/shared/lib/formatPrice'
-import { Box } from '@/shared/ui/Box'
-import { Button } from '@/shared/ui/Button'
-import { ChevronRightIcon } from '@/shared/ui/icons'
-import { Skeleton } from '@/shared/ui/Skeleton'
-import { Text } from '@/shared/ui/Text'
+import { formatPrice } from '@/shared/lib/format-price'
+import { Box, Button, ChevronRightIcon, Skeleton, Text } from '@/shared/ui'
 import styles from './search-page.module.css'
 
 const FAKE_DELAY = 600

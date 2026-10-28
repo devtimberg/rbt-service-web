@@ -1,10 +1,6 @@
 import { cn } from '@/shared/lib/cn'
-import { formatPrice } from '@/shared/lib/formatPrice'
-import { Box } from '@/shared/ui/Box'
-import { Button } from '@/shared/ui/Button'
-import { Heading } from '@/shared/ui/Heading'
-import { InformationIcon } from '@/shared/ui/icons'
-import { Text } from '@/shared/ui/Text'
+import { formatPrice } from '@/shared/lib/format-price'
+import { Box, Button, Heading, InformationIcon, Text } from '@/shared/ui'
 import styles from './cart-summary.module.css'
 
 type CartSummaryProps = {

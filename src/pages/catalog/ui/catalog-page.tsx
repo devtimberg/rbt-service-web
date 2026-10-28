@@ -1,9 +1,5 @@
 import { CATALOG_CATEGORIES } from '@/entities/category'
-import { Box } from '@/shared/ui/Box'
-import { Breadcrumb } from '@/shared/ui/Breadcrumb'
-import { Container } from '@/shared/ui/Container'
-import { Heading } from '@/shared/ui/Heading'
-import { SmartLink } from '@/shared/ui/SmartLink'
+import { Box, Breadcrumb, Container, Heading, SmartLink } from '@/shared/ui'
 import { Footer } from '@/widgets/footer'
 import styles from './catalog-page.module.css'
 

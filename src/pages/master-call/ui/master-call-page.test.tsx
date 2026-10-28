@@ -3,7 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vite-plus/test'
 import { MasterCallPage } from './master-call-page'
 
-vi.mock('@/shared/ui/SheetFooterSlot', () => ({
+vi.mock('@/shared/ui', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/shared/ui')>()),
   // Портал шторки в тесте не нужен: рисуем содержимое на месте
   SheetFooterSlot: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))

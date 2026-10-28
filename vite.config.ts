@@ -24,11 +24,21 @@ const publicApiPatterns = [
     message: `Импорт в обход публичного API слайса: импортируйте из \`@/${layer}/<слайс>\` или \`@/${layer}/<группа>/<слайс>\` (index.ts), ADR 0012, 0013`,
   })),
   {
-    group: ['@/shared/api/**', '@/shared/config/**', '@/shared/seo/**', '@/shared/ui/*/**'],
+    group: ['@/shared/api/**', '@/shared/config/**', '@/shared/seo/**'],
     message:
-      'Импорт в обход публичного API сегмента shared: импортируйте из `@/shared/<сегмент>` (для ui/lib — из модуля `@/shared/ui/Button`), ADR 0012',
+      'Импорт в обход публичного API сегмента shared: импортируйте из `@/shared/<сегмент>` (для ui — из барели `@/shared/ui`), ADR 0012',
   },
 ]
+
+// UI-кит (барель, ADR 0012): вне shared/ui только `@/shared/ui`, внутри только относительные пути (иначе циклы)
+const uiOutside = {
+  group: ['@/shared/ui/**'],
+  message: 'Импортируйте UI-кит одной строкой из `@/shared/ui` (барель), ADR 0012',
+}
+const uiInside = {
+  group: ['@/shared/ui'],
+  message: 'Внутри shared/ui барель не импортируем (циклы): относительный путь `../button`, ADR 0012',
+}
 
 // Правила слоёв из ADR 0003: routes → app → pages → widgets → features → entities → shared.
 // Импорт разрешён только вниз; для каждого слоя перечислены запрещённые.
@@ -43,7 +53,7 @@ type RestrictedPattern = { group: string[]; message: string }
 
 const restrictedImports = (patterns: RestrictedPattern[]): ['error', { patterns: RestrictedPattern[] }] => [
   'error',
-  { patterns: [...patterns, ...publicApiPatterns] },
+  { patterns: [...patterns, ...publicApiPatterns, uiOutside] },
 ]
 
 // Опции правила в override заменяют базовые, поэтому publicApiPatterns повторяются в каждом слое
@@ -85,7 +95,7 @@ const forbiddenElements = [
   ...forbidElements(['ul', 'ol', 'li'], missingComponent('List')),
   ...forbidElements(['dl', 'dt', 'dd'], missingComponent('DescriptionList')),
   ...forbidElements(['img', 'picture', 'source'], missingComponent('Image')),
-  ...forbidElements(['svg'], 'используйте иконку из `@/shared/ui/icons`; новую иконку добавьте туда же'),
+  ...forbidElements(['svg'], 'используйте иконку из `@/shared/ui`; новую иконку добавьте в src/shared/ui/icons/raw'),
   ...forbidElements(['hr'], missingComponent('Divider')),
   ...forbidElements(['form'], missingComponent('Form')),
   ...forbidElements(['label', 'fieldset', 'legend', 'output'], missingComponent('Field')),
@@ -114,12 +124,13 @@ export default defineConfig(({ mode }) => {
     lint: {
       // SVGR-генерация (pnpm run icons:build): `import * as React` в ней неиспользуемый, поэтому линтим без неё
       ignorePatterns: [...ignorePatterns, 'src/shared/ui/icons/**'],
-      plugins: ['typescript', 'react', 'jsx-a11y', 'vitest'],
+      plugins: ['typescript', 'react', 'jsx-a11y', 'vitest', 'unicorn'],
       categories: { correctness: 'error' },
       jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
       rules: {
         'vite-plus/prefer-vite-plus-imports': 'error',
         'no-restricted-imports': restrictedImports([]),
+        'unicorn/filename-case': ['error', { case: 'kebabCase' }],
         'vitest/require-mock-type-parameters': 'off',
         'react/forbid-elements': ['error', { forbid: forbiddenElements }],
         // Обёртки Checkbox/RadioGroupItem содержат нативный input, как и сам Input
@@ -132,6 +143,13 @@ export default defineConfig(({ mode }) => {
         ...layerOverrides,
         // Разметку на HTML-элементах пишет только shared/ui; тесты рендерят заглушки слотов
         { files: ['src/shared/ui/**', '**/*.test.tsx'], rules: { 'react/forbid-elements': 'off' } },
+        // Внутри кита барель запрещён; внешние слои `@/shared/ui/**` не импортируют (uiOutside выше)
+        {
+          files: ['src/shared/ui/**'],
+          rules: { 'no-restricted-imports': ['error', { patterns: [...publicApiPatterns, uiInside] }] },
+        },
+        // Имя файла в src/routes это URL (TanStack Router), routeTree.gen.ts генерируется
+        { files: ['src/routes/**', 'src/routeTree.gen.ts'], rules: { 'unicorn/filename-case': 'off' } },
       ],
       options: { typeAware: true, typeCheck: true },
     },

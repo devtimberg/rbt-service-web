@@ -1,7 +1,4 @@
-import { Box, Stack } from '@/shared/ui/Box'
-import { Container } from '@/shared/ui/Container'
-import { Image } from '@/shared/ui/Image'
-import { Text } from '@/shared/ui/Text'
+import { Box, Stack, Container, Image, Text } from '@/shared/ui'
 import { HOME_BENEFITS } from '../model/benefits'
 import styles from './home-benefits-strip.module.css'
 

@@ -1,12 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box } from '@/shared/ui/Box'
-import { Breadcrumb } from '@/shared/ui/Breadcrumb'
-import { Button } from '@/shared/ui/Button'
-import { Container } from '@/shared/ui/Container'
-import { Heading } from '@/shared/ui/Heading'
-import { SheetFooterSlot } from '@/shared/ui/SheetFooterSlot'
-import { SmartLink } from '@/shared/ui/SmartLink'
-import { LineBreak, Text } from '@/shared/ui/Text'
+import { Box, Breadcrumb, Button, Container, Heading, SheetFooterSlot, SmartLink, LineBreak, Text } from '@/shared/ui'
 import type { ApplianceCategory, ServiceType, TimeSlot, TimeSlotGroup } from '../model/types'
 import styles from './step-confirmation.module.css'
 

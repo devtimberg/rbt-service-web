@@ -1,6 +1,4 @@
-import { Box } from '@/shared/ui/Box'
-import { Heading } from '@/shared/ui/Heading'
-import { Text } from '@/shared/ui/Text'
+import { Box, Heading, Text } from '@/shared/ui'
 import styles from './error-page.module.css'
 
 /** Страница ошибки маршрута: текст ошибки показываем только в dev. */

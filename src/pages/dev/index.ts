@@ -1,1 +1,1 @@
-export { UiKitPage } from './ui/UiKitPage'
+export { UiKitPage } from './ui/ui-kit-page'

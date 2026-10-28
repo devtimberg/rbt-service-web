@@ -7,7 +7,7 @@ import {
   OrderDetailIcon,
   OrderStatusIcon,
   ServicesRepairIcon,
-} from '@/shared/ui/icons'
+} from '@/shared/ui'
 
 type IconComponent = ElementType<SVGProps<SVGSVGElement>>
 

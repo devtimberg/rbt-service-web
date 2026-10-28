@@ -1,5 +1,4 @@
-import { Box } from '@/shared/ui/Box'
-import { Container } from '@/shared/ui/Container'
+import { Box, Container } from '@/shared/ui'
 import { CatalogSearch } from '@/widgets/catalog-search'
 import { Footer } from '@/widgets/footer'
 import { HomeBenefitsStrip } from './home-benefits-strip'

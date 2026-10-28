@@ -3,16 +3,22 @@ import { useCartStore } from '@/entities/cart'
 import { useFavoritesStore } from '@/entities/favorite'
 import type { Product } from '@/entities/product'
 import { cn } from '@/shared/lib/cn'
-import { formatPrice } from '@/shared/lib/formatPrice'
-import { Box } from '@/shared/ui/Box'
-import { Button } from '@/shared/ui/Button'
-import { Checkbox } from '@/shared/ui/Checkbox'
-import { ClipPathDefs } from '@/shared/ui/ClipPathDefs'
-import { ConfirmDialog } from '@/shared/ui/ConfirmDialog'
-import { IconButton } from '@/shared/ui/IconButton'
-import { CameraOutlineIcon, DeleteIcon, HeartIcon, MinusIcon, PlusIcon } from '@/shared/ui/icons'
-import { Image } from '@/shared/ui/Image'
-import { Text } from '@/shared/ui/Text'
+import { formatPrice } from '@/shared/lib/format-price'
+import {
+  Box,
+  Button,
+  Checkbox,
+  ClipPathDefs,
+  ConfirmDialog,
+  IconButton,
+  CameraOutlineIcon,
+  DeleteIcon,
+  HeartIcon,
+  MinusIcon,
+  PlusIcon,
+  Image,
+  Text,
+} from '@/shared/ui'
 import styles from './cart-item.module.css'
 
 type CartItemProps = {

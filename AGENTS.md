@@ -46,7 +46,8 @@ routes → app → pages → widgets → features → entities → shared
 
 - Слайсы одного слоя друг друга не импортируют.
 - У слайса есть `index.ts`; снаружи импортируем только через него (`@/entities/product`). Пути через сегменты `ui|model|api|lib|config` запрещены. Внутри слайса импорты относительные, между слайсами через `@/` (алиас на `src/`).
-- В `shared` слайсов нет, только сегменты `api`, `config`, `lib`, `ui`; `shared/ui` импортируется по модулю: `@/shared/ui/Button`.
+- В `shared` слайсов нет, только сегменты `api`, `config`, `lib`, `ui`; `shared/ui` это папка на компонент (`shared/ui/button/{button.tsx, button.module.css, button.test.tsx, index.ts}`) и один общий `index.ts`; снаружи импорт только `import { Button } from '@/shared/ui'` (пути `@/shared/ui/<x>` запрещает линт), внутри кита относительные `../button`, а `@/shared/ui` внутри `shared/ui` запрещён (циклы). Новый примитив: папка, `index.ts` в ней и строка в `shared/ui/index.ts` ([ADR 0012](docs/adr/0012-kebab-case-filenames-ui-folders.md)).
+- Имена файлов и папок в `src/` строчные через дефис (`product-card.tsx`, `use-cart-store.ts`, `button.module.css`), имена экспортов не меняются (`ProductCard`). Исключения: `src/routes/**` (имя файла там URL) и `src/routeTree.gen.ts`. Проверяет `unicorn/filename-case` в [vite.config.ts](vite.config.ts). На macOS переименование только по регистру делай через `git mv` с промежуточным именем.
 - Слайсы можно группировать (`features/<группа>/<слайс>`): в группе нет `index.ts` и общего кода.
 - Контроль: правила слоёв inline в блоке `lint` [vite.config.ts](vite.config.ts) (Oxlint `no-restricted-imports`, шаблоны собираются из списка слоёв; новый сегмент слайса добавляй в `sliceSegments` там же) и steiger ([steiger.config.ts](steiger.config.ts)). Оба гоняет `make check`, steiger ещё и pre-commit.
 
@@ -81,7 +82,7 @@ routes → app → pages → widgets → features → entities → shared
 
 ## Вёрстка
 
-- Только CSS Modules, Tailwind удалён (фаза 1.5, [план](docs/nextjs-migration.md)); `cn()` — это `clsx`. Образец: [Container.module.css](src/shared/ui/Container.module.css). Соглашения:
+- Только CSS Modules, Tailwind удалён (фаза 1.5, [план](docs/nextjs-migration.md)); `cn()` — это `clsx`. Образец: [container.module.css](src/shared/ui/container/container.module.css). Соглашения:
   - файл `<Component>.module.css` рядом с `<Component>.tsx`, импорт `import styles from './<Component>.module.css'`, классы в camelCase (`styles.root`), склейка с внешним `className` через `cn()`;
   - типы классов генерирует happy-css-modules в `.css-types/` (в git нет; `make dev`, `make typecheck`, `make lint` и pre-commit запускают генерацию сами, вручную `make css-types`). Обходы вроде `?? ''` не нужны; в тестах `expect(el).toHaveClass(styles.root)`, имена классов не сравниваем;
   - модули `shared/ui` кладут правила в `@layer components { ... }`, модули слоёв выше (`app`, `pages`, `widgets`, `features`, `entities`) в `@layer slices { ... }`: так класс слайса, переданный примитиву, перебивает его стиль. Порядок слоёв `base, components, slices` объявлен в начале [global.css](src/app/styles/global.css). Модули локализуют и id: `:has(#id)` пиши как `:global(#id)`;
@@ -102,7 +103,7 @@ routes → app → pages → widgets → features → entities → shared
 | `ul`, `ol`, `li` | `List` (`as`), `ListItem` |
 | `dl`, `dt`, `dd` | `DescriptionList` |
 | `img`, `picture`, `source` | `Image` (`sources`) |
-| `svg` | иконки из `@/shared/ui/icons` |
+| `svg` | иконки из `@/shared/ui` (`XxxIcon`) |
 | `hr` | `Divider` |
 | `a` | `SmartLink` |
 | `button` | `Button` (`variant="unstyled"` для голой), `IconButton`, `Chip` |
@@ -112,7 +113,7 @@ routes → app → pages → widgets → features → entities → shared
 | `dialog` | `Dialog`, `Sheet` |
 
   Нужного примитива нет: добавь его в `shared/ui` (и в витрину), не верстай на месте. Витрина всех примитивов: `/_dev/ui` (`src/routes/[_]dev/ui.tsx`).
-- Внутренние ссылки через `SmartLink` ([src/shared/ui/SmartLink.tsx](src/shared/ui/SmartLink.tsx)); голый `<a href="/...">` для внутренних адресов не используем.
+- Внутренние ссылки через `SmartLink` ([src/shared/ui/smart-link/smart-link.tsx](src/shared/ui/smart-link/smart-link.tsx)); голый `<a href="/...">` для внутренних адресов не используем.
 - Шторки: маршрут с `staticData: { sheet: true }` рендерится в `app/layouts/SheetLayout` ([ADR 0006](docs/adr/0006-sheets-via-static-data.md)).
 - Иконки: SVG в `src/shared/ui/icons/raw`, затем `make icons`; сгенерированные файлы руками не правим.
 

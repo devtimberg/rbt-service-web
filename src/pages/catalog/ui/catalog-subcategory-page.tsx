@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { MOCK_AVAILABILITY_OPTIONS, MOCK_FILTER_GROUPS, MOCK_PRICE_RANGE, MOCK_PRODUCTS } from '@/entities/product'
 import { cn } from '@/shared/lib/cn'
-import { useStickyScroll } from '@/shared/lib/useStickyScroll'
-import { Box } from '@/shared/ui/Box'
-import { Breadcrumb } from '@/shared/ui/Breadcrumb'
-import { Button } from '@/shared/ui/Button'
-import { Chip } from '@/shared/ui/Chip'
-import { Container } from '@/shared/ui/Container'
-import { Heading } from '@/shared/ui/Heading'
+import { useStickyScroll } from '@/shared/lib/use-sticky-scroll'
 import {
+  Box,
+  Breadcrumb,
+  Button,
+  Chip,
+  Container,
+  Heading,
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -16,8 +16,8 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/shared/ui/Pagination'
-import { Text } from '@/shared/ui/Text'
+  Text,
+} from '@/shared/ui'
 import { Footer } from '@/widgets/footer'
 import { ProductCard } from '@/widgets/product-card'
 import { CatalogFilters } from './catalog-filters'

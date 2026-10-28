@@ -1,13 +1,7 @@
 import { useState } from 'react'
 import type { FilterGroup } from '@/entities/product'
 import { cn } from '@/shared/lib/cn'
-import { Box } from '@/shared/ui/Box'
-import { Button } from '@/shared/ui/Button'
-import { Checkbox } from '@/shared/ui/Checkbox'
-import { Label } from '@/shared/ui/Field'
-import { Heading } from '@/shared/ui/Heading'
-import { RadioGroup, RadioGroupItem } from '@/shared/ui/RadioGroup'
-import { Text } from '@/shared/ui/Text'
+import { Box, Button, Checkbox, Label, Heading, RadioGroup, RadioGroupItem, Text } from '@/shared/ui'
 import styles from './favorite-filters.module.css'
 
 type FavoriteFiltersProps = {

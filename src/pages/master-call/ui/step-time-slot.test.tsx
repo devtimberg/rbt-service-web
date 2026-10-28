@@ -4,7 +4,8 @@ import { describe, expect, it, vi } from 'vite-plus/test'
 import type { TimeSlotGroup } from '../model/types'
 import { StepTimeSlot } from './step-time-slot'
 
-vi.mock('@/shared/ui/SheetFooterSlot', () => ({
+vi.mock('@/shared/ui', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/shared/ui')>()),
   // Портал шторки в тесте не нужен: рисуем содержимое на месте
   SheetFooterSlot: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))

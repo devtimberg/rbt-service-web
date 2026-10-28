@@ -1,13 +1,6 @@
 import { useRouter } from '@tanstack/react-router'
 import { ROUTES } from '@/shared/config'
-import { Box } from '@/shared/ui/Box'
-import { Breadcrumb } from '@/shared/ui/Breadcrumb'
-import { Button } from '@/shared/ui/Button'
-import { Container } from '@/shared/ui/Container'
-import { Heading } from '@/shared/ui/Heading'
-import { CheckIcon } from '@/shared/ui/icons'
-import { SheetFooterSlot } from '@/shared/ui/SheetFooterSlot'
-import { Text } from '@/shared/ui/Text'
+import { Box, Breadcrumb, Button, Container, Heading, CheckIcon, SheetFooterSlot, Text } from '@/shared/ui'
 import styles from './step-success.module.css'
 
 export function StepSuccess() {
