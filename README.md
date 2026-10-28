@@ -1,6 +1,6 @@
 # rbt-service-web
 
-Мобильный веб-сервис ООО ТТЦ «Рембыттехника». Стек: Next.js (App Router, SSR), React 19, TypeScript, CSS Modules, TanStack Query (до RTK Query), Vite+ (`vp`: Oxlint, Oxfmt, тесты), Vitest. Правила для разработки: [AGENTS.md](AGENTS.md), решения: [docs/adr](docs/adr/README.md).
+Мобильный веб-сервис ООО ТТЦ «Рембыттехника». Стек: Next.js (App Router, SSR), React 19, TypeScript, CSS Modules, RTK Query, Vite+ (`vp`: Oxlint, Oxfmt, тесты), Vitest. Правила для разработки: [AGENTS.md](AGENTS.md), решения: [docs/adr](docs/adr/README.md).
 
 ## Требования
 

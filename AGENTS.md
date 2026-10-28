@@ -4,12 +4,12 @@
 
 ## Проект
 
-Мобильный веб-сервис ООО ТТЦ «Рембыттехника» (ремонт бытовой техники, каталог запчастей). Next.js 16 (App Router, SSR) на React 19, TypeScript, CSS Modules, TanStack Query (до фазы 3), тулчейн Vite+ (`vp`: линт, форматирование, тесты). Весь текст интерфейса и комментарии по-русски. Пакеты через pnpm, прод на Node 24 ([ADR 0011](docs/adr/0011-pnpm-node-24.md), сборка `output: 'standalone'` в `.next/standalone`).
+Мобильный веб-сервис ООО ТТЦ «Рембыттехника» (ремонт бытовой техники, каталог запчастей). Next.js 16 (App Router, SSR) на React 19, TypeScript, CSS Modules, RTK Query, тулчейн Vite+ (`vp`: линт, форматирование, тесты). Весь текст интерфейса и комментарии по-русски. Пакеты через pnpm, прод на Node 24 ([ADR 0011](docs/adr/0011-pnpm-node-24.md), сборка `output: 'standalone'` в `.next/standalone`).
 История: проект был на Next.js 16, потом на TanStack Start ([ADR 0001](docs/adr/0001-tanstack-start.md), пилот Vite+ для rbt-web), теперь снова на Next вслед за rbt-web ([ADR 0009](docs/adr/0009-nextjs-css-modules-rtk-query.md)). TanStack Start, TanStack Router и Nitro удалены.
 
 ## Переход на RTK Query ([ADR 0009](docs/adr/0009-nextjs-css-modules-rtk-query.md), [план](docs/nextjs-migration.md))
 
-Идём вслед за rbt-web: Next.js App Router, CSS Modules вместо Tailwind, react-hook-form, RTK Query. Фазы по очереди, после каждой `make check` зелёный: 0 — подготовка, 1 — CSS Modules и формы в `main` (закрыта), 2 — Next своей веткой (закрыта: `migrate/nextjs`), 3 — RTK Query своей веткой (впереди). Пока фаза не закрыта, правила остальных разделов этого файла действуют как написано. Изменения вёрстки, которые не должны менять вид, сверяй `make style-check` с эталоном из плана. Отметки о готовности фаз ставь в плане.
+Идём вслед за rbt-web: Next.js App Router, CSS Modules вместо Tailwind, react-hook-form, RTK Query. Фазы по очереди, после каждой `make check` зелёный: 0 — подготовка, 1 — CSS Modules и формы в `main` (закрыта), 2 — Next своей веткой (закрыта: `migrate/nextjs`), 3 — RTK Query своей веткой (закрыта: `migrate/rtk-query`). Пока фаза не закрыта, правила остальных разделов этого файла действуют как написано. Изменения вёрстки, которые не должны менять вид, сверяй `make style-check` с эталоном из плана. Отметки о готовности фаз ставь в плане.
 
 ## Команды
 
@@ -80,12 +80,16 @@ app → pages → widgets → features → entities → shared
 
 | Что                                | Где                                                                    |
 | ---------------------------------- | ---------------------------------------------------------------------- |
-| Данные сервера                     | TanStack Query                                                         |
+| Данные сервера                     | RTK Query (`@/shared/api`)                                             |
 | Фильтры, поиск, страница           | search-параметры URL, валидация zod                                    |
 | Локальный UI                       | `useState`                                                             |
 | Корзина, избранное, история поиска | zustand, **временно** ([ADR 0007](docs/adr/0007-zustand-temporary.md)) |
 
 Новые глобальные сторы не заводим. Zustand живёт только в `entities/cart`, `entities/favorite`, `features/search-products` до появления API.
+
+### API (RTK Query)
+
+Основа уже есть, эндпоинтов пока нет: `api` (`createApi` с `fakeBaseQuery`, без эндпоинтов) и `makeStore()` в `shared/api`, `StoreProvider` в `src/app/root` (клиентский, стор на вкладку через `useState`), тесты со стором: `renderWithStore` из `@/shared/api/testing`. Эндпоинт сущность добавляет в `entities/<entity>/api.ts` через `api.injectEndpoints`, `queryFn` поверх `apiFetch` (ошибки `ApiError` превращать в сериализуемый объект ошибки). Файл `api.ts` без хуков, хуки (`useXxxQuery`) — в клиентских компонентах с `'use client'`. Когда появится первый эндпоинт, брать образец rbt-web (`/Users/dev/project/rbt-web/src/shared/api/`, `docs/nextjs-migration.md`, «Итог фазы 3»): стор на запрос через `cache` React, `<Hydrate>` по сегментам, `prefetch` в `page.tsx`, `extraArgument` с клиентами.
 
 ## Авторизация
 

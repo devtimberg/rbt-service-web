@@ -1,7 +1,7 @@
 # 0009. Переход на Next.js, CSS Modules, RTK Query и react-hook-form вслед за rbt-web
 
 Дата: 2026-10-28
-Статус: accepted, фазы 0–2 выполнены, фаза 3 впереди ([план](../nextjs-migration.md))
+Статус: accepted, переход завершён, фазы 0–3 выполнены ([план](../nextjs-migration.md))
 Заменяет: [0001](0001-tanstack-start.md)
 Частично заменяет: [0002](0002-vite-plus.md), [0005](0005-own-ui-primitives.md), [0006](0006-sheets-via-static-data.md), [0007](0007-zustand-temporary.md)
 

@@ -66,8 +66,22 @@
 
 ## Фаза 3. RTK Query (своя ветка от `main`)
 
-- [ ] Стор на запрос, `Hydrate` по сегментам, эндпоинты в `entities/<entity>/api.ts`.
-- [ ] Удалить TanStack Query.
+- [x] Основа: `api` и `makeStore()` в `shared/api`, `StoreProvider` в `app/root`, `renderWithStore` в `@/shared/api/testing`.
+- [x] Удалить TanStack Query.
+- [ ] Эндпоинты в `entities/<entity>/api.ts`, стор на запрос и `Hydrate` по сегментам, `prefetch`: с первым эндпоинтом, когда появится API (образец: rbt-web, раздел «Итог фазы 3»). Сейчас это был бы мёртвый код.
+
+### Итог фазы 3 (2026-10-29, RTK Query 2.13, react-redux 9.3)
+
+Как сделано:
+- TanStack Query в коде не использовался (только провайдер), поэтому фаза свелась к основе. `shared/api`: `api` (`createApi`, `fakeBaseQuery`, `reducerPath: 'api'`, без эндпоинтов), `makeStore()` (редьюсер и middleware `api`), типы `AppStore`, `RootState`, `AppDispatch`; всё в `index.ts` слайса. `src/app/root/store-provider.tsx` (`'use client'`, `useState(makeStore)`) вместо `QueryClientProvider` в `AppProviders`. `@tanstack/react-query` удалён, в `src` и `package.json` `@tanstack` нет.
+- Тесты: `store.test.tsx` (редьюсер `api` подключён, сторы независимы, `renderWithStore` отдаёт стор), `store-provider.test.tsx`; `renderWithStore` и `createTestStore` в `@/shared/api/testing`, не из `index.ts`.
+- Не делали намеренно (без эндпоинтов это мёртвый код): `prefetch`, `Hydrate`, стор на запрос на сервере, `extraArgument` с клиентами, тип ошибки `QueryError`. Образец rbt-web (`src/shared/api/`): стор на запрос через `cache` React, `<Hydrate>` по сегментам, `prefetch` в `page.tsx`, эндпоинты в `entities/<entity>/api.ts` через `injectEndpoints`, `queryFn` поверх клиента. Правило записано в AGENTS.md, раздел «Состояние».
+
+Проверка (прод-сборка `main` на 3281 против ветки на 3280):
+- `make check` зелёный (102 теста), `make build` проходит, все маршруты `ƒ (Dynamic)`; `/`, `/catalog`, `/cart` отдают 200.
+- `make style-check --widths 375,1440`: ОТЛИЧИЙ НЕТ.
+- Гидрация (Playwright, прод, `/` и `/cart`): ошибок и предупреждений консоли нет.
+- HTML без изменений: главная 30 932 байта, каталог 25 862, корзина 17 342 (до и после одинаково). JS в `.next/static` 877 212 → 924 208 байт (+46 КиБ, Redux Toolkit и react-redux в клиентском бандле).
 
 ## Эталон
 

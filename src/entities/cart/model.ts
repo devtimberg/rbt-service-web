@@ -28,7 +28,7 @@ export function parseCartItems(raw: unknown[]): Map<string, number> {
 
 /**
  * ВРЕМЕННОЕ решение: корзина живёт в zustand + localStorage.
- * Заменить на Query/API, когда появится бекенд корзины (ADR 0008: серверные данные хранит TanStack Query).
+ * Заменить на RTK Query (`entities/cart/api.ts`), когда появится бекенд корзины.
  *
  * SSR: `skipHydration: true`, поэтому на сервере и при первой отрисовке в браузере стор пустой
  * и разметка совпадает. Данные из localStorage подтягивает `rehydrateCartStore()` (вызывает корневой лайаут в useEffect).

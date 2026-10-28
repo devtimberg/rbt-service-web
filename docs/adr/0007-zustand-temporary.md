@@ -9,7 +9,7 @@ API корзины, избранного и истории поиска пока
 
 ## Решение
 
-Корзина (`entities/cart`), избранное (`entities/favorite`) и история поиска (`features/search-products`) живут в zustand-сторах с сохранением в браузерное хранилище. Это временная мера, остальное состояние остаётся в TanStack Query, URL и `useState`.
+Корзина (`entities/cart`), избранное (`entities/favorite`) и история поиска (`features/search-products`) живут в zustand-сторах с сохранением в браузерное хранилище. Это временная мера, остальное состояние живёт в RTK Query, URL и `useState`.
 
 ## Последствия
 
