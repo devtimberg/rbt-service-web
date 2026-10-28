@@ -4,6 +4,7 @@ import { createRef } from 'react'
 import { describe, expect, it, vi } from 'vite-plus/test'
 import { Button } from './Button'
 import { IconButton } from './IconButton'
+import styles from './Button.module.css'
 
 describe('Button: unstyled', () => {
   it('только className, type=button и ref, без оболочки-span', () => {
@@ -49,9 +50,9 @@ describe('Button: стилизованные варианты', () => {
       </>,
     )
     const ghost = screen.getByRole('button', { name: 'Сбросить' })
-    expect(ghost).toHaveClass('hover:bg-surface-subtle')
+    expect(ghost).toHaveClass(styles.variantGhost)
     expect(ghost).not.toHaveAttribute('data-slot')
-    expect(screen.getByRole('button', { name: 'Ещё' })).toHaveClass('text-link')
+    expect(screen.getByRole('button', { name: 'Ещё' })).toHaveClass(styles.variantLink)
   })
 })
 

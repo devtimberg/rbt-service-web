@@ -2,6 +2,7 @@ import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { LoaderIcon } from './icons'
 import { SmartLink } from './SmartLink'
+import styles from './Button.module.css'
 
 /**
  * unstyled: голая `<button>` без классов, оболочки и спиннера — вид целиком из `className`
@@ -40,31 +41,30 @@ type ButtonAsLinkProps = ButtonStyleProps &
 export type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps
 
 const variants: Record<Exclude<ButtonVariant, 'unstyled'>, string> = {
-  default: 'bg-action-primary-bg text-action-primary-fg hover:bg-action-primary-bg/90',
-  primary: 'bg-primary-900 text-inverse hover:bg-primary-900/90',
-  secondary: 'bg-primary-100/10 text-primary-900 hover:bg-primary-100/15',
-  disabled: 'bg-primary-100/10 text-primary-100/30 hover:bg-primary-100/15',
-  ghost: 'hover:bg-surface-subtle hover:text-primary',
-  link: 'text-link hover:text-link/90 m-0 h-auto rounded-none p-0',
-  inverse: 'bg-primary-900 text-inverse',
+  default: styles.variantDefault,
+  primary: styles.variantPrimary,
+  secondary: styles.variantSecondary,
+  disabled: styles.variantDisabled,
+  ghost: styles.variantGhost,
+  link: styles.variantLink,
+  inverse: styles.variantInverse,
 }
 
 const sizes: Record<ButtonSize, string> = {
-  md: 'h-12 px-6 text-[16px] leading-[16px]',
-  sm: 'h-9 px-3 text-[14px] leading-[18px]',
-  xs: 'h-7 px-3',
-  lg: 'h-12 px-4',
-  full: 'w-full py-2',
-  icon: 'h-10 w-10',
-  // Прежний вариант использовал несуществующие primary-700/primary-foreground: приведён к токенам primary-500/inverse
-  iconRight: 'h-10 gap-2 bg-primary-500 pr-3 pl-4 text-inverse hover:bg-primary-500/90',
+  md: styles.sizeMd,
+  sm: styles.sizeSm,
+  xs: styles.sizeXs,
+  lg: styles.sizeLg,
+  full: styles.sizeFull,
+  icon: styles.sizeIcon,
+  iconRight: styles.sizeIconRight,
 }
 
 const radii: Record<ButtonRounded, string> = {
-  default: 'rounded-[12px]',
-  full: 'rounded-full',
-  md: 'rounded-md',
-  lg: 'rounded-lg',
+  default: styles.roundedDefault,
+  full: styles.roundedFull,
+  md: styles.roundedMd,
+  lg: styles.roundedLg,
 }
 
 /** Классы кнопки отдельно от компонента: нужны, когда элемент строится вручную (пагинация и т.п.). */
@@ -74,14 +74,7 @@ export function buttonClass({
   rounded = 'default',
   className,
 }: ButtonStyleProps = {}) {
-  return cn(
-    'relative inline-flex cursor-pointer items-center justify-center font-semibold whitespace-nowrap transition-colors',
-    'focus-visible:outline-none disabled:pointer-events-none disabled:cursor-not-allowed',
-    variant !== 'unstyled' && variants[variant],
-    sizes[size],
-    radii[rounded],
-    className,
-  )
+  return cn(styles.root, variant !== 'unstyled' && variants[variant], sizes[size], radii[rounded], className)
 }
 
 export function Button(props: ButtonProps) {
@@ -105,7 +98,7 @@ export function Button(props: ButtonProps) {
     const { href, loading: _loading, children, ...anchor } = rest
     return (
       <SmartLink href={href} className={classes} {...anchor}>
-        <span className="inline-flex items-center gap-2">
+        <span className={styles.content}>
           {icon}
           {children}
         </span>
@@ -124,11 +117,11 @@ export function Button(props: ButtonProps) {
       {...button}
     >
       {loading ? (
-        <span className="absolute inset-0 flex items-center justify-center">
-          <LoaderIcon className="size-5 animate-spin text-current" />
+        <span className={styles.loader}>
+          <LoaderIcon className={styles.spinner} />
         </span>
       ) : null}
-      <span className={cn('inline-flex items-center gap-2', loading && 'invisible')}>
+      <span className={cn(styles.content, loading && styles.contentHidden)}>
         {icon}
         {children}
       </span>

@@ -54,7 +54,7 @@ export function CatalogFilters({ filterGroups, availabilityGroup, priceRange, cl
             <Button
               variant="link"
               onClick={resetFilters}
-              className="text-link inline-flex items-center gap-1.5 text-sm"
+              className="inline-flex items-center gap-1.5 text-sm leading-[16px]"
             >
               Сбросить
             </Button>

@@ -75,7 +75,7 @@ export function MobileBottomNav() {
               icon={item.icon}
               iconSize={32}
               counter={item.counter ?? null}
-              className="text-primary-100 rounded-xl"
+              className="rounded-xl"
               activeClassName="text-primary-500"
               matchPath="prefix"
               {...(item.additionalActivePaths ? { additionalActivePaths: item.additionalActivePaths } : {})}

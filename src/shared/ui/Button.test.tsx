@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vite-plus/test'
 import { Button } from './Button'
+import styles from './Button.module.css'
 
 describe('Button', () => {
   it('по умолчанию type=button и срабатывает по клику', async () => {
@@ -35,6 +36,6 @@ describe('Button', () => {
     )
     const link = screen.getByRole('link', { name: 'Подробнее' })
     expect(link).toHaveAttribute('href', 'https://example.com')
-    expect(link.className).toContain('bg-primary-100/10')
+    expect(link).toHaveClass(styles.root, styles.variantSecondary)
   })
 })

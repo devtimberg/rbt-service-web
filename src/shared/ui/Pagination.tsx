@@ -2,20 +2,21 @@ import type { ComponentProps } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { type ButtonSize, buttonClass } from './Button'
 import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from './icons'
+import styles from './Pagination.module.css'
 
 export function Pagination({ className, ...props }: ComponentProps<'nav'>) {
   return (
     <nav
       aria-label="Постраничная навигация"
 
-      className={cn('mx-auto flex w-full justify-center', className)}
+      className={cn(styles.root, className)}
       {...props}
     />
   )
 }
 
 export function PaginationContent({ className, ...props }: ComponentProps<'ul'>) {
-  return <ul className={cn('flex flex-row items-center gap-1', className)} {...props} />
+  return <ul className={cn(styles.content, className)} {...props} />
 }
 
 export function PaginationItem(props: ComponentProps<'li'>) {
@@ -35,11 +36,7 @@ export function PaginationLink({ className, isActive, size = 'icon', ...props }:
       aria-current={isActive ? 'page' : undefined}
 
       data-active={isActive}
-      className={cn(
-        buttonClass({ variant: isActive ? 'secondary' : 'ghost', size }),
-        'hover:bg-transparent hover:text-current',
-        className,
-      )}
+      className={cn(buttonClass({ variant: isActive ? 'secondary' : 'ghost', size }), styles.link, className)}
       {...props}
     />
   )
@@ -47,8 +44,8 @@ export function PaginationLink({ className, isActive, size = 'icon', ...props }:
 
 export function PaginationPrevious({ className, ...props }: ComponentProps<typeof PaginationLink>) {
   return (
-    <PaginationLink aria-label="Предыдущая страница" size="sm" className={cn('gap-1', className)} {...props}>
-      <ChevronLeftIcon className="size-4" />
+    <PaginationLink aria-label="Предыдущая страница" size="sm" className={cn(styles.withGap, className)} {...props}>
+      <ChevronLeftIcon className={styles.icon} />
       <span>Назад</span>
     </PaginationLink>
   )
@@ -56,9 +53,9 @@ export function PaginationPrevious({ className, ...props }: ComponentProps<typeo
 
 export function PaginationNext({ className, ...props }: ComponentProps<typeof PaginationLink>) {
   return (
-    <PaginationLink aria-label="Следующая страница" size="sm" className={cn('gap-1', className)} {...props}>
+    <PaginationLink aria-label="Следующая страница" size="sm" className={cn(styles.withGap, className)} {...props}>
       <span>Вперёд</span>
-      <ChevronRightIcon className="size-4" />
+      <ChevronRightIcon className={styles.icon} />
     </PaginationLink>
   )
 }
@@ -68,10 +65,10 @@ export function PaginationEllipsis({ className, ...props }: ComponentProps<'span
     <span
       aria-hidden
 
-      className={cn('flex size-9 items-center justify-center', className)}
+      className={cn(styles.ellipsis, className)}
       {...props}
     >
-      <MoreHorizontalIcon className="size-4" />
+      <MoreHorizontalIcon className={styles.icon} />
     </span>
   )
 }
