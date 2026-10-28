@@ -1,6 +1,7 @@
 import { type ChangeEvent, type ComponentProps, useEffect, useRef } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { DashIcon, TickIcon } from './icons'
+import styles from './Checkbox.module.css'
 
 type CheckboxProps = Omit<ComponentProps<'input'>, 'type' | 'checked' | 'defaultChecked' | 'size'> & {
   /** Отмечен, не отмечен или «частично» (indeterminate). */
@@ -29,7 +30,7 @@ export function Checkbox({ className, checked, onCheckedChange, onChange, disabl
   }
 
   return (
-    <span className={cn('relative inline-flex size-4.5 shrink-0', className)}>
+    <span className={cn(styles.root, className)}>
       <input
         ref={ref}
         type="checkbox"
@@ -38,22 +39,11 @@ export function Checkbox({ className, checked, onCheckedChange, onChange, disabl
         {...(checked === undefined ? {} : { checked: checked === true })}
         onChange={handleChange}
         aria-checked={indeterminate ? 'mixed' : undefined}
-        className={cn(
-          'peer size-full cursor-pointer appearance-none rounded-sm border-2 border-[#DEE9FE] bg-[#F7FAFF] transition-colors',
-          'checked:border-primary-300 checked:bg-primary-300 indeterminate:border-primary-300 indeterminate:bg-primary-300',
-          'focus-visible:ring-[3px] focus-visible:ring-focus-ring/50',
-          'disabled:cursor-not-allowed disabled:opacity-50',
-        )}
+        className={styles.input}
         {...props}
       />
-      <TickIcon
-        aria-hidden
-        className="pointer-events-none absolute inset-0 m-auto hidden size-3 text-inverse peer-checked:block peer-indeterminate:hidden"
-      />
-      <DashIcon
-        aria-hidden
-        className="pointer-events-none absolute inset-0 m-auto hidden size-3 text-inverse peer-indeterminate:block"
-      />
+      <TickIcon aria-hidden className={cn(styles.icon, styles.tick)} />
+      <DashIcon aria-hidden className={cn(styles.icon, styles.dash)} />
     </span>
   )
 }

@@ -1,5 +1,6 @@
 import { type ChangeEvent, type ComponentProps, createContext, use, useId, useState } from 'react'
 import { cn } from '@/shared/lib/cn'
+import styles from './RadioGroup.module.css'
 
 type RadioGroupContextValue = {
   name: string
@@ -44,7 +45,7 @@ export function RadioGroup({
     <RadioGroupContext
       value={{ name: name ?? generatedName, value: value ?? innerValue, onValueChange: handleValueChange, disabled }}
     >
-      <div role="radiogroup" className={cn('grid gap-3', className)} {...props} />
+      <div role="radiogroup" className={cn(styles.group, className)} {...props} />
     </RadioGroupContext>
   )
 }
@@ -61,7 +62,7 @@ export function RadioGroupItem({ className, value, disabled, onChange, ...props 
   }
 
   return (
-    <span className={cn('relative inline-flex size-4.5 shrink-0', className)}>
+    <span className={cn(styles.item, className)}>
       <input
         type="radio"
         name={group.name}
@@ -69,17 +70,10 @@ export function RadioGroupItem({ className, value, disabled, onChange, ...props 
         disabled={disabled ?? group.disabled}
         checked={group.value === value}
         onChange={handleChange}
-        className={cn(
-          'peer size-full cursor-pointer appearance-none rounded-full border-2 border-[#DEE9FE] bg-[#F7FAFF] transition-shadow',
-          'checked:border-primary-300 focus-visible:ring-[3px] focus-visible:ring-focus-ring/50',
-          'disabled:cursor-not-allowed disabled:opacity-50',
-        )}
+        className={styles.input}
         {...props}
       />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute top-1/2 left-1/2 hidden size-2.5 -translate-1/2 rounded-full bg-primary-300 peer-checked:block"
-      />
+      <span aria-hidden className={styles.dot} />
     </span>
   )
 }

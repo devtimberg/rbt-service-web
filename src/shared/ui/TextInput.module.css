@@ -1,0 +1,73 @@
+/* Стилизованное текстовое поле (ADR 0009). Кольцо фокуса 3px и shadow-xs лежат в одном box-shadow, как у ring-[3px] + shadow-xs. */
+@layer components {
+  .root {
+    --ring-color: color-mix(in oklab, var(--color-focus-ring) 50%, transparent);
+
+    height: calc(var(--spacing) * 9);
+    width: 100%;
+    min-width: 0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-default);
+    background-color: transparent;
+    padding: calc(var(--spacing) * 1) calc(var(--spacing) * 3);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    /* Пустые слои тянет Tailwind (inset, inset-ring, ring-offset); повторяем список, чтобы computed совпадал */
+    box-shadow:
+      0 0 #0000,
+      0 0 #0000,
+      0 0 #0000,
+      0 0 #0000,
+      0 1px 2px 0 #0000000d;
+    transition-property: color, box-shadow;
+    transition-timing-function: var(--default-transition-timing-function);
+    transition-duration: var(--default-transition-duration);
+
+    @media (--md) {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+
+    &::placeholder {
+      color: var(--color-input-placeholder);
+    }
+
+    &::selection {
+      background-color: var(--color-primary);
+      color: var(--color-inverse);
+    }
+
+    &::file-selector-button {
+      display: inline-flex;
+      height: calc(var(--spacing) * 7);
+      border: 0;
+      background-color: transparent;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      font-weight: var(--font-weight-medium);
+    }
+
+    &:focus-visible {
+      border-color: var(--color-border-strong);
+      box-shadow:
+        0 0 #0000,
+        0 0 #0000,
+        0 0 #0000,
+        0 0 0 3px var(--ring-color),
+        0 1px 2px 0 #0000000d;
+    }
+
+    /* Невалидное состояние идёт после фокуса: красные граница и кольцо перебивают серые */
+    &[aria-invalid="true"] {
+      --ring-color: color-mix(in oklab, var(--color-danger-700) 20%, transparent);
+
+      border-color: var(--color-danger-700);
+    }
+
+    &:disabled {
+      pointer-events: none;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+}

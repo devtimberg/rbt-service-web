@@ -1,0 +1,63 @@
+/* Чекбокс на нативном input (ADR 0009): иконки показываются соседними селекторами вместо peer-*. */
+@layer components {
+  .root {
+    position: relative;
+    display: inline-flex;
+    width: calc(var(--spacing) * 4.5);
+    height: calc(var(--spacing) * 4.5);
+    flex-shrink: 0;
+  }
+
+  .input {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    appearance: none;
+    border-radius: var(--radius-sm);
+    border: 2px solid #dee9fe;
+    background-color: #f7faff;
+    transition-property:
+      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from,
+      --tw-gradient-via, --tw-gradient-to;
+    transition-timing-function: var(--default-transition-timing-function);
+    transition-duration: var(--default-transition-duration);
+
+    &:checked,
+    &:indeterminate {
+      border-color: var(--color-primary-300);
+      background-color: var(--color-primary-300);
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-focus-ring) 50%, transparent);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  .icon {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    display: none;
+    width: calc(var(--spacing) * 3);
+    height: calc(var(--spacing) * 3);
+    color: var(--color-inverse);
+  }
+
+  .input:checked ~ .tick {
+    display: block;
+  }
+
+  .input:indeterminate ~ .tick {
+    display: none;
+  }
+
+  .input:indeterminate ~ .dash {
+    display: block;
+  }
+}

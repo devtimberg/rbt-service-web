@@ -4,6 +4,7 @@ import { Stack } from './Box'
 import { Label } from './Field'
 import { Text } from './Text'
 import { TextInput } from './TextInput'
+import styles from './TextField.module.css'
 
 /** Поле формы: подпись, ввод, ошибка (приоритетнее) или подсказка. id поля — `id` вызывающего или `name`. */
 export function TextField({
@@ -25,8 +26,8 @@ export function TextField({
   const hintId = `${inputId}-hint`
   const describedBy = [error ? errorId : null, hint ? hintId : null].filter(Boolean).join(' ') || undefined
   return (
-    <Stack gap={1.5}>
-      <Label htmlFor={inputId} className="text-secondary text-sm font-medium">
+    <Stack gap={1.5} className={styles.root}>
+      <Label htmlFor={inputId} className={styles.label}>
         {label}
       </Label>
       <TextInput
@@ -34,15 +35,15 @@ export function TextField({
         name={name}
         aria-invalid={Boolean(error) || undefined}
         aria-describedby={describedBy}
-        className={cn('h-12 rounded-2xl', className)}
+        className={cn(styles.input, className)}
         {...props}
       />
       {error ? (
-        <Text className="cursor-default font-normal text-input-error-message leading-5! text-xs" id={errorId}>
+        <Text className={cn(styles.message, styles.error)} id={errorId}>
           {error}
         </Text>
       ) : hint ? (
-        <Text className="cursor-default font-normal text-secondary text-xs" id={hintId}>
+        <Text className={cn(styles.message, styles.hint)} id={hintId}>
           {hint}
         </Text>
       ) : null}
@@ -66,7 +67,7 @@ export function OtpField({
       maxLength={length}
       placeholder={'0'.repeat(length)}
       error={error}
-      className="text-center text-lg tracking-[0.5em]"
+      className={styles.otp}
       {...props}
     />
   )

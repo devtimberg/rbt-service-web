@@ -7,6 +7,7 @@ import { Form } from './Form'
 import { Input } from './Input'
 import { OtpField, TextField } from './TextField'
 import { TextInput } from './TextInput'
+import inputStyles from './TextInput.module.css'
 
 describe('Form, Label и Input', () => {
   it('onSubmit формы, подпись связана с полем через htmlFor, Input без стилей', async () => {
@@ -50,7 +51,7 @@ describe('TextInput и TextField', () => {
     const ref = createRef<HTMLInputElement>()
     render(<TextInput ref={ref} aria-label="Имя" />)
     expect(ref.current).toBe(screen.getByRole('textbox', { name: 'Имя' }))
-    expect(ref.current).toHaveClass('h-9', 'rounded-md')
+    expect(ref.current).toHaveClass(inputStyles.root)
   })
 
   it('TextField: подпись, ошибка приоритетнее подсказки и связана через aria-describedby', () => {

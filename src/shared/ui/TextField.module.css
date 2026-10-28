@@ -1,0 +1,43 @@
+/* Поле формы с подписью (ADR 0009). `.root .input` и `.root .otp` (две классовые) перебивают размеры TextInput независимо от порядка модулей. */
+@layer components {
+  .label {
+    color: var(--color-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .root .input {
+    height: calc(var(--spacing) * 12);
+    border-radius: var(--radius-2xl);
+  }
+
+  .message {
+    cursor: default;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-normal);
+  }
+
+  .error {
+    color: var(--color-input-error-message);
+    line-height: calc(var(--spacing) * 5);
+  }
+
+  .hint {
+    color: var(--color-secondary);
+    line-height: var(--text-xs--line-height);
+  }
+
+  /* Одноразовый код: по центру, крупно и вразрядку; на md размер шрифта остаётся как у TextInput (text-sm) */
+  .root .otp {
+    text-align: center;
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    letter-spacing: 0.5em;
+
+    @media (--md) {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+  }
+}
