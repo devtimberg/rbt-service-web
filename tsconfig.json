@@ -16,7 +16,8 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "allowImportingTsExtensions": false,
-    "paths": { "@/*": ["./src/*"] }
+    // vitest: у vite-plus своя вложенная копия, из-за неё дополнение типов матчеров в vitest.d.ts не склеивалось
+    "paths": { "@/*": ["./src/*"], "vitest": ["./node_modules/vitest"] }
   },
   "include": ["src", "scripts", "*.ts", "vitest.setup.ts"],
   "exclude": ["node_modules", ".output", "dist"]
