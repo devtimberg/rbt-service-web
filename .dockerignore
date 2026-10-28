@@ -1,5 +1,6 @@
 node_modules
-.output
+.next
+next-env.d.ts
 .git
 .github
 .env
@@ -11,4 +12,3 @@ coverage
 Dockerfile
 .dockerignore
 .next
-.tanstack

@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { useIsMobile } from '@/shared/lib/use-media-query'

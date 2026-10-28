@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { Box, Breadcrumb, Button, Chip, Container, Heading, SheetFooterSlot, Text } from '@/shared/ui'

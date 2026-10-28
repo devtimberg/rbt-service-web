@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from 'react'
 import { searchCategories, searchParts, useSearchStore } from '@/features/search-products'
 import { formatPrice } from '@/shared/lib/format-price'

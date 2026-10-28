@@ -1,4 +1,6 @@
-import { useRouter } from '@tanstack/react-router'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { type ReactNode, useRef } from 'react'
 import { useCartStore } from '@/entities/cart'
 import { useFavoritesStore } from '@/entities/favorite'
@@ -109,7 +111,7 @@ export function Header({ search }: HeaderProps) {
               variant="ghost"
               onClick={() => {
                 resetSearch()
-                router.history.back()
+                router.back()
               }}
               aria-label="Закрыть поиск"
               className={styles.closeSearchButton}
@@ -148,7 +150,7 @@ export function Header({ search }: HeaderProps) {
             type="button"
             onClick={() => {
               // Закрытие мастера вызова: возврат на главную, шторка закроется по смене маршрута
-              void router.navigate({ to: ROUTES.HOME })
+              router.push(ROUTES.HOME)
             }}
             className={styles.closeButton}
             aria-label="Закрыть"

@@ -4,28 +4,26 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm run css:types --watch & vp dev",
-    "build": "vp build",
-    "start": "node .output/server/index.mjs",
-    "typecheck": "pnpm run css:types && tsc --noEmit",
-    "lint": "pnpm run css:types && vp check",
+    "dev": "pnpm run css:types --watch & next dev",
+    "build": "next build && cp -R public .next/standalone/public && cp -R .next/static .next/standalone/.next/static",
+    "start": "node --env-file-if-exists=.env .next/standalone/server.js",
+    "typecheck": "pnpm run types:gen && tsc --noEmit",
+    "lint": "pnpm run types:gen && vp check",
     "lint:fsd": "steiger ./src",
     "test": "vp test run",
     "icons:build": "node -e \"const fs=require('node:fs'),p=require('node:path'),dir='src/shared/ui/icons/raw';fs.readdirSync(dir).filter(f=>f.endsWith('.svg')).forEach(f=>{const fp=p.join(dir,f);let s=fs.readFileSync(fp,'utf8');const r=s.replace(/(?<=\\\")(#[0-9a-fA-F]{3,8}|white|black)(?=\\\")/g,'currentColor');if(r!==s)fs.writeFileSync(fp,r);});\" && svgr --no-prettier --typescript --icon --expand-props end --filename-case kebab --out-dir src/shared/ui/icons src/shared/ui/icons/raw && node -e \"const fs=require('node:fs');const rawDir='src/shared/ui/icons/raw';const outDir='src/shared/ui/icons';const toKebab=(name)=>name.replace(/([a-z0-9])([A-Z])/g,'$1-$2').replace(/[ _]+/g,'-').toLowerCase();const toPascal=(name)=>name.split('-').filter(Boolean).map((part)=>part.charAt(0).toUpperCase()+part.slice(1)).join('');const files=fs.readdirSync(rawDir).filter((f)=>f.endsWith('.svg')).sort((a,b)=>a.localeCompare(b));const lines=files.map((f)=>{const base=toKebab(f.replace(/\\\\.svg$/,''));return \\\"export { default as \\\"+toPascal(base)+\\\"Icon } from './\\\"+base+\\\"';\\\";});fs.writeFileSync(outDir+'/index.ts',lines.join('\\\\n')+'\\\\n');\"",
     "icons:sync": "pnpm run icons:build && vp check --fix src/shared/ui/icons",
     "prepare": "vp config",
-    "format": "pnpm run css:types && vp check --fix",
-    "css:types": "hcm 'src/**/*.module.css' --arbitraryExtensions --outDir .css-types --logLevel silent"
+    "format": "pnpm run types:gen && vp check --fix",
+    "css:types": "hcm 'src/**/*.module.css' --arbitraryExtensions --outDir .css-types --logLevel silent",
+    "types:gen": "pnpm run css:types && next typegen"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
     "@hookform/resolvers": "^6.0.2",
     "@tanstack/react-query": "^5.105.0",
-    "@tanstack/react-router": "^1.170.46",
-    "@tanstack/react-router-ssr-query": "^1.167.3",
-    "@tanstack/react-start": "^1.169.4",
     "clsx": "^2.1.1",
-    "nitro": "^3.0.260903-beta",
+    "next": "^16.4.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-hook-form": "^7.91.0",
@@ -56,5 +54,11 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@10.34.7"
+  "packageManager": "pnpm@10.34.7",
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 114",
+    "safari >= 16.4"
+  ]
 }

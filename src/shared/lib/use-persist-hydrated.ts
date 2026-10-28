@@ -1,3 +1,5 @@
+'use client'
+
 import { useSyncExternalStore } from 'react'
 
 type PersistApi = { hasHydrated: () => boolean; onFinishHydration: (fn: () => void) => () => void }

@@ -1,8 +1,8 @@
 node_modules
-.output
+# Next.js: сборка и сгенерированные типы (next dev, next typegen)
+.next
+next-env.d.ts
 dist
-.nitro
-.tanstack
 .env
 .env.*
 !.env.example

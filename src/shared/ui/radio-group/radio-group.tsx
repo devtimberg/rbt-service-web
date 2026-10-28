@@ -1,3 +1,5 @@
+'use client'
+
 import { type ChangeEvent, type ComponentProps, createContext, use, useId, useState } from 'react'
 import { cn } from '@/shared/lib/cn'
 import styles from './radio-group.module.css'

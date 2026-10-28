@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect } from 'react'
 import { useCartStore } from '@/entities/cart'
 import { useFavoritesStore } from '@/entities/favorite'

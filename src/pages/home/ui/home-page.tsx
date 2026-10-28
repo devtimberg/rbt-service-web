@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Container } from '@/shared/ui'
 import { CatalogSearch } from '@/widgets/catalog-search'
 import { Footer } from '@/widgets/footer'

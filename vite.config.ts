@@ -1,18 +1,7 @@
-import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-import viteReact from '@vitejs/plugin-react'
-import { nitro } from 'nitro/vite'
-import { defineConfig, lazyPlugins, loadEnv } from 'vite-plus'
+import { defineConfig } from 'vite-plus'
 
 // Генерируемые файлы не линтим и не форматируем
-const ignorePatterns = [
-  '**/routeTree.gen.ts',
-  '.css-types/**',
-  '**/generated/**',
-  'docs/**',
-  '**/*.svg',
-  '.output/**',
-  '.tanstack/**',
-]
+const ignorePatterns = ['.css-types/**', '**/generated/**', 'docs/**', '**/*.svg', '.next/**', 'next-env.d.ts']
 
 // Публичный API слайсов (ADR 0012, 0013): снаружи слайса импортируем только его index.ts.
 // Слайс может лежать в группе (`features/cart/add-to-cart`), поэтому глубину пути шаблон не считает:
@@ -40,9 +29,9 @@ const uiInside = {
   message: 'Внутри shared/ui барель не импортируем (циклы): относительный путь `../button`, ADR 0012',
 }
 
-// Правила слоёв из ADR 0003: routes → app → pages → widgets → features → entities → shared.
+// Правила слоёв из ADR 0003: app → pages → widgets → features → entities → shared.
 // Импорт разрешён только вниз; для каждого слоя перечислены запрещённые.
-const layers = ['routes', 'app', 'pages', 'widgets', 'features', 'entities', 'shared'] as const
+const layers = ['app', 'pages', 'widgets', 'features', 'entities', 'shared'] as const
 const sameLayerMessages: Partial<Record<(typeof layers)[number], string>> = {
   features: 'Feature не импортирует другую feature: общее выносится в entity или shared (ADR 0003)',
   pages: 'Page не импортирует другую page: общее выносится в widget или feature (ADR 0012)',
@@ -74,7 +63,7 @@ const missingComponent = (component: string) =>
 const forbidElements = (elements: string[], message: string) => elements.map((element) => ({ element, message }))
 
 const forbiddenElements = [
-  ...forbidElements(['a'], 'используйте `SmartLink` из `@/shared/ui` (или `Link` из роутера)'),
+  ...forbidElements(['a'], 'используйте `SmartLink` из `@/shared/ui`'),
   ...forbidElements(
     ['button'],
     'используйте кнопку из `@/shared/ui`: `Button` (обычное действие, `variant`/`size`), `IconButton` (иконка), `Chip` (тег-фильтр); кнопка-триггер подсказки — `Tooltip`/`Popover`',
@@ -101,83 +90,66 @@ const forbiddenElements = [
   ...forbidElements(['label', 'fieldset', 'legend', 'output'], missingComponent('Field')),
 ]
 
-export default defineConfig(({ mode }) => {
-  // Vite отдаёт в process.env только VITE_*-переменные из .env. Серверные
-  // (API_INTERNAL_URL) нужны SSR-коду через process.env, поэтому подмешиваем их сами.
-  // Уже заданные в окружении значения не перезаписываем.
-  const env = loadEnv(mode, process.cwd(), '')
-  for (const [key, value] of Object.entries(env)) {
-    process.env[key] ??= value
-  }
-
-  return {
-    fmt: {
-      // Markdown и YAML не форматируем — оставляем как есть
-      ignorePatterns: [...ignorePatterns, '**/*.md', '**/*.yaml', '**/*.yml'],
-      printWidth: 120,
-      singleQuote: true,
-      semi: false,
-      sortImports: { newlinesBetween: false },
-      sortPackageJson: false,
-      overrides: [{ files: ['**/*.css'], options: { singleQuote: false } }],
-    },
-    lint: {
-      // SVGR-генерация (pnpm run icons:build): `import * as React` в ней неиспользуемый, поэтому линтим без неё
-      ignorePatterns: [...ignorePatterns, 'src/shared/ui/icons/**'],
-      plugins: ['typescript', 'react', 'jsx-a11y', 'vitest', 'unicorn'],
-      categories: { correctness: 'error' },
-      jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
-      rules: {
-        'vite-plus/prefer-vite-plus-imports': 'error',
-        'no-restricted-imports': restrictedImports([]),
-        'unicorn/filename-case': ['error', { case: 'kebabCase' }],
-        'vitest/require-mock-type-parameters': 'off',
-        'react/forbid-elements': ['error', { forbid: forbiddenElements }],
-        // Обёртки Checkbox/RadioGroupItem содержат нативный input, как и сам Input
-        'jsx-a11y/label-has-associated-control': [
-          'error',
-          { controlComponents: ['Checkbox', 'RadioGroupItem', 'Input', 'TextInput'] },
-        ],
-      },
-      overrides: [
-        ...layerOverrides,
-        // Разметку на HTML-элементах пишет только shared/ui; тесты рендерят заглушки слотов
-        { files: ['src/shared/ui/**', '**/*.test.tsx'], rules: { 'react/forbid-elements': 'off' } },
-        // Внутри кита барель запрещён; внешние слои `@/shared/ui/**` не импортируют (uiOutside выше)
-        {
-          files: ['src/shared/ui/**'],
-          rules: { 'no-restricted-imports': ['error', { patterns: [...publicApiPatterns, uiInside] }] },
-        },
-        // Имя файла в src/routes это URL (TanStack Router), routeTree.gen.ts генерируется
-        { files: ['src/routes/**', 'src/routeTree.gen.ts'], rules: { 'unicorn/filename-case': 'off' } },
+export default defineConfig({
+  fmt: {
+    // Markdown и YAML не форматируем — оставляем как есть
+    ignorePatterns: [...ignorePatterns, '**/*.md', '**/*.yaml', '**/*.yml'],
+    printWidth: 120,
+    singleQuote: true,
+    semi: false,
+    sortImports: { newlinesBetween: false },
+    sortPackageJson: false,
+    overrides: [{ files: ['**/*.css'], options: { singleQuote: false } }],
+  },
+  lint: {
+    // SVGR-генерация (pnpm run icons:build): `import * as React` в ней неиспользуемый, поэтому линтим без неё
+    ignorePatterns: [...ignorePatterns, 'src/shared/ui/icons/**'],
+    plugins: ['typescript', 'react', 'jsx-a11y', 'vitest', 'unicorn', 'nextjs'],
+    categories: { correctness: 'error' },
+    jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
+    rules: {
+      'vite-plus/prefer-vite-plus-imports': 'error',
+      'no-restricted-imports': restrictedImports([]),
+      'unicorn/filename-case': ['error', { case: 'kebabCase' }],
+      'vitest/require-mock-type-parameters': 'off',
+      // Картинки рисует Image из shared/ui, next/image с оптимизацией в Node не используем
+      'nextjs/no-img-element': 'off',
+      // Внутренние ссылки решает SmartLink (next/link); голый <a> вне shared/ui и так запрещён react/forbid-elements
+      'nextjs/no-html-link-for-pages': 'off',
+      'react/forbid-elements': ['error', { forbid: forbiddenElements }],
+      // Обёртки Checkbox/RadioGroupItem содержат нативный input, как и сам Input
+      'jsx-a11y/label-has-associated-control': [
+        'error',
+        { controlComponents: ['Checkbox', 'RadioGroupItem', 'Input', 'TextInput'] },
       ],
-      options: { typeAware: true, typeCheck: true },
     },
-    // pre-commit (.vite-hooks/pre-commit → vp staged). Steiger проверяет src целиком, поэтому без списка файлов
-    staged: {
-      '*': 'vp check --fix',
-      'src/**': () => 'steiger ./src',
-    },
-    server: { port: 3000 },
-    // Алиас `@/` → `src/` берётся из tsconfig.json (paths)
-    resolve: { tsconfigPaths: true },
-    plugins:
-      lazyPlugins(() => [
-        tanstackStart(),
-        // Nitro собирает Node-сервер в .output (см. Dockerfile)
-        nitro({
-          routeRules: {
-            '/**': {
-              headers: {
-                'X-Frame-Options': 'DENY',
-                'X-Content-Type-Options': 'nosniff',
-                'Referrer-Policy': 'strict-origin-when-cross-origin',
-              },
-            },
-          },
-        }),
-        // Плагин React обязан идти после tanstackStart
-        viteReact(),
-      ]) ?? [],
-  }
+    overrides: [
+      ...layerOverrides,
+      // Разметку на HTML-элементах пишет только shared/ui; тесты рендерят заглушки слотов
+      { files: ['src/shared/ui/**', '**/*.test.tsx'], rules: { 'react/forbid-elements': 'off' } },
+      // Внутри кита барель запрещён; внешние слои `@/shared/ui/**` не импортируют (uiOutside выше)
+      {
+        files: ['src/shared/ui/**'],
+        rules: { 'no-restricted-imports': ['error', { patterns: [...publicApiPatterns, uiInside] }] },
+      },
+      // Корневая app/ (маршруты Next) импортирует только из src через `@/`; имена папок и файлов задаёт Next
+      {
+        files: ['app/**'],
+        rules: {
+          'unicorn/filename-case': 'off',
+          'no-restricted-imports': restrictedImports([
+            { group: ['./**', '../**'], message: 'Корневая app/ импортирует только из src через `@/` (ADR 0009)' },
+          ]),
+        },
+      },
+    ],
+    options: { typeAware: true, typeCheck: true },
+  },
+  // pre-commit (.vite-hooks/pre-commit → vp staged). Steiger проверяет src целиком, поэтому без списка файлов
+  staged: {
+    '*': 'vp check --fix',
+    'src/**': () => 'steiger ./src',
+  },
+  // Алиас `@/` берётся из tsconfig.json (paths)
+  resolve: { tsconfigPaths: true },
 })

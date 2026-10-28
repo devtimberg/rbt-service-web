@@ -1,3 +1,5 @@
+'use client'
+
 import type { StateStorage } from 'zustand/middleware'
 
 /** Заглушка для сервера: localStorage там недоступен, чтение даёт null, запись ничего не делает. */

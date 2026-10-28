@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 
 /** Длительность анимации закрытия шторки (совпадает с .ui-layout-sheet в shared/ui/layout-sheet/layout-sheet.module.css). */

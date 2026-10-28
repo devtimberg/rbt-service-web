@@ -1,3 +1,5 @@
+'use client'
+
 import { type ChangeEvent, type ComponentProps, useEffect, useRef } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { DashIcon, TickIcon } from '../icons'

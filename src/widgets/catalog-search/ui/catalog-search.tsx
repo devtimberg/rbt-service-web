@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { type Part, searchCategories, searchParts } from '@/features/search-products'

@@ -80,8 +80,10 @@
   --color-state-info-bg: var(--color-info-500);
   --color-state-info-fg: oklch(0.205 0 0);
 
-  /* Шрифт: Inter Variable подключается в global.css через @fontsource-variable/inter */
-  --font-sans: "Inter Variable", Inter, Arial, Helvetica, sans-serif;
+  /* Шрифт: Inter Variable подключается через next/font в app/styles/fonts.ts */
+  --font-sans:
+    var(--font-inter-latin), var(--font-inter-cyrillic), var(--font-inter-cyrillic-ext), var(--font-inter-latin-ext),
+    Arial, Helvetica, sans-serif;
 
   /* Шкала размеров: 1 единица отступа = 0.25rem (`calc(var(--spacing) * 4)` = 16px) */
   --spacing: 0.25rem;

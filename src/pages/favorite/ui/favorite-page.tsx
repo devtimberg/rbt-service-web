@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { useFavoritesStore } from '@/entities/favorite'
 import { MOCK_AVAILABILITY_OPTIONS, MOCK_PRODUCTS } from '@/entities/product'

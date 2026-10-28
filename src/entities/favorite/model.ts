@@ -1,3 +1,5 @@
+'use client'
+
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { getBrowserStorage } from '@/shared/lib/browser-storage'

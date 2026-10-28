@@ -9,7 +9,9 @@ export function ErrorPage({ error }: { error: unknown }) {
         Что-то пошло не так
       </Heading>
       <Text className={styles.hint}>
-        {import.meta.env.DEV && error instanceof Error ? error.message : 'Попробуйте обновить страницу.'}
+        {process.env.NODE_ENV !== 'production' && error instanceof Error
+          ? error.message
+          : 'Попробуйте обновить страницу.'}
       </Text>
     </Box>
   )

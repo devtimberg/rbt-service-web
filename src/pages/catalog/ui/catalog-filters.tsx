@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import type { FilterGroup, PriceRange } from '@/entities/product'
 import { cn } from '@/shared/lib/cn'

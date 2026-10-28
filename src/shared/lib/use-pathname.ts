@@ -1,17 +1,11 @@
-import { useRouter } from '@tanstack/react-router'
-import { useSyncExternalStore } from 'react'
+'use client'
 
-const noopSubscribe = () => () => {}
+import { usePathname as useNextPathname } from 'next/navigation'
 
 /**
- * Текущий pathname без обязательного RouterProvider: в роутере подписывается на завершение навигации,
- * вне роутера (тесты, Storybook) отдаёт пустую строку.
+ * Текущий pathname без `null`. Типы Next делают хук nullable из-за корневой pages/ (пустая, ADR 0009); в App Router
+ * адрес есть всегда. Вне роутера (компонентные тесты без провайдера) хук отдаёт `null`, тогда пустая строка.
  */
 export function usePathname(): string {
-  const router = useRouter({ warn: false })
-  return useSyncExternalStore(
-    router ? (onChange) => router.subscribe('onResolved', onChange) : noopSubscribe,
-    () => router?.state.location.pathname ?? '',
-    () => router?.state.location.pathname ?? '',
-  )
+  return useNextPathname() ?? ''
 }

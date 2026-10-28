@@ -1,3 +1,5 @@
+'use client'
+
 import { type MouseEvent, type ReactNode, useEffect, useId, useRef } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { CloseIcon } from '../icons'

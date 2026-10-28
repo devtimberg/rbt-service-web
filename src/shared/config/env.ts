@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 // Серверные переменные: читаются в рантайме из process.env, в браузер не попадают.
-// Публичных (VITE_*) переменных пока нет: при появлении добавить отдельную схему по образцу rbt-web.
+// Публичных (NEXT_PUBLIC_*) переменных пока нет: при появлении добавить отдельную схему по образцу rbt-web.
 const serverSchema = z.object({
   // Адрес rbt-service-api для SSR-запросов
   API_INTERNAL_URL: z.url({ error: 'API_INTERNAL_URL должен быть абсолютным URL' }),
@@ -16,9 +16,9 @@ export function parseServerEnv(source: Record<string, string | undefined>) {
 
 let serverEnv: ServerEnv | undefined
 
-/** Серверное окружение. Вызывать только при `import.meta.env.SSR`. */
+/** Серверное окружение. Только серверный код: в браузере бросает. */
 export function getServerEnv(): ServerEnv {
-  if (!import.meta.env.SSR) {
+  if (typeof window !== 'undefined') {
     throw new Error('getServerEnv() нельзя вызывать в браузере')
   }
   if (!serverEnv) {

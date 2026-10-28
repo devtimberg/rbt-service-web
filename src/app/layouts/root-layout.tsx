@@ -1,7 +1,10 @@
-import { Outlet, useMatches, useRouterState } from '@tanstack/react-router'
-import { useEffect } from 'react'
+'use client'
+
+import { type ReactNode, useEffect } from 'react'
 import { rehydrateCartStore } from '@/entities/cart'
 import { rehydrateFavoritesStore } from '@/entities/favorite'
+import { isSheetPath } from '@/shared/config'
+import { usePathname } from '@/shared/lib/use-pathname'
 import { Box, ScrollArea } from '@/shared/ui'
 import { CatalogSearch } from '@/widgets/catalog-search'
 import { Header } from '@/widgets/header'
@@ -13,12 +16,12 @@ import styles from './root-layout.module.css'
 
 /**
  * Корневая раскладка: шапка, основной контент, нижняя навигация и шторка.
- * Главная и 404 рисуются в основном контенте; страницы с `staticData.sheet` (всё остальное) — в шторке,
+ * Главная и 404 рисуются в основном контенте; страницы-шторки (`isSheetPath`, ADR 0013) — в шторке,
  * а основной контент под открытой шторкой прячется и не прокручивается.
  */
-export function RootLayout() {
-  const isSheet = useMatches({ select: (matches) => matches.some((match) => match.staticData?.sheet === true) })
-  const pathname = useRouterState({ select: (state) => state.location.pathname })
+export function RootLayout({ children }: { children: ReactNode }) {
+  const pathname = usePathname()
+  const isSheet = isSheetPath(pathname)
   const { rendered, open, disableOpenAnimation } = useSheetState(isSheet)
   const lockBackground = rendered && open
 
@@ -43,13 +46,13 @@ export function RootLayout() {
           className={styles.main}
           style={lockBackground ? { visibility: 'hidden', pointerEvents: 'none' } : undefined}
         >
-          {isSheet ? null : <Outlet />}
+          {isSheet ? null : children}
         </Box>
       </ScrollArea>
       <MobileBottomNav />
       {rendered ? (
         <SheetLayout pathname={pathname} open={open} disableOpenAnimation={disableOpenAnimation}>
-          {isSheet ? <Outlet /> : null}
+          {isSheet ? children : null}
         </SheetLayout>
       ) : null}
       <Box id="portal-root" data-portal-root="true" />

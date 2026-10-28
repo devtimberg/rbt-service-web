@@ -1,3 +1,5 @@
+'use client'
+
 import { type ComponentType, type ReactNode, type SVGProps, useState } from 'react'
 import {
   Box,

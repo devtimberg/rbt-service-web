@@ -1,5 +1,5 @@
 /* Глобальные стили сайта (ADR 0009): порядок каскадных слоёв, сброс, шрифт, токены и несколько глобальных классов.
-   Подключается в routes/__root.tsx первым, раньше любых CSS Modules (во фазе 2 так же в корневом лайауте Next).
+   Подключается в app/layout.tsx первым, раньше любых CSS Modules.
 
    Порядок слоёв объявлен до импортов (CSS это разрешает), поэтому действует, какой бы файл ни загрузился первым:
    - base: сброс стилей браузера (reset.css) и правила элементов ниже;
@@ -10,7 +10,6 @@
 @layer base, components, slices;
 
 @import "./reset.css" layer(base);
-@import "@fontsource-variable/inter";
 @import "../../shared/ui/tokens.css";
 
 @layer base {

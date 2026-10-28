@@ -1,4 +1,6 @@
-import { useRouter } from '@tanstack/react-router'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { ROUTES } from '@/shared/config'
 import { Box, Breadcrumb, Button, Container, Heading, CheckIcon, SheetFooterSlot, Text } from '@/shared/ui'
 import styles from './step-success.module.css'
@@ -8,7 +10,7 @@ export function StepSuccess() {
 
   const handleClose = () => {
     // Флаг history.state.sheet в старом коде нигде не выставлялся, поэтому всегда переходим на главную
-    void router.navigate({ to: ROUTES.HOME })
+    router.push(ROUTES.HOME)
   }
 
   return (

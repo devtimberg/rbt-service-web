@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { Box, Breadcrumb, Button, Chip, Container, Heading, SheetFooterSlot, Text } from '@/shared/ui'
 import { APPLIANCE_CATEGORIES } from '../model/categories'

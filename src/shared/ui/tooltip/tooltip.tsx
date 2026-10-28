@@ -1,3 +1,5 @@
+'use client'
+
 import { type ReactNode, useEffect, useState } from 'react'
 import { cn } from '@/shared/lib/cn'
 import styles from './tooltip.module.css'

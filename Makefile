@@ -1,4 +1,4 @@
-# Makefile для rbt-service-web (TanStack Start, Vite+, pnpm, Node 24 в проде).
+# Makefile для rbt-service-web (Next.js App Router, Vite+ для линта и тестов, pnpm, Node 24 в проде).
 # Файл только оборачивает скрипты pnpm (package.json) и команды docker, своей логики не содержит.
 # `make help` (цель по умолчанию) показывает все цели с описаниями.
 
@@ -23,13 +23,13 @@ help: ## Показать этот список целей
 install: ## Установить зависимости (pnpm install --frozen-lockfile)
 	pnpm install --frozen-lockfile
 
-dev: ## Dev-сервер, доступен в локальной сети (vp dev --host)
-	pnpm run dev --host 0.0.0.0
+dev: ## Dev-сервер Next (next dev), доступен в локальной сети, порт PORT (по умолчанию 3000)
+	pnpm run dev -H 0.0.0.0 -p $(PORT)
 
-build: ## Собрать прод-сборку (vp build)
+build: ## Собрать прод-сборку (next build, standalone в .next/standalone)
 	pnpm run build
 
-start: ## Запустить прод-сборку локально (нужен предварительный make build)
+start: ## Запустить прод-сборку локально (node .next/standalone/server.js, нужен make build)
 	PORT=$(PORT) pnpm run start
 
 icons: ## Пересобрать SVGR-иконки из src/shared/ui/icons/raw
@@ -40,10 +40,10 @@ icons: ## Пересобрать SVGR-иконки из src/shared/ui/icons/raw
 css-types: ## Типы CSS Modules в .css-types (happy-css-modules); dev, typecheck, lint делают это сами
 	pnpm run css:types
 
-typecheck: ## Типы CSS Modules + проверка типов (tsc --noEmit)
+typecheck: ## Типы CSS Modules и маршрутов Next (next typegen) + проверка типов (tsc --noEmit)
 	pnpm run typecheck
 
-lint: ## Типы CSS Modules + формат, линт и типы (vp check)
+lint: ## Типы CSS Modules и Next + формат, линт и типы (vp check)
 	pnpm run lint
 
 lint-fsd: ## Проверка архитектуры FSD (steiger)
@@ -81,8 +81,8 @@ docker-stop: ## Остановить контейнер
 
 ##@ Прочее
 
-clean: ## Удалить node_modules, .output, .tanstack, dist
-	rm -rf node_modules .output .tanstack dist
+clean: ## Удалить node_modules, .next, next-env.d.ts, dist
+	rm -rf node_modules .next next-env.d.ts dist
 
 hooks: ## Установить git-хуки (vp hooks enable)
 	pnpm exec vp hooks enable

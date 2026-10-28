@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { Box, Breadcrumb, Button, Container, Heading, SheetFooterSlot, SmartLink, LineBreak, Text } from '@/shared/ui'
 import type { ApplianceCategory, ServiceType, TimeSlot, TimeSlotGroup } from '../model/types'

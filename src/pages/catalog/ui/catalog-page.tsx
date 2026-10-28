@@ -1,3 +1,5 @@
+'use client'
+
 import { CATALOG_CATEGORIES } from '@/entities/category'
 import { Box, Breadcrumb, Container, Heading, SmartLink } from '@/shared/ui'
 import { Footer } from '@/widgets/footer'

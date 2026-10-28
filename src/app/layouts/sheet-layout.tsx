@@ -1,3 +1,5 @@
+'use client'
+
 import { type ReactNode, useLayoutEffect, useRef } from 'react'
 import { Box, LayoutSheet, ScrollArea, SheetFooterSlotTarget } from '@/shared/ui'
 import styles from './sheet-layout.module.css'

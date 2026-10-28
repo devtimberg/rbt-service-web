@@ -1,3 +1,5 @@
+'use client'
+
 import { type ComponentProps, createContext, type ReactNode, use, useId } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { DialogShell } from '../dialog'

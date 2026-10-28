@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback, useMemo, useState } from 'react'
 import { useCartStore } from '@/entities/cart'
 import { MOCK_PRODUCTS, type Product } from '@/entities/product'

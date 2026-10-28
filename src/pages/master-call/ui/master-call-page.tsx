@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { getTimeSlotGroups } from '../model/time-slots'
 import type { ApplianceCategory, MasterCallStep, ServiceType, TimeSlot, TimeSlotGroup } from '../model/types'

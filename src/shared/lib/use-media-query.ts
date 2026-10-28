@@ -1,3 +1,5 @@
+'use client'
+
 import { useSyncExternalStore } from 'react'
 
 /** Совпадает ли media-запрос. На сервере и при гидрации false, чтобы SSR и первый рендер клиента совпали. */

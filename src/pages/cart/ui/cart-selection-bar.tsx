@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { Box, Button, Checkbox, ConfirmDialog, Label, IconButton, DeleteIcon, ShareIcon, Text } from '@/shared/ui'
 import styles from './cart-selection-bar.module.css'
