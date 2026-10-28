@@ -4,12 +4,12 @@
 
 ## Проект
 
-Мобильный веб-сервис ООО ТТЦ «Рембыттехника» (ремонт бытовой техники, каталог запчастей). TanStack Start (SSR) на React 19, TypeScript, Tailwind 4, TanStack Query, тулчейн Vite+ (`vp`). Весь текст интерфейса и комментарии по-русски. Пакеты через Bun 1.3, прод на Node 22 (сборка Nitro в `.output`).
+Мобильный веб-сервис ООО ТТЦ «Рембыттехника» (ремонт бытовой техники, каталог запчастей). TanStack Start (SSR) на React 19, TypeScript, CSS Modules, TanStack Query, тулчейн Vite+ (`vp`). Весь текст интерфейса и комментарии по-русски. Пакеты через Bun 1.3, прод на Node 22 (сборка Nitro в `.output`).
 Проект был мигрирован с Next.js 16 ([ADR 0001](docs/adr/0001-tanstack-start.md)) и служит пилотом Vite+ для rbt-web ([ADR 0002](docs/adr/0002-vite-plus.md)).
 
 ## Переход на Next.js ([ADR 0009](docs/adr/0009-nextjs-css-modules-rtk-query.md), [план](docs/nextjs-migration.md))
 
-Идём вслед за rbt-web: Next.js App Router, CSS Modules вместо Tailwind, react-hook-form, RTK Query. Фазы по очереди, после каждой `make check` зелёный: 0 — подготовка, 1 — CSS Modules и формы в `main` на текущем стеке, 2 — Next своей веткой, 3 — RTK Query своей веткой. Пока фаза не закрыта, правила остальных разделов этого файла действуют как написано. Изменения вёрстки, которые не должны менять вид, сверяй `make style-check` с эталоном из плана. Отметки о готовности фаз ставь в плане.
+Идём вслед за rbt-web: Next.js App Router, CSS Modules вместо Tailwind, react-hook-form, RTK Query. Фазы по очереди, после каждой `make check` зелёный: 0 — подготовка, 1 — CSS Modules и формы в `main` на текущем стеке (закрыта: Tailwind удалён, авторизация убрана), 2 — Next своей веткой, 3 — RTK Query своей веткой. Пока фаза не закрыта, правила остальных разделов этого файла действуют как написано. Изменения вёрстки, которые не должны менять вид, сверяй `make style-check` с эталоном из плана. Отметки о готовности фаз ставь в плане.
 
 ## Команды
 
@@ -81,15 +81,15 @@ routes → app → pages → widgets → features → entities → shared
 
 ## Вёрстка
 
-- Tailwind 4 и CSS Modules (идёт перевод на модули, [план](docs/nextjs-migration.md)). Новые Tailwind-утилиты не добавляй; существующий компонент переводи на модуль целиком. Образец: [Container.module.css](src/shared/ui/Container.module.css). Соглашения:
+- Только CSS Modules, Tailwind удалён (фаза 1.5, [план](docs/nextjs-migration.md)); `cn()` — это `clsx`. Образец: [Container.module.css](src/shared/ui/Container.module.css). Соглашения:
   - файл `<Component>.module.css` рядом с `<Component>.tsx`, импорт `import styles from './<Component>.module.css'`, классы в camelCase (`styles.root`), склейка с внешним `className` через `cn()`;
   - типы классов генерирует happy-css-modules в `.css-types/` (в git нет; `make dev`, `make typecheck`, `make lint` и pre-commit запускают генерацию сами, вручную `make css-types`). Обходы вроде `?? ''` не нужны; в тестах `expect(el).toHaveClass(styles.root)`, имена классов не сравниваем;
-  - модули `shared/ui` кладут правила в `@layer components { ... }`, модули слоёв выше (`app`, `pages`, `widgets`, `features`, `entities`) в `@layer slices { ... }`: так класс слайса, переданный примитиву, перебивает его стиль. Порядок слоёв объявлен в начале `src/styles.css`. Модули локализуют и id: `:has(#id)` пиши как `:global(#id)`;
-  - все правила модуля внутри слоя: так Tailwind-класс, переданный снаружи, перебивает модуль. Внешний класс без брейкпоинта перебьёт и медиазапрос модуля (раньше `tailwind-merge` их не склеивал), поэтому внешние `px-*`/`max-w-*` у вызова пиши с границей (`max-md:px-4`);
+  - модули `shared/ui` кладут правила в `@layer components { ... }`, модули слоёв выше (`app`, `pages`, `widgets`, `features`, `entities`) в `@layer slices { ... }`: так класс слайса, переданный примитиву, перебивает его стиль. Порядок слоёв `base, components, slices` объявлен в начале [global.css](src/app/styles/global.css). Модули локализуют и id: `:has(#id)` пиши как `:global(#id)`;
+  - все правила модуля внутри слоя. Класс слайса, переданный примитиву, перебивает и медиазапрос примитива: если нужно сохранить его поведение на части ширин, ограничь своё правило брейкпоинтом;
   - `line-height` пиши в rem (`1.25rem`), не делением `calc(1.25 / 0.875)`: Chrome считает деление с погрешностью и сдвигает раскладку на доли пикселя;
-  - значения из токенов через `var(--color-primary-500)` ([tokens.css](src/shared/ui/tokens.css), `@theme static`: всё лежит в `:root`);
-  - брейкпоинты `@media (--md) { ... }` (`--xs`, `--sm`, `--md`, `--lg`, `--xl`, `--2xl` из [media.css](src/shared/ui/media.css), значения как в `--breakpoint-*`), вложенно в правило; в `src/styles.css` `@custom-media` не работает (его компилирует Tailwind).
-  - `src/styles.css` подключается в `routes/__root.tsx` первым и задаёт порядок слоёв, модули идут после него. Токены цветов и размеров: [src/shared/ui/tokens.css](src/shared/ui/tokens.css), используем их, а не произвольные значения.
+  - значения из токенов через `var(--color-primary-500)` ([tokens.css](src/shared/ui/tokens.css), обычный `:root`); значения без токена — литералом, ссылка на неопределённую переменную — ошибка;
+  - брейкпоинты `@media (--md) { ... }` (`--xs`, `--sm`, `--md`, `--lg`, `--xl`, `--2xl` из [media.css](src/shared/ui/media.css), вложенно в правило; работают и в глобальных стилях (их подставляет `@csstools/postcss-global-data`).
+  - глобальные стили: [reset.css](src/app/styles/reset.css) (свой сброс по образцу preflight) и [global.css](src/app/styles/global.css); `global.css` подключается в `routes/__root.tsx` первым и задаёт порядок слоёв, модули идут после него. В фазе 2 корневой лайаут Next обязан импортировать его раньше модулей. Токены цветов и размеров: [src/shared/ui/tokens.css](src/shared/ui/tokens.css), используем их, а не произвольные значения.
 - Свои примитивы в `src/shared/ui` (Button, IconButton, TextInput, Dialog, Sheet, Popover, Tooltip, Checkbox, RadioGroup, Box/Stack, Text, Heading и др.) без Radix, shadcn, cva и headless-библиотек ([ADR 0005](docs/adr/0005-own-ui-primitives.md)). Модалки на нативном `<dialog>`. Нового модала, кнопки или таба не создавай: расширяй существующий (вариант, prop). Условные классы через `cn()`.
 - Голые HTML-элементы вне `src/shared/ui` и `*.test.tsx` запрещает линт ([ADR 0008](docs/adr/0008-no-bare-html-elements.md), `react/forbid-elements`, список и подсказки в `forbiddenElements` в [vite.config.ts](vite.config.ts); `html/head/body` в `routes/__root.tsx` разрешены). Примитивы без своих стилей, семантика задаётся через `as`/`level`. Соответствия для этого проекта:
 
@@ -127,7 +127,7 @@ routes → app → pages → widgets → features → entities → shared
 
 ## Тесты
 
-Vitest через `vp test run` (jsdom) + Testing Library, конфиг в отдельном [vitest.config.ts](vitest.config.ts) (тестам не нужны плагины Start/Nitro/Tailwind), `vitest.setup.ts`. API тестов импортируем из `vite-plus/test` (не из `vitest`), иначе `vite-plus/prefer-vite-plus-imports` ругнётся. Матчер `toHaveTextContent` с RegExp не используем (конфликт типов): `expect(el.textContent).toMatch(/.../)`. Тесты лежат рядом с кодом: `*.test.ts(x)`; серверные модули с `// @vitest-environment node`. Логику без React (модели, ошибки) покрывай unit-тестом, поведение UI компонентным. DOM-снапшоты не делаем. Тестовый env (`API_INTERNAL_URL`) задан в `vitest.config.ts`.
+Vitest через `vp test run` (jsdom) + Testing Library, конфиг в отдельном [vitest.config.ts](vitest.config.ts) (тестам не нужны плагины Start/Nitro), `vitest.setup.ts`. API тестов импортируем из `vite-plus/test` (не из `vitest`), иначе `vite-plus/prefer-vite-plus-imports` ругнётся. Матчер `toHaveTextContent` с RegExp не используем (конфликт типов): `expect(el.textContent).toMatch(/.../)`. Тесты лежат рядом с кодом: `*.test.ts(x)`; серверные модули с `// @vitest-environment node`. Логику без React (модели, ошибки) покрывай unit-тестом, поведение UI компонентным. DOM-снапшоты не делаем. Тестовый env (`API_INTERNAL_URL`) задан в `vitest.config.ts`.
 
 ## Коммиты
 
