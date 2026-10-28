@@ -8,6 +8,7 @@ import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
 import { TextField } from '@/shared/ui/TextField'
 import { usePasswordChange } from '../model/usePasswordChange'
+import styles from './PasswordChangeForm.module.css'
 
 const EMPTY = { oldPassword: '', newPassword: '' }
 
@@ -62,8 +63,8 @@ export function PasswordChangeForm() {
           {...bind('newPassword')}
         />
         <FormAlert message={alert} />
-        {done ? <Output className="text-center text-sm">Пароль изменён</Output> : null}
-        <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
+        {done ? <Output className={styles.done}>Пароль изменён</Output> : null}
+        <Button type="submit" size="full" className={styles.submit} loading={mutation.isPending}>
           Сменить пароль
         </Button>
       </Stack>

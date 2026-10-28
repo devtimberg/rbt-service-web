@@ -3,6 +3,7 @@ import { Stack } from '@/shared/ui/Box'
 import { Container } from '@/shared/ui/Container'
 import { Heading } from '@/shared/ui/Heading'
 import { Text } from '@/shared/ui/Text'
+import styles from './AuthShell.module.css'
 
 /** Общая обёртка экранов авторизации: заголовок, подпись, тело формы. */
 export function AuthShell({
@@ -17,12 +18,12 @@ export function AuthShell({
   footer?: ReactNode
 }) {
   return (
-    <Container className="flex max-md:max-w-md flex-col gap-6 max-sm:px-3">
+    <Container className={styles.root}>
       <Stack gap={2}>
         <Heading level={2} size="lg">
           {title}
         </Heading>
-        {description ? <Text className="cursor-default font-normal text-secondary text-sm">{description}</Text> : null}
+        {description ? <Text className={styles.description}>{description}</Text> : null}
       </Stack>
 
       {children}

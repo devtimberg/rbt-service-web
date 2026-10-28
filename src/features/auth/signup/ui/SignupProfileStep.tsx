@@ -7,6 +7,7 @@ import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
 import { TextField } from '@/shared/ui/TextField'
 import { useSignupComplete } from '../model/useSignupComplete'
+import styles from './SignupProfileStep.module.css'
 
 export function SignupProfileStep({ ticket, redirectTo }: { ticket: string; redirectTo?: string | undefined }) {
   const mutation = useSignupComplete(redirectTo)
@@ -64,7 +65,7 @@ export function SignupProfileStep({ ticket, redirectTo }: { ticket: string; redi
             {...bind('passwordConfirm')}
           />
           <FormAlert message={resultMessage(mutation.data, mutation.error)} />
-          <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
+          <Button type="submit" size="full" className={styles.submit} loading={mutation.isPending}>
             Создать аккаунт
           </Button>
         </Stack>

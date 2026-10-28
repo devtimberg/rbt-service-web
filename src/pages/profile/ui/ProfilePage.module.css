@@ -1,0 +1,60 @@
+@layer slices {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @media (width < 48rem) {
+      max-width: 28rem;
+    }
+
+    @media (width < 40rem) {
+      padding-inline: 0.75rem;
+    }
+  }
+
+  .rootLoading {
+    gap: 1rem;
+  }
+
+  .titleSkeleton {
+    height: 2rem;
+    width: 12rem;
+  }
+
+  .cardSkeleton {
+    height: 6rem;
+    width: 100%;
+    border-radius: 1rem;
+  }
+
+  .card {
+    border-radius: 1rem;
+    background-color: color-mix(in oklab, var(--color-primary-100) 10%, transparent);
+    padding: 1rem;
+  }
+
+  .name {
+    cursor: default;
+    color: var(--color-primary);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+  }
+
+  .email {
+    cursor: default;
+    font-weight: 400;
+    color: var(--color-secondary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .unverified {
+    cursor: default;
+    font-weight: 400;
+    color: var(--color-input-error-message);
+    line-height: 1.25rem !important;
+    font-size: 0.75rem;
+  }
+}

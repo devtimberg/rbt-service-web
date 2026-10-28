@@ -1,0 +1,23 @@
+@layer slices {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @media (width < 48rem) {
+      max-width: 28rem;
+    }
+
+    @media (width < 40rem) {
+      padding-inline: 0.75rem;
+    }
+  }
+
+  .description {
+    cursor: default;
+    font-weight: 400;
+    color: var(--color-secondary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}

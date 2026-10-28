@@ -5,6 +5,7 @@ import { Button } from '@/shared/ui/Button'
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog'
 import { FormAlert } from '@/shared/ui/FormAlert'
 import { useLogoutAll } from '../model/useLogoutAll'
+import styles from './LogoutAllButton.module.css'
 
 export function LogoutAllButton() {
   const { mutate, isPending, data, error } = useLogoutAll()
@@ -12,7 +13,13 @@ export function LogoutAllButton() {
   return (
     <Stack gap={3}>
       <FormAlert message={resultMessage(data, error)} />
-      <Button variant="secondary" size="full" className="h-12" loading={isPending} onClick={() => setConfirmOpen(true)}>
+      <Button
+        variant="secondary"
+        size="full"
+        className={styles.submit}
+        loading={isPending}
+        onClick={() => setConfirmOpen(true)}
+      >
         Выйти со всех устройств
       </Button>
       <ConfirmDialog

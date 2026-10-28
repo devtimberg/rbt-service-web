@@ -16,6 +16,7 @@ import { FormAlert } from '@/shared/ui/FormAlert'
 import { SmartLink } from '@/shared/ui/SmartLink'
 import { Text } from '@/shared/ui/Text'
 import { TextField } from '@/shared/ui/TextField'
+import styles from './PasswordResetRequestStep.module.css'
 
 export function PasswordResetRequestStep({ onSubmitted }: { onSubmitted: (email: string, resendIn: number) => void }) {
   const mutation = useMutation({ mutationFn: (email: string) => passwordResetRequest({ data: { email } }) })
@@ -41,9 +42,9 @@ export function PasswordResetRequestStep({ onSubmitted }: { onSubmitted: (email:
       title="Восстановление пароля"
       description="Отправим код для смены пароля на указанный email"
       footer={
-        <Text className="cursor-default font-normal text-secondary text-sm text-center">
+        <Text className={styles.hint}>
           Вспомнили пароль?{' '}
-          <SmartLink href={ROUTES.LOGIN} className="text-link font-medium">
+          <SmartLink href={ROUTES.LOGIN} className={styles.link}>
             Войти
           </SmartLink>
         </Text>
@@ -61,7 +62,7 @@ export function PasswordResetRequestStep({ onSubmitted }: { onSubmitted: (email:
             {...bind('email')}
           />
           <FormAlert message={resultMessage(mutation.data, mutation.error)} />
-          <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
+          <Button type="submit" size="full" className={styles.submit} loading={mutation.isPending}>
             Отправить код
           </Button>
         </Stack>

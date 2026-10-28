@@ -3,20 +3,22 @@ import { sessionQuery } from '@/entities/session'
 import { LogoutButton } from '@/features/auth/logout'
 import { LogoutAllButton } from '@/features/auth/logout-all'
 import { PasswordChangeForm } from '@/features/auth/password-change'
+import { cn } from '@/shared/lib/cn'
 import { Box, Stack } from '@/shared/ui/Box'
 import { Container } from '@/shared/ui/Container'
 import { Heading } from '@/shared/ui/Heading'
 import { Skeleton } from '@/shared/ui/Skeleton'
 import { Text } from '@/shared/ui/Text'
+import styles from './ProfilePage.module.css'
 
 export function ProfilePage() {
   const { data: user, isPending } = useQuery(sessionQuery())
 
   if (isPending) {
     return (
-      <Container className="flex max-md:max-w-md flex-col gap-4 max-sm:px-3">
-        <Skeleton className="h-8 w-48" />
-        <Skeleton className="h-24 w-full rounded-2xl" />
+      <Container className={cn(styles.root, styles.rootLoading)}>
+        <Skeleton className={styles.titleSkeleton} />
+        <Skeleton className={styles.cardSkeleton} />
       </Container>
     )
   }
@@ -30,20 +32,16 @@ export function ProfilePage() {
   const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ')
 
   return (
-    <Container className="flex max-md:max-w-md flex-col gap-6 max-sm:px-3">
+    <Container className={styles.root}>
       <Heading level={2} size="lg">
         Профиль
       </Heading>
 
-      <Box className="bg-primary-100/10 rounded-2xl px-4 py-4">
+      <Box className={styles.card}>
         <Stack gap={1}>
-          <Text className="cursor-default text-primary text-base font-medium">{fullName || 'Без имени'}</Text>
-          <Text className="cursor-default font-normal text-secondary text-sm">{user.email}</Text>
-          {!user.isEmailVerified ? (
-            <Text className="cursor-default font-normal text-input-error-message leading-5! text-xs">
-              Email не подтверждён
-            </Text>
-          ) : null}
+          <Text className={styles.name}>{fullName || 'Без имени'}</Text>
+          <Text className={styles.email}>{user.email}</Text>
+          {!user.isEmailVerified ? <Text className={styles.unverified}>Email не подтверждён</Text> : null}
         </Stack>
       </Box>
 

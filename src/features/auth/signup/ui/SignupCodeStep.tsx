@@ -16,6 +16,7 @@ import { Button } from '@/shared/ui/Button'
 import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
 import { OtpField } from '@/shared/ui/TextField'
+import styles from './SignupCodeStep.module.css'
 
 export function SignupCodeStep({
   email,
@@ -59,7 +60,7 @@ export function SignupCodeStep({
           <Stack gap={2}>
             <Button
               variant="link"
-              className="mx-auto"
+              className={styles.center}
               disabled={!canResend || resend.isPending}
               onClick={() => resend.mutate()}
             >
@@ -67,7 +68,7 @@ export function SignupCodeStep({
             </Button>
             <FormAlert message={resultMessage(resend.data, resend.error)} />
           </Stack>
-          <Button variant="link" className="mx-auto" onClick={onBack}>
+          <Button variant="link" className={styles.center} onClick={onBack}>
             Изменить email
           </Button>
         </>
@@ -79,7 +80,7 @@ export function SignupCodeStep({
           {/* oxlint-disable-next-line jsx-a11y/no-autofocus */}
           <OtpField length={OTP_LENGTH} error={errors.code} autoFocus {...bind('code')} />
           <FormAlert message={resultMessage(verify.data, verify.error)} />
-          <Button type="submit" size="full" className="h-12" loading={verify.isPending}>
+          <Button type="submit" size="full" className={styles.submit} loading={verify.isPending}>
             Подтвердить
           </Button>
         </Stack>

@@ -10,6 +10,7 @@ import { FormAlert } from '@/shared/ui/FormAlert'
 import { SmartLink } from '@/shared/ui/SmartLink'
 import { Text } from '@/shared/ui/Text'
 import { TextField } from '@/shared/ui/TextField'
+import styles from './SignupEmailStep.module.css'
 
 export function SignupEmailStep({ onSubmitted }: { onSubmitted: (email: string, resendIn: number) => void }) {
   const mutation = useMutation({ mutationFn: (email: string) => signupStart({ data: { email } }) })
@@ -35,9 +36,9 @@ export function SignupEmailStep({ onSubmitted }: { onSubmitted: (email: string, 
       title="Регистрация"
       description="Отправим код подтверждения на ваш email"
       footer={
-        <Text className="cursor-default font-normal text-secondary text-sm text-center">
+        <Text className={styles.hint}>
           Уже есть аккаунт?{' '}
-          <SmartLink href={ROUTES.LOGIN} className="text-link font-medium">
+          <SmartLink href={ROUTES.LOGIN} className={styles.link}>
             Войти
           </SmartLink>
         </Text>
@@ -55,7 +56,7 @@ export function SignupEmailStep({ onSubmitted }: { onSubmitted: (email: string, 
             {...bind('email')}
           />
           <FormAlert message={resultMessage(mutation.data, mutation.error)} />
-          <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
+          <Button type="submit" size="full" className={styles.submit} loading={mutation.isPending}>
             Отправить код
           </Button>
         </Stack>

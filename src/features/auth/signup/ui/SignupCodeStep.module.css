@@ -1,0 +1,9 @@
+@layer slices {
+  .center {
+    margin-inline: auto;
+  }
+
+  .submit {
+    height: 3rem;
+  }
+}

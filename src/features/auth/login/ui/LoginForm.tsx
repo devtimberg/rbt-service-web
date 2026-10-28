@@ -10,6 +10,7 @@ import { SmartLink } from '@/shared/ui/SmartLink'
 import { Text } from '@/shared/ui/Text'
 import { TextField } from '@/shared/ui/TextField'
 import { useLogin } from '../model/useLogin'
+import styles from './LoginForm.module.css'
 
 /** Форма входа. `redirectTo` — адрес возврата из search-параметра `redirect` (проверяется на безопасность при переходе). */
 export function LoginForm({ redirectTo }: { redirectTo?: string | undefined }) {
@@ -33,13 +34,13 @@ export function LoginForm({ redirectTo }: { redirectTo?: string | undefined }) {
       description="Войдите, чтобы видеть свои заказы, избранное и корзину"
       footer={
         <>
-          <Text className="cursor-default font-normal text-secondary text-sm text-center">
+          <Text className={styles.hint}>
             Нет аккаунта?{' '}
-            <SmartLink href={ROUTES.SIGNUP} className="text-link font-medium">
+            <SmartLink href={ROUTES.SIGNUP} className={styles.link}>
               Зарегистрироваться
             </SmartLink>
           </Text>
-          <SmartLink href={ROUTES.PASSWORD_RESET} className="text-link hover:text-link/90 mx-auto font-semibold">
+          <SmartLink href={ROUTES.PASSWORD_RESET} className={styles.forgot}>
             Забыли пароль?
           </SmartLink>
         </>
@@ -66,7 +67,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string | undefined }) {
             {...bind('password')}
           />
           <FormAlert message={resultMessage(mutation.data, mutation.error)} />
-          <Button type="submit" size="full" className="h-12" loading={mutation.isPending}>
+          <Button type="submit" size="full" className={styles.submit} loading={mutation.isPending}>
             Войти
           </Button>
         </Stack>

@@ -16,6 +16,7 @@ import { Button } from '@/shared/ui/Button'
 import { Form } from '@/shared/ui/Form'
 import { FormAlert } from '@/shared/ui/FormAlert'
 import { TextField, OtpField } from '@/shared/ui/TextField'
+import styles from './PasswordResetConfirmStep.module.css'
 
 export function PasswordResetConfirmStep({
   email,
@@ -61,7 +62,7 @@ export function PasswordResetConfirmStep({
           <Stack gap={2}>
             <Button
               variant="link"
-              className="mx-auto"
+              className={styles.center}
               disabled={!canResend || resend.isPending}
               onClick={() => resend.mutate()}
             >
@@ -69,7 +70,7 @@ export function PasswordResetConfirmStep({
             </Button>
             <FormAlert message={resultMessage(resend.data, resend.error)} />
           </Stack>
-          <Button variant="link" className="mx-auto" onClick={onBack}>
+          <Button variant="link" className={styles.center} onClick={onBack}>
             Изменить email
           </Button>
         </>
@@ -98,7 +99,7 @@ export function PasswordResetConfirmStep({
             {...bind('passwordConfirm')}
           />
           <FormAlert message={resultMessage(confirm.data, confirm.error)} />
-          <Button type="submit" size="full" className="h-12" loading={confirm.isPending}>
+          <Button type="submit" size="full" className={styles.submit} loading={confirm.isPending}>
             Сменить пароль
           </Button>
         </Stack>
