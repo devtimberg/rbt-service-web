@@ -12,7 +12,7 @@
 ```bash
 make install
 cp .env.example .env   # заполнить значения
-make dev               # http://localhost:3000 (next dev)
+make dev               # http://localhost:3001 (next dev)
 ```
 
 ## Переменные окружения
@@ -46,6 +46,6 @@ make dev               # http://localhost:3000 (next dev)
 
 ```bash
 make docker-build      # образ rbt-service-web:local
-make docker-run        # контейнер на порту 3000 с env из .env
+make docker-run        # контейнер на порту 3001 с env из .env
 make docker-stop
 ```

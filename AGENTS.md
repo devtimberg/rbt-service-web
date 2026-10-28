@@ -18,7 +18,7 @@
 ```bash
 make install     # pnpm install --frozen-lockfile
 cp .env.example .env   # один раз; нужен API_INTERNAL_URL
-make dev         # next dev (+ типы CSS-модулей в фоне), порт 3000
+make dev         # next dev (+ типы CSS-модулей в фоне), порт 3001
 make build       # next build (standalone в .next/standalone, public и static копируются рядом)
 make start       # node .next/standalone/server.js (PORT, .env подхватывается)
 make typecheck   # tsc --noEmit

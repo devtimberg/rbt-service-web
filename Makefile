@@ -5,7 +5,7 @@
 SHELL := /bin/bash
 .DEFAULT_GOAL := help
 
-PORT  ?= 3000
+PORT  ?= 3001
 IMAGE ?= rbt-service-web:local
 CONTAINER ?= rbt-service-web
 
@@ -23,7 +23,7 @@ help: ## Показать этот список целей
 install: ## Установить зависимости (pnpm install --frozen-lockfile)
 	pnpm install --frozen-lockfile
 
-dev: ## Dev-сервер Next (next dev), доступен в локальной сети, порт PORT (по умолчанию 3000)
+dev: ## Dev-сервер Next (next dev), доступен в локальной сети, порт PORT (по умолчанию 3001)
 	pnpm run dev -H 0.0.0.0 -p $(PORT)
 
 build: ## Собрать прод-сборку (next build, standalone в .next/standalone)
@@ -72,7 +72,7 @@ style-check: ## Сравнить вёрстку двух сборок: make styl
 docker-build: ## Собрать Docker-образ (по умолчанию rbt-service-web:local)
 	docker build -t $(IMAGE) .
 
-docker-run: ## Запустить контейнер на порту PORT (по умолчанию 3000) с env из .env
+docker-run: ## Запустить контейнер на порту PORT (по умолчанию 3001) с env из .env
 	docker run --rm -d --name $(CONTAINER) --env-file .env -e PORT=3000 -p $(PORT):3000 $(IMAGE)
 	@echo "Запущено: http://localhost:$(PORT)"
 
