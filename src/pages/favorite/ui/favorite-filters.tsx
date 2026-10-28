@@ -8,6 +8,7 @@ import { Label } from '@/shared/ui/Field'
 import { Heading } from '@/shared/ui/Heading'
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/RadioGroup'
 import { Text } from '@/shared/ui/Text'
+import styles from './favorite-filters.module.css'
 
 type FavoriteFiltersProps = {
   categories: string[]
@@ -39,42 +40,34 @@ export function FavoriteFilters({ categories, availabilityGroup, className }: Fa
   }
 
   return (
-    <Box as="aside" className={cn('flex w-68! flex-col gap-6 rounded-[24px] bg-white p-6', className)}>
+    <Box as="aside" className={cn(styles.root, className)}>
       {/* Category */}
-      <Box className="flex flex-col gap-3">
-        <Box className="flex items-center justify-between gap-3">
-          <Heading level={5} size="xs" className="h-5 text-[16px]! font-bold!">
+      <Box className={styles.group}>
+        <Box className={styles.head}>
+          <Heading level={5} size="xs" className={styles.title}>
             Категория
           </Heading>
           {activeCount > 0 && (
-            <Box className="flex gap-1.5">
-              <Button
-                variant="link"
-                onClick={resetFilters}
-                className="inline-flex items-center gap-1.5 text-sm leading-[16px]"
-              >
+            <Box className={styles.reset}>
+              <Button variant="link" onClick={resetFilters} className={styles.resetButton}>
                 Сбросить
               </Button>
-              <Text
-                as="span"
-                className="bg-secondary-500 flex size-5 items-center
-                  justify-center rounded-full text-xs font-medium text-white"
-              >
+              <Text as="span" className={styles.count}>
                 {activeCount}
               </Text>
             </Box>
           )}
         </Box>
 
-        <Box className="flex flex-col gap-2.5">
+        <Box className={styles.list}>
           {categories.map((category) => (
-            <Label key={category} className="flex cursor-pointer items-start gap-2.5">
+            <Label key={category} className={cn(styles.option, styles.optionTop)}>
               <Checkbox
                 checked={selectedCategories.has(category)}
                 onCheckedChange={() => toggleCategory(category)}
-                className="mt-0.5"
+                className={styles.checkbox}
               />
-              <Text as="span" className="text-pretty text-sm">
+              <Text as="span" className={cn(styles.optionText, styles.optionTextWrap)}>
                 {category}
               </Text>
             </Label>
@@ -83,13 +76,13 @@ export function FavoriteFilters({ categories, availabilityGroup, className }: Fa
       </Box>
 
       {/* Availability */}
-      <Box className="flex flex-col gap-3">
-        <Text className="cursor-default text-primary text-base font-medium">{availabilityGroup.title}</Text>
-        <RadioGroup value={selectedAvailability} onValueChange={setSelectedAvailability} className="gap-2.5">
+      <Box className={styles.group}>
+        <Text className={styles.availabilityTitle}>{availabilityGroup.title}</Text>
+        <RadioGroup value={selectedAvailability} onValueChange={setSelectedAvailability} className={styles.radios}>
           {availabilityGroup.options.map((option) => (
-            <Label key={option.value} className="flex cursor-pointer items-center gap-2.5">
+            <Label key={option.value} className={cn(styles.option, styles.optionCenter)}>
               <RadioGroupItem value={option.value} />
-              <Text as="span" className="text-sm">
+              <Text as="span" className={styles.optionText}>
                 {option.label}
               </Text>
             </Label>

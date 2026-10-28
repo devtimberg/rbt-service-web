@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useFavoritesStore } from '@/entities/favorite'
 import { MOCK_AVAILABILITY_OPTIONS, MOCK_PRODUCTS } from '@/entities/product'
 import { ROUTES } from '@/shared/config'
+import { cn } from '@/shared/lib/cn'
 import { usePersistHydrated } from '@/shared/lib/usePersistHydrated'
 import { useStickyScroll } from '@/shared/lib/useStickyScroll'
 import { Box } from '@/shared/ui/Box'
@@ -15,6 +16,7 @@ import { LineBreak, Text } from '@/shared/ui/Text'
 import { Footer } from '@/widgets/footer'
 import { ProductCard } from '@/widgets/product-card'
 import { FavoriteFilters } from './favorite-filters'
+import styles from './favorite-page.module.css'
 
 const BREADCRUMB_ITEMS = [{ label: 'Избранное' }]
 
@@ -52,24 +54,24 @@ export function FavoritePage() {
 
   if (favoriteProducts.length === 0) {
     return (
-      <Box className="flex grow flex-col">
-        <Container className="overflow-x-hidden">
+      <Box className={styles.empty}>
+        <Container className={styles.crumbs}>
           <Breadcrumb items={BREADCRUMB_ITEMS} />
         </Container>
 
-        <Container className="flex flex-1 flex-col items-center justify-center text-center">
-          <HeartOutlineIcon className="mb-4 size-16 text-secondary-500" />
-          <Text className="cursor-default text-primary text-lg font-semibold">В избранном пока пусто</Text>
-          <Text className="cursor-default font-normal text-secondary text-sm mt-2">
-            Нажмите на сердечко у товара, <LineBreak className="sm:hidden" />
+        <Container className={styles.emptyBody}>
+          <HeartOutlineIcon className={styles.emptyIcon} />
+          <Text className={styles.emptyTitle}>В избранном пока пусто</Text>
+          <Text className={styles.emptyText}>
+            Нажмите на сердечко у товара, <LineBreak className={styles.emptyBreak} />
             чтобы добавить его в избранное
           </Text>
-          <Button variant="primary" size="md" rounded="default" className="mt-6" href={ROUTES.CATALOG}>
+          <Button variant="primary" size="md" rounded="default" className={styles.emptyButton} href={ROUTES.CATALOG}>
             Перейти в каталог
           </Button>
         </Container>
 
-        <Box className="mt-auto hidden sm:block">
+        <Box className={styles.emptyFooter}>
           <Footer variant="default" />
         </Box>
       </Box>
@@ -78,26 +80,26 @@ export function FavoritePage() {
 
   return (
     <>
-      <Container className="overflow-x-hidden">
+      <Container className={styles.crumbs}>
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </Container>
 
-      <Container className="mt-6">
-        <Box className="flex gap-8">
+      <Container className={styles.content}>
+        <Box className={styles.layout}>
           {/* Filters sidebar — desktop only */}
-          <Box ref={filtersRef} className="hidden shrink-0 self-start lg:block" style={{ position: 'sticky' }}>
+          <Box ref={filtersRef} className={styles.sidebar} style={{ position: 'sticky' }}>
             <FavoriteFilters categories={FAVORITE_CATEGORIES} availabilityGroup={MOCK_AVAILABILITY_OPTIONS} />
           </Box>
 
           {/* Main content */}
-          <Box className="min-w-0 flex-1 overflow-x-hidden">
+          <Box className={styles.main}>
             <Heading level={2} size="lg">
               Избранное
             </Heading>
 
             {/* Sort chips */}
-            <Box className="-mx-4 mt-4 flex items-center gap-3 overflow-x-auto px-4 scrollbar-none">
-              <Text as="span" className="hidden shrink-0 text-sm text-tertiary sm:inline">
+            <Box className={cn(styles.sort, 'scrollbar-none')}>
+              <Text as="span" className={styles.sortLabel}>
                 Сортировка:
               </Text>
               {SORT_OPTIONS.map((option) => (
@@ -108,7 +110,7 @@ export function FavoritePage() {
                   rounded="md"
                   selected={sort === option.value}
                   onClick={() => setSort(option.value)}
-                  className="shrink-0"
+                  className={styles.sortChip}
                 >
                   {option.label}
                 </Chip>
@@ -116,7 +118,7 @@ export function FavoritePage() {
             </Box>
 
             {/* Product grid */}
-            <Box className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
+            <Box className={styles.grid}>
               {sortedProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -125,7 +127,7 @@ export function FavoritePage() {
         </Box>
       </Container>
 
-      <Box className="mt-20">
+      <Box className={styles.footer}>
         <Footer variant="default" />
       </Box>
     </>

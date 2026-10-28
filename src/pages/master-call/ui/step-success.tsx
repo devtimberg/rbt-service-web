@@ -8,6 +8,7 @@ import { Heading } from '@/shared/ui/Heading'
 import { CheckIcon } from '@/shared/ui/icons'
 import { SheetFooterSlot } from '@/shared/ui/SheetFooterSlot'
 import { Text } from '@/shared/ui/Text'
+import styles from './step-success.module.css'
 
 export function StepSuccess() {
   const router = useRouter()
@@ -18,16 +19,16 @@ export function StepSuccess() {
   }
 
   return (
-    <Container className="flex flex-col gap-8">
+    <Container className={styles.root}>
       <Breadcrumb items={[{ label: 'Сервис', href: '/' }, { label: 'Вызвать мастера' }]} />
 
-      <Heading level={1} size="xl" className="hidden sm:block">
+      <Heading level={1} size="xl" className={styles.title}>
         Вызвать мастера
       </Heading>
 
-      <Box className="flex items-center gap-3">
-        <Box className="rounded-xl bg-green-600 p-1">
-          <CheckIcon className="text-3xl text-white" />
+      <Box className={styles.status}>
+        <Box className={styles.badge}>
+          <CheckIcon className={styles.check} />
         </Box>
         <Heading level={2} size="lg">
           Заявка подтверждена
@@ -38,12 +39,12 @@ export function StepSuccess() {
         # 321-587-15
       </Heading>
 
-      <Text className="cursor-default font-normal text-secondary text-base max-w-120">
+      <Text className={styles.text}>
         Спасибо что обратились в наш сервис, в ближайшее время с вами свяжется наш менеджер и уточнит детали
       </Text>
 
-      <SheetFooterSlot contentClassName="justify-end">
-        <Button className="w-full sm:w-auto" onClick={handleClose}>
+      <SheetFooterSlot contentClassName={styles.footerContent}>
+        <Button className={styles.button} onClick={handleClose}>
           Хорошо
         </Button>
       </SheetFooterSlot>

@@ -8,6 +8,7 @@ import { SheetFooterSlot } from '@/shared/ui/SheetFooterSlot'
 import { SmartLink } from '@/shared/ui/SmartLink'
 import { LineBreak, Text } from '@/shared/ui/Text'
 import type { ApplianceCategory, ServiceType, TimeSlot, TimeSlotGroup } from '../model/types'
+import styles from './step-confirmation.module.css'
 
 const TIMER_SECONDS = 5 * 60
 const PHONE_NUMBER = '8-800-333-555-6'
@@ -52,17 +53,14 @@ export function StepConfirmation({
   const expired = remaining <= 0
 
   return (
-    <Container className="flex flex-col gap-8">
+    <Container className={styles.root}>
       <Breadcrumb items={[{ label: 'Сервис', href: '/' }, { label: 'Вызвать мастера' }]} />
 
-      <Heading level={1} size="xl" className="hidden sm:block">
+      <Heading level={1} size="xl" className={styles.title}>
         Вызвать мастера
       </Heading>
 
-      <Box
-        className="text-tertiary flex flex-col text-[21px] leading-8
-          sm:text-[24px]"
-      >
+      <Box className={styles.summary}>
         <Text as="span">
           {SERVICE_TYPE_LABEL[serviceType]} {category.label.toLowerCase()}
         </Text>
@@ -78,51 +76,43 @@ export function StepConfirmation({
             Время истекло
           </Heading>
         ) : (
-          <Text className="text-[21px] leading-8 sm:text-[24px]">
-            <Text as="span" className="font-semibold">
+          <Text className={styles.prompt}>
+            <Text as="span" className={styles.promptStrong}>
               Подтвердите заявку
             </Text>
             <LineBreak />
-            <Text as="span" className="text-tertiary">
+            <Text as="span" className={styles.promptTimer}>
               в течение {formatTimer(remaining)}
             </Text>
           </Text>
         )}
       </Box>
 
-      <Box className="flex flex-col gap-3">
-        <Text className="cursor-default text-primary text-sm font-semibold">Позвоните на бесплатный номер</Text>
-        <SmartLink
-          href={PHONE_HREF}
-          className="text-[32px] leading-tight font-bold tracking-tight
-            sm:text-[44px]"
-        >
+      <Box className={styles.call}>
+        <Text className={styles.callTitle}>Позвоните на бесплатный номер</Text>
+        <SmartLink href={PHONE_HREF} className={styles.phone}>
           {PHONE_NUMBER}
         </SmartLink>
         {!expired && (
-          <Box className="flex items-center gap-2">
-            <Text
-              as="span"
-              className="text-primary-500 inline-block size-4 animate-spin
-                rounded-full border-2 border-current border-t-transparent"
-            />
-            <Text className="cursor-default font-normal text-sm text-primary-500">Ожидаем вашего звонка</Text>
+          <Box className={styles.waiting}>
+            <Text as="span" className={styles.spinner} />
+            <Text className={styles.waitingText}>Ожидаем вашего звонка</Text>
           </Box>
         )}
       </Box>
 
-      <Button variant="secondary" className="self-start" onClick={cancelAction}>
+      <Button variant="secondary" className={styles.cancel} onClick={cancelAction}>
         Отменить заявку
       </Button>
 
-      <Text className="cursor-default font-normal text-disabled text-xs max-w-130">
+      <Text className={styles.agreement}>
         Позвонив по номеру, вы даете согласие на обработку персональных данных, в соответствии с Федеральным законом от
         27.07.2006 года №152-ФЗ «О персональных данных» для целей и на условиях, представленных в политике
         конфиденциальности
       </Text>
 
-      <SheetFooterSlot className="sm:hidden">
-        <Button className="w-full" onClick={() => window.location.assign(PHONE_HREF)}>
+      <SheetFooterSlot className={styles.footer}>
+        <Button className={styles.callButton} onClick={() => window.location.assign(PHONE_HREF)}>
           Позвонить
         </Button>
       </SheetFooterSlot>

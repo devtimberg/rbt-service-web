@@ -9,6 +9,7 @@ import { SheetFooterSlot } from '@/shared/ui/SheetFooterSlot'
 import { Text } from '@/shared/ui/Text'
 import { APPLIANCE_CATEGORIES } from '../model/categories'
 import type { ApplianceCategory, ServiceType } from '../model/types'
+import styles from './step-category.module.css'
 
 const SERVICE_TYPE_OPTIONS: { value: ServiceType; label: string }[] = [
   { value: 'repair', label: 'Ремонт' },
@@ -45,18 +46,18 @@ export function StepCategory({
   }
 
   return (
-    <Container className="flex flex-col gap-10">
+    <Container className={styles.root}>
       <Breadcrumb items={[{ label: 'Сервис', href: '/' }, { label: 'Вызвать мастера' }]} />
 
-      <Heading level={1} size="xl" className="hidden sm:block">
+      <Heading level={1} size="xl" className={styles.title}>
         Вызвать мастера
       </Heading>
 
-      <Box className="flex flex-col gap-6">
+      <Box className={styles.section}>
         <Heading level={2} size="lg">
           Вид услуги
         </Heading>
-        <Box className="flex flex-wrap items-start gap-3 sm:gap-6">
+        <Box className={styles.serviceTypes}>
           {SERVICE_TYPE_OPTIONS.map((option) => (
             <Chip
               key={option.value}
@@ -70,11 +71,11 @@ export function StepCategory({
         </Box>
       </Box>
 
-      <Box className="flex flex-col gap-6">
+      <Box className={styles.section}>
         <Heading level={2} size="lg">
           {QUESTION_BY_SERVICE_TYPE[serviceType]}
         </Heading>
-        <Box className="flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:gap-6">
+        <Box className={styles.categories}>
           {APPLIANCE_CATEGORIES.map((category) => (
             <Chip
               key={category.key}
@@ -88,12 +89,8 @@ export function StepCategory({
         </Box>
       </Box>
 
-      <SheetFooterSlot contentClassName="justify-end gap-3">
-        {submitted && !selectedCategory && (
-          <Text className="cursor-default font-normal text-input-error-message leading-5! text-sm">
-            Выберите категорию поломки
-          </Text>
-        )}
+      <SheetFooterSlot contentClassName={styles.footerContent}>
+        {submitted && !selectedCategory && <Text className={styles.error}>Выберите категорию поломки</Text>}
         <Button onClick={handleNext}>Продолжить</Button>
       </SheetFooterSlot>
     </Container>

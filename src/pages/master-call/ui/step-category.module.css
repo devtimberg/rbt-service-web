@@ -1,0 +1,57 @@
+@layer slices {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .title {
+    display: none;
+
+    @media (--sm) {
+      display: block;
+    }
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .serviceTypes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    @media (--sm) {
+      gap: 1.5rem;
+    }
+  }
+
+  .categories {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    @media (--sm) {
+      flex-flow: row wrap;
+      gap: 1.5rem;
+    }
+  }
+
+  .footerContent {
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .error {
+    cursor: default;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    color: var(--color-input-error-message);
+  }
+}

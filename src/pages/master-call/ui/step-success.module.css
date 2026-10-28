@@ -1,0 +1,55 @@
+@layer slices {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .title {
+    display: none;
+
+    @media (--sm) {
+      display: block;
+    }
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* green-600 из палитры Tailwind (в tokens.css нет) */
+  .badge {
+    border-radius: 0.75rem;
+    background-color: oklch(62.7% 0.194 149.214);
+    padding: 0.25rem;
+  }
+
+  .check {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    color: #fff;
+  }
+
+  .text {
+    max-width: 30rem;
+    cursor: default;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    color: var(--color-secondary);
+  }
+
+  .footerContent {
+    justify-content: flex-end;
+  }
+
+  .button {
+    width: 100%;
+
+    @media (--sm) {
+      width: auto;
+    }
+  }
+}

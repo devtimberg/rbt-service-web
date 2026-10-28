@@ -9,6 +9,7 @@ import { Heading } from '@/shared/ui/Heading'
 import { SheetFooterSlot } from '@/shared/ui/SheetFooterSlot'
 import { Text } from '@/shared/ui/Text'
 import type { TimeSlot, TimeSlotGroup } from '../model/types'
+import styles from './step-time-slot.module.css'
 
 type StepTimeSlotProps = {
   groups: TimeSlotGroup[]
@@ -29,10 +30,10 @@ export function StepTimeSlot({ groups, selected, selectAction, nextAction, backA
   }
 
   return (
-    <Container className="flex flex-col gap-10">
+    <Container className={styles.root}>
       <Breadcrumb items={[{ label: 'Сервис', href: '/' }, { label: 'Вызвать мастера' }]} />
 
-      <Heading level={1} size="xl" className="hidden sm:block">
+      <Heading level={1} size="xl" className={styles.title}>
         Вызвать мастера
       </Heading>
 
@@ -40,13 +41,13 @@ export function StepTimeSlot({ groups, selected, selectAction, nextAction, backA
         Выберите удобное время для визита мастера
       </Heading>
 
-      <Box className="flex flex-col gap-8">
+      <Box className={styles.groups}>
         {groups.map((group) => (
-          <Box key={group.key} className="flex flex-col gap-4">
+          <Box key={group.key} className={styles.group}>
             <Heading level={4} size="sm">
               {group.label}
             </Heading>
-            <Box className="-mx-4 flex gap-3 overflow-x-auto px-4 scrollbar-none [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:gap-4 sm:overflow-x-visible sm:px-0">
+            <Box className={cn(styles.slots, 'scrollbar-none')}>
               {group.slots.map((slot) => {
                 const isSelected = selected?.group.key === group.key && selected?.slot.key === slot.key
 
@@ -57,7 +58,7 @@ export function StepTimeSlot({ groups, selected, selectAction, nextAction, backA
                     selected={isSelected}
                     disabled={!slot.available}
                     onClick={() => selectAction(group, slot)}
-                    className={cn('shrink-0', !slot.available && 'opacity-40 line-through')}
+                    className={cn(styles.slot, !slot.available && styles.slotUnavailable)}
                   >
                     {slot.start} — {slot.end}
                   </Chip>
@@ -68,16 +69,12 @@ export function StepTimeSlot({ groups, selected, selectAction, nextAction, backA
         ))}
       </Box>
 
-      <SheetFooterSlot contentClassName="justify-between">
+      <SheetFooterSlot contentClassName={styles.footerContent}>
         <Button variant="secondary" onClick={backAction}>
           Назад
         </Button>
-        <Box className="flex items-center gap-3">
-          {submitted && !selected && (
-            <Text className="cursor-default font-normal text-input-error-message leading-5! text-sm">
-              Выберите время
-            </Text>
-          )}
+        <Box className={styles.actions}>
+          {submitted && !selected && <Text className={styles.error}>Выберите время</Text>}
           <Button onClick={handleNext}>Продолжить</Button>
         </Box>
       </SheetFooterSlot>
