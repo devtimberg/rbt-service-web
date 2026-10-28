@@ -16,8 +16,7 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
-    // vitest: у vite-plus своя вложенная копия, из-за неё дополнение типов матчеров в vitest.d.ts не склеивалось
-    "paths": { "@/*": ["./src/*"], "vitest": ["./node_modules/vitest"] },
+    "paths": { "@/*": ["./src/*"] },
     // Типы CSS Modules генерирует happy-css-modules в .css-types (pnpm run css:types)
     "allowArbitraryExtensions": true,
     "rootDirs": [".", ".css-types"]
