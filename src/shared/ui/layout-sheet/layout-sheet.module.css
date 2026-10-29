@@ -24,6 +24,11 @@
     &[data-no-animation="true"] {
       transition: none;
     }
+
+    /* Без анимации при reduce; закрытие ждёт таймер use-sheet-state, не transitionend */
+    @media (prefers-reduced-motion: reduce) {
+      transition-duration: 0.01ms;
+    }
   }
 
   .right {

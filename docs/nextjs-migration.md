@@ -68,6 +68,7 @@
 
 - [x] Основа: `api` и `makeStore()` в `shared/api`, `StoreProvider` в `app/root`, `renderWithStore` в `@/shared/api/testing`.
 - [x] Удалить TanStack Query.
+- [x] Техдолг, найденный при сверке вёрстки в фазе 1 (2026-10-29): фон `FormAlert` (`--color-danger-100`); `prefers-reduced-motion` у шторки снизу `Dialog`, `LayoutSheet`, `Skeleton`, спиннеров `Button` и ожидания звонка; hover ссылок каталога (`--color-primary-900`). Правило главной `max-height: 760px` уже удалено. `StepSuccess` вызова мастера оставлен недостижимым до API: шаг 3 включит подтверждение звонка.
 - [ ] Эндпоинты в `entities/<entity>/api.ts`, стор на запрос и `Hydrate` по сегментам, `prefetch`: с первым эндпоинтом, когда появится API (образец: rbt-web, раздел «Итог фазы 3»). Сейчас это был бы мёртвый код.
 
 ### Итог фазы 3 (2026-10-29, RTK Query 2.13, react-redux 9.3)
@@ -93,7 +94,7 @@
 git worktree add ../rbt-service-web-ref style-baseline
 cd ../rbt-service-web-ref && bun install --frozen-lockfile && make build && PORT=3210 node --env-file-if-exists=.env .output/server/index.mjs
 # тег style-baseline старше ADR 0011: там ещё Bun (bun.lock), поэтому эталон ставится через bun, а не pnpm
-# в основном каталоге: make build && PORT=3200 node --env-file-if-exists=.env .output/server/index.mjs
+# в основном каталоге (Next, standalone): make build && PORT=3200 make start
 make style-check REF=http://localhost:3210 TARGET=http://localhost:3200
 ```
 

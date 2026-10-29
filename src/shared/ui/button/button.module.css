@@ -184,7 +184,11 @@
     width: 1.25rem;
     height: 1.25rem;
     color: currentColor;
-    animation: spin 1s linear infinite;
+
+    /* Вращение только без reduce-motion */
+    @media (prefers-reduced-motion: no-preference) {
+      animation: spin 1s linear infinite;
+    }
   }
 
   @keyframes spin {

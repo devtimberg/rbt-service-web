@@ -96,9 +96,10 @@
     }
   }
 
-  /* Как и раньше, шторка снизу (.bottom) prefers-reduced-motion не учитывает: её 0.3s перебивали этот блок */
+  /* Без анимации при reduce, в том числе у шторки снизу: блок идёт после .bottom и .root::backdrop
+     с той же специфичностью, поэтому перебивает их длительности по порядку */
   @media (prefers-reduced-motion: reduce) {
-    .root:not(.bottom),
+    .root,
     .root::backdrop {
       transition-duration: 0.01ms;
     }

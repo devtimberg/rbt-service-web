@@ -77,11 +77,14 @@
     display: inline-block;
     width: 1rem;
     height: 1rem;
-    animation: spin 1s linear infinite;
     border-radius: 9999px;
     border: 2px solid currentColor;
     border-top-color: transparent;
     color: var(--color-primary-500);
+
+    @media (prefers-reduced-motion: no-preference) {
+      animation: spin 1s linear infinite;
+    }
   }
 
   .waitingText {

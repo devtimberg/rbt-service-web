@@ -20,11 +20,16 @@
     row-gap: 0.5rem;
   }
 
-  /* Раньше был ещё hover:text-primary-700, но такого токена нет: при наведении цвет не менялся */
   .link {
     font-size: 0.875rem;
     line-height: 1.5rem;
     color: var(--color-primary-500);
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--color-primary-900);
+      }
+    }
   }
 
   .footer {

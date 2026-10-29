@@ -75,15 +75,12 @@
     flex-shrink: 0;
     cursor: default;
     color: var(--color-primary);
-    text-align: center;
+    /* Справа на всех ширинах: печать растёт влево от каретки у кнопки, а не от середины распорки */
+    text-align: right;
     font-size: 18px;
     line-height: 1.25rem;
     font-weight: 600;
     white-space: nowrap;
-
-    @media (--md) {
-      text-align: right;
-    }
   }
 
   .sizer {
