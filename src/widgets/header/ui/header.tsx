@@ -1,9 +1,10 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { type ReactNode, useRef } from 'react'
+import { type ReactNode, useRef, useState } from 'react'
 import { useCartStore } from '@/entities/cart'
 import { useFavoritesStore } from '@/entities/favorite'
+import { isLockedSection, LockedSectionDialog } from '@/features/locked-section'
 import { useSearchStore } from '@/features/search-products'
 import { ROUTES } from '@/shared/config'
 import { cn } from '@/shared/lib/cn'
@@ -36,9 +37,12 @@ const CLOSE_BUTTON_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL])
 type HeaderProps = {
   /** Поиск по каталогу для десктопа. Виджет не импортирует другой виджет, поэтому его передаёт app. */
   search: ReactNode
+  /** Блок под поиском на главной, когда поиск уезжает в центр экрана (плашка MVP). Передаёт app. */
+  homeNotice?: ReactNode
 }
 
-export function Header({ search }: HeaderProps) {
+export function Header({ search, homeNotice }: HeaderProps) {
+  const [lockedOpen, setLockedOpen] = useState(false)
   const pathname = usePathname()
   const cartCount = useCartStore((s) => s.items.size)
   const favoritesCount = useFavoritesStore((s) => s.items.size)
@@ -188,6 +192,7 @@ export function Header({ search }: HeaderProps) {
           className={cn(styles.desktopSearch, isHomePage && styles.desktopSearchHome)}
         >
           {search}
+          {isHomePage && homeNotice ? <Box className={styles.homeNotice}>{homeNotice}</Box> : null}
         </Box>
 
         {/* Desktop: icons */}
@@ -203,10 +208,13 @@ export function Header({ search }: HeaderProps) {
               className={styles.headerIcon}
               activeClassName={styles.headerIconActive}
               aria-label={ariaLabel}
-              href={href}
+              // Закрытый раздел: вместо перехода окно «Этот раздел ещё в работе»
+              {...(isLockedSection(href)
+                ? { type: 'button' as const, 'aria-haspopup': 'dialog' as const, onClick: () => setLockedOpen(true) }
+                : { href })}
             />
           ))}
-          {/* По клику будет общая подсказка «скоро заработает» (отдельная задача) */}
+          {/* Профиля в MVP нет (ADR 0010): окно «Этот раздел ещё в работе» */}
           <IconButton
             size="lg"
             icon={ProfileIcon}
@@ -214,10 +222,13 @@ export function Header({ search }: HeaderProps) {
             tooltip="Профиль"
             className={styles.headerIcon}
             aria-label="Профиль"
+            aria-haspopup="dialog"
             type="button"
+            onClick={() => setLockedOpen(true)}
           />
         </Stack>
       </Container>
+      <LockedSectionDialog open={lockedOpen} onClose={() => setLockedOpen(false)} />
     </>
   )
 }

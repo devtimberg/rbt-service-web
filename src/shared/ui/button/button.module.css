@@ -56,6 +56,19 @@
     }
   }
 
+  /* Обводка на белом фоне (Figma «Кнопка Заказать запчасть» в окне «Этот раздел ещё в работе») */
+  .variantOutline {
+    border: 1px solid var(--color-border-default);
+    background-color: transparent;
+    color: var(--color-primary-900);
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--color-surface-subtle);
+      }
+    }
+  }
+
   .variantDisabled {
     background-color: color-mix(in oklab, var(--color-primary-100) 10%, transparent);
     color: color-mix(in oklab, var(--color-primary-100) 30%, transparent);

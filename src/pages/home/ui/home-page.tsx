@@ -1,5 +1,6 @@
 'use client'
 
+import { MvpNotice } from '@/features/locked-section'
 import { Box, Container } from '@/shared/ui'
 import { CatalogSearch } from '@/widgets/catalog-search'
 import { Footer } from '@/widgets/footer'
@@ -12,9 +13,13 @@ export function HomePage() {
     <Box className={styles.root}>
       <Box className={styles.content}>
         <Box className={styles.stack}>
-          {/* Mobile: search in content */}
-          <Container className={styles.mobileSearch}>
-            <CatalogSearch expanded />
+          {/* До xl поиск в контенте и плашка MVP под ним; от xl на высоком экране их рисует шапка */}
+          <Container className={styles.top}>
+            {/* data-home: от sm поиск в контенте крупный, как в шапке главной */}
+            <Box data-home="" className={styles.mobileSearch}>
+              <CatalogSearch expanded />
+            </Box>
+            <MvpNotice className={styles.notice} />
           </Container>
           {/* Desktop: spacer for header search that translates down */}
           <Box className={styles.searchSpacer} aria-hidden="true" />

@@ -8,7 +8,16 @@ import styles from './button.module.css'
  * unstyled: голая `<button>` без классов, оболочки и спиннера — вид целиком из `className`
  * (строки поиска, счётчик количества). У unstyled `size`, `rounded` и `icon` не действуют.
  */
-export type ButtonVariant = 'default' | 'primary' | 'secondary' | 'disabled' | 'ghost' | 'link' | 'inverse' | 'unstyled'
+export type ButtonVariant =
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'disabled'
+  | 'ghost'
+  | 'link'
+  | 'inverse'
+  | 'unstyled'
 export type ButtonSize = 'md' | 'sm' | 'xs' | 'lg' | 'full' | 'icon' | 'iconRight'
 export type ButtonRounded = 'default' | 'full' | 'md' | 'lg'
 
@@ -44,6 +53,7 @@ const variants: Record<Exclude<ButtonVariant, 'unstyled'>, string> = {
   default: styles.variantDefault,
   primary: styles.variantPrimary,
   secondary: styles.variantSecondary,
+  outline: styles.variantOutline,
   disabled: styles.variantDisabled,
   ghost: styles.variantGhost,
   link: styles.variantLink,

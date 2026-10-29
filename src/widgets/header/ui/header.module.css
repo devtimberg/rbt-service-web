@@ -166,6 +166,7 @@
   }
 
   .desktopSearch {
+    position: relative;
     display: none;
     flex: 1 1 0%;
     justify-content: center;
@@ -179,10 +180,29 @@
     }
   }
 
-  /* На главной поиск уезжает вниз, в центр экрана (на низких экранах остаётся в шапке) */
+  /* На главной от xl поиск уезжает вниз, в центр экрана (на низких экранах остаётся в шапке).
+     Уже xl в шапке ему тесно между логотипом и иконками: поиск и плашку MVP рисует сама главная */
   .desktopSearchHome {
-    @media (min-height: 700px) {
+    @media (width < 80rem) {
+      display: none;
+    }
+
+    @media (--xl) and (min-height: 700px) {
       translate: 0 clamp(120px, 18vh, 260px);
+    }
+  }
+
+  /* Под уехавшим вниз поиском главной; в остальных случаях блок рисует сама главная */
+  .homeNotice {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    display: none;
+    width: min(calc(100% - 3rem), 46.25rem);
+    translate: -50% 0;
+
+    @media (--xl) and (min-height: 700px) {
+      display: block;
     }
   }
 

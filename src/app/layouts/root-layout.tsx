@@ -3,6 +3,7 @@
 import { type ReactNode, useEffect } from 'react'
 import { rehydrateCartStore } from '@/entities/cart'
 import { rehydrateFavoritesStore } from '@/entities/favorite'
+import { MvpNotice } from '@/features/locked-section'
 import { isSheetPath } from '@/shared/config'
 import { usePathname } from '@/shared/lib/use-pathname'
 import { Box, ScrollArea } from '@/shared/ui'
@@ -40,7 +41,7 @@ export function RootLayout({ children }: { children: ReactNode }) {
         viewportClassName={styles.viewport}
         style={lockBackground ? { overflowY: 'hidden' } : undefined}
       >
-        <Header search={<CatalogSearch />} />
+        <Header search={<CatalogSearch />} homeNotice={<MvpNotice />} />
         <Box
           data-layout-main-content="true"
           className={styles.main}

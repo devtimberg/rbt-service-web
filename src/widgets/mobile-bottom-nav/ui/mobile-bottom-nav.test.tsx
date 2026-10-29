@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import { MobileBottomNav } from './mobile-bottom-nav'
 
@@ -21,13 +22,20 @@ describe('MobileBottomNav', () => {
     state.favorites = 0
   })
 
-  it('показывает пять вкладок навигации, профиль кнопкой без перехода', () => {
+  it('показывает пять вкладок: главная ссылкой, закрытые в MVP разделы и профиль кнопками', () => {
     render(<MobileBottomNav />)
     expect(screen.getByRole('navigation', { name: 'Мобильная навигация' })).toBeInTheDocument()
-    for (const name of ['Главная', 'Каталог', 'Избранное', 'Корзина']) {
-      expect(screen.getByRole('link', { name })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Главная' })).toBeInTheDocument()
+    for (const name of ['Каталог', 'Избранное', 'Корзина', 'Профиль']) {
+      expect(screen.getByRole('button', { name })).toHaveAttribute('aria-haspopup', 'dialog')
     }
-    expect(screen.getByRole('button', { name: 'Профиль' })).not.toHaveAttribute('aria-current')
+  })
+
+  it('закрытый раздел открывает окно «Этот раздел ещё в работе»', async () => {
+    render(<MobileBottomNav />)
+    await userEvent.click(screen.getByRole('button', { name: 'Каталог' }))
+    expect(screen.getByRole('dialog', { name: 'Этот раздел ещё в работе' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Вызвать мастера' })).toHaveAttribute('href', '/master-call')
   })
 
   it.each(['/master-call', '/search'])('скрыта на %s', (pathname) => {
@@ -40,15 +48,14 @@ describe('MobileBottomNav', () => {
     state.cart = 3
     state.favorites = 12
     render(<MobileBottomNav />)
-    expect(screen.getByRole('link', { name: 'Корзина' })).toHaveTextContent('3')
-    expect(screen.getByRole('link', { name: 'Избранное' })).toHaveTextContent('12')
-    expect(screen.getByRole('link', { name: 'Каталог' }).textContent).not.toMatch(/\d/)
+    expect(screen.getByRole('button', { name: 'Корзина' })).toHaveTextContent('3')
+    expect(screen.getByRole('button', { name: 'Избранное' })).toHaveTextContent('12')
+    expect(screen.getByRole('button', { name: 'Каталог' }).textContent).not.toMatch(/\d/)
   })
 
-  it('отмечает активную вкладку по aria-current', () => {
-    state.pathname = '/catalog/fridges'
+  it('отмечает активную вкладку по aria-current, включая подстраницы главной', () => {
+    state.pathname = '/services-repair'
     render(<MobileBottomNav />)
-    expect(screen.getByRole('link', { name: 'Каталог' })).toHaveAttribute('aria-current', 'page')
-    expect(screen.getByRole('link', { name: 'Главная' })).not.toHaveAttribute('aria-current')
+    expect(screen.getByRole('link', { name: 'Главная' })).toHaveAttribute('aria-current', 'page')
   })
 })

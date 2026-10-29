@@ -38,21 +38,39 @@
     }
   }
 
-  .mobileSearch {
+  .top {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
 
-    @media (--sm) {
+    /* Поиск и плашка в шапке: здесь пусто */
+    @media (--xl) and (min-height: 700px) {
       display: none;
     }
   }
 
-  /* Место под поиск шапки, который на главной уезжает вниз */
+  /* До xl поиск в контенте (в шапке главной ему тесно), от xl он в шапке */
+  .mobileSearch {
+    display: flex;
+    justify-content: center;
+
+    @media (--xl) {
+      display: none;
+    }
+  }
+
+  .notice {
+    width: 100%;
+    max-width: 46.25rem;
+    margin-inline: auto;
+  }
+
+  /* Место под поиск шапки, который на главной уезжает вниз, и плашку MVP под ним */
   .searchSpacer {
     display: none;
-    height: 4.625rem;
+    height: 10.5rem;
 
-    @media (--sm) and (min-height: 700px) {
+    @media (--xl) and (min-height: 700px) {
       display: block;
     }
   }

@@ -1,6 +1,9 @@
-import type { ComponentType, SVGProps } from 'react'
+'use client'
+
+import { type ComponentType, type SVGProps, useState } from 'react'
 import { useCartStore } from '@/entities/cart'
 import { useFavoritesStore } from '@/entities/favorite'
+import { isLockedSection, LockedSectionDialog } from '@/features/locked-section'
 import { HOME_NAV_PATHS, ROUTES } from '@/shared/config'
 import { usePathname } from '@/shared/lib/use-pathname'
 import { Box, IconButton, BagIcon, CatalogIcon, HeartIcon, HomeIcon, ProfileIcon, List, ListItem } from '@/shared/ui'
@@ -20,6 +23,7 @@ export function MobileBottomNav() {
   const pathname = usePathname()
   const cartCount = useCartStore((s) => s.items.size)
   const favoritesCount = useFavoritesStore((s) => s.items.size)
+  const [lockedOpen, setLockedOpen] = useState(false)
 
   const navItems: NavItem[] = [
     {
@@ -45,7 +49,7 @@ export function MobileBottomNav() {
       icon: BagIcon,
       counter: cartCount || undefined,
     },
-    // Без перехода: по клику будет общая подсказка «скоро заработает» (отдельная задача)
+    // Профиля в MVP нет (ADR 0010): без адреса, как и закрытые разделы, открывает окно «Этот раздел ещё в работе»
     {
       label: 'Профиль',
       icon: ProfileIcon,
@@ -60,7 +64,9 @@ export function MobileBottomNav() {
         {navItems.map((item) => (
           <ListItem key={item.label} className={styles.item}>
             <IconButton
-              {...(item.href ? { href: item.href } : { type: 'button' as const })}
+              {...(item.href && !isLockedSection(item.href)
+                ? { href: item.href }
+                : { type: 'button' as const, 'aria-haspopup': 'dialog' as const, onClick: () => setLockedOpen(true) })}
               variant="ghost"
               size="lg"
               icon={item.icon}
@@ -76,6 +82,7 @@ export function MobileBottomNav() {
           </ListItem>
         ))}
       </List>
+      <LockedSectionDialog open={lockedOpen} onClose={() => setLockedOpen(false)} />
     </Box>
   )
 }
