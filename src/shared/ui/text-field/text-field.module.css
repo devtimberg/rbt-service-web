@@ -1,5 +1,6 @@
 /* Поле с плавающей подписью (Figma «[C] Fluent Input»). Подпись поднимается по фокусу и по непустому значению
-   (`:placeholder-shown`), без JS. Рамка внутри высоты 56: отступы поля на 1px меньше макетных. */
+   (`:placeholder-shown`), без JS. Состояния различаются заливкой, рамка видна только в фокусе; прозрачная рамка
+   держит размеры. Отступы поля на 1px меньше макетных. */
 @layer components {
   .root,
   .control {
@@ -23,10 +24,10 @@
     transition-timing-function: var(--default-transition-timing-function);
     transition-duration: var(--default-transition-duration);
 
-    /* Заполнено, без фокуса */
-    &:not(:placeholder-shown) {
-      border-color: var(--color-input-border);
-      background-color: var(--color-surface-default);
+    @media (hover: hover) {
+      &:where(:hover:not(:focus, :disabled)) {
+        background-color: var(--color-input-fill-hover);
+      }
     }
 
     &:focus {
@@ -35,16 +36,20 @@
     }
 
     &:disabled {
-      border-color: var(--color-input-disabled);
-      background-color: var(--color-surface-default);
+      background-color: var(--color-input-disabled);
       color: var(--color-disabled);
     }
   }
 
-  /* Ошибка идёт после фокуса: красная рамка остаётся и в фокусе */
+  /* Ошибка идёт после фокуса и перебивает hover и заполненное состояние: розовая заливка без рамки; в фокусе (специфичнее)
+     белая заливка и красная рамка */
   .input.inputError {
-    border-color: var(--color-input-error-message);
-    background-color: var(--color-surface-default);
+    background-color: var(--color-input-error-fill);
+
+    &:focus {
+      border-color: var(--color-input-error-message);
+      background-color: var(--color-surface-default);
+    }
   }
 
   .label {
@@ -67,19 +72,11 @@
     translate: none;
     font-size: var(--text-xs);
     line-height: 0.875rem;
+    color: var(--color-primary-500);
   }
 
-  .input:not(:placeholder-shown, :focus) ~ .label {
-    color: var(--color-tertiary);
-  }
-
-  .inputError ~ .label,
-  .inputError:not(:placeholder-shown, :focus) ~ .label {
-    color: var(--color-input-error-message);
-  }
-
-  /* Пустое поле с ошибкой без фокуса: подпись серая, как в Figma «Empty Error» */
-  .inputError:placeholder-shown:not(:focus) ~ .label {
+  /* При ошибке подпись всегда серая, в любом состоянии: идёт после заполненного и фокуса, одинаковая специфичность */
+  .input.inputError ~ .label {
     color: var(--color-tertiary);
   }
 

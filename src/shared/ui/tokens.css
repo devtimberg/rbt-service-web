@@ -32,10 +32,11 @@
   --color-input-default: oklch(0.922 0 0);
   --color-input-placeholder: oklch(0.7335 0.0883 262.57);
   --color-input-error-message: oklch(0.6713 0.1906 5.35);
-  /* Поля Figma «[C] Fluent Input», «[C] Select», «[C] Textarea»: заливка пустого поля, рамка заполненного, рамка disabled */
+  /* Поля Figma «[C] Fluent Input», «[C] Select», «[C] Textarea»: заливки по состояниям */
   --color-input-fill: oklch(0.9634 0.0177 264.5);
-  --color-input-border: oklch(0.7781 0.0172 282.2);
   --color-input-disabled: oklch(0.929 0.013 255.51);
+  --color-input-fill-hover: oklch(0.9334 0.0177 264.5);
+  --color-input-error-fill: color-mix(in oklab, var(--color-input-error-message) 15%, var(--color-surface-default));
   --color-focus-ring: oklch(0.708 0 0);
 
   /* Действия */

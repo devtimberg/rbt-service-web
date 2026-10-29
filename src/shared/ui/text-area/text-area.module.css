@@ -1,5 +1,5 @@
-/* TextArea (Figma «[C] Textarea»): многострочное поле с подписью внутри, как TextField. Рамка внутри размеров
-   макета: отступы на 1px меньше макетных. Под полем сообщение слева и счётчик справа. */
+/* TextArea (Figma «[C] Textarea»): многострочное поле с подписью внутри, как TextField. Прозрачная рамка держит
+   размеры макета: отступы на 1px меньше макетных. Под полем сообщение слева и счётчик справа. */
 @layer components {
   .root,
   .control {
@@ -23,26 +23,31 @@
     transition-timing-function: var(--default-transition-timing-function);
     transition-duration: var(--default-transition-duration);
 
-    &:not(:placeholder-shown) {
-      border-color: var(--color-input-border);
-      background-color: var(--color-surface-default);
+    @media (hover: hover) {
+      &:where(:hover:not(:focus, :disabled)) {
+        background-color: var(--color-input-fill-hover);
+      }
     }
 
     &:focus {
-      border-color: var(--color-primary);
+      border-color: var(--color-primary-500);
       background-color: var(--color-surface-default);
     }
 
     &:disabled {
-      border-color: var(--color-input-disabled);
-      background-color: var(--color-surface-default);
+      background-color: var(--color-input-disabled);
       color: var(--color-disabled);
     }
   }
 
+  /* Ошибка после фокуса: розовая заливка без рамки; в фокусе белая заливка и красная рамка */
   .textarea.error {
-    border-color: var(--color-input-error-message);
-    background-color: var(--color-surface-default);
+    background-color: var(--color-input-error-fill);
+
+    &:focus {
+      border-color: var(--color-input-error-message);
+      background-color: var(--color-surface-default);
+    }
   }
 
   .label {
@@ -62,17 +67,11 @@
   .textarea:focus ~ .label {
     font-size: var(--text-xs);
     line-height: 0.875rem;
-    color: var(--color-tertiary);
+    color: var(--color-primary-500);
   }
 
-  .error ~ .label,
-  .error:focus ~ .label,
-  .error:not(:placeholder-shown) ~ .label {
-    color: var(--color-input-error-message);
-  }
-
-  /* Пустое поле с ошибкой без фокуса: подпись серая, как в Figma «Error Empty» */
-  .error:placeholder-shown:not(:focus) ~ .label {
+  /* При ошибке подпись всегда серая, в любом состоянии: идёт после заполненного и фокуса, одинаковая специфичность */
+  .textarea.error ~ .label {
     color: var(--color-tertiary);
   }
 

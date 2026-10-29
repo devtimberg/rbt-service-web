@@ -23,15 +23,20 @@
     transition-timing-function: var(--default-transition-timing-function);
     transition-duration: var(--default-transition-duration);
 
+    @media (hover: hover) {
+      &:where(:hover:not(:focus, :disabled)) {
+        background-color: var(--color-input-fill-hover);
+      }
+    }
+
     &:focus {
-      border-color: var(--color-primary);
+      border-color: var(--color-primary-500);
       background-color: var(--color-surface-default);
     }
 
     &:disabled {
       cursor: not-allowed;
-      border-color: var(--color-input-disabled);
-      background-color: var(--color-surface-default);
+      background-color: var(--color-input-disabled);
       color: var(--color-disabled);
     }
   }
@@ -41,9 +46,14 @@
     color: transparent;
   }
 
+  /* Ошибка после фокуса: розовая заливка без рамки; в фокусе белая заливка и красная рамка */
   .select.error {
-    border-color: var(--color-input-error-message);
-    background-color: var(--color-surface-default);
+    background-color: var(--color-input-error-fill);
+
+    &:focus {
+      border-color: var(--color-input-error-message);
+      background-color: var(--color-surface-default);
+    }
   }
 
   .option {
@@ -71,16 +81,13 @@
     line-height: 0.875rem;
   }
 
+  .labelFilled,
   .select:focus ~ .label {
-    color: var(--color-tertiary);
+    color: var(--color-primary-500);
   }
 
-  .error ~ .label {
-    color: var(--color-input-error-message);
-  }
-
-  /* Ничего не выбрано и ошибка: подпись серая, как в Figma «Empty Error» */
-  .error.empty ~ .label {
+  /* При ошибке подпись всегда серая, в любом состоянии: идёт после заполненного и фокуса, одинаковая специфичность */
+  .select.error ~ .label {
     color: var(--color-tertiary);
   }
 
@@ -99,13 +106,16 @@
     color: var(--color-input-placeholder);
   }
 
-  .select:focus ~ .chevron,
-  .error ~ .chevron {
+  .select:focus ~ .chevron {
+    color: var(--color-primary-500);
+  }
+
+  .select.error ~ .chevron {
     color: var(--color-input-error-message);
   }
 
   .select:disabled ~ .chevron {
-    color: var(--color-input-disabled);
+    color: var(--color-disabled);
   }
 
   .message {
