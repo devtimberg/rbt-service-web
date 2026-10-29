@@ -1,0 +1,118 @@
+/* Select (Figma «[C] Select»): нативный select в стиле TextField, подпись плавает по наличию значения (prop, не CSS). */
+@layer components {
+  .root,
+  .control {
+    position: relative;
+  }
+
+  .select {
+    display: block;
+    height: 3.5rem;
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background-color: var(--color-input-fill);
+    padding: 23px 43px 7px 11px;
+    font-size: var(--text-base);
+    line-height: 1.5rem;
+    color: var(--color-primary);
+    outline-style: none;
+    transition-property: background-color, border-color, color;
+    transition-timing-function: var(--default-transition-timing-function);
+    transition-duration: var(--default-transition-duration);
+
+    &:focus {
+      border-color: var(--color-primary);
+      background-color: var(--color-surface-default);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      border-color: var(--color-input-disabled);
+      background-color: var(--color-surface-default);
+      color: var(--color-disabled);
+    }
+  }
+
+  /* Ничего не выбрано: текст заглушки скрыт, вместо него подпись по центру */
+  .empty {
+    color: transparent;
+  }
+
+  .select.error {
+    border-color: var(--color-input-error-message);
+    background-color: var(--color-surface-default);
+  }
+
+  .option {
+    color: var(--color-primary);
+  }
+
+  .label {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    translate: 0 -50%;
+    font-size: var(--text-base);
+    line-height: 1.5rem;
+    color: var(--color-primary-300);
+    transition-property: top, translate, font-size, line-height, color;
+    transition-timing-function: var(--default-transition-timing-function);
+    transition-duration: var(--default-transition-duration);
+  }
+
+  .labelFilled {
+    top: 8px;
+    translate: none;
+    font-size: var(--text-xs);
+    line-height: 0.875rem;
+  }
+
+  .select:focus ~ .label {
+    color: var(--color-tertiary);
+  }
+
+  .error ~ .label {
+    color: var(--color-input-error-message);
+  }
+
+  /* Ничего не выбрано и ошибка: подпись серая, как в Figma «Empty Error» */
+  .error.empty ~ .label {
+    color: var(--color-tertiary);
+  }
+
+  .select:disabled ~ .label {
+    color: var(--color-disabled);
+  }
+
+  .chevron {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    translate: 0 -50%;
+    color: var(--color-input-placeholder);
+  }
+
+  .select:focus ~ .chevron,
+  .error ~ .chevron {
+    color: var(--color-input-error-message);
+  }
+
+  .select:disabled ~ .chevron {
+    color: var(--color-input-disabled);
+  }
+
+  .message {
+    margin-top: 4px;
+    padding-left: 12px;
+    font-size: var(--text-xs);
+    line-height: 0.875rem;
+    color: var(--color-input-error-message);
+  }
+}

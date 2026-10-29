@@ -1,43 +1,110 @@
-/* Поле формы с подписью (ADR 0009). `.root .input` и `.root .otp` (две классовые) перебивают размеры TextInput независимо от порядка модулей. */
+/* Поле с плавающей подписью (Figma «[C] Fluent Input»). Подпись поднимается по фокусу и по непустому значению
+   (`:placeholder-shown`), без JS. Рамка внутри высоты 56: отступы поля на 1px меньше макетных. */
 @layer components {
-  .label {
-    color: var(--color-secondary);
-    font-size: var(--text-sm);
-    line-height: var(--text-sm--line-height);
-    font-weight: var(--font-weight-medium);
+  .root,
+  .control {
+    position: relative;
   }
 
-  .root .input {
-    height: calc(var(--spacing) * 12);
-    border-radius: var(--radius-2xl);
+  .input {
+    display: block;
+    height: 3.5rem;
+    width: 100%;
+    min-width: 0;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background-color: var(--color-input-fill);
+    padding: 23px 7px 7px 11px;
+    font-size: var(--text-base);
+    line-height: 1.5rem;
+    color: var(--color-primary);
+    outline-style: none;
+    transition-property: background-color, border-color, color;
+    transition-timing-function: var(--default-transition-timing-function);
+    transition-duration: var(--default-transition-duration);
+
+    /* Заполнено, без фокуса */
+    &:not(:placeholder-shown) {
+      border-color: var(--color-input-border);
+      background-color: var(--color-surface-default);
+    }
+
+    &:focus {
+      border-color: var(--color-primary-500);
+      background-color: var(--color-surface-default);
+    }
+
+    &:disabled {
+      border-color: var(--color-input-disabled);
+      background-color: var(--color-surface-default);
+      color: var(--color-disabled);
+    }
+  }
+
+  /* Ошибка идёт после фокуса: красная рамка остаётся и в фокусе */
+  .input.inputError {
+    border-color: var(--color-input-error-message);
+    background-color: var(--color-surface-default);
+  }
+
+  .label {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    translate: 0 -50%;
+    font-size: var(--text-base);
+    line-height: 1.5rem;
+    color: var(--color-primary-300);
+    transition-property: top, translate, font-size, line-height, color;
+    transition-timing-function: var(--default-transition-timing-function);
+    transition-duration: var(--default-transition-duration);
+  }
+
+  .input:not(:placeholder-shown) ~ .label,
+  .input:focus ~ .label {
+    top: 8px;
+    translate: none;
+    font-size: var(--text-xs);
+    line-height: 0.875rem;
+  }
+
+  .input:not(:placeholder-shown, :focus) ~ .label {
+    color: var(--color-tertiary);
+  }
+
+  .inputError ~ .label,
+  .inputError:not(:placeholder-shown, :focus) ~ .label {
+    color: var(--color-input-error-message);
+  }
+
+  /* Пустое поле с ошибкой без фокуса: подпись серая, как в Figma «Empty Error» */
+  .inputError:placeholder-shown:not(:focus) ~ .label {
+    color: var(--color-tertiary);
+  }
+
+  .input:disabled ~ .label {
+    color: var(--color-disabled);
   }
 
   .message {
-    cursor: default;
+    margin-top: 4px;
+    padding-left: 12px;
     font-size: var(--text-xs);
-    font-weight: var(--font-weight-normal);
+    line-height: 0.875rem;
   }
 
   .error {
     color: var(--color-input-error-message);
-    line-height: calc(var(--spacing) * 5);
   }
 
   .hint {
-    color: var(--color-secondary);
-    line-height: var(--text-xs--line-height);
+    color: var(--color-tertiary);
   }
 
-  /* Одноразовый код: по центру, крупно и вразрядку; на md размер шрифта остаётся как у TextInput (text-sm) */
+  /* Одноразовый код: крупно и вразрядку */
   .root .otp {
-    text-align: center;
     font-size: var(--text-lg);
-    line-height: var(--text-lg--line-height);
     letter-spacing: 0.5em;
-
-    @media (--md) {
-      font-size: var(--text-sm);
-      line-height: var(--text-sm--line-height);
-    }
   }
 }

@@ -44,6 +44,11 @@ describe('TextInput и TextField', () => {
     const input = screen.getByLabelText('Код из письма')
     expect(input).toHaveAttribute('maxlength', '6')
     expect(input).toHaveAttribute('inputmode', 'numeric')
-    expect(input).toHaveAttribute('placeholder', '000000')
+  })
+
+  it('TextField: required добавляет звёздочку к подписи, className — на обёртке', () => {
+    const { container } = render(<TextField label="Телефон" name="phone" required className="outer" />)
+    expect(screen.getByLabelText('Телефон*')).toBeRequired()
+    expect(container.firstElementChild).toHaveClass('outer')
   })
 })

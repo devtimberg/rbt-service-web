@@ -1,0 +1,109 @@
+/* TextArea (Figma «[C] Textarea»): многострочное поле с подписью внутри, как TextField. Рамка внутри размеров
+   макета: отступы на 1px меньше макетных. Под полем сообщение слева и счётчик справа. */
+@layer components {
+  .root,
+  .control {
+    position: relative;
+  }
+
+  .textarea {
+    display: block;
+    min-height: 5rem;
+    width: 100%;
+    resize: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background-color: var(--color-input-fill);
+    padding: 27px 11px 11px;
+    font-size: var(--text-base);
+    line-height: 1.375rem;
+    color: var(--color-primary);
+    outline-style: none;
+    transition-property: background-color, border-color, color;
+    transition-timing-function: var(--default-transition-timing-function);
+    transition-duration: var(--default-transition-duration);
+
+    &:not(:placeholder-shown) {
+      border-color: var(--color-input-border);
+      background-color: var(--color-surface-default);
+    }
+
+    &:focus {
+      border-color: var(--color-primary);
+      background-color: var(--color-surface-default);
+    }
+
+    &:disabled {
+      border-color: var(--color-input-disabled);
+      background-color: var(--color-surface-default);
+      color: var(--color-disabled);
+    }
+  }
+
+  .textarea.error {
+    border-color: var(--color-input-error-message);
+    background-color: var(--color-surface-default);
+  }
+
+  .label {
+    pointer-events: none;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: var(--text-base);
+    line-height: 1.375rem;
+    color: var(--color-primary-300);
+    transition-property: font-size, line-height, color;
+    transition-timing-function: var(--default-transition-timing-function);
+    transition-duration: var(--default-transition-duration);
+  }
+
+  .textarea:not(:placeholder-shown) ~ .label,
+  .textarea:focus ~ .label {
+    font-size: var(--text-xs);
+    line-height: 0.875rem;
+    color: var(--color-tertiary);
+  }
+
+  .error ~ .label,
+  .error:focus ~ .label,
+  .error:not(:placeholder-shown) ~ .label {
+    color: var(--color-input-error-message);
+  }
+
+  /* Пустое поле с ошибкой без фокуса: подпись серая, как в Figma «Error Empty» */
+  .error:placeholder-shown:not(:focus) ~ .label {
+    color: var(--color-tertiary);
+  }
+
+  .textarea:disabled ~ .label {
+    color: var(--color-disabled);
+  }
+
+  .footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 4px;
+    padding-right: 8px;
+    padding-left: 12px;
+    font-size: var(--text-xs);
+    line-height: 0.875rem;
+    color: var(--color-tertiary);
+  }
+
+  .message {
+    flex: 1 0 0;
+    min-width: 0;
+  }
+
+  .messageError {
+    color: var(--color-input-error-message);
+  }
+
+  .counter {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}

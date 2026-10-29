@@ -27,6 +27,7 @@ import {
   List,
   ListItem,
   Pagination,
+  PhoneField,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
@@ -39,6 +40,7 @@ import {
   RadioGroup,
   RadioGroupItem,
   ScrollArea,
+  Select,
   Sheet,
   SheetContent,
   SheetFooter,
@@ -47,6 +49,7 @@ import {
   Skeleton,
   LineBreak,
   Text,
+  TextArea,
   TextField,
   TextInput,
   Tooltip,
@@ -74,6 +77,8 @@ export function UiKitPage() {
   const [radio, setRadio] = useState('all')
   const [chip, setChip] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [kind, setKind] = useState('')
+  const [phone, setPhone] = useState('')
 
   return (
     <Box className={styles.page}>
@@ -187,6 +192,55 @@ export function UiKitPage() {
             </Fieldset>
             <Output className={styles.mutedSm}>Output: ничего не найдено</Output>
           </Form>
+        </Section>
+
+        <Section title="Select, PhoneField, TextArea, TextField (Figma «[C] Fluent Input»)">
+          <Stack gap={4} className={styles.form}>
+            <Select
+              label="Вид техники"
+              name="ui-kind"
+              value={kind}
+              options={[
+                { value: 'cooktop', label: 'Варочная панель' },
+                { value: 'fridge', label: 'Холодильник' },
+              ]}
+              onChange={(event) => setKind(event.target.value)}
+            />
+            <Select
+              label="Select с ошибкой"
+              name="ui-kind-error"
+              value=""
+              options={[]}
+              error="Выберите технику"
+              onChange={() => {}}
+            />
+            <Select
+              label="Select disabled"
+              name="ui-kind-disabled"
+              value=""
+              options={[]}
+              disabled
+              onChange={() => {}}
+            />
+            <PhoneField label="Номер телефона" name="ui-phone" value={phone} onValueChange={setPhone} />
+            <PhoneField
+              label="Телефон с ошибкой"
+              name="ui-phone-error"
+              value="900"
+              onValueChange={() => {}}
+              error="Введите номер полностью"
+            />
+            <TextField label="Заполненное поле" name="ui-filled" defaultValue="Текст" />
+            <TextField label="Disabled" name="ui-disabled" disabled />
+            <TextArea label="Комментарий к заявке" name="ui-comment" maxLength={255} />
+            <TextArea
+              label="TextArea с ошибкой"
+              name="ui-comment-error"
+              maxLength={255}
+              defaultValue="Текст"
+              error="Сообщение"
+            />
+          </Stack>
         </Section>
 
         <Section title="Button">

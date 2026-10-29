@@ -1,0 +1,24 @@
+/* «Призрак» маски телефона поверх TextField: те же рамка, отступы и шрифт, что у поля. */
+@layer components {
+  .ghost {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    padding: 23px 7px 7px 11px;
+    font-size: var(--text-base);
+    line-height: 1.5rem;
+    white-space: pre;
+  }
+
+  .typed {
+    visibility: hidden;
+  }
+
+  .rest {
+    color: var(--color-tertiary);
+  }
+}
