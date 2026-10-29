@@ -39,6 +39,10 @@ import {
   PopoverTrigger,
   RadioGroup,
   RadioGroupItem,
+  Receipt,
+  ReceiptRow,
+  ReceiptRule,
+  ReceiptText,
   ScrollArea,
   Select,
   Sheet,
@@ -132,6 +136,27 @@ export function UiKitPage() {
             <Heading level={2} className={styles.mutedSm}>
               Без size: вид только из className
             </Heading>
+          </Stack>
+        </Section>
+
+        <Section title="Receipt">
+          <Stack gap={6} className={styles.maxMd}>
+            <Receipt>
+              <ReceiptText size="title">Заявка</ReceiptText>
+              <ReceiptRow label="Имя" />
+              <ReceiptRow label="Телефон" placeholder="__________" />
+              <ReceiptRow label="Комментарий" multiline />
+              <ReceiptRule />
+              <ReceiptText size="legal">Реквизиты</ReceiptText>
+            </Receipt>
+            <Receipt torn="both">
+              <ReceiptText size="title">Заявка № 123</ReceiptText>
+              <ReceiptText size="note">01.01.2026</ReceiptText>
+              <ReceiptRow label="Имя" value="Иван" />
+              <ReceiptRow label="Комментарий" value="Домофон не работает, звоните заранее" multiline />
+              <ReceiptRule />
+              <ReceiptText size="consent">Согласие</ReceiptText>
+            </Receipt>
           </Stack>
         </Section>
 

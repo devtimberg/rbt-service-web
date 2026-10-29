@@ -88,6 +88,9 @@
   --font-sans:
     var(--font-inter-latin), var(--font-inter-cyrillic), var(--font-inter-cyrillic-ext), var(--font-inter-latin-ext),
     Arial, Helvetica, sans-serif;
+  --font-mono:
+    var(--font-jetbrains-mono-latin), var(--font-jetbrains-mono-cyrillic), ui-monospace, "SFMono-Regular", Menlo,
+    Consolas, monospace;
 
   /* Шкала размеров: 1 единица отступа = 0.25rem (`calc(var(--spacing) * 4)` = 16px) */
   --spacing: 0.25rem;

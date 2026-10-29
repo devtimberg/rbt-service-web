@@ -1,0 +1,104 @@
+/* Бумажный чек: зубцы края рисует маска, точки-заполнитель в строке — dotted-рамка распорки. */
+@layer components {
+  .root {
+    --tooth: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    border-radius: 2.5px;
+    padding: 34px 30px;
+    background-color: var(--color-surface-default);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    /* Слои: зубцы сверху, сплошная середина (ниже зубцов) */
+    mask:
+      radial-gradient(circle at 50% 0, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) top / 0.75rem var(--tooth)
+        repeat-x,
+      linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - var(--tooth)) no-repeat;
+    -webkit-mask:
+      radial-gradient(circle at 50% 0, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) top / 0.75rem var(--tooth)
+        repeat-x,
+      linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - var(--tooth)) no-repeat;
+  }
+
+  .both {
+    padding-bottom: calc(34px + var(--tooth));
+    mask:
+      radial-gradient(circle at 50% 0, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) top / 0.75rem var(--tooth)
+        repeat-x,
+      radial-gradient(circle at 50% 100%, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) bottom / 0.75rem var(--tooth)
+        repeat-x,
+      linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - 2 * var(--tooth)) no-repeat;
+    -webkit-mask:
+      radial-gradient(circle at 50% 0, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) top / 0.75rem var(--tooth)
+        repeat-x,
+      radial-gradient(circle at 50% 100%, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) bottom / 0.75rem var(--tooth)
+        repeat-x,
+      linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - 2 * var(--tooth)) no-repeat;
+  }
+
+  .text {
+    margin: 0;
+  }
+
+  .title {
+    font-size: 18.4px;
+    line-height: 1.5rem;
+    font-weight: var(--font-weight-bold);
+  }
+
+  .row {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .note {
+    font-size: 14.8px;
+    line-height: 1.25rem;
+  }
+
+  .consent {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .legal {
+    font-size: 10px;
+    line-height: 0.875rem;
+  }
+
+  .line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .multiline {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .dots {
+    flex: 1;
+    min-width: 1rem;
+    border-bottom: 2px dotted currentColor;
+  }
+
+  .value {
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  .multiline .value {
+    text-align: left;
+  }
+
+  .rule {
+    margin: 0;
+    border: 0;
+    border-top: 1px dashed currentColor;
+  }
+}

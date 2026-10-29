@@ -1,0 +1,59 @@
+@layer slices {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @media (--md) {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @media (--md) {
+      flex: 1;
+      max-width: 36rem;
+    }
+  }
+
+  .title {
+    display: none;
+
+    @media (--sm) {
+      display: block;
+    }
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .receipt {
+    width: 100%;
+
+    @media (--md) {
+      width: 26rem;
+      flex-shrink: 0;
+    }
+  }
+
+  .footerContent {
+    justify-content: flex-end;
+  }
+
+  .submit {
+    width: 100%;
+
+    @media (--sm) {
+      width: auto;
+    }
+  }
+}

@@ -13,7 +13,7 @@ const publicApiPatterns = [
     message: `Импорт в обход публичного API слайса: импортируйте из \`@/${layer}/<слайс>\` или \`@/${layer}/<группа>/<слайс>\` (index.ts), ADR 0012, 0013`,
   })),
   {
-    group: ['@/shared/api/**', '@/shared/config/**', '@/shared/seo/**'],
+    group: ['@/shared/api/**', '!@/shared/api/testing', '@/shared/config/**', '@/shared/seo/**'],
     message:
       'Импорт в обход публичного API сегмента shared: импортируйте из `@/shared/<сегмент>` (для ui — из барели `@/shared/ui`), ADR 0012',
   },

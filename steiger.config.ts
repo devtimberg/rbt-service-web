@@ -26,4 +26,11 @@ export default defineConfig([
       'fsd/import-locality': 'off',
     },
   },
+  {
+    // Тестовые хелперы стора (`@/shared/api/testing`) намеренно не в публичном API shared/api: иначе Testing Library уехала бы в прод
+    files: ['./src/**/*.test.ts', './src/**/*.test.tsx'],
+    rules: {
+      'fsd/no-public-api-sidestep': 'off',
+    },
+  },
 ])

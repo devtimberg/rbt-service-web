@@ -1,4 +1,4 @@
-import type { ApplianceCategory } from './types'
+type ApplianceCategory = { key: string; label: string }
 
 export const APPLIANCE_CATEGORIES: ApplianceCategory[] = [
   { key: 'water-heater', label: 'Водонагреватель' },
