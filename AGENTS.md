@@ -27,14 +27,15 @@ make format      # vp check --fix (Oxfmt + автофиксы Oxlint)
 make lint-fsd    # steiger ./src
 make test        # vp test run (Vitest, vitest.config.ts)
 make test-watch  # Vitest в watch-режиме
-make check       # typecheck + lint + lint-fsd + test (то, что гоняет CI)
+make check       # typecheck + lint + lint-fsd, без тестов
+make ci          # check + test (то, что гоняет CI)
 make hooks       # поставить git-хуки (vp hooks enable); обычно они ставятся сами при pnpm install (prepare: vp config)
 make icons       # пересобрать SVGR-иконки из src/shared/ui/icons/raw
 make style-check REF=<url> TARGET=<url> [PATHS="/ /cart"]  # сравнить вёрстку двух запущенных сборок (Playwright, отчёт в .style-check/)
 make docker-build / docker-run / docker-stop
 ```
 
-**Перед завершением задачи запусти `make check`** и исправь всё, что он нашёл.
+**Перед завершением задачи запусти `make check`** (без тестов) и исправь всё, что он нашёл. **Тесты (`make test`, вместе с проверками — `make ci`) только перед коммитом** (когда о нём попросили) **или по явной просьбе**; после отдельных правок их не гоняй.
 
 ## Архитектура
 

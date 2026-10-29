@@ -10,7 +10,7 @@ IMAGE ?= rbt-service-web:local
 CONTAINER ?= rbt-service-web
 
 .PHONY: help install dev build start \
-	css-types typecheck lint lint-fsd format check test test-watch style-check icons \
+	css-types typecheck lint lint-fsd format check ci test test-watch style-check icons \
 	docker-build docker-run docker-stop clean hooks
 
 help: ## Показать этот список целей
@@ -52,7 +52,9 @@ lint-fsd: ## Проверка архитектуры FSD (steiger)
 format: ## Автоформатирование и автофиксы (vp check --fix)
 	pnpm run format
 
-check: typecheck lint lint-fsd test ## Typecheck + lint + FSD + test (то, что гоняет CI на PR)
+check: typecheck lint lint-fsd ## Typecheck + lint + FSD, без тестов (после правок)
+
+ci: check test ## check + тесты (перед коммитом и в CI)
 
 test: ## Юнит-тесты (vp test run)
 	pnpm run test

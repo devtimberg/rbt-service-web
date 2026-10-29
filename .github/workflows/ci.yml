@@ -16,4 +16,4 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       # Тесты задают нужные env сами (vitest.config.ts)
-      - run: make check
+      - run: make ci
