@@ -3,17 +3,17 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border-radius: 1rem;
-    background-color: #fff;
-    padding: 0.25rem;
+    border-radius: var(--radius-xl);
+    background-color: var(--color-surface-default);
+    padding: var(--space-xs);
   }
 
   .imageArea {
     position: relative;
     aspect-ratio: 1 / 1;
-    border-top-left-radius: 0.75rem;
-    border-top-right-radius: 0.75rem;
-    background-color: #f3f7ff;
+    border-top-left-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius-lg);
+    background-color: var(--color-input-bg);
   }
 
   .heart {
@@ -24,22 +24,22 @@
   }
 
   .heartActive {
-    color: var(--color-secondary-500);
+    color: var(--color-action-accent-bg);
   }
 
   .heartIdle {
-    color: var(--color-primary-900);
+    color: var(--color-icon-primary);
 
     & path {
-      fill: #fff;
+      fill: var(--color-white);
     }
   }
 
   .image {
     position: absolute;
     inset: 0;
-    border-top-left-radius: 0.75rem;
-    border-top-right-radius: 0.75rem;
+    border-top-left-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius-lg);
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -55,16 +55,16 @@
   .placeholderIcon {
     width: 3rem;
     height: 3rem;
-    color: #bdcae5;
+    color: var(--color-brand-350);
   }
 
   .content {
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 0.25rem;
-    margin-top: 0.25rem;
-    padding: 0.25rem;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+    padding: var(--space-xs);
   }
 
   .brand {
@@ -72,67 +72,67 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 400;
-    color: var(--color-secondary);
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-secondary);
   }
 
   .priceRow {
     display: flex;
     align-items: baseline;
-    gap: 0.5rem;
+    gap: var(--space-sm);
   }
 
   .price {
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 600;
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
+    font-weight: var(--font-weight-semibold);
   }
 
   .oldPrice {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
     text-decoration-line: line-through;
-    color: var(--color-disabled);
+    color: var(--color-text-disabled);
   }
 
   .availability {
     display: flex;
     align-items: center;
     gap: 0.375rem;
-    font-size: 0.75rem;
-    line-height: 1rem;
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
   }
 
   .dot {
-    border-radius: 9999px;
+    border-radius: var(--radius-full);
     width: 0.375rem;
     height: 0.375rem;
   }
 
   .inStock {
-    color: var(--color-success-700);
+    color: var(--color-text-success);
   }
 
   .lowStock {
-    color: var(--color-danger-700);
+    color: var(--color-text-danger);
   }
 
   .preOrder {
-    color: var(--color-tertiary);
+    color: var(--color-text-tertiary);
   }
 
   .dotInStock {
-    background-color: var(--color-success-500);
+    background-color: var(--color-icon-success);
   }
 
   .dotLowStock {
-    background-color: var(--color-danger-500);
+    background-color: var(--color-icon-danger);
   }
 
   .dotPreOrder {
-    background-color: var(--color-disabled);
+    background-color: var(--color-text-disabled);
   }
 
   .name {
@@ -140,22 +140,22 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     cursor: default;
-    margin-top: 0.25rem;
+    margin-top: var(--space-xs);
     min-height: 2.5rem;
     overflow: hidden;
     font-size: 13px;
-    font-weight: 600;
-    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
   }
 
   .action {
     margin-top: auto;
-    padding-top: 0.5rem;
+    padding-top: var(--space-sm);
   }
 
   .actionButton {
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
   }
 }

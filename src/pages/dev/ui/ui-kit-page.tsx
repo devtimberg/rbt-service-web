@@ -139,6 +139,32 @@ export function UiKitPage() {
           </Stack>
         </Section>
 
+        <Section title="Heading h1–h6 по текстовым стилям">
+          <Stack gap={2}>
+            {([1, 2, 3, 4, 5, 6] as const).map((level) => (
+              <Heading key={level} level={level} size={`h${level}`}>
+                Заголовок h{level}
+              </Heading>
+            ))}
+          </Stack>
+        </Section>
+
+        <Section title="Text: variant и weight">
+          <Stack gap={2}>
+            {(['body-lg', 'body-md', 'body-sm', 'caption-md', 'caption-sm', 'receipt-md', 'receipt-sm'] as const).map(
+              (variant) => (
+                <Stack key={variant} gap={1}>
+                  {(['regular', 'medium', 'semibold', 'bold'] as const).map((weight) => (
+                    <Text key={weight} variant={variant} weight={weight}>
+                      {variant} {weight}: Ремонт бытовой техники 0123
+                    </Text>
+                  ))}
+                </Stack>
+              ),
+            )}
+          </Stack>
+        </Section>
+
         <Section title="Receipt">
           <Stack gap={6} className={styles.maxMd}>
             <Receipt>

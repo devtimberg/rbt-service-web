@@ -1,22 +1,22 @@
 /* Стилизованное текстовое поле (ADR 0009). Состояния заливкой, как у TextField; рамка видна только в фокусе. */
 @layer components {
   .root {
-    height: calc(var(--spacing) * 9);
+    height: 2.25rem;
     width: 100%;
     min-width: 0;
     border-radius: var(--radius-md);
     border: 1px solid transparent;
-    background-color: var(--color-input-fill);
-    padding: calc(var(--spacing) * 1) calc(var(--spacing) * 3);
-    font-size: var(--text-base);
-    line-height: var(--text-base--line-height);
+    background-color: var(--color-input-bg);
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
     transition-property: color, background-color, border-color;
     transition-timing-function: var(--default-transition-timing-function);
     transition-duration: var(--default-transition-duration);
 
     @media (--md) {
-      font-size: var(--text-sm);
-      line-height: var(--text-sm--line-height);
+      font-size: var(--font-size-body-sm);
+      line-height: var(--line-height-body-sm);
     }
 
     &::placeholder {
@@ -24,46 +24,46 @@
     }
 
     &::selection {
-      background-color: var(--color-primary);
-      color: var(--color-inverse);
+      background-color: var(--color-input-fg);
+      color: var(--color-text-inverse);
     }
 
     &::file-selector-button {
       display: inline-flex;
-      height: calc(var(--spacing) * 7);
+      height: 1.75rem;
       border: 0;
       background-color: transparent;
-      font-size: var(--text-sm);
-      line-height: var(--text-sm--line-height);
+      font-size: var(--font-size-body-sm);
+      line-height: var(--line-height-body-sm);
       font-weight: var(--font-weight-medium);
     }
 
     @media (hover: hover) {
       &:where(:hover:not(:disabled)) {
-        background-color: var(--color-input-fill-hover);
+        background-color: var(--color-input-bg-hover);
       }
     }
 
     &:focus-visible {
-      border-color: var(--color-primary-500);
-      background-color: var(--color-surface-default);
+      border-color: var(--color-input-border-focus);
+      background-color: var(--color-input-bg-filled);
     }
 
     /* Невалидное состояние идёт после hover и фокуса: розовая заливка без рамки; в фокусе белая заливка и красная рамка */
     &[aria-invalid="true"] {
-      background-color: var(--color-input-error-fill);
+      background-color: var(--color-input-bg-error);
 
       &:focus-visible {
-        border-color: var(--color-input-error-message);
-        background-color: var(--color-surface-default);
+        border-color: var(--color-input-border-error);
+        background-color: var(--color-input-bg-filled);
       }
     }
 
     &:disabled {
       pointer-events: none;
       cursor: not-allowed;
-      background-color: var(--color-input-disabled);
-      color: var(--color-disabled);
+      background-color: var(--color-input-bg-disabled);
+      color: var(--color-input-fg-disabled);
     }
   }
 }

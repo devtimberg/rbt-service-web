@@ -1,7 +1,7 @@
 @layer components {
   .root {
-    border-radius: 0.5rem; /* rounded-lg */
-    background-color: oklch(96.7% 0.003 264.542); /* gray-100 */
+    border-radius: var(--radius-md);
+    background-color: var(--color-overlay-skeleton);
 
     /* Пульсация только без reduce-motion */
     @media (prefers-reduced-motion: no-preference) {

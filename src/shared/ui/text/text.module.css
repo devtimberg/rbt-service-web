@@ -1,0 +1,55 @@
+/* Варианты текстовых стилей Figma (размер и высота строки из tokens.css) и начертание. Без variant/weight Text стилей не имеет. */
+@layer components {
+  .body-lg {
+    font-size: var(--font-size-body-lg);
+    line-height: var(--line-height-body-lg);
+  }
+
+  .body-md {
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
+  }
+
+  .body-sm {
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+  }
+
+  .caption-md {
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+  }
+
+  .caption-sm {
+    font-size: var(--font-size-caption-sm);
+    line-height: var(--line-height-caption-sm);
+  }
+
+  .receipt-md {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-receipt-md);
+    line-height: var(--line-height-receipt-md);
+  }
+
+  .receipt-sm {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-receipt-sm);
+    line-height: var(--line-height-receipt-sm);
+  }
+
+  .regular {
+    font-weight: var(--font-weight-regular);
+  }
+
+  .medium {
+    font-weight: var(--font-weight-medium);
+  }
+
+  .semibold {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .bold {
+    font-weight: var(--font-weight-bold);
+  }
+}

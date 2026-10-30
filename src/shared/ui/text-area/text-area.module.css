@@ -13,11 +13,11 @@
     resize: none;
     border: 1px solid transparent;
     border-radius: var(--radius-md);
-    background-color: var(--color-input-fill);
+    background-color: var(--color-input-bg);
     padding: 27px 11px 11px;
-    font-size: var(--text-base);
+    font-size: var(--font-size-body-md);
     line-height: 1.375rem;
-    color: var(--color-primary);
+    color: var(--color-input-fg);
     outline-style: none;
     transition-property: background-color, border-color, color;
     transition-timing-function: var(--default-transition-timing-function);
@@ -25,28 +25,28 @@
 
     @media (hover: hover) {
       &:where(:hover:not(:focus, :disabled)) {
-        background-color: var(--color-input-fill-hover);
+        background-color: var(--color-input-bg-hover);
       }
     }
 
     &:focus {
-      border-color: var(--color-primary-500);
-      background-color: var(--color-surface-default);
+      border-color: var(--color-input-border-focus);
+      background-color: var(--color-input-bg-filled);
     }
 
     &:disabled {
-      background-color: var(--color-input-disabled);
-      color: var(--color-disabled);
+      background-color: var(--color-input-bg-disabled);
+      color: var(--color-input-fg-disabled);
     }
   }
 
   /* Ошибка после фокуса: розовая заливка без рамки; в фокусе белая заливка и красная рамка */
   .textarea.error {
-    background-color: var(--color-input-error-fill);
+    background-color: var(--color-input-bg-error);
 
     &:focus {
-      border-color: var(--color-input-error-message);
-      background-color: var(--color-surface-default);
+      border-color: var(--color-input-border-error);
+      background-color: var(--color-input-bg-filled);
     }
   }
 
@@ -55,9 +55,9 @@
     position: absolute;
     top: 12px;
     left: 12px;
-    font-size: var(--text-base);
+    font-size: var(--font-size-body-md);
     line-height: 1.375rem;
-    color: var(--color-primary-300);
+    color: var(--color-input-label);
     transition-property: font-size, line-height, color;
     transition-timing-function: var(--default-transition-timing-function);
     transition-duration: var(--default-transition-duration);
@@ -65,18 +65,18 @@
 
   .textarea:not(:placeholder-shown) ~ .label,
   .textarea:focus ~ .label {
-    font-size: var(--text-xs);
-    line-height: 0.875rem;
-    color: var(--color-primary-500);
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    color: var(--color-input-label-resting);
   }
 
   /* При ошибке подпись всегда серая, в любом состоянии: идёт после заполненного и фокуса, одинаковая специфичность */
   .textarea.error ~ .label {
-    color: var(--color-tertiary);
+    color: var(--color-input-label-error);
   }
 
   .textarea:disabled ~ .label {
-    color: var(--color-disabled);
+    color: var(--color-input-label-disabled);
   }
 
   .footer {
@@ -87,9 +87,9 @@
     margin-top: 4px;
     padding-right: 8px;
     padding-left: 12px;
-    font-size: var(--text-xs);
-    line-height: 0.875rem;
-    color: var(--color-tertiary);
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    color: var(--color-input-helper);
   }
 
   .message {
@@ -98,11 +98,15 @@
   }
 
   .messageError {
-    color: var(--color-input-error-message);
+    color: var(--color-input-helper-error);
   }
 
   .counter {
     flex-shrink: 0;
     white-space: nowrap;
+  }
+
+  .counterError {
+    color: var(--color-input-helper-error);
   }
 }

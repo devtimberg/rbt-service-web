@@ -169,12 +169,12 @@ importers:
 
   .:
     dependencies:
-      '@fontsource-variable/inter':
-        specifier: ^5.3.0
-        version: 5.3.0
       '@fontsource-variable/jetbrains-mono':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource-variable/onest':
+        specifier: ^5.3.1
+        version: 5.3.1
       '@hookform/resolvers':
         specifier: ^6.0.2
         version: 6.0.2(@standard-schema/spec@1.1.0)(react-hook-form@7.91.0(@types/react@19.3.0)(react@19.3.1))(zod@4.6.7)
@@ -443,11 +443,11 @@ packages:
     resolution: {integrity: sha512-br+OW3lqXXtwTOGt6RdX5KsF5y0EpaZ5AHLOkofl10SNYaCyOXvg15d6dd6mwrzBkq0RK78c+3B2ZUeRxF5+vg==}
     engines: {node: '>=16.12.0', npm: '>=6.14.0'}
 
-  '@fontsource-variable/inter@5.3.0':
-    resolution: {integrity: sha512-OupL48va4JNofb97w6NYeF9S7W/kHNKM0Er8Dem5nqi4jeOLrVJDoE8tZEpnMJmtkvNbB1EIPPwHcdkF6b1oUA==}
-
   '@fontsource-variable/jetbrains-mono@5.3.0':
     resolution: {integrity: sha512-F32xpS2NsGYoQi2ADSkKTgpJj7ozajsGgDJ8woTnqjmIB+dxDIqImjl4pXZVEExu8UFZ2ndhmX18EBS/hdz3Lw==}
+
+  '@fontsource-variable/onest@5.3.1':
+    resolution: {integrity: sha512-xaaw6G4HDB2/RczsWLD/2bnib4ykmQlTlBUN3GOEOiyErilZukQWVJG95h9zwAy0i8KY+QzDa+COPfqhI72Acw==}
 
   '@hookform/resolvers@6.0.2':
     resolution: {integrity: sha512-e2dqUOlaGuirKVOd/iZWk/Yg5zeaGw7t0hSc3LzxL3o7eZGwZkTyEbBL8H52m0wRKEsNLWoMGOiXGHbPHTXlEQ==}
@@ -2991,9 +2991,9 @@ snapshots:
     dependencies:
       resolve: 1.22.13
 
-  '@fontsource-variable/inter@5.3.0': {}
-
   '@fontsource-variable/jetbrains-mono@5.3.0': {}
+
+  '@fontsource-variable/onest@5.3.1': {}
 
   '@hookform/resolvers@6.0.2(@standard-schema/spec@1.1.0)(react-hook-form@7.91.0(@types/react@19.3.0)(react@19.3.1))(zod@4.6.7)':
     dependencies:

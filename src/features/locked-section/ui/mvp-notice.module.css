@@ -1,19 +1,16 @@
 @layer slices {
   .root {
-    /* Через переменную: сборка не сворачивает color-mix заранее */
-    --white: #fff;
-
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    border-radius: 1rem;
-    background-color: color-mix(in oklab, var(--white) 12%, transparent);
-    padding: 0.75rem 1rem;
-    color: var(--color-inverse);
+    gap: var(--space-sm);
+    border-radius: var(--radius-xl);
+    background-color: color-mix(in oklab, var(--color-white) 12%, transparent);
+    padding: var(--space-md) var(--space-lg);
+    color: var(--color-text-inverse);
 
     @media (--md) {
-      border-radius: 1.5rem;
-      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-3xl);
+      padding: var(--space-md) var(--space-2xl);
     }
   }
 
@@ -21,13 +18,13 @@
     width: 1.5rem;
     height: 1.5rem;
     flex-shrink: 0;
-    color: color-mix(in oklab, var(--white) 60%, transparent);
+    color: color-mix(in oklab, var(--color-white) 60%, transparent);
   }
 
   .text {
     flex: 1 0 0;
     min-width: 0;
-    font-size: var(--text-base);
+    font-size: var(--font-size-body-md);
     line-height: 1.4;
   }
 }

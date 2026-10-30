@@ -1,15 +1,15 @@
 @layer slices {
   .root {
     margin-top: auto;
-    padding-top: 2rem;
-    padding-bottom: 1rem;
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-lg);
 
     @media (width < 48rem) {
-      padding-inline: 1rem;
+      padding-inline: var(--space-lg);
     }
 
     @media (--sm) {
-      padding-top: 5rem;
+      padding-top: var(--space-7xl);
     }
 
     @media (--lg) {
@@ -21,10 +21,10 @@
     flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: var(--space-lg);
 
     @media (--xs) {
-      gap: 2.5rem;
+      gap: var(--space-4xl);
     }
 
     @media (--md) {
@@ -39,9 +39,9 @@
     flex: 1 1 0%;
     cursor: default;
     text-align: center;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 400;
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-regular);
     white-space: pre-wrap;
 
     @media (--md) {
@@ -50,15 +50,15 @@
   }
 
   .inverse {
-    color: var(--color-inverse);
+    color: var(--color-text-inverse);
   }
 
   .tertiary {
-    color: var(--color-tertiary);
+    color: var(--color-text-tertiary);
   }
 
   .primary {
-    color: var(--color-primary);
+    color: var(--color-text-primary);
   }
 
   .hours {
@@ -74,12 +74,12 @@
     position: relative;
     flex-shrink: 0;
     cursor: default;
-    color: var(--color-primary);
+    color: var(--color-text-primary);
     /* Справа на всех ширинах: печать растёт влево от каретки у кнопки, а не от середины распорки */
     text-align: right;
-    font-size: 18px;
+    font-size: var(--font-size-body-lg);
     line-height: 1.25rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     white-space: nowrap;
   }
 
@@ -114,11 +114,11 @@
   .popover {
     width: auto;
     border-style: none;
-    padding: 2.5rem;
+    padding: var(--space-4xl);
   }
 
   .sheetBody {
-    padding-inline: 1rem;
-    padding-bottom: 1.5rem;
+    padding-inline: var(--space-lg);
+    padding-bottom: var(--space-2xl);
   }
 }

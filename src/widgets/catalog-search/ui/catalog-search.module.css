@@ -4,8 +4,8 @@
   .mobileLink {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    background-color: #fff;
+    gap: var(--space-md);
+    background-color: var(--color-surface-default);
     width: 100%;
     outline-style: none;
     -webkit-tap-highlight-color: transparent;
@@ -21,14 +21,14 @@
   }
 
   .mobileExpanded {
-    border-radius: 24px;
-    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-3xl);
+    padding: var(--space-sm) var(--space-xl);
     height: 4.625rem;
   }
 
   .mobileCompact {
-    border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-lg);
     height: 2.5rem;
   }
 
@@ -57,12 +57,12 @@
 
   /* прежний leading-none не применялся: у expanded высота строки наследуется, у compact от text-sm */
   .mobileTextExpanded {
-    font-size: 18px;
+    font-size: var(--font-size-body-lg);
   }
 
   .mobileTextCompact {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
   }
 
   /* Десктоп: форма; каждый элемент анимирует только свои свойства */
@@ -88,23 +88,23 @@
   .form {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--space-md);
     transition-property: height, padding, border-radius;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 500ms;
-    border-radius: 0.5rem;
-    background-color: #fff;
-    padding-block: 0.5rem;
-    padding-right: 0.5rem;
-    padding-left: 1rem;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-default);
+    padding-block: var(--space-sm);
+    padding-right: var(--space-sm);
+    padding-left: var(--space-lg);
     width: 100%;
     height: 2.5rem;
 
     @media (min-height: 700px) {
       :global([data-home]) & {
-        border-radius: 24px;
-        padding-inline: 1.25rem;
-        padding-block: 0.5rem;
+        border-radius: var(--radius-3xl);
+        padding-inline: var(--space-xl);
+        padding-block: var(--space-sm);
         height: 4.625rem;
       }
     }
@@ -135,9 +135,9 @@
     outline-style: none;
     background-color: transparent;
     min-width: 0;
-    font-size: 0.875rem;
+    font-size: var(--font-size-body-sm);
     line-height: 1;
-    color: var(--color-primary);
+    color: var(--color-text-primary);
 
     &::placeholder {
       color: var(--color-input-placeholder);
@@ -145,39 +145,37 @@
 
     @media (min-height: 700px) {
       :global([data-home]) & {
-        font-size: 18px;
+        font-size: var(--font-size-body-lg);
       }
     }
   }
 
   .clear {
-    color: oklch(87.2% 0.01 258.338); /* gray-300 */
+    color: var(--color-neutral-300);
   }
 
   /* Выпадающий список в портале; позицию задаёт style */
   .dropdown {
     z-index: 50;
-    border-radius: 0.5rem;
-    background-color: #fff;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-default);
     overflow: hidden;
-    box-shadow:
-      0 20px 25px -5px rgb(0 0 0 / 0.1),
-      0 8px 10px -6px rgb(0 0 0 / 0.1);
+    box-shadow: var(--shadow-md);
   }
 
   .skeletons {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    padding: 0.75rem;
+    gap: var(--space-xs);
+    padding: var(--space-md);
   }
 
   .skeletonRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 0.5rem;
+    gap: var(--space-lg);
+    padding: var(--space-sm);
   }
 
   .skeletonText {
@@ -210,19 +208,19 @@
   }
 
   .sectionTitle {
-    padding: 0.75rem 1.25rem 0.25rem;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 500;
-    color: oklch(70.7% 0.022 261.325); /* gray-400 */
+    padding: var(--space-md) var(--space-xl) var(--space-xs);
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
   }
 
   .row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 0.75rem 1.25rem;
+    gap: var(--space-lg);
+    padding: var(--space-md) var(--space-xl);
     width: 100%;
     text-align: left;
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
@@ -231,7 +229,7 @@
 
     @media (hover: hover) {
       &:hover {
-        background-color: oklch(98.5% 0.002 247.839); /* gray-50 */
+        background-color: var(--color-surface-sunken);
       }
     }
   }
@@ -240,17 +238,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 500;
-    color: var(--color-primary-900);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
   }
 
   .chevron {
     flex-shrink: 0;
     width: 1rem;
     height: 1rem;
-    color: oklch(87.2% 0.01 258.338); /* gray-300 */
+    color: var(--color-neutral-300);
   }
 
   .partInfo {
@@ -259,24 +257,24 @@
   }
 
   .article {
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: oklch(70.7% 0.022 261.325); /* gray-400 */
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    color: var(--color-text-tertiary);
   }
 
   .price {
     flex-shrink: 0;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 600;
-    color: var(--color-primary-500);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-link);
   }
 
   .empty {
-    padding: 1.5rem 1.25rem;
+    padding: var(--space-2xl) var(--space-xl);
     text-align: center;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: oklch(70.7% 0.022 261.325); /* gray-400 */
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    color: var(--color-text-tertiary);
   }
 }

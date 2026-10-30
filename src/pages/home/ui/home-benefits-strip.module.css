@@ -7,7 +7,7 @@
     justify-content: center;
     gap: 0.75rem;
     border-radius: 1.5rem;
-    background-color: var(--color-primary-300);
+    background-color: var(--color-brand-400);
     padding: 1.25rem 1.5rem;
 
     @media (--md) {
@@ -16,10 +16,10 @@
   }
 
   .callText {
-    color: var(--color-inverse);
-    font-size: 16px;
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-body-md);
     line-height: 1.25;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     white-space: pre-wrap;
   }
 
@@ -34,7 +34,7 @@
     grid-template-columns: repeat(2, max-content);
     column-gap: 2rem;
     row-gap: 2.5rem;
-    color: var(--color-inverse);
+    color: var(--color-text-inverse);
 
     @media (--md) {
       display: none;
@@ -42,9 +42,9 @@
   }
 
   .mobileText {
-    color: var(--color-inverse);
-    font-size: 12px;
-    font-weight: 500;
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-caption-md);
+    font-weight: var(--font-weight-medium);
     white-space: pre-wrap;
   }
 
@@ -65,9 +65,9 @@
   }
 
   .tabletText {
-    color: var(--color-inverse);
-    font-size: 14px;
-    font-weight: 500;
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-body-sm);
+    font-weight: var(--font-weight-medium);
     white-space: pre-wrap;
   }
 
@@ -84,9 +84,9 @@
   }
 
   .wideText {
-    color: var(--color-inverse);
-    font-size: 14px;
-    font-weight: 600;
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-body-sm);
+    font-weight: var(--font-weight-semibold);
     white-space: pre-wrap;
   }
 }

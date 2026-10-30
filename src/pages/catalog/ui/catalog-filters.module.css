@@ -4,8 +4,8 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    border-radius: 24px;
-    background-color: #fff;
+    border-radius: var(--radius-3xl);
+    background-color: var(--color-surface-default);
     padding: 1.5rem;
     width: 17rem;
   }
@@ -19,8 +19,8 @@
 
   .title {
     height: 1.25rem;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: var(--font-size-body-md);
+    font-weight: var(--font-weight-bold);
   }
 
   .resetBox {
@@ -32,22 +32,22 @@
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem; /* прежний leading-[16px] не применялся */
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm); /* прежний leading-[16px] не применялся */
   }
 
   .badge {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
-    background-color: var(--color-secondary-500);
+    border-radius: var(--radius-full);
+    background-color: var(--color-action-accent-bg);
     width: 1.25rem;
     height: 1.25rem;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 500;
-    color: #fff;
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-action-accent-fg);
   }
 
   .group {
@@ -58,10 +58,10 @@
 
   .groupTitle {
     cursor: default;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 500;
-    color: var(--color-primary);
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
   }
 
   .options {
@@ -82,20 +82,20 @@
   }
 
   .optionLabel {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
   }
 
   .optionText {
     text-wrap: pretty;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
   }
 
   .optionCount {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: var(--color-tertiary);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    color: var(--color-text-tertiary);
   }
 
   .priceRow {
@@ -119,12 +119,12 @@
     }
 
     &:focus {
-      border-color: var(--color-primary-500);
+      border-color: var(--color-border-brand);
     }
   }
 
   .priceDash {
     flex-shrink: 0;
-    color: var(--color-disabled);
+    color: var(--color-text-disabled);
   }
 }

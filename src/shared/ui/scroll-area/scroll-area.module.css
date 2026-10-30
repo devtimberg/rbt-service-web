@@ -11,10 +11,10 @@
     border-radius: inherit;
     /* Тонкий скроллбар; на мобильных скрыт (max-sm) */
     scrollbar-width: thin;
-    scrollbar-color: oklch(0.7594 0.092 262.91 / 0.2) transparent;
+    scrollbar-color: color-mix(in srgb, var(--color-brand-350) 20%, transparent) transparent;
 
     &:focus-visible {
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-focus-ring) 50%, transparent);
+      box-shadow: var(--shadow-focus-ring);
     }
 
     @media (width < 40rem) {

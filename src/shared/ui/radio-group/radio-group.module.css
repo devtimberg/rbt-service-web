@@ -2,14 +2,14 @@
 @layer components {
   .group {
     display: grid;
-    gap: calc(var(--spacing) * 3);
+    gap: var(--space-md);
   }
 
   .item {
     position: relative;
     display: inline-flex;
-    width: calc(var(--spacing) * 4.5);
-    height: calc(var(--spacing) * 4.5);
+    width: 1.125rem;
+    height: 1.125rem;
     flex-shrink: 0;
   }
 
@@ -18,19 +18,19 @@
     height: 100%;
     cursor: pointer;
     appearance: none;
-    border-radius: 9999px;
-    border: 2px solid #dee9fe;
-    background-color: #f7faff;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-control-border);
+    background-color: var(--color-control-bg);
     transition-property: box-shadow;
     transition-timing-function: var(--default-transition-timing-function);
     transition-duration: var(--default-transition-duration);
 
     &:checked {
-      border-color: var(--color-primary-300);
+      border-color: var(--color-control-border-checked);
     }
 
     &:focus-visible {
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-focus-ring) 50%, transparent);
+      box-shadow: var(--shadow-focus-ring);
     }
 
     &:disabled {
@@ -45,11 +45,11 @@
     top: 50%;
     left: 50%;
     display: none;
-    width: calc(var(--spacing) * 2.5);
-    height: calc(var(--spacing) * 2.5);
+    width: 0.625rem;
+    height: 0.625rem;
     translate: -50% -50%;
-    border-radius: 9999px;
-    background-color: var(--color-primary-300);
+    border-radius: var(--radius-full);
+    background-color: var(--color-control-bg-checked);
   }
 
   .input:checked ~ .dot {

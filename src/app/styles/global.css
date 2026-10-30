@@ -14,12 +14,12 @@
 
 @layer base {
   * {
-    caret-color: var(--color-secondary-500);
+    caret-color: var(--color-accent-500);
     outline-style: none;
   }
   ::selection {
-    background-color: var(--color-secondary-500);
-    color: var(--color-inverse);
+    background-color: var(--color-surface-accent);
+    color: var(--color-text-inverse);
   }
 
   /* Оболочка страницы: синий фон, на lg тёмный с полем 16. Шторки и контент скроллятся внутри, не body. */
@@ -31,14 +31,14 @@
     min-height: 100dvh;
     padding: 0;
     overflow: hidden;
-    background-color: var(--color-primary-500);
+    background-color: var(--color-surface-brand);
     font-family: var(--font-sans);
-    color: var(--color-primary);
+    color: var(--color-text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     @media (--lg) {
-      padding: 1rem;
-      background-color: var(--color-primary-900);
+      padding: var(--space-lg);
+      background-color: var(--color-surface-inverse);
     }
   }
 

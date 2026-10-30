@@ -27,9 +27,9 @@
     justify-content: center;
     gap: 0.75rem;
     border-radius: 1.5rem;
-    background-color: var(--color-primary-300);
+    background-color: var(--color-brand-400);
     padding: 1rem 0.75rem;
-    color: var(--color-inverse);
+    color: var(--color-text-inverse);
     text-align: center;
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -38,19 +38,19 @@
     @media (--md) {
       flex-direction: row;
       justify-content: flex-start;
-      border-radius: 1rem;
+      border-radius: var(--radius-xl);
       padding: 0.75rem 1rem;
       text-align: left;
     }
   }
 
   .accent {
-    background-color: var(--color-secondary-500);
+    background-color: var(--color-surface-accent);
   }
 
   /* Закрытый раздел (Figma «Главная — MVP»): фон бледнее, иконка и текст на 55%, замок в правом верхнем углу */
   .locked {
-    --white: #fff;
+    --white: var(--color-white);
 
     cursor: pointer;
     background-color: color-mix(in oklab, var(--white) 5%, transparent);
@@ -78,7 +78,7 @@
 
   .iconBox {
     /* Через переменную: сборка не сворачивает color-mix заранее, белый 25% */
-    --white: #fff;
+    --white: var(--color-white);
 
     display: inline-flex;
     width: 3.5rem;
@@ -91,7 +91,7 @@
     background-color: color-mix(in oklab, var(--white) 10%, transparent);
 
     @media (--md) {
-      border-radius: 0.75rem;
+      border-radius: var(--radius-lg);
     }
   }
 
@@ -112,7 +112,7 @@
     white-space: pre-line;
 
     @media (--md) {
-      font-size: 1.125rem;
+      font-size: var(--font-size-body-lg);
       line-height: 1.25rem;
     }
   }

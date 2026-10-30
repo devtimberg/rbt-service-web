@@ -23,11 +23,11 @@
   .link {
     font-size: 0.875rem;
     line-height: 1.5rem;
-    color: var(--color-primary-500);
+    color: var(--color-text-link);
 
     @media (hover: hover) {
       &:hover {
-        color: var(--color-primary-900);
+        color: var(--color-text-primary);
       }
     }
   }

@@ -10,11 +10,11 @@
   .title {
     font-size: 1.875rem;
     line-height: 2.25rem;
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
   }
 
   .hint {
     margin-top: 0.5rem;
-    color: var(--color-tertiary);
+    color: var(--color-text-tertiary);
   }
 }

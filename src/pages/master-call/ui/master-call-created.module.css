@@ -6,8 +6,10 @@
 
     @media (--md) {
       flex-direction: row;
-      align-items: flex-start;
+      align-items: stretch;
       justify-content: space-between;
+      /* Заполняем высоту шторки, чтобы чек доходил до нижней полосы с кнопкой */
+      flex: 1 0 auto;
     }
   }
 
@@ -22,14 +24,6 @@
     }
   }
 
-  .title {
-    display: none;
-
-    @media (--sm) {
-      display: block;
-    }
-  }
-
   .status {
     display: flex;
     align-items: center;
@@ -38,31 +32,33 @@
 
   /* green-600 (в tokens.css нет) */
   .badge {
-    border-radius: 0.75rem;
-    background-color: oklch(62.7% 0.194 149.214);
+    border-radius: 50%;
+    background-color: var(--color-feedback-success-solid);
     padding: 0.25rem;
   }
 
   .check {
     font-size: 1.875rem;
     line-height: 2.25rem;
-    color: #fff;
+    color: var(--color-feedback-success-on-solid);
   }
 
   .text {
     max-width: 30rem;
     cursor: default;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 400;
-    color: var(--color-secondary);
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-secondary);
   }
 
   .receipt {
     width: 100%;
+    /* База зума чека: 1rem до md, дальше растёт с шириной окна */
+    font-size: clamp(1rem, 1.25vw - 0.125rem, 1.375rem);
 
     @media (--md) {
-      width: 26rem;
+      width: 26em;
       flex-shrink: 0;
     }
   }

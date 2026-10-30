@@ -1,18 +1,18 @@
 import localFont from 'next/font/local'
 
-// Inter Variable через next/font (ADR 0013) из файлов @fontsource-variable/inter: сборка не ходит в сеть за шрифтом.
+// Onest Variable через next/font (ADR 0013) из файлов @fontsource-variable/onest: сборка не ходит в сеть за шрифтом.
 // next/font не умеет unicode-range у отдельных файлов одного семейства, поэтому каждое подмножество это своё
 // семейство, а --font-sans (shared/ui/tokens.css) перечисляет их подряд: браузер берёт глиф из того, чей диапазон
 // его покрывает. Диапазоны и файлы как в index.css пакета. Латиница и кириллица предзагружаются (первый экран),
 // расширения грузятся по требованию. Греческий и вьетнамский сайту не нужны.
 // Next требует литералы в вызовах шрифтов: без общих констант и шаблонных строк.
-const interLatin = localFont({
-  src: '../../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2',
+const onestLatin = localFont({
+  src: '../../../node_modules/@fontsource-variable/onest/files/onest-latin-wght-normal.woff2',
   weight: '100 900',
   style: 'normal',
   display: 'swap',
   adjustFontFallback: false,
-  variable: '--font-inter-latin',
+  variable: '--font-onest-latin',
   declarations: [
     {
       prop: 'unicode-range',
@@ -22,37 +22,37 @@ const interLatin = localFont({
   ],
 })
 
-const interCyrillic = localFont({
-  src: '../../../node_modules/@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2',
+const onestCyrillic = localFont({
+  src: '../../../node_modules/@fontsource-variable/onest/files/onest-cyrillic-wght-normal.woff2',
   weight: '100 900',
   style: 'normal',
   display: 'swap',
   adjustFontFallback: false,
-  variable: '--font-inter-cyrillic',
+  variable: '--font-onest-cyrillic',
   declarations: [{ prop: 'unicode-range', value: 'U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116' }],
 })
 
-const interCyrillicExt = localFont({
-  src: '../../../node_modules/@fontsource-variable/inter/files/inter-cyrillic-ext-wght-normal.woff2',
+const onestCyrillicExt = localFont({
+  src: '../../../node_modules/@fontsource-variable/onest/files/onest-cyrillic-ext-wght-normal.woff2',
   weight: '100 900',
   style: 'normal',
   display: 'swap',
   adjustFontFallback: false,
   preload: false,
-  variable: '--font-inter-cyrillic-ext',
+  variable: '--font-onest-cyrillic-ext',
   declarations: [
     { prop: 'unicode-range', value: 'U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F' },
   ],
 })
 
-const interLatinExt = localFont({
-  src: '../../../node_modules/@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2',
+const onestLatinExt = localFont({
+  src: '../../../node_modules/@fontsource-variable/onest/files/onest-latin-ext-wght-normal.woff2',
   weight: '100 900',
   style: 'normal',
   display: 'swap',
   adjustFontFallback: false,
   preload: false,
-  variable: '--font-inter-latin-ext',
+  variable: '--font-onest-latin-ext',
   declarations: [
     {
       prop: 'unicode-range',
@@ -96,10 +96,10 @@ const jetbrainsMonoCyrillic = localFont({
 
 /** Классы с переменными семейств: ставятся на `<html>`. */
 export const fontVariables = [
-  interLatin.variable,
-  interCyrillic.variable,
-  interCyrillicExt.variable,
-  interLatinExt.variable,
+  onestLatin.variable,
+  onestCyrillic.variable,
+  onestCyrillicExt.variable,
+  onestLatinExt.variable,
   jetbrainsMonoLatin.variable,
   jetbrainsMonoCyrillic.variable,
 ].join(' ')

@@ -1,4 +1,4 @@
-/* Stack (ADR 0009): зазоры по шкале: 1 единица = 0.25rem (`--spacing` из tokens.css). */
+/* Stack (ADR 0009): зазоры по шкале: 1 единица = 0.25rem (как прежняя `--spacing`). */
 @layer components {
   .stack {
     display: flex;

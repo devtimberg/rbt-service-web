@@ -1,5 +1,11 @@
-/* Размеры заголовков (ADR 0009): tokens.css не задаёт text-h*, поэтому размер, высота строки и жирность лежат здесь. */
+/* Размеры заголовков: h1–h6 по текстовым стилям Figma (токены tokens.css); xs–xl прежние, уйдут после перевода страниц. */
 @layer components {
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5,
+  .h6,
   .xs,
   .sm,
   .md,
@@ -7,6 +13,46 @@
   .xl {
     cursor: default;
     color: currentColor;
+  }
+
+  .h1 {
+    font-size: var(--font-size-heading-h1);
+    line-height: var(--line-height-heading-h1);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-heading-h1);
+  }
+
+  .h2 {
+    font-size: var(--font-size-heading-h2);
+    line-height: var(--line-height-heading-h2);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-heading-h2);
+  }
+
+  .h3 {
+    font-size: var(--font-size-heading-h3);
+    line-height: var(--line-height-heading-h3);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-heading-h3);
+  }
+
+  .h4 {
+    font-size: var(--font-size-heading-h4);
+    line-height: var(--line-height-heading-h4);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-heading-h4);
+  }
+
+  .h5 {
+    font-size: var(--font-size-heading-h5);
+    line-height: var(--line-height-heading-h5);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .h6 {
+    font-size: var(--font-size-heading-h6);
+    line-height: var(--line-height-heading-h6);
+    font-weight: var(--font-weight-medium);
   }
 
   .xs {

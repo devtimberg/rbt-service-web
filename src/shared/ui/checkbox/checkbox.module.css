@@ -3,8 +3,8 @@
   .root {
     position: relative;
     display: inline-flex;
-    width: calc(var(--spacing) * 4.5);
-    height: calc(var(--spacing) * 4.5);
+    width: 1.125rem;
+    height: 1.125rem;
     flex-shrink: 0;
   }
 
@@ -13,21 +13,21 @@
     height: 100%;
     cursor: pointer;
     appearance: none;
-    border-radius: 0.25rem;
-    border: 2px solid #dee9fe;
-    background-color: #f7faff;
+    border-radius: var(--radius-xs);
+    border: 2px solid var(--color-control-border);
+    background-color: var(--color-control-bg);
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
     transition-timing-function: var(--default-transition-timing-function);
     transition-duration: var(--default-transition-duration);
 
     &:checked,
     &:indeterminate {
-      border-color: var(--color-primary-300);
-      background-color: var(--color-primary-300);
+      border-color: var(--color-control-border-checked);
+      background-color: var(--color-control-bg-checked);
     }
 
     &:focus-visible {
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-focus-ring) 50%, transparent);
+      box-shadow: var(--shadow-focus-ring);
     }
 
     &:disabled {
@@ -42,9 +42,9 @@
     inset: 0;
     margin: auto;
     display: none;
-    width: calc(var(--spacing) * 3);
-    height: calc(var(--spacing) * 3);
-    color: var(--color-inverse);
+    width: var(--space-md);
+    height: var(--space-md);
+    color: var(--color-control-fg);
   }
 
   .input:checked ~ .tick {

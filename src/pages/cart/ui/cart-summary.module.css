@@ -5,26 +5,26 @@
   }
 
   .card {
-    border-radius: 1rem;
-    background-color: #fff;
+    border-radius: var(--radius-xl);
+    background-color: var(--color-surface-default);
     padding: 1rem;
   }
 
   .checkout {
     height: 3rem;
-    border-radius: 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5rem;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
   }
 
   .hint {
     margin-top: 0.75rem;
     cursor: default;
     text-align: center;
-    color: var(--color-secondary);
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 400;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-regular);
   }
 
   .emptyHint {
@@ -32,8 +32,8 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    border-radius: 0.5rem;
-    background-color: #f0f4ff;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-brand-subtle);
     padding: 0.625rem 0.75rem;
   }
 
@@ -41,15 +41,15 @@
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
-    color: var(--color-tertiary);
+    color: var(--color-text-tertiary);
   }
 
   .emptyHintText {
     cursor: default;
-    color: var(--color-secondary);
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 400;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-regular);
   }
 
   .head {
@@ -59,17 +59,17 @@
   }
 
   .title {
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 600;
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
+    font-weight: var(--font-weight-semibold);
   }
 
   .count {
     cursor: default;
-    color: var(--color-secondary);
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 400;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-regular);
   }
 
   .rows {
@@ -88,22 +88,22 @@
 
   .label {
     cursor: default;
-    color: var(--color-secondary);
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 400;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    font-weight: var(--font-weight-regular);
   }
 
   .value {
     cursor: default;
-    color: var(--color-primary);
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 500;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    font-weight: var(--font-weight-medium);
   }
 
   .valueStrong {
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
   }
 
   .total {
@@ -117,17 +117,17 @@
 
   .totalLabel {
     cursor: default;
-    color: var(--color-primary);
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
+    font-weight: var(--font-weight-semibold);
   }
 
   .totalValue {
     cursor: default;
-    color: var(--color-primary);
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-    font-weight: 700;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-body-lg);
+    line-height: var(--line-height-body-lg);
+    font-weight: var(--font-weight-bold);
   }
 }

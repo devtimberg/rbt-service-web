@@ -1,38 +1,40 @@
+/* Размеры в em, а не в rem/px (отступление от правила про rem): один font-size на корне зумит чек целиком. */
 /* Бумажный чек: зубцы края рисует маска, точки-заполнитель в строке — dotted-рамка распорки. */
 @layer components {
   .root {
-    --tooth: 0.5rem;
+    --tooth: 0.75em;
+    font-size: 1rem; /* база зума: внешний класс задаёт свой font-size, всё внутри в em */
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    border-radius: 2.5px;
-    padding: 34px 30px;
+    gap: 1.5575em;
+    border-radius: 2.459px;
+    padding: 1.8446em 2.152em;
     background-color: var(--color-surface-default);
-    color: var(--color-primary);
+    color: var(--color-text-primary);
     font-family: var(--font-mono);
     /* Слои: зубцы сверху, сплошная середина (ниже зубцов) */
     mask:
-      radial-gradient(circle at 50% 0, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) top / 0.75rem var(--tooth)
+      radial-gradient(circle at 50% 0, transparent 0.375em, #000 calc(0.375em + 0.5px)) top / 1.125em var(--tooth)
         repeat-x,
       linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - var(--tooth)) no-repeat;
     -webkit-mask:
-      radial-gradient(circle at 50% 0, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) top / 0.75rem var(--tooth)
+      radial-gradient(circle at 50% 0, transparent 0.375em, #000 calc(0.375em + 0.5px)) top / 1.125em var(--tooth)
         repeat-x,
       linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - var(--tooth)) no-repeat;
   }
 
   .both {
-    padding-bottom: calc(34px + var(--tooth));
+    padding-bottom: calc(1.8446em + var(--tooth));
     mask:
-      radial-gradient(circle at 50% 0, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) top / 0.75rem var(--tooth)
+      radial-gradient(circle at 50% 0, transparent 0.375em, #000 calc(0.375em + 0.5px)) top / 1.125em var(--tooth)
         repeat-x,
-      radial-gradient(circle at 50% 100%, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) bottom / 0.75rem var(--tooth)
+      radial-gradient(circle at 50% 100%, transparent 0.375em, #000 calc(0.375em + 0.5px)) bottom / 1.125em var(--tooth)
         repeat-x,
       linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - 2 * var(--tooth)) no-repeat;
     -webkit-mask:
-      radial-gradient(circle at 50% 0, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) top / 0.75rem var(--tooth)
+      radial-gradient(circle at 50% 0, transparent 0.375em, #000 calc(0.375em + 0.5px)) top / 1.125em var(--tooth)
         repeat-x,
-      radial-gradient(circle at 50% 100%, transparent 0.25rem, #000 calc(0.25rem + 0.5px)) bottom / 0.75rem var(--tooth)
+      radial-gradient(circle at 50% 100%, transparent 0.375em, #000 calc(0.375em + 0.5px)) bottom / 1.125em var(--tooth)
         repeat-x,
       linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - 2 * var(--tooth)) no-repeat;
   }
@@ -42,37 +44,42 @@
   }
 
   .title {
-    font-size: 18.4px;
-    line-height: 1.5rem;
+    font-size: 1.153em;
+    line-height: 1.4em;
     font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
   }
 
   .row {
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 1em;
+    line-height: 1.3125em;
   }
 
   .note {
-    font-size: 14.8px;
-    line-height: 1.25rem;
+    font-size: 0.9223em;
+    line-height: 1.4166em;
   }
 
   .consent {
-    font-size: 0.75rem;
-    line-height: 1rem;
+    font-size: 0.75em;
+    line-height: 1.25em;
   }
 
   .legal {
-    font-size: 10px;
-    line-height: 0.875rem;
+    font-size: 0.625em;
+    line-height: 1.1em;
+  }
+
+  .muted {
+    color: var(--color-text-secondary);
   }
 
   .line {
     display: flex;
     align-items: baseline;
-    gap: 0.5rem;
-    font-size: 1rem;
-    line-height: 1.5rem;
+    gap: 0.5em;
+    font-size: 1em;
+    line-height: 1.3125em;
   }
 
   .multiline {
@@ -83,7 +90,7 @@
 
   .dots {
     flex: 1;
-    min-width: 1rem;
+    min-width: 1em;
     border-bottom: 2px dotted currentColor;
   }
 
@@ -97,6 +104,7 @@
   }
 
   .rule {
+    width: 100%;
     margin: 0;
     border: 0;
     border-top: 1px dashed currentColor;

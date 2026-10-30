@@ -28,4 +28,13 @@ describe('Heading', () => {
     )
     expect(screen.getByRole('heading', { level: 2 })).toHaveClass(headingStyles.xs)
   })
+
+  it('size h1–h6 даёт класс по текстовому стилю', () => {
+    render(
+      <Heading level={2} size="h4">
+        Стиль h4
+      </Heading>,
+    )
+    expect(screen.getByRole('heading', { level: 2 })).toHaveClass(headingStyles.h4)
+  })
 })

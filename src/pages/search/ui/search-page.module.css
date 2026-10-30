@@ -49,10 +49,10 @@
 
   .sectionTitle {
     padding: 0.75rem 0.5rem 0.25rem;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 500;
-    color: oklch(70.7% 0.022 261.325); /* gray-400 */
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
   }
 
   .row {
@@ -68,7 +68,7 @@
     transition-duration: 150ms;
 
     &:active {
-      background-color: oklch(98.5% 0.002 247.839); /* gray-50 */
+      background-color: var(--color-surface-sunken);
     }
   }
 
@@ -76,17 +76,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 500;
-    color: var(--color-primary-900);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
   }
 
   .chevron {
     flex-shrink: 0;
     width: 1rem;
     height: 1rem;
-    color: oklch(87.2% 0.01 258.338); /* gray-300 */
+    color: var(--color-neutral-300);
   }
 
   .partInfo {
@@ -95,24 +95,24 @@
   }
 
   .article {
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: oklch(70.7% 0.022 261.325); /* gray-400 */
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    color: var(--color-text-tertiary);
   }
 
   .price {
     flex-shrink: 0;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 600;
-    color: var(--color-primary-500);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-link);
   }
 
   .empty {
     padding-block: 2.5rem;
     text-align: center;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: oklch(70.7% 0.022 261.325); /* gray-400 */
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    color: var(--color-text-tertiary);
   }
 }

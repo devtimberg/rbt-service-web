@@ -2,8 +2,14 @@ import type { ComponentProps } from 'react'
 import { cn } from '@/shared/lib/cn'
 import styles from './heading.module.css'
 
-/** Размеры заголовков этого проекта: классы в heading.module.css (вместе с размером идут `cursor: default` и `currentColor`). */
+/** Размеры: h1–h6 по текстовым стилям дизайн-системы, xs–xl прежние; классы в heading.module.css (вместе с размером идут `cursor: default` и `currentColor`). */
 const sizes = {
+  h1: styles.h1,
+  h2: styles.h2,
+  h3: styles.h3,
+  h4: styles.h4,
+  h5: styles.h5,
+  h6: styles.h6,
   xs: styles.xs,
   sm: styles.sm,
   md: styles.md,

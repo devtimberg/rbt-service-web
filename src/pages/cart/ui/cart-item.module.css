@@ -38,23 +38,23 @@
 
   .name {
     cursor: default;
-    color: var(--color-primary);
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
+    font-weight: var(--font-weight-semibold);
   }
 
   .nameMobile {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
   }
 
   .meta {
     cursor: default;
-    color: var(--color-secondary);
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 400;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-regular);
   }
 
   .article {
@@ -88,7 +88,7 @@
     position: absolute;
     inset: 0;
     overflow: hidden;
-    background-color: #f3f7ff;
+    background-color: var(--color-input-bg);
   }
 
   .photo {
@@ -109,7 +109,7 @@
   .placeholderIcon {
     width: 2rem;
     height: 2rem;
-    color: #bdcae5;
+    color: var(--color-brand-350);
   }
 
   .checkbox {
@@ -127,11 +127,11 @@
 
   .actionButton {
     flex-shrink: 0;
-    border-radius: 0.5rem;
+    border-radius: var(--radius-md);
   }
 
   .favoriteActive {
-    color: var(--color-secondary-500);
+    color: var(--color-accent-500);
   }
 
   .counter {
@@ -139,8 +139,8 @@
     flex-shrink: 0;
     align-items: center;
     gap: 0;
-    border-radius: 0.5rem;
-    background-color: #f3f7ff;
+    border-radius: var(--radius-md);
+    background-color: var(--color-input-bg);
   }
 
   .counterButton {
@@ -150,7 +150,7 @@
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    color: var(--color-primary-900);
+    color: var(--color-text-primary);
 
     @media (--sm) {
       width: 2.5rem;
@@ -163,14 +163,14 @@
     border-bottom-left-radius: 0.5rem;
 
     &:disabled {
-      color: color-mix(in oklab, var(--color-disabled) 40%, transparent);
+      color: color-mix(in oklab, var(--color-text-disabled) 40%, transparent);
       cursor: default;
     }
   }
 
   .plus {
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
+    border-top-right-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
   }
 
   .counterIcon {
@@ -200,16 +200,16 @@
     font-weight: 700;
 
     @media (--sm) {
-      font-size: 1rem;
-      line-height: 1.5rem;
+      font-size: var(--font-size-body-md);
+      line-height: var(--line-height-body-md);
     }
   }
 
   .unitPrice {
     cursor: default;
-    color: var(--color-secondary);
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 400;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-caption-md);
+    line-height: var(--line-height-caption-md);
+    font-weight: var(--font-weight-regular);
   }
 }
