@@ -23,9 +23,15 @@ describe('MasterCallPage', () => {
     expect(await screen.findByText('Обязательное поле')).toBeInTheDocument()
     expect(screen.queryByText('Выберите технику')).not.toBeInTheDocument()
 
-    await userEvent.click(screen.getByLabelText('Телефон'))
+    await userEvent.click(screen.getByLabelText('Номер телефона'))
     await userEvent.paste('9')
     await waitFor(() => expect(screen.queryByText('Обязательное поле')).not.toBeInTheDocument())
+  })
+
+  it('отправка наводит фокус на первое поле с ошибкой', async () => {
+    renderWithStore(<MasterCallPage />)
+    await submit()
+    await waitFor(() => expect(screen.getByLabelText('Номер телефона')).toHaveFocus())
   })
 
   it('ввод отражается в чеке', async () => {
@@ -34,18 +40,18 @@ describe('MasterCallPage', () => {
     expect(receipt.textContent).toContain('____-____')
 
     await userEvent.selectOptions(screen.getByLabelText('Вид техники'), 'Холодильник')
-    await userEvent.click(screen.getByLabelText('Телефон'))
+    await userEvent.click(screen.getByLabelText('Номер телефона'))
     await userEvent.paste('9001234567')
-    await userEvent.type(screen.getByLabelText('Комментарий'), 'Не морозит')
+    await userEvent.type(screen.getByLabelText('Комментарий к заявке'), 'Не морозит')
     expect(receipt.textContent).toContain('Холодильник')
-    expect(receipt.textContent).toContain('+7 900 123-45-67')
+    expect(receipt.textContent).toContain('+7 900 123 45 67')
     expect(receipt.textContent).toContain('Не морозит')
   })
 
   it('успешная отправка показывает «Заявка создана», «Хорошо» ведёт на главную', async () => {
     renderWithStore(<MasterCallPage />)
     await userEvent.selectOptions(screen.getByLabelText('Вид техники'), 'Холодильник')
-    await userEvent.click(screen.getByLabelText('Телефон'))
+    await userEvent.click(screen.getByLabelText('Номер телефона'))
     await userEvent.paste('9001234567')
     await submit()
 

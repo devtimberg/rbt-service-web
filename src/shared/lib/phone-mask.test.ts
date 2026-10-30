@@ -56,8 +56,8 @@ describe('phoneCaretAfterDigits', () => {
 })
 
 describe('formatPhoneDisplay', () => {
-  it('+7 XXX XXX-XX-XX', () => {
-    expect(formatPhoneDisplay('9001234567')).toBe('+7 900 123-45-67')
+  it('+7 XXX XXX XX XX', () => {
+    expect(formatPhoneDisplay('9001234567')).toBe('+7 900 123 45 67')
   })
 })
 

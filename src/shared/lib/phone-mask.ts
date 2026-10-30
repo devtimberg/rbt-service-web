@@ -55,10 +55,10 @@ export function phoneCaretAfterDigits(formatted: string, count: number): number 
   return formatted.length
 }
 
-/** Вид номера в чеке и на экране заявки: `+7 900 123-45-67`. Неполный номер возвращается как есть с `+7`. */
+/** Вид номера в чеке и на экране заявки: `+7 900 123 45 67`. Неполный номер возвращается как есть с `+7`. */
 export function formatPhoneDisplay(digits: string): string {
   const d = digits.padEnd(PHONE_DIGITS, ' ')
-  return `+7 ${d.slice(0, 3)} ${d.slice(3, 6)}-${d.slice(6, 8)}-${d.slice(8, 10)}`.replace(/[ -]+$/, '').trim()
+  return `+7 ${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6, 8)} ${d.slice(8, 10)}`.replace(/ +$/, '').trim()
 }
 
 /** Полный мобильный номер: 10 цифр, первая 9. Проверка ввода, не бизнес-логика. */

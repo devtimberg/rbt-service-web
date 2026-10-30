@@ -22,7 +22,7 @@ import styles from './phone-field.module.css'
 
 type PhoneFieldProps = Omit<
   ComponentProps<typeof TextField>,
-  'value' | 'defaultValue' | 'onChange' | 'type' | 'inputMode' | 'ref' | 'overlay'
+  'value' | 'defaultValue' | 'onChange' | 'type' | 'inputMode' | 'overlay'
 > & {
   /** Национальные цифры без `+7`: до 10 символов (`9001234567`). */
   value: string
@@ -39,8 +39,18 @@ type PhoneFieldProps = Omit<
  * Каретка не заходит в префикс `+7 (`. Вставка `+7…`, `8…`, `7…` или 10 цифр заменяет номер целиком,
  * короткий фрагмент вставляется в позицию каретки. Автозаполнение (`+79001234567`) нормализуется в `onChange`.
  * `inputMode="tel"`, `autoComplete="tel-national"`: на мобильных открывается цифровая клавиатура.
+ * Внешний `ref` ведёт на `<input>` рядом с внутренним: по нему react-hook-form наводит фокус на поле с ошибкой.
  */
-export function PhoneField({ value, onValueChange, onFocus, onBlur, onClick, onSelect, ...props }: PhoneFieldProps) {
+export function PhoneField({
+  value,
+  onValueChange,
+  onFocus,
+  onBlur,
+  onClick,
+  onSelect,
+  ref,
+  ...props
+}: PhoneFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [focused, setFocused] = useState(false)
   // Позиция каретки после следующей отрисовки; новый объект на каждый ввод, чтобы эффект сработал и без смены значения
@@ -126,7 +136,11 @@ export function PhoneField({ value, onValueChange, onFocus, onBlur, onClick, onS
       inputMode="tel"
       autoComplete="tel-national"
       {...props}
-      ref={inputRef}
+      ref={(node) => {
+        inputRef.current = node
+        if (typeof ref === 'function') ref(node)
+        else if (ref) ref.current = node
+      }}
       value={shown}
       overlay={ghost}
       onChange={handleChange}

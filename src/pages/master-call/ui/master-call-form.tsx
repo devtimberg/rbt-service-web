@@ -86,7 +86,7 @@ export function MasterCallForm({
             name="phone"
             render={({ field }) => (
               <PhoneField
-                label="Телефон"
+                label="Номер телефона"
                 name={field.name}
                 value={field.value ?? ''}
                 onValueChange={(value) => {
@@ -94,12 +94,13 @@ export function MasterCallForm({
                   clearErrors('phone')
                 }}
                 onBlur={field.onBlur}
+                ref={field.ref}
                 error={errors.phone?.message}
               />
             )}
           />
           <TextArea
-            label="Комментарий"
+            label="Комментарий к заявке"
             maxLength={COMMENT_MAX_LENGTH}
             error={errors.comment?.message}
             {...register('comment', { onChange: () => clearErrors('comment') })}
@@ -114,6 +115,7 @@ export function MasterCallForm({
         comment={values.comment}
         date={formatReceiptDate(clock)}
         className={styles.receipt}
+        consent
       />
 
       <SheetFooterSlot contentClassName={styles.footerContent}>

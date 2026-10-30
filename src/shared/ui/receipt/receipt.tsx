@@ -15,11 +15,13 @@ export function Receipt({ torn = 'top', className, ...props }: ReceiptProps) {
 export type ReceiptTextProps = ComponentProps<'p'> & {
   /** title 18.4px bold (шапка, номер), row 16px, note 14.8px (дата, сноска), consent 12px, legal 10px (реквизиты). */
   size?: 'title' | 'row' | 'note' | 'consent' | 'legal'
+  /** Приглушённый цвет (`--color-secondary`). */
+  muted?: boolean | undefined
 }
 
 /** Абзац внутри чека с размером шрифта из макета. */
-export function ReceiptText({ size = 'row', className, ...props }: ReceiptTextProps) {
-  return <p className={cn(styles.text, styles[size], className)} {...props} />
+export function ReceiptText({ size = 'row', muted, className, ...props }: ReceiptTextProps) {
+  return <p className={cn(styles.text, styles[size], muted && styles.muted, className)} {...props} />
 }
 
 export type ReceiptRowProps = Omit<ComponentProps<'div'>, 'children'> & {

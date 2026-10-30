@@ -19,10 +19,21 @@ type TextAreaProps = Omit<ComponentProps<'textarea'>, 'placeholder'> & {
 }
 
 /**
+ * Подгоняет высоту под текст, чтобы он не уезжал под подпись.
+ * shortcut: только на ввод; при программной смене `value` высота останется прежней — таких форм пока нет.
+ */
+function grow(el: HTMLTextAreaElement) {
+  el.style.height = 'auto'
+  // scrollHeight считает только содержимое, а высота при box-sizing: border-box включает ещё и рамки
+  el.style.height = `${el.scrollHeight + el.offsetHeight - el.clientHeight}px`
+}
+
+/**
  * Figma «[C] Textarea»: мин. высота 80, радиус 8, отступы 12, подпись внутри поля. Пустое поле без фокуса — заливка
- * input-fill, подпись 16/22 сверху; в фокусе или с текстом подпись 12/14, текст 16/22 под ней. Фокус — тёмная рамка,
- * заполненное — рамка input-border, ошибка — рамка и подпись цвета ошибки. С `maxLength` под полем справа счётчик
- * «12/255». Поле работает и неконтролируемым (`register`): длину для счётчика считает само по `onChange`.
+ * input-fill, подпись 16/22 сверху; в фокусе или с текстом подпись 12/14, текст 16/22 под ней. Состояния различаются
+ * заливкой, рамка видна только в фокусе. С `maxLength` под полем справа счётчик «12/255»; сверх лимита ввод не
+ * обрезается (иначе вставка длинного текста молча теряла бы хвост), счётчик краснеет, а длину проверяет схема. Поле работает и
+ * неконтролируемым (`register`): длину для счётчика считает само по `onChange`. Высота растёт по содержимому.
  * id поля — `id` вызывающего или `name`; `ref` — на `<textarea>`.
  */
 export function TextArea({
@@ -51,6 +62,7 @@ export function TextArea({
 
   function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
     setTyped(event.target.value.length)
+    grow(event.target)
     onChange?.(event)
   }
 
@@ -64,7 +76,6 @@ export function TextArea({
           placeholder=" "
           rows={rows}
           required={required}
-          maxLength={maxLength}
           value={value}
           defaultValue={defaultValue}
           aria-invalid={Boolean(error) || undefined}
@@ -86,7 +97,7 @@ export function TextArea({
             </Text>
           ) : null}
           {maxLength !== undefined ? (
-            <Text aria-hidden className={styles.counter}>
+            <Text aria-hidden className={cn(styles.counter, length > maxLength && styles.counterError)}>
               {length}/{maxLength}
             </Text>
           ) : null}

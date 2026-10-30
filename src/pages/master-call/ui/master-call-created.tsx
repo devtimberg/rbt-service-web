@@ -18,20 +18,16 @@ export function MasterCallCreated({ call, values }: MasterCallCreatedProps) {
     <Container className={styles.root}>
       <Box className={styles.main}>
         <Breadcrumb items={[{ label: 'Вызвать мастера' }]} />
-        <Heading level={1} size="xl" className={styles.title}>
-          Вызвать мастера
-        </Heading>
-
         <Box className={styles.status}>
           <Box className={styles.badge}>
             <CheckIcon className={styles.check} />
           </Box>
-          <Heading level={2} size="lg">
+          <Heading level={1} size="xl">
             Заявка создана
           </Heading>
         </Box>
 
-        <Heading level={3} size="md">
+        <Heading level={2} size="lg">
           # {call.number}
         </Heading>
 
@@ -48,6 +44,7 @@ export function MasterCallCreated({ call, values }: MasterCallCreatedProps) {
         number={call.number}
         date={formatReceiptDate(call.createdAt)}
         className={styles.receipt}
+        mutedNote
       />
 
       <SheetFooterSlot contentClassName={styles.footerContent}>
