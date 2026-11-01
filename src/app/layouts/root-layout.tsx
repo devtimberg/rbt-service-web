@@ -5,8 +5,9 @@ import { rehydrateCartStore } from '@/entities/cart'
 import { rehydrateFavoritesStore } from '@/entities/favorite'
 import { MvpNotice } from '@/features/locked-section'
 import { isSheetPath } from '@/shared/config'
+import { NavigationGuardProvider, useNavigationGuard } from '@/shared/lib/navigation-guard'
 import { usePathname } from '@/shared/lib/use-pathname'
-import { Box, ScrollArea } from '@/shared/ui'
+import { Box, ScrollArea, ConfirmDialog } from '@/shared/ui'
 import { CatalogSearch } from '@/widgets/catalog-search'
 import { Header } from '@/widgets/header'
 import { MobileBottomNav } from '@/widgets/mobile-bottom-nav'
@@ -21,6 +22,15 @@ import styles from './root-layout.module.css'
  * а основной контент под открытой шторкой прячется и не прокручивается.
  */
 export function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <NavigationGuardProvider>
+      <RootLayoutContent>{children}</RootLayoutContent>
+    </NavigationGuardProvider>
+  )
+}
+
+function RootLayoutContent({ children }: { children: ReactNode }) {
+  const guard = useNavigationGuard()
   const pathname = usePathname()
   const isSheet = isSheetPath(pathname)
   const { rendered, open, disableOpenAnimation } = useSheetState(isSheet)
@@ -56,6 +66,18 @@ export function RootLayout({ children }: { children: ReactNode }) {
           {isSheet ? children : null}
         </SheetLayout>
       ) : null}
+      <ConfirmDialog
+        stacked
+        open={guard?.pending ?? false}
+        onOpenChange={(next) => {
+          if (!next) guard?.cancel()
+        }}
+        title="Закрыть без сохранения?"
+        description="Введённые данные будут удалены. Вы можете продолжить заполнение заявки."
+        confirmLabel="Закрыть без сохранения"
+        cancelLabel="Продолжить заполнение"
+        onConfirm={() => guard?.confirm()}
+      />
       <Box id="portal-root" data-portal-root="true" />
     </>
   )

@@ -8,6 +8,7 @@ import { isLockedSection, LockedSectionDialog } from '@/features/locked-section'
 import { useSearchStore } from '@/features/search-products'
 import { ROUTES } from '@/shared/config'
 import { cn } from '@/shared/lib/cn'
+import { useNavigationGuard } from '@/shared/lib/navigation-guard'
 import { usePathname } from '@/shared/lib/use-pathname'
 import {
   Box,
@@ -64,6 +65,7 @@ export function Header({ search, homeNotice }: HeaderProps) {
     },
   ]
   const router = useRouter()
+  const guard = useNavigationGuard()
   const isHomePage = pathname === ROUTES.HOME
   const isCart = pathname === ROUTES.CART
   const isCatalog = pathname.startsWith(ROUTES.CATALOG)
@@ -155,7 +157,8 @@ export function Header({ search, homeNotice }: HeaderProps) {
             type="button"
             onClick={() => {
               // Закрытие мастера вызова: возврат на главную, шторка закроется по смене маршрута
-              router.push(ROUTES.HOME)
+              if (guard) guard.request(() => router.push(ROUTES.HOME))
+              else router.push(ROUTES.HOME)
             }}
             className={styles.closeButton}
             aria-label="Закрыть"

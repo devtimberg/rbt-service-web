@@ -1,3 +1,4 @@
+import { cn } from '@/shared/lib/cn'
 import { Button } from '../button'
 import { Dialog } from '../dialog'
 import styles from './confirm-dialog.module.css'
@@ -10,6 +11,8 @@ type ConfirmDialogProps = {
   confirmLabel?: string
   cancelLabel?: string
   onConfirm: () => void
+  /** Длинные подписи действий располагаются друг под другом на всех ширинах. */
+  stacked?: boolean
 }
 
 /** Подтверждение действия: шторка снизу ниже md и окно по центру от md. Закрывается после подтверждения. */
@@ -21,6 +24,7 @@ export function ConfirmDialog({
   confirmLabel = 'Удалить',
   cancelLabel = 'Отмена',
   onConfirm,
+  stacked = false,
 }: ConfirmDialogProps) {
   function handleConfirm() {
     onConfirm()
@@ -35,7 +39,7 @@ export function ConfirmDialog({
       {...(description ? { description } : {})}
       placement="responsive"
       footer={
-        <div className={styles.actions}>
+        <div className={cn(styles.actions, stacked && styles.stacked)}>
           <Button variant="primary" onClick={handleConfirm}>
             {confirmLabel}
           </Button>

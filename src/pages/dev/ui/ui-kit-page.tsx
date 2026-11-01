@@ -462,6 +462,9 @@ export function UiKitPage() {
             Esc и клик по затемнению закрывают окно.
           </Dialog>
           <ConfirmDialog
+            stacked
+            confirmLabel="Закрыть без сохранения"
+            cancelLabel="Продолжить заполнение"
             open={confirm}
             onOpenChange={setConfirm}
             title="Удалить товар?"

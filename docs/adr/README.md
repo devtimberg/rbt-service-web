@@ -18,4 +18,6 @@
 | [0012](0012-kebab-case-filenames-ui-folders.md) | Имена файлов в kebab-case, папка на компонент в shared/ui (ADR 0020 rbt-web) | accepted |
 | [0013](0013-sheets-in-next.md) | Шторки в Next.js: признак по пути в корневом лайауте (заменяет 0006) | accepted |
 
+| [0014](0014-form-navigation-confirmation.md) | Подтверждение ухода с заполненной формы в Next App Router | accepted |
+
 Шаблон нового ADR: [template.md](template.md).
