@@ -10,5 +10,5 @@ export const APPLIANCE_CATEGORIES: ApplianceCategory[] = [
   { key: 'dryer', label: 'Сушильный барабан' },
   { key: 'fridge', label: 'Холодильник' },
   { key: 'electric-stove', label: 'Электрическая плита' },
-  { key: 'other', label: 'Другая техника' },
+  { key: 'other', label: 'Другое' },
 ]
