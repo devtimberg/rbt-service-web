@@ -32,4 +32,12 @@ describe('TextArea', () => {
     expect(field).toHaveAccessibleDescription('Слишком длинно')
     expect(screen.queryByText('Подсказка')).toBeNull()
   })
+  it('пересчитывает высоту после программного восстановления многострочного значения', () => {
+    const { rerender } = render(<TextArea label="Комментарий" name="comment" value="" onChange={() => {}} />)
+    const field = screen.getByLabelText('Комментарий')
+    Object.defineProperty(field, 'scrollHeight', { configurable: true, value: 240 })
+    rerender(<TextArea label="Комментарий" name="comment" value={'Строка\n\nЕщё строка\n'} onChange={() => {}} />)
+    expect(field).toHaveStyle({ height: '240px' })
+    expect(field).toHaveValue('Строка\n\nЕщё строка\n')
+  })
 })

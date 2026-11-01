@@ -1,6 +1,6 @@
 'use client'
 
-import { type ChangeEvent, type ComponentProps, useState } from 'react'
+import { type ChangeEvent, type ComponentProps, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { Box } from '../box'
 import { Label } from '../field'
@@ -20,7 +20,6 @@ type TextAreaProps = Omit<ComponentProps<'textarea'>, 'placeholder'> & {
 
 /**
  * Подгоняет высоту под текст, чтобы он не уезжал под подпись.
- * shortcut: только на ввод; при программной смене `value` высота останется прежней — таких форм пока нет.
  */
 function grow(el: HTMLTextAreaElement) {
   el.style.height = 'auto'
@@ -50,8 +49,10 @@ export function TextArea({
   className,
   textareaClassName,
   rows = 2,
+  ref,
   ...props
 }: TextAreaProps) {
+  const inputRef = useRef<HTMLTextAreaElement>(null)
   const fieldId = id ?? name
   const errorId = `${fieldId}-error`
   const hintId = `${fieldId}-hint`
@@ -59,6 +60,24 @@ export function TextArea({
   const messageId = error ? errorId : hint ? hintId : undefined
   const [typed, setTyped] = useState(() => String(defaultValue ?? '').length)
   const length = value === undefined ? typed : String(value).length
+
+  useLayoutEffect(() => {
+    if (inputRef.current) grow(inputRef.current)
+  }, [value, defaultValue, rows])
+
+  useEffect(() => {
+    const input = inputRef.current
+    if (!input || typeof ResizeObserver === 'undefined') return
+    let width = input.getBoundingClientRect().width
+    const observer = new ResizeObserver(() => {
+      const next = input.getBoundingClientRect().width
+      if (next === width) return
+      width = next
+      grow(input)
+    })
+    observer.observe(input)
+    return () => observer.disconnect()
+  }, [])
 
   function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
     setTyped(event.target.value.length)
@@ -72,6 +91,11 @@ export function TextArea({
         {/* Непустой placeholder нужен селектору :placeholder-shown, самого текста не видно */}
         <textarea
           id={fieldId}
+          ref={(node) => {
+            inputRef.current = node
+            if (typeof ref === 'function') ref(node)
+            else if (ref) ref.current = node
+          }}
           name={name}
           placeholder=" "
           rows={rows}

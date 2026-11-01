@@ -36,12 +36,15 @@ export type ReceiptRowProps = Omit<ComponentProps<'div'>, 'children'> & {
 
 /** Строка «подпись ....... значение». */
 export function ReceiptRow({ label, value, placeholder = '______', multiline, className, ...props }: ReceiptRowProps) {
+  const trailingLine = typeof value === 'string' && value.endsWith('\n')
   const empty = value === undefined || value === null || value === ''
   return (
     <div className={cn(styles.line, multiline && styles.multiline, className)} {...props}>
       <span>{label}</span>
       {!multiline && <span className={styles.dots} aria-hidden="true" />}
-      <span className={styles.value}>{empty ? placeholder : value}</span>
+      <span className={cn(styles.value, empty && styles.empty, multiline && trailingLine && styles.trailingLine)}>
+        {empty ? placeholder : value}
+      </span>
     </div>
   )
 }

@@ -249,10 +249,10 @@
   --color-badge-solid-fg: var(--color-white);
 
   /* navigation */
-  --color-navigation-bg: var(--color-white);
+  --color-navigation-bg: var(--color-surface-sheet);
   --color-navigation-border: var(--color-neutral-200);
   --color-navigation-fg-active: var(--color-brand-500);
-  --color-navigation-fg-inactive: var(--color-neutral-500);
+  --color-navigation-fg-inactive: var(--color-brand-200);
 
   /* overlay */
   --color-overlay-sheet-bg: var(--color-white);

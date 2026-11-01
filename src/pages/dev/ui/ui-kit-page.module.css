@@ -1,4 +1,24 @@
 @layer slices {
+  .decorationDemo {
+    position: relative;
+    isolation: isolate;
+    height: 8rem;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--color-input-bg);
+  }
+  .decorationPoint {
+    position: relative;
+    z-index: 1;
+    margin: 1rem;
+  }
+  .decorationExample {
+    width: 18rem;
+    height: 12rem;
+    padding: 2rem;
+    background: var(--color-brand-100);
+  }
+
   .section {
     border: 0 solid var(--color-border-default);
     border-top-width: 1px;

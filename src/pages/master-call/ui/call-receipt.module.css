@@ -8,24 +8,16 @@
     padding: 2.8em 1.6em 1.6em;
     gap: 1.2em;
     border-radius: 0;
-    font-size: 0.625rem;
-    @media (--lg) {
+    font-size: 0.875rem;
+    @media (--sm) {
       padding: 2.25em 1.5em 1.5em;
       gap: 1.5em;
       font-size: 1rem;
     }
   }
-  .both {
-    padding: 3.2em 2.2em;
-    gap: 1.4em;
-    @media (--lg) {
-      padding: 2.25em 1.5em;
-      gap: 1.5em;
-    }
-  }
   .row {
-    line-height: 0.875rem;
-    @media (--lg) {
+    line-height: 1.25rem;
+    @media (--sm) {
       line-height: 1.375rem;
     }
   }
@@ -38,9 +30,9 @@
     width: 100%;
   }
   .title {
-    font-size: 0.75rem;
-    line-height: 1.125rem;
-    @media (--lg) {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    @media (--sm) {
       font-size: 1.125rem;
       line-height: 1.625rem;
     }
@@ -51,23 +43,25 @@
     color: var(--color-text-secondary);
   }
   .legal p {
-    font-size: 0.8em;
-    line-height: 1.375em;
-    @media (--lg) {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    @media (--sm) {
       font-size: 0.75em;
       line-height: 1.5em;
     }
   }
   .number {
+    min-height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.6em;
   }
   .spoilerButton {
-    display: grid;
-    place-items: center;
-    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 2rem;
     padding: 0.125rem;
     border-radius: var(--radius-xs);
     cursor: pointer;
@@ -77,25 +71,25 @@
   }
   .spoiler {
     display: block;
-    width: 4.5em;
-    height: 1em;
+    width: 2rem;
+    height: 1.125rem;
     background: radial-gradient(var(--color-text-tertiary) 0.65px, transparent 0.75px) 0 0 / 3px 3px;
     border-radius: var(--radius-xs);
     background-color: var(--color-neutral-100);
   }
   .date {
-    font-size: 0.5625rem;
-    line-height: 0.75rem;
-    @media (--lg) {
-      font-size: 0.875rem;
-      line-height: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    @media (--sm) {
+      font-size: 1rem;
+      line-height: 1.375rem;
     }
   }
   .rows {
     display: flex;
     flex-direction: column;
     gap: 0.8em;
-    @media (--lg) {
+    @media (--sm) {
       gap: 0.875em;
     }
   }

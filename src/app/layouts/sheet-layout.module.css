@@ -4,7 +4,11 @@
     top: 5rem;
     z-index: 30;
     border-width: 0;
-    border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
+    overflow: hidden;
+    border-radius: 0;
+    background-color: transparent;
+    /* Скругление только у общей маски: отдельный фон под ней даёт светлую кромку. */
+    clip-path: inset(0 round var(--radius-3xl) var(--radius-3xl) 0 0);
 
     @media (--sm) {
       top: 5.5rem;
@@ -13,28 +17,54 @@
 
     @media (--lg) {
       top: calc(16px + 88px);
-      border-radius: var(--radius-4xl);
+      clip-path: inset(0 round var(--radius-4xl));
     }
   }
 
   .inner {
+    position: relative;
+    isolation: isolate;
     display: flex;
     height: 100%;
     flex-direction: column;
     overflow: hidden;
-    border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
+    background-color: var(--color-surface-sheet);
     color: var(--color-text-primary);
-
-    @media (--lg) {
-      border-radius: var(--radius-4xl);
-    }
   }
 
   .scroll {
+    z-index: 1;
     flex: 1 1 0%;
   }
 
+  .masterCall {
+    @media (--lg) {
+      background-image: radial-gradient(
+        circle 65.91rem at 88% 41.84rem,
+        rgb(200 219 255 / 40%) 29.7878%,
+        rgb(247 250 255 / 20%) 71.5374%,
+        transparent
+      );
+    }
+  }
+
+  .masterCall :global(#sheet-footer-slot) {
+    /* Контент продолжается под углами панели, чтобы за ними не оставалась полоса фона. */
+    margin-top: calc(-1 * var(--radius-3xl));
+    @media (--sm) {
+      margin-top: 0;
+    }
+  }
+
+  .masterCall .viewport {
+    padding-bottom: 0;
+    @media (--lg) {
+      padding-bottom: var(--space-3xl);
+    }
+  }
+
   .viewport {
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     overscroll-behavior-y: contain;

@@ -29,9 +29,11 @@
     height: 4rem;
   }
   .comment {
-    min-height: 7.5rem;
+    min-height: 6.25rem;
+    height: 6.25rem;
     @media (--lg) {
       min-height: 8rem;
+      height: auto;
     }
   }
   .desktopSubmit {

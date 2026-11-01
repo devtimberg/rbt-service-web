@@ -1,6 +1,6 @@
 'use client'
 
-import { type ComponentType, type ReactNode, type SVGProps, useState } from 'react'
+import { type ComponentType, type ReactNode, type SVGProps, useRef, useState } from 'react'
 import {
   Box,
   Stack,
@@ -49,6 +49,8 @@ import {
   Sheet,
   SheetContent,
   SheetFooter,
+  SheetDecorationSlot,
+  SheetDecorationSlotTarget,
   SheetHeader,
   SheetTitle,
   Skeleton,
@@ -75,6 +77,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 /** Витрина примитивов shared/ui (только dev, маршрут /_dev/ui). */
 export function UiKitPage() {
+  const decorationAnchor = useRef<HTMLDivElement>(null)
   const [dialog, setDialog] = useState(false)
   const [confirm, setConfirm] = useState(false)
   const [sheet, setSheet] = useState(false)
@@ -357,6 +360,9 @@ export function UiKitPage() {
               >
                 Loading
               </Button>
+              <Button loading loadingIndicator="dots">
+                Отправить заявку
+              </Button>
               <Button href="/" variant="secondary">
                 Ссылка (href)
               </Button>
@@ -517,6 +523,18 @@ export function UiKitPage() {
               </SheetFooter>
             </SheetContent>
           </Sheet>
+        </Section>
+
+        <Section title="Декоративный слой шторки">
+          <Box className={styles.decorationDemo}>
+            <SheetDecorationSlotTarget />
+            <Box ref={decorationAnchor} className={styles.decorationPoint}>
+              Точка привязки
+            </Box>
+            <SheetDecorationSlot anchorRef={decorationAnchor}>
+              <Box className={styles.decorationExample}>Слой обрезается контейнером и не создаёт прокрутку</Box>
+            </SheetDecorationSlot>
+          </Box>
         </Section>
 
         <Section title="ScrollArea">

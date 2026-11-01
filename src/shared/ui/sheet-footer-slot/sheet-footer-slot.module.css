@@ -1,4 +1,9 @@
 @layer components {
+  .footerTarget {
+    position: relative;
+    z-index: 2;
+  }
+
   .root {
     display: flex;
     align-items: center;

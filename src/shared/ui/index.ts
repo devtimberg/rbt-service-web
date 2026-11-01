@@ -37,3 +37,5 @@ export * from './text-input'
 export * from './tooltip'
 
 export { Markdown } from './markdown'
+
+export { SheetDecorationSlot, SheetDecorationSlotTarget } from './sheet-decoration-slot'

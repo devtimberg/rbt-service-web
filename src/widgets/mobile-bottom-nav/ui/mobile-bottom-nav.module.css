@@ -29,6 +29,15 @@
 
   .button {
     border-radius: var(--radius-lg);
+    color: var(--color-navigation-fg-inactive);
+
+    &:hover {
+      color: var(--color-navigation-fg-inactive);
+    }
+    &[aria-current="page"],
+    &[aria-current="page"]:hover {
+      color: var(--color-navigation-fg-active);
+    }
   }
 
   .active {

@@ -6,7 +6,7 @@
 </g>
 <path id="Bezel" d="M41.4013 30.6094H57.9618C62.7026 30.6094 66.5457 34.4525 66.5457 39.1932C66.5457 43.934 62.7026 47.7771 57.9618 47.7771H41.4013C36.6606 47.7771 32.8174 43.934 32.8174 39.1932C32.8174 34.4525 36.6606 30.6094 41.4013 30.6094Z" fill="url(#paint1_linear_0_992)" stroke-width="0.496816" stroke="url(#paint2_linear_0_992)"/>
 <rect id="Lens recess" x="34.2251" y="32.017" width="30.913" height="14.3524" rx="7.17622" fill="#02091E"/>
-<g id="Lens" filter="url(#filter1_d_0_992)">
+<g id="Lens">
 <use xlink:href="#stroke0_0_992" fill="url(#paint3_linear_0_992)"/>
 <mask id="stroke1_0_992" fill="white">
 <use xlink:href="#stroke0_0_992"/>

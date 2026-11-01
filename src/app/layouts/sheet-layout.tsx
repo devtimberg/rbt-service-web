@@ -1,7 +1,9 @@
 'use client'
 
 import { type ReactNode, useLayoutEffect, useRef } from 'react'
-import { Box, LayoutSheet, ScrollArea, SheetFooterSlotTarget } from '@/shared/ui'
+import { ROUTES } from '@/shared/config'
+import { cn } from '@/shared/lib/cn'
+import { Box, LayoutSheet, ScrollArea, SheetFooterSlotTarget, SheetDecorationSlotTarget } from '@/shared/ui'
 import styles from './sheet-layout.module.css'
 
 type SheetLayoutProps = {
@@ -33,7 +35,8 @@ export function SheetLayout({ pathname, open, disableOpenAnimation, children }: 
       inert={!open}
       className={styles.sheet}
     >
-      <Box className={styles.inner}>
+      <Box className={cn(styles.inner, pathname === ROUTES.MASTER_CALL && styles.masterCall)}>
+        <SheetDecorationSlotTarget />
         <ScrollArea
           data-sheet-scroll="true"
           className={styles.scroll}

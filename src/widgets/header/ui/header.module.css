@@ -90,6 +90,7 @@
   }
 
   .mobileLogo {
+    margin-inline: auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -100,6 +101,7 @@
   }
 
   .logo {
+    display: block;
     width: 11.25rem;
     height: 2.5rem;
   }

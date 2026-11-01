@@ -34,7 +34,7 @@ export function CallReceipt({ category, phone, comment, number, date, torn = 'to
 
   return (
     <>
-      <Receipt torn={torn} aria-label="Чек заявки" className={cn(styles.receipt, torn === 'both' && styles.both)}>
+      <Receipt torn={torn} aria-label="Чек заявки" className={styles.receipt}>
         <Box className={styles.head}>
           <ReceiptText size="title" className={styles.title}>
             {COMPANY_NAME}
@@ -66,6 +66,10 @@ export function CallReceipt({ category, phone, comment, number, date, torn = 'to
                 onClick={() => setNotice(true)}
               >
                 <Text as="span" className={styles.spoiler} aria-hidden />
+                <Text as="span" aria-hidden>
+                  -
+                </Text>
+                <Text as="span" className={styles.spoiler} aria-hidden />
               </Button>
             )}
           </Box>
@@ -84,7 +88,7 @@ export function CallReceipt({ category, phone, comment, number, date, torn = 'to
           />
           <ReceiptRow
             label="Комментарий к заявке"
-            value={comment?.trim()}
+            value={comment?.trim() ? comment : undefined}
             placeholder="Не добавлен"
             multiline
             className={cn(styles.row, styles.comment)}

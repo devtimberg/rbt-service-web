@@ -4,7 +4,8 @@
     pointer-events: none;
     position: absolute;
     inset: 0;
-    display: block;
+    display: flex;
+    align-items: center;
     overflow: hidden;
     border: 1px solid transparent;
     border-radius: var(--radius-md);

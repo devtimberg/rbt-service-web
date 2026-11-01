@@ -28,6 +28,8 @@ type ButtonStyleProps = {
   /** Иконка слева от текста. */
   icon?: ReactNode
   className?: string | undefined
+  /** Вид индикатора при loading; подпись и ширина кнопки сохраняются. */
+  loadingIndicator?: 'spinner' | 'dots' | undefined
 }
 
 type ButtonAsButtonProps = ButtonStyleProps &
@@ -88,7 +90,7 @@ export function buttonClass({
 }
 
 export function Button(props: ButtonProps) {
-  const { variant, size, rounded, icon, className, ...rest } = props
+  const { variant, size, rounded, icon, className, loadingIndicator = 'spinner', ...rest } = props
   if (variant === 'unstyled' && props.href === undefined) {
     const {
       loading: _loading,
@@ -124,11 +126,20 @@ export function Button(props: ButtonProps) {
       className={classes}
       disabled={loading || disabled}
       aria-busy={loading || undefined}
+      aria-label={loading && typeof children === 'string' ? children : undefined}
       {...button}
     >
       {loading ? (
-        <span className={styles.loader}>
-          <LoaderIcon className={styles.spinner} />
+        <span className={styles.loader} aria-hidden>
+          {loadingIndicator === 'dots' ? (
+            <span className={styles.dots}>
+              <span />
+              <span />
+              <span />
+            </span>
+          ) : (
+            <LoaderIcon className={styles.spinner} />
+          )}
         </span>
       ) : null}
       <span className={cn(styles.content, loading && styles.contentHidden)}>

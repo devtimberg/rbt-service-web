@@ -10,7 +10,7 @@ const SHEET_FOOTER_SLOT_ID = 'sheet-footer-slot'
 
 /** Место в раскладке шторки, куда экраны через SheetFooterSlot выносят свой нижний блок действий. */
 export function SheetFooterSlotTarget() {
-  return <div id={SHEET_FOOTER_SLOT_ID} />
+  return <div id={SHEET_FOOTER_SLOT_ID} className={styles.footerTarget} />
 }
 
 type SheetFooterSlotProps = {

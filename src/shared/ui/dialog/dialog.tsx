@@ -1,6 +1,6 @@
 'use client'
 
-import { type MouseEvent, type ReactNode, useEffect, useId, useRef } from 'react'
+import { type CSSProperties, type MouseEvent, type ReactNode, useEffect, useId, useRef } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { CloseIcon } from '../icons'
 import styles from './dialog.module.css'
@@ -9,6 +9,9 @@ type Placement = 'center' | 'bottom' | 'responsive'
 
 type DialogShellProps = {
   open: boolean
+  /** Немодальный режим для выпадающих панелей: фон остаётся интерактивным. */
+  modal?: boolean
+  style?: CSSProperties | undefined
   onClose: () => void
   /** id заголовка внутри окна (aria-labelledby). */
   labelledBy?: string
@@ -28,10 +31,13 @@ const PLACEMENT_CLASS: Record<Placement, string> = {
 /**
  * Основа модальных окон на нативном `<dialog>`: фокус-ловушку, Esc и затемнение даёт браузер.
  * Открытием управляет проп `open` (showModal/close), закрытие (Esc, клик по затемнению) сообщается в `onClose`.
- * Анимации входа и выхода на CSS (dialog.module.css). Страница под окном не прокручивается.
+ * Анимации входа и выхода на CSS (dialog.module.css). По умолчанию блокирует прокрутку фона;
+ * modal=false открывает немодальную панель атрибутом open без перехвата фокуса браузером.
  */
 export function DialogShell({
   open,
+  modal = true,
+  style,
   onClose,
   labelledBy,
   describedBy,
@@ -43,19 +49,23 @@ export function DialogShell({
 
   useEffect(() => {
     const dialog = ref.current
-    if (!dialog) return
-    if (open && !dialog.open) dialog.showModal()
+    if (!dialog || !modal) return
+    if (open && !dialog.open) {
+      dialog.showModal()
+      // При открытии шторки не выделяем первое действие (обычно крестик).
+      if (placement === 'bottom' || placement === 'responsive') dialog.focus({ preventScroll: true })
+    }
     if (!open && dialog.open) dialog.close()
-  }, [open])
+  }, [open, modal, placement])
 
   useEffect(() => {
-    if (!open) return
+    if (!open || !modal) return
     const previous = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = previous
     }
-  }, [open])
+  }, [open, modal])
 
   function handleBackdropClick(event: MouseEvent<HTMLDialogElement>) {
     // Клик по ::backdrop приходит в сам элемент dialog, клик по содержимому нет
@@ -67,6 +77,9 @@ export function DialogShell({
     // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <dialog
       ref={ref}
+      tabIndex={-1}
+      open={modal ? undefined : open}
+      style={style}
       aria-labelledby={labelledBy}
       aria-describedby={describedBy}
       data-placement={placement}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import type { MasterCall } from '@/entities/master-call'
 import { Container } from '@/shared/ui'
 import type { MasterCallFormValues } from '../model/schema'
@@ -12,6 +12,9 @@ import styles from './master-call-page.module.css'
 export function MasterCallPage() {
   const root = useRef<HTMLDivElement>(null)
   const [values, setValues] = useState<Partial<MasterCallFormValues>>({})
+  const [hasError, setHasError] = useState(false)
+  const [activity, setActivity] = useState(0)
+  const signalActivity = useCallback(() => setActivity((previous) => previous + 1), [])
   const [created, setCreated] = useState<{ call: MasterCall; values: MasterCallFormValues } | null>(null)
 
   useLayoutEffect(() => {
@@ -27,10 +30,12 @@ export function MasterCallPage() {
       ) : (
         <MasterCallForm
           valuesAction={setValues}
+          errorAction={setHasError}
+          activityAction={signalActivity}
           createdAction={(call, submitted) => setCreated({ call, values: submitted })}
         />
       )}
-      <ReceiptPrinter values={created?.values ?? values} call={created?.call} />
+      <ReceiptPrinter values={created?.values ?? values} call={created?.call} hasError={hasError} activity={activity} />
     </Container>
   )
 }

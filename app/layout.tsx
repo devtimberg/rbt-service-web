@@ -22,7 +22,8 @@ export const metadata: Metadata = {
 /** Корень документа: шторки и основной контент раскладывает `AppShell` (ADR 0013). */
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ru-RU" className={fontVariables}>
+    // iOS-браузер может добавить служебный __gCrRemoteFrameToken до гидратации.
+    <html lang="ru-RU" className={fontVariables} suppressHydrationWarning>
       <body>
         <AppProviders>
           <AppShell>{children}</AppShell>

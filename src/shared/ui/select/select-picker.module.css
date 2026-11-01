@@ -17,18 +17,25 @@
     text-align: left;
     color: var(--color-input-fg);
     cursor: pointer;
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled, :focus-visible, [aria-expanded="true"]) {
       background: var(--color-input-bg-hover);
     }
     &:focus-visible {
       outline: none;
       border-color: var(--color-input-border-focus);
-      box-shadow: var(--shadow-focus-ring);
+      background: var(--color-input-bg-filled);
     }
     &:disabled {
       background: var(--color-input-bg-disabled);
       color: var(--color-input-fg-disabled);
       cursor: not-allowed;
+    }
+  }
+  .open {
+    border-color: var(--color-input-border-focus);
+    background: var(--color-input-bg-filled);
+    & .chevron {
+      color: var(--color-input-border-focus);
     }
   }
   .label {
@@ -73,35 +80,37 @@
     border: 0;
     @media (--md) {
       position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      max-height: none;
-      background: transparent;
-      pointer-events: none;
-      box-shadow: none;
+      inset: auto;
+      left: var(--picker-left);
+      top: var(--picker-top);
+      z-index: 100;
+      width: var(--picker-width);
+      height: auto;
+      margin: 0;
+      max-height: var(--picker-height);
+      overflow: hidden;
+      background: var(--color-surface-default);
+      box-shadow: var(--shadow-md);
       transform: none;
-      border-radius: 0;
+      &[open] {
+        transform: none;
+      }
+      border-radius: var(--radius-md);
+      transition: opacity 100ms ease;
       &::backdrop {
         background: transparent;
       }
     }
   }
+
   .position {
     background: var(--color-surface-default);
-    padding: 0 var(--space-lg) max(var(--space-2xl), env(safe-area-inset-bottom));
+    padding: 0 var(--space-lg) env(safe-area-inset-bottom, 0px);
     @media (--md) {
-      pointer-events: auto;
-      position: absolute;
-      left: var(--picker-left);
-      top: var(--picker-top);
-      width: var(--picker-width);
-      max-height: var(--picker-height);
       padding: var(--space-xs);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-md);
     }
   }
+
   .handle {
     width: 2.25rem;
     height: 0.25rem;
@@ -124,8 +133,44 @@
   .options {
     max-height: min(60dvh, 31rem);
     overflow-y: auto;
+    padding-inline-end: var(--space-sm);
     overscroll-behavior: contain;
     outline: none;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-surface-brand-subtle) transparent;
+
+    @supports selector(::-webkit-scrollbar) {
+      scrollbar-width: auto;
+      scrollbar-color: auto;
+
+      &::-webkit-scrollbar {
+        width: 0.625rem;
+      }
+      &::-webkit-scrollbar-track {
+        margin-block: var(--space-xs);
+        border-radius: var(--radius-full);
+        background: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        border: 2px solid transparent;
+        border-radius: var(--radius-full);
+        background: var(--color-surface-brand-subtle);
+        background-clip: padding-box;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-input-bg-hover);
+      }
+      &::-webkit-scrollbar-thumb:active {
+        background-color: var(--color-surface-brand-subtle);
+      }
+      &::-webkit-scrollbar-button {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+    }
+
     @media (--md) {
       max-height: min(22rem, calc(var(--picker-height) - 0.5rem));
     }
@@ -150,11 +195,5 @@
   }
   .active {
     background: var(--color-input-bg);
-  }
-  .check {
-    width: 1.25rem;
-    height: 1.25rem;
-    flex-shrink: 0;
-    color: var(--color-icon-brand);
   }
 }

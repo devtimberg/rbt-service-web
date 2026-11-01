@@ -46,9 +46,11 @@ const OPTIONS = APPLIANCE_CATEGORIES.map((category) => ({ value: category.label,
 type MasterCallFormProps = {
   createdAction: (call: MasterCall, values: MasterCallFormValues) => void
   valuesAction: (values: Partial<MasterCallFormValues>) => void
+  errorAction?: (hasError: boolean) => void
+  activityAction?: () => void
 }
 
-export function MasterCallForm({ createdAction, valuesAction }: MasterCallFormProps) {
+export function MasterCallForm({ createdAction, valuesAction, errorAction, activityAction }: MasterCallFormProps) {
   const [createMasterCall, { isLoading, error }] = useCreateMasterCallMutation()
   const [ready, setReady] = useState(false)
   const live = useRef(true)
@@ -67,6 +69,11 @@ export function MasterCallForm({ createdAction, valuesAction }: MasterCallFormPr
     defaultValues: EMPTY_MASTER_CALL,
   })
   const values = useWatch({ control })
+  const hasError = Boolean(error) || Object.keys(errors).length > 0
+
+  useEffect(() => {
+    errorAction?.(hasError)
+  }, [hasError, errorAction])
 
   useEffect(() => {
     live.current = true
@@ -98,7 +105,7 @@ export function MasterCallForm({ createdAction, valuesAction }: MasterCallFormPr
     const submitted = {
       ...data,
       category: data.category === 'Другое' ? data.customCategory?.trim() || 'Другое' : data.category,
-      comment: data.comment?.trim(),
+      comment: data.comment?.trim() ? data.comment : undefined,
     }
     const result = await createMasterCall({
       category: submitted.category,
@@ -138,13 +145,14 @@ export function MasterCallForm({ createdAction, valuesAction }: MasterCallFormPr
               name={field.name}
               value={field.value ?? ''}
               options={OPTIONS}
-              disabled={isLoading || !ready}
+              disabled={!ready}
               error={errors.category?.message}
               controlRef={field.ref}
               onControlBlur={field.onBlur}
               onValueChange={(value) => {
                 field.onChange(value)
                 clearErrors('category')
+                activityAction?.()
               }}
             />
           )}
@@ -153,10 +161,15 @@ export function MasterCallForm({ createdAction, valuesAction }: MasterCallFormPr
           <TextField
             label="Ваш вариант техники"
             maxLength={CUSTOM_CATEGORY_MAX_LENGTH}
-            disabled={isLoading || !ready}
+            disabled={!ready}
             error={errors.customCategory?.message}
             className={styles.customField}
-            {...register('customCategory', { onChange: () => clearErrors('customCategory') })}
+            {...register('customCategory', {
+              onChange: () => {
+                clearErrors('customCategory')
+                activityAction?.()
+              },
+            })}
           />
         )}
         <Controller
@@ -167,10 +180,11 @@ export function MasterCallForm({ createdAction, valuesAction }: MasterCallFormPr
               label="Номер телефона"
               name={field.name}
               value={field.value ?? ''}
-              disabled={isLoading || !ready}
+              disabled={!ready}
               onValueChange={(value) => {
                 field.onChange(value)
                 clearErrors('phone')
+                activityAction?.()
               }}
               onBlur={field.onBlur}
               ref={field.ref}
@@ -184,13 +198,24 @@ export function MasterCallForm({ createdAction, valuesAction }: MasterCallFormPr
           maxLength={COMMENT_MAX_LENGTH}
           value={values.comment ?? ''}
           rows={4}
-          disabled={isLoading || !ready}
+          disabled={!ready}
           error={errors.comment?.message}
           textareaClassName={styles.comment}
-          {...register('comment', { onChange: () => clearErrors('comment') })}
+          {...register('comment', {
+            onChange: () => {
+              clearErrors('comment')
+              activityAction?.()
+            },
+          })}
         />
         <FormAlert message={error ? `${UNKNOWN_ERROR_MESSAGE} Попробуйте отправить заявку ещё раз.` : undefined} />
-        <Button type="submit" loading={isLoading} disabled={!ready} className={styles.desktopSubmit}>
+        <Button
+          type="submit"
+          loading={isLoading}
+          loadingIndicator="dots"
+          disabled={!ready}
+          className={styles.desktopSubmit}
+        >
           Создать заявку
         </Button>
         <Text className={styles.consent}>
@@ -203,7 +228,14 @@ export function MasterCallForm({ createdAction, valuesAction }: MasterCallFormPr
         </Text>
       </Form>
       <SheetFooterSlot className={cn(styles.mobileFooter, keyboardOpen && styles.keyboardOpen)}>
-        <Button type="submit" form={FORM_ID} loading={isLoading} disabled={!ready} className={styles.submit}>
+        <Button
+          type="submit"
+          form={FORM_ID}
+          loading={isLoading}
+          loadingIndicator="dots"
+          disabled={!ready}
+          className={styles.submit}
+        >
           Создать заявку
         </Button>
       </SheetFooterSlot>

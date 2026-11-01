@@ -208,9 +208,11 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
 
       {/* Desktop: search form — each element transitions only its own properties */}
       <search ref={wrapperRef} className={styles.search}>
-        <Form onSubmit={handleSubmit} className={styles.form}>
+        <Form suppressHydrationWarning onSubmit={handleSubmit} className={styles.form}>
           <SearchOutlineIcon className={styles.icon} aria-hidden />
+          {/* Браузерное автозаполнение iOS добавляет служебный __gCrUniqueID до гидратации. */}
           <Input
+            suppressHydrationWarning
             ref={inputRef}
 
             value={query}

@@ -4,6 +4,8 @@ import type { NextConfig } from 'next'
 const config: NextConfig = {
   // Node-сервер без node_modules проекта: .next/standalone/server.js (см. Dockerfile)
   output: 'standalone',
+  // Доступ к dev-ресурсам и HMR с устройств в локальной сети.
+  allowedDevOrigins: ['192.168.1.88', '192.168.1.58'],
   outputFileTracingIncludes: { '/privacy-policy': ['./src/pages/privacy-policy/content/*.md'] },
   // gzip встроенного сервера
   compress: true,

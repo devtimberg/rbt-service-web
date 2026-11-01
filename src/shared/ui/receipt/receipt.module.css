@@ -128,9 +128,18 @@
     max-width: 65%;
   }
 
+  .empty {
+    color: var(--color-text-disabled);
+  }
+
   .multiline .value {
     max-width: none;
     text-align: left;
+  }
+
+  /* Пустая строка после последнего переноса имеет ту же высоту, что и при вводе в textarea. */
+  .trailingLine::after {
+    content: "\200b";
   }
 
   .rule {
