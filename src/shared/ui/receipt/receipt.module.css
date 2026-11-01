@@ -3,6 +3,8 @@
 @layer components {
   .root {
     --tooth: 0.75em;
+    --receipt-edge-radius: 0.375em;
+    --receipt-edge-step: 1.125em;
     font-size: 1rem; /* база зума: внешний класс задаёт свой font-size, всё внутри в em */
     display: flex;
     flex-direction: column;
@@ -14,28 +16,52 @@
     font-family: var(--font-mono);
     /* Слои: зубцы сверху, сплошная середина (ниже зубцов) */
     mask:
-      radial-gradient(circle at 50% 0, transparent 0.375em, #000 calc(0.375em + 0.5px)) top / 1.125em var(--tooth)
-        repeat-x,
+      radial-gradient(
+          circle at 50% 0,
+          transparent var(--receipt-edge-radius),
+          #000 calc(var(--receipt-edge-radius) + 0.5px)
+        )
+        top / var(--receipt-edge-step) var(--tooth) repeat-x,
       linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - var(--tooth)) no-repeat;
     -webkit-mask:
-      radial-gradient(circle at 50% 0, transparent 0.375em, #000 calc(0.375em + 0.5px)) top / 1.125em var(--tooth)
-        repeat-x,
+      radial-gradient(
+          circle at 50% 0,
+          transparent var(--receipt-edge-radius),
+          #000 calc(var(--receipt-edge-radius) + 0.5px)
+        )
+        top / var(--receipt-edge-step) var(--tooth) repeat-x,
       linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - var(--tooth)) no-repeat;
   }
 
   .both {
     padding-bottom: calc(1.8446em + var(--tooth));
     mask:
-      radial-gradient(circle at 50% 0, transparent 0.375em, #000 calc(0.375em + 0.5px)) top / 1.125em var(--tooth)
-        repeat-x,
-      radial-gradient(circle at 50% 100%, transparent 0.375em, #000 calc(0.375em + 0.5px)) bottom / 1.125em var(--tooth)
-        repeat-x,
+      radial-gradient(
+          circle at 50% 0,
+          transparent var(--receipt-edge-radius),
+          #000 calc(var(--receipt-edge-radius) + 0.5px)
+        )
+        top / var(--receipt-edge-step) var(--tooth) repeat-x,
+      radial-gradient(
+          circle at 50% 100%,
+          transparent var(--receipt-edge-radius),
+          #000 calc(var(--receipt-edge-radius) + 0.5px)
+        )
+        bottom / var(--receipt-edge-step) var(--tooth) repeat-x,
       linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - 2 * var(--tooth)) no-repeat;
     -webkit-mask:
-      radial-gradient(circle at 50% 0, transparent 0.375em, #000 calc(0.375em + 0.5px)) top / 1.125em var(--tooth)
-        repeat-x,
-      radial-gradient(circle at 50% 100%, transparent 0.375em, #000 calc(0.375em + 0.5px)) bottom / 1.125em var(--tooth)
-        repeat-x,
+      radial-gradient(
+          circle at 50% 0,
+          transparent var(--receipt-edge-radius),
+          #000 calc(var(--receipt-edge-radius) + 0.5px)
+        )
+        top / var(--receipt-edge-step) var(--tooth) repeat-x,
+      radial-gradient(
+          circle at 50% 100%,
+          transparent var(--receipt-edge-radius),
+          #000 calc(var(--receipt-edge-radius) + 0.5px)
+        )
+        bottom / var(--receipt-edge-step) var(--tooth) repeat-x,
       linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - 2 * var(--tooth)) no-repeat;
   }
 
@@ -91,15 +117,19 @@
   .dots {
     flex: 1;
     min-width: 1em;
-    border-bottom: 2px dotted currentColor;
+    height: 0.2em;
+    background: radial-gradient(circle, currentColor 0.7px, transparent 1px) 0 100% / 0.4375em 0.125em repeat-x;
   }
 
   .value {
     text-align: right;
     overflow-wrap: anywhere;
+    min-width: 0;
+    max-width: 65%;
   }
 
   .multiline .value {
+    max-width: none;
     text-align: left;
   }
 

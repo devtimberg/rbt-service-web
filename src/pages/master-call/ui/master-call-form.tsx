@@ -1,128 +1,212 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { useCreateMasterCallMutation, type MasterCall } from '@/entities/master-call'
 import { UNKNOWN_ERROR_MESSAGE } from '@/shared/api'
+import { ROUTES } from '@/shared/config'
+import { cn } from '@/shared/lib/cn'
+import { useNavigationBlocker } from '@/shared/lib/navigation-guard'
 import {
   Box,
   Breadcrumb,
   Button,
-  Container,
   Form,
   FormAlert,
   Heading,
   PhoneField,
   Select,
   SheetFooterSlot,
+  SmartLink,
+  Text,
   TextArea,
+  TextField,
 } from '@/shared/ui'
 import { APPLIANCE_CATEGORIES } from '../model/categories'
-import { COMMENT_MAX_LENGTH, masterCallSchema, type MasterCallFormValues } from '../model/schema'
-import { formatReceiptDate, useReceiptClock } from '../model/use-receipt-clock'
-import { CallReceipt } from './call-receipt'
+import {
+  clearMasterCallDraft,
+  EMPTY_MASTER_CALL,
+  hasMasterCallDraft,
+  readMasterCallDraft,
+  saveMasterCallDraft,
+} from '../model/draft'
+import {
+  COMMENT_MAX_LENGTH,
+  CUSTOM_CATEGORY_MAX_LENGTH,
+  masterCallSchema,
+  type MasterCallFormValues,
+} from '../model/schema'
+import { useScreenKeyboard } from '../model/use-screen-keyboard'
 import styles from './master-call-form.module.css'
 
 const FORM_ID = 'master-call-form'
-const OPTIONS = APPLIANCE_CATEGORIES.map((c) => ({ value: c.label, label: c.label }))
+const OPTIONS = APPLIANCE_CATEGORIES.map((category) => ({ value: category.label, label: category.label }))
 
-export function MasterCallForm({
-  createdAction,
-}: {
+type MasterCallFormProps = {
   createdAction: (call: MasterCall, values: MasterCallFormValues) => void
-}) {
+  valuesAction: (values: Partial<MasterCallFormValues>) => void
+}
+
+export function MasterCallForm({ createdAction, valuesAction }: MasterCallFormProps) {
   const [createMasterCall, { isLoading, error }] = useCreateMasterCallMutation()
-  const clock = useReceiptClock()
-  // Ошибка уходит с первой же правки поля: reValidateMode по умолчанию ('onChange') убирал бы её, только когда поле
-  // стало валидным, а телефон валиден лишь на десятой цифре. Поэтому перевалидация по submit, а снимаем clearErrors.
+  const [ready, setReady] = useState(false)
+  const live = useRef(true)
+  const discarded = useRef(false)
+  const keyboardOpen = useScreenKeyboard()
   const {
     register,
     control,
     handleSubmit,
     clearErrors,
+    reset,
     formState: { errors },
   } = useForm<MasterCallFormValues>({
     resolver: zodResolver(masterCallSchema),
     reValidateMode: 'onSubmit',
-    defaultValues: { category: '', phone: '', comment: '' },
+    defaultValues: EMPTY_MASTER_CALL,
   })
   const values = useWatch({ control })
 
+  useEffect(() => {
+    live.current = true
+    const frame = requestAnimationFrame(() => {
+      reset(readMasterCallDraft())
+      setReady(true)
+    })
+    return () => {
+      live.current = false
+      cancelAnimationFrame(frame)
+    }
+  }, [reset])
+
+  useEffect(() => {
+    if (!ready || discarded.current) return
+    saveMasterCallDraft(values)
+    valuesAction(values)
+  }, [ready, values, valuesAction])
+
+  useNavigationBlocker(ready && hasMasterCallDraft(values), () => {
+    discarded.current = true
+    live.current = false
+    clearMasterCallDraft()
+    reset(EMPTY_MASTER_CALL)
+  })
+
   const onValid = async (data: MasterCallFormValues) => {
-    const result = await createMasterCall(data)
-    if (result.data) createdAction(result.data, data)
+    if (isLoading || !ready) return
+    const submitted = {
+      ...data,
+      category: data.category === 'Другое' ? data.customCategory?.trim() || 'Другое' : data.category,
+      comment: data.comment?.trim(),
+    }
+    const result = await createMasterCall({
+      category: submitted.category,
+      phone: submitted.phone,
+      comment: submitted.comment,
+    })
+    if (!live.current || discarded.current) return
+    if (result.data) {
+      discarded.current = true
+      clearMasterCallDraft()
+      createdAction(result.data, submitted)
+    }
   }
 
   return (
-    <Container className={styles.root}>
-      <Box className={styles.main}>
-        <Breadcrumb items={[{ label: 'Вызвать мастера' }]} />
-        <Heading level={1} size="xl" className={styles.title}>
-          Вызвать мастера
-        </Heading>
-
-        <Form id={FORM_ID} noValidate onSubmit={handleSubmit(onValid)} className={styles.form}>
-          <Controller
-            control={control}
-            name="category"
-            render={({ field }) => (
-              <Select
-                label="Вид техники"
-                name={field.name}
-                value={field.value ?? ''}
-                options={OPTIONS}
-                error={errors.category?.message}
-                onChange={(e) => {
-                  field.onChange(e.target.value)
-                  clearErrors('category')
-                }}
-                onBlur={field.onBlur}
-                ref={field.ref}
-              />
-            )}
+    <Box className={styles.main}>
+      <Breadcrumb items={[{ label: 'Вызвать мастера' }]} />
+      <Heading level={1} className={styles.title}>
+        Вызвать мастера
+      </Heading>
+      <Form
+        id={FORM_ID}
+        noValidate
+        onSubmit={(event) => {
+          void handleSubmit(onValid)(event)
+        }}
+        className={styles.form}
+        aria-busy={isLoading}
+      >
+        <Controller
+          control={control}
+          name="category"
+          render={({ field }) => (
+            <Select
+              presentation="responsive"
+              label="Вид техники"
+              name={field.name}
+              value={field.value ?? ''}
+              options={OPTIONS}
+              disabled={isLoading || !ready}
+              error={errors.category?.message}
+              controlRef={field.ref}
+              onControlBlur={field.onBlur}
+              onValueChange={(value) => {
+                field.onChange(value)
+                clearErrors('category')
+              }}
+            />
+          )}
+        />
+        {values.category === 'Другое' && (
+          <TextField
+            label="Ваш вариант техники"
+            maxLength={CUSTOM_CATEGORY_MAX_LENGTH}
+            disabled={isLoading || !ready}
+            error={errors.customCategory?.message}
+            className={styles.customField}
+            {...register('customCategory', { onChange: () => clearErrors('customCategory') })}
           />
-          <Controller
-            control={control}
-            name="phone"
-            render={({ field }) => (
-              <PhoneField
-                label="Номер телефона"
-                name={field.name}
-                value={field.value ?? ''}
-                onValueChange={(value) => {
-                  field.onChange(value)
-                  clearErrors('phone')
-                }}
-                onBlur={field.onBlur}
-                ref={field.ref}
-                error={errors.phone?.message}
-              />
-            )}
-          />
-          <TextArea
-            label="Комментарий к заявке"
-            maxLength={COMMENT_MAX_LENGTH}
-            error={errors.comment?.message}
-            {...register('comment', { onChange: () => clearErrors('comment') })}
-          />
-          <FormAlert message={error ? UNKNOWN_ERROR_MESSAGE : undefined} />
-        </Form>
-      </Box>
-
-      <CallReceipt
-        category={values.category}
-        phone={values.phone}
-        comment={values.comment}
-        date={formatReceiptDate(clock)}
-        className={styles.receipt}
-        consent
-      />
-
-      <SheetFooterSlot contentClassName={styles.footerContent}>
-        <Button type="submit" form={FORM_ID} loading={isLoading} className={styles.submit}>
+        )}
+        <Controller
+          control={control}
+          name="phone"
+          render={({ field }) => (
+            <PhoneField
+              label="Номер телефона"
+              name={field.name}
+              value={field.value ?? ''}
+              disabled={isLoading || !ready}
+              onValueChange={(value) => {
+                field.onChange(value)
+                clearErrors('phone')
+              }}
+              onBlur={field.onBlur}
+              ref={field.ref}
+              error={errors.phone?.message}
+              className={styles.phoneField}
+            />
+          )}
+        />
+        <TextArea
+          label="Комментарий к заявке"
+          maxLength={COMMENT_MAX_LENGTH}
+          value={values.comment ?? ''}
+          rows={4}
+          disabled={isLoading || !ready}
+          error={errors.comment?.message}
+          textareaClassName={styles.comment}
+          {...register('comment', { onChange: () => clearErrors('comment') })}
+        />
+        <FormAlert message={error ? `${UNKNOWN_ERROR_MESSAGE} Попробуйте отправить заявку ещё раз.` : undefined} />
+        <Button type="submit" loading={isLoading} disabled={!ready} className={styles.desktopSubmit}>
+          Создать заявку
+        </Button>
+        <Text className={styles.consent}>
+          Нажимая кнопку «Создать заявку», я даю согласие на обработку моих персональных данных, в соответствии с
+          Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных» для целей и на условиях, представленных
+          в{' '}
+          <SmartLink href={ROUTES.PRIVACY_POLICY} target="_blank" rel="noopener" className={styles.policy}>
+            политике конфиденциальности
+          </SmartLink>
+        </Text>
+      </Form>
+      <SheetFooterSlot className={cn(styles.mobileFooter, keyboardOpen && styles.keyboardOpen)}>
+        <Button type="submit" form={FORM_ID} loading={isLoading} disabled={!ready} className={styles.submit}>
           Создать заявку
         </Button>
       </SheetFooterSlot>
-    </Container>
+    </Box>
   )
 }

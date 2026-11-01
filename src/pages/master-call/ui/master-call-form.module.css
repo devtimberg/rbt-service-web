@@ -1,63 +1,73 @@
 @layer slices {
-  .root {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-
-    @media (--md) {
-      flex-direction: row;
-      align-items: stretch;
-      justify-content: space-between;
-      /* Заполняем высоту шторки, чтобы чек доходил до нижней полосы с кнопкой */
-      flex: 1 0 auto;
-    }
-  }
-
   .main {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-
-    @media (--md) {
-      flex: 1;
-      max-width: 36rem;
-    }
+    min-width: 0;
   }
-
   .title {
     display: none;
-
-    @media (--sm) {
+    font-size: 2.5rem;
+    line-height: 3rem;
+    letter-spacing: -0.05rem;
+    font-weight: var(--font-weight-semibold);
+    @media (--lg) {
       display: block;
+      margin-top: 0.5rem;
     }
   }
-
   .form {
+    @media (--lg) {
+      margin-top: 0.5rem;
+    }
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--space-2xl);
   }
-
-  .receipt {
-    width: 100%;
-    /* База зума чека: 1rem до md, дальше растёт с шириной окна */
-    font-size: clamp(1rem, 1.25vw - 0.125rem, 1.375rem);
-
-    @media (--md) {
-      width: 26em;
-      flex-shrink: 0;
+  .phoneField input,
+  .customField input {
+    height: 4rem;
+  }
+  .comment {
+    min-height: 7.5rem;
+    @media (--lg) {
+      min-height: 8rem;
     }
   }
-
-  .footerContent {
-    justify-content: flex-end;
+  .desktopSubmit {
+    display: none;
+    width: 100%;
+    height: 3.5rem;
+    @media (--lg) {
+      display: inline-flex;
+    }
   }
-
+  .consent {
+    font-size: var(--font-size-caption-md);
+    line-height: 1rem;
+    color: var(--color-text-secondary);
+  }
+  .policy {
+    color: var(--color-text-brand);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+    &:focus-visible {
+      outline: 2px solid var(--color-input-border-focus);
+      outline-offset: 3px;
+    }
+  }
+  .mobileFooter {
+    @media (--lg) {
+      display: none;
+    }
+  }
+  .keyboardOpen {
+    display: none;
+  }
   .submit {
     width: 100%;
-
-    @media (--sm) {
-      width: auto;
-    }
+    height: 3.5rem;
   }
 }

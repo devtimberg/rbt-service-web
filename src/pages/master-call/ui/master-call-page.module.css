@@ -1,0 +1,14 @@
+@layer slices {
+  .root {
+    display: grid;
+    gap: 2rem;
+    min-width: 0;
+    padding: 0.5rem 0.75rem 0;
+    flex: 1 0 auto;
+    @media (--lg) {
+      grid-template-columns: minmax(0, 30rem) minmax(0, 1fr);
+      gap: 2.5rem;
+      padding: 2rem 1.75rem 0;
+    }
+  }
+}

@@ -1,57 +1,37 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import type { MasterCall } from '@/entities/master-call'
 import { ROUTES } from '@/shared/config'
-import { Box, Breadcrumb, Button, CheckIcon, Container, Heading, SheetFooterSlot, Text } from '@/shared/ui'
-import type { MasterCallFormValues } from '../model/schema'
-import { formatReceiptDate } from '../model/use-receipt-clock'
-import { CallReceipt } from './call-receipt'
+import { Box, Breadcrumb, Button, Image, Heading, LineBreak, SheetFooterSlot, Text } from '@/shared/ui'
 import styles from './master-call-created.module.css'
 
-type MasterCallCreatedProps = { call: MasterCall; values: MasterCallFormValues }
-
-export function MasterCallCreated({ call, values }: MasterCallCreatedProps) {
-  const router = useRouter()
-
+export function MasterCallCreated({ call }: { call: MasterCall }) {
   return (
-    <Container className={styles.root}>
-      <Box className={styles.main}>
-        <Breadcrumb items={[{ label: 'Вызвать мастера' }]} />
+    <Box className={styles.main}>
+      <Breadcrumb items={[{ label: 'Вызвать мастера' }]} />
+      <Box className={styles.result} aria-live="polite">
         <Box className={styles.status}>
           <Box className={styles.badge}>
-            <CheckIcon className={styles.check} />
+            <Image src="/master-call/success.svg" width={72} height={72} alt="" className={styles.check} />
           </Box>
-          <Heading level={1} size="xl">
+          <Heading level={1} className={styles.title}>
             Заявка создана
           </Heading>
         </Box>
-
-        <Heading level={2} size="lg">
-          # {call.number}
-        </Heading>
-
+        <Text className={styles.number}># {call.number}</Text>
         <Text className={styles.text}>
-          Спасибо что обратились в наш сервис, в ближайшее время с вами свяжется наш менеджер и уточнит детали
+          Спасибо что обратились в наш сервис,
+          <LineBreak />в ближайшее время с вами свяжется наш менеджер и уточнит детали
         </Text>
       </Box>
-
-      <CallReceipt
-        torn="both"
-        category={values.category}
-        phone={values.phone}
-        comment={values.comment}
-        number={call.number}
-        date={formatReceiptDate(call.createdAt)}
-        className={styles.receipt}
-        mutedNote
-      />
-
-      <SheetFooterSlot contentClassName={styles.footerContent}>
-        <Button className={styles.button} onClick={() => router.push(ROUTES.HOME)}>
+      <Button href={ROUTES.HOME} className={styles.desktopButton}>
+        Хорошо
+      </Button>
+      <SheetFooterSlot className={styles.mobileFooter}>
+        <Button href={ROUTES.HOME} className={styles.button}>
           Хорошо
         </Button>
       </SheetFooterSlot>
-    </Container>
+    </Box>
   )
 }
