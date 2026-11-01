@@ -12,6 +12,16 @@ export const masterCallApi = api.injectEndpoints({
       // shortcut: заглушка без сети, заменить на apiFetch (ошибки ApiError в сериализуемый объект), когда появится API
       queryFn: async () => {
         await new Promise((resolve) => setTimeout(resolve, 600))
+        if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
+          try {
+            // Только для ручной проверки ошибки без переключателей в пользовательском интерфейсе.
+            if (sessionStorage.getItem('rbt:master-call:mock-error') === '1') {
+              return { error: { status: 503, message: 'Тестовая ошибка отправки' } }
+            }
+          } catch {
+            // Недоступное хранилище не мешает работе заглушки.
+          }
+        }
         return { data: { number: `${digits()}-${digits()}`, createdAt: new Date().toISOString() } }
       },
     }),
