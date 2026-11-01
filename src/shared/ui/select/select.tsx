@@ -1,14 +1,21 @@
+'use client'
+
 import type { ComponentProps } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { Box } from '../box'
 import { Label } from '../field'
 import { ChevronDownIcon } from '../icons'
 import { Text } from '../text'
+import { SelectPicker } from './select-picker'
 import styles from './select.module.css'
 
 export type SelectOption = { value: string; label: string }
 
-type SelectProps = Omit<ComponentProps<'select'>, 'children' | 'value' | 'defaultValue'> & {
+export type SelectProps = Omit<ComponentProps<'select'>, 'children' | 'value' | 'defaultValue'> & {
+  presentation?: 'native' | 'responsive'
+  onValueChange?: ((value: string) => void) | undefined
+  controlRef?: ((node: HTMLButtonElement | null) => void) | undefined
+  onControlBlur?: (() => void) | undefined
   label: string
   name: string
   /** Выбранное значение; `''` — ничего не выбрано. Поле контролируемое: с react-hook-form через `Controller`. */
@@ -23,7 +30,15 @@ type SelectProps = Omit<ComponentProps<'select'>, 'children' | 'value' | 'defaul
  * подпись и chevron цвета ошибки. Внутри нативный `<select>`: на мобильных открывается системный список.
  * id поля — `id` вызывающего или `name`; `className` — на обёртке, `ref` — на `<select>`.
  */
-export function Select({ id, label, name, value, options, error, required, className, ...props }: SelectProps) {
+export function Select({ presentation = 'native', onValueChange, controlRef, onControlBlur, ...props }: SelectProps) {
+  if (presentation === 'responsive')
+    return (
+      <SelectPicker {...props} onValueChange={onValueChange} controlRef={controlRef} onControlBlur={onControlBlur} />
+    )
+  return <NativeSelect {...props} />
+}
+
+function NativeSelect({ id, label, name, value, options, error, required, className, ...props }: SelectProps) {
   const selectId = id ?? name
   const errorId = `${selectId}-error`
   const filled = value !== ''

@@ -245,6 +245,23 @@ export function UiKitPage() {
           </Form>
         </Section>
 
+        <Section title="Select: список и мобильная шторка">
+          <Box className={styles.form}>
+            <Select
+              presentation="responsive"
+              label="Вид техники"
+              name="ui-responsive-kind"
+              value={kind}
+              options={[
+                { value: 'cooktop', label: 'Варочная поверхность' },
+                { value: 'fridge', label: 'Холодильник' },
+                { value: 'other', label: 'Другое' },
+              ]}
+              onValueChange={setKind}
+            />
+          </Box>
+        </Section>
+
         <Section title="Select, PhoneField, TextArea, TextField (Figma «[C] Fluent Input»)">
           <Stack gap={4} className={styles.form}>
             <Select
