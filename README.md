@@ -35,7 +35,7 @@ make dev               # http://localhost:3001 (next dev)
 | `make lint-fsd`                          | проверка слоёв FSD (steiger)                       |
 | `make test` / `make test-watch`          | юнит-тесты (`vp test run`) / watch-режим           |
 | `make check`                             | typecheck, lint и lint-fsd, без тестов             |
-| `make ci`                                | `make check` и `make test`, как в CI               |
+| `make ci`                                | `make check` и `make test`, перед коммитом               |
 | `make hooks`                             | поставить git-хуки (обычно ставятся при `install`) |
 | `make icons`                             | пересборка SVGR-иконок                             |
 

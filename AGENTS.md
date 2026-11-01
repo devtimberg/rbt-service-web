@@ -28,7 +28,7 @@ make lint-fsd    # steiger ./src
 make test        # vp test run (Vitest, vitest.config.ts)
 make test-watch  # Vitest в watch-режиме
 make check       # typecheck + lint + lint-fsd, без тестов
-make ci          # check + test (то, что гоняет CI)
+make ci          # check + test (перед коммитом)
 make hooks       # поставить git-хуки (vp hooks enable); обычно они ставятся сами при pnpm install (prepare: vp config)
 make icons       # пересобрать SVGR-иконки из src/shared/ui/icons/raw
 make style-check REF=<url> TARGET=<url> [PATHS="/ /cart"]  # сравнить вёрстку двух запущенных сборок (Playwright, отчёт в .style-check/)

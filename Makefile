@@ -54,7 +54,7 @@ format: ## Автоформатирование и автофиксы (vp check 
 
 check: typecheck lint lint-fsd ## Typecheck + lint + FSD, без тестов (после правок)
 
-ci: check test ## check + тесты (перед коммитом и в CI)
+ci: check test ## check + тесты (перед коммитом)
 
 test: ## Юнит-тесты (vp test run)
 	pnpm run test
