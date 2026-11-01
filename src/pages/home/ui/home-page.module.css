@@ -53,6 +53,14 @@
   .mobileSearch {
     display: flex;
     justify-content: center;
+    width: 100%;
+    max-width: 46.25rem;
+    margin-inline: auto;
+
+    /* На планшетах поле из шапки занимает это место. Слот сохраняет раскладку главной. */
+    @media (--sm) {
+      visibility: hidden;
+    }
 
     @media (--xl) {
       display: none;

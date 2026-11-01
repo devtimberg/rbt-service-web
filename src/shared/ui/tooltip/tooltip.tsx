@@ -1,6 +1,6 @@
 'use client'
 
-import { type ReactNode, useEffect, useState } from 'react'
+import { type ReactNode, useEffect, useRef, useState } from 'react'
 import { cn } from '@/shared/lib/cn'
 import styles from './tooltip.module.css'
 
@@ -26,6 +26,9 @@ const SIDE = {
 export function Tooltip({ content, side = 'bottom', children, className }: TooltipProps) {
   const [active, setActive] = useState(false)
   const [dismissed, setDismissed] = useState(false)
+  const [focusVisible, setFocusVisible] = useState(false)
+  const suppressRestoredFocus = useRef(false)
+  const suppressRestoredHover = useRef(false)
 
   // Esc скрывает подсказку, пока триггер в фокусе или под курсором (WCAG 1.4.13)
   useEffect(() => {
@@ -43,16 +46,47 @@ export function Tooltip({ content, side = 'bottom', children, className }: Toolt
   }
   const deactivate = () => {
     setActive(false)
-    setDismissed(false)
   }
 
   return (
     <span
       className={cn(styles.root, className)}
-      onMouseEnter={activate}
+      data-focus-visible={focusVisible ? 'true' : undefined}
+      onMouseEnter={() => {
+        if (suppressRestoredHover.current) return
+        suppressRestoredFocus.current = false
+        activate()
+      }}
+      onMouseMove={() => {
+        // После закрытия dialog браузер может восстановить :hover без движения мыши.
+        if (!suppressRestoredHover.current) return
+        suppressRestoredHover.current = false
+        suppressRestoredFocus.current = false
+        activate()
+      }}
       onMouseLeave={deactivate}
-      onFocus={activate}
-      onBlur={deactivate}
+      onClickCapture={() => {
+        // Активация триггера закрывает подсказку, включая последующий возврат фокуса из dialog.
+        suppressRestoredFocus.current = true
+        suppressRestoredHover.current = true
+        setDismissed(true)
+      }}
+      onFocus={(event) => {
+        setFocusVisible(event.target.matches(':focus-visible'))
+        if (suppressRestoredFocus.current) {
+          suppressRestoredFocus.current = false
+          setDismissed(true)
+          return
+        }
+        activate()
+      }}
+      onBlur={() => {
+        setFocusVisible(false)
+        // Обычный уход с кнопки начинает новый цикл фокуса. При открытии dialog
+        // сохраняем подавление до автоматического возврата на его триггер.
+        if (!document.querySelector('dialog[open]')) suppressRestoredFocus.current = false
+        deactivate()
+      }}
     >
       {children}
       <span role="tooltip" data-dismissed={dismissed ? 'true' : undefined} className={cn(styles.tip, SIDE[side])}>

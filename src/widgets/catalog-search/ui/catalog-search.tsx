@@ -2,7 +2,9 @@
 
 import * as React from 'react'
 import { createPortal } from 'react-dom'
+import { isLockedSection, LockedSectionDialog } from '@/features/locked-section'
 import { type Part, searchCategories, searchParts } from '@/features/search-products'
+import { ROUTES } from '@/shared/config'
 import { cn } from '@/shared/lib/cn'
 import { formatPrice } from '@/shared/lib/format-price'
 import {
@@ -13,6 +15,7 @@ import {
   ChevronRightIcon,
   ClearIcon,
   SearchOutlineIcon,
+  Image,
   Input,
   Skeleton,
   SmartLink,
@@ -26,7 +29,52 @@ type CatalogSearchProps = {
   expanded?: boolean
 }
 
-export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
+export function CatalogSearch(props: CatalogSearchProps) {
+  return isLockedSection(ROUTES.SEARCH) ? <LockedCatalogSearch {...props} /> : <AvailableCatalogSearch {...props} />
+}
+
+function LockedCatalogSearch({ expanded = false }: CatalogSearchProps) {
+  const [open, setOpen] = React.useState(false)
+  return (
+    <>
+      <Button
+        variant="unstyled"
+        aria-label="Поиск запчастей"
+        aria-haspopup="dialog"
+        onClick={() => setOpen(true)}
+        className={cn(styles.mobileLink, expanded ? styles.mobileExpanded : styles.mobileCompact)}
+      >
+        <SearchOutlineIcon
+          className={cn(styles.mobileIcon, expanded ? styles.mobileIconExpanded : styles.mobileIconCompact)}
+          aria-hidden
+        />
+        <Text
+          as="span"
+          className={cn(styles.mobileText, expanded ? styles.mobileTextExpanded : styles.mobileTextCompact)}
+        >
+          Поиск запчастей
+        </Text>
+      </Button>
+      <Box className={styles.search}>
+        <Button
+          variant="unstyled"
+          className={styles.form}
+          aria-label="Поиск запчастей"
+          aria-haspopup="dialog"
+          onClick={() => setOpen(true)}
+        >
+          <Image src="/header/search.svg" alt="" width={24} height={24} className={styles.icon} />
+          <Text as="span" className={cn(styles.input, styles.lockedPlaceholder)}>
+            Поиск запчастей по каталогу или названию
+          </Text>
+        </Button>
+      </Box>
+      <LockedSectionDialog open={open} onClose={() => setOpen(false)} />
+    </>
+  )
+}
+
+function AvailableCatalogSearch({ expanded = false }: CatalogSearchProps) {
   const inputRef = React.useRef<HTMLInputElement>(null)
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const [query, setQuery] = React.useState('')
@@ -190,7 +238,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
     <>
       {/* Mobile: link to search page */}
       <SmartLink
-        href="/search"
+        href={ROUTES.SEARCH}
         aria-label="Поиск запчастей"
         className={cn(styles.mobileLink, expanded ? styles.mobileExpanded : styles.mobileCompact)}
       >
@@ -209,7 +257,7 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
       {/* Desktop: search form — each element transitions only its own properties */}
       <search ref={wrapperRef} className={styles.search}>
         <Form suppressHydrationWarning onSubmit={handleSubmit} className={styles.form}>
-          <SearchOutlineIcon className={styles.icon} aria-hidden />
+          <Image src="/header/search.svg" alt="" width={24} height={24} className={styles.icon} />
           {/* Браузерное автозаполнение iOS добавляет служебный __gCrUniqueID до гидратации. */}
           <Input
             suppressHydrationWarning
@@ -219,7 +267,8 @@ export function CatalogSearch({ expanded = false }: CatalogSearchProps) {
             onChange={(e) => handleQueryChange(e.target.value)}
             onFocus={() => setFocused(true)}
             className={styles.input}
-            placeholder="Поиск запчастей по артикулу или названию..."
+            aria-label="Поиск запчастей"
+            placeholder="Поиск запчастей по каталогу или названию"
             autoComplete="off"
           />
           {clearButton}

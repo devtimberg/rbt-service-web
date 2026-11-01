@@ -1,6 +1,23 @@
 @layer slices {
-  /* Шторка ниже шапки: mobile 80px, sm 88px, lg 88px + внешний отступ 16px */
+  /* Шторка ниже шапки: mobile 80px, sm 106px, lg 106px + внешний отступ 16px */
   .sheet {
+    --sheet-close-duration: 340ms;
+    transition: translate var(--sheet-close-duration) cubic-bezier(0.4, 0, 0.2, 1);
+
+    &[data-state="open"] {
+      transition-duration: 380ms;
+      transition-delay: 80ms;
+      transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    &[data-no-animation="true"] {
+      transition: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
     top: 5rem;
     z-index: 30;
     border-width: 0;
@@ -11,14 +28,19 @@
     clip-path: inset(0 round var(--radius-3xl) var(--radius-3xl) 0 0);
 
     @media (--sm) {
-      top: 5.5rem;
+      top: 6.625rem;
       z-index: 50;
     }
 
     @media (--lg) {
-      top: calc(16px + 88px);
+      top: calc(16px + 106px);
       clip-path: inset(0 round var(--radius-4xl));
     }
+  }
+
+  .exitContent {
+    height: 100%;
+    min-height: 0;
   }
 
   .inner {

@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { LOCKED_SECTIONS, LOCKED_SECTION_NOTICE_PARAM, ROUTES } from './src/shared/config/index'
 
 // Next.js App Router (ADR 0009, 0013). Маршруты в корневой app/, UI в src/ (FSD), PostCSS из postcss.config.js.
 const config: NextConfig = {
@@ -16,6 +17,13 @@ const config: NextConfig = {
   agentRules: false,
   // Линт и типы проверяет make check (Oxlint, tsc), не сборка
   typescript: { ignoreBuildErrors: true },
+  // MVP: закрытые страницы и подразделы не отдаются даже по прямой ссылке.
+  redirects: async () =>
+    LOCKED_SECTIONS.map((section) => ({
+      source: `${section}/:path*`,
+      destination: `${ROUTES.HOME}?${LOCKED_SECTION_NOTICE_PARAM}=1`,
+      permanent: false,
+    })),
   // Заголовки, которые раньше ставил Nitro (routeRules)
   headers: async () => [
     {

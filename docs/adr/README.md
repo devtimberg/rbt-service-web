@@ -20,4 +20,8 @@
 
 | [0014](0014-form-navigation-confirmation.md) | Подтверждение ухода с заполненной формы в Next App Router | accepted |
 
+| [0015](0015-coordinated-page-motion.md) | Согласованный переход поиска и страницы-шторки | accepted |
+
+| [0016](0016-locked-route-redirects.md) | Серверная блокировка закрытых MVP-разделов | accepted |
+
 Шаблон нового ADR: [template.md](template.md).

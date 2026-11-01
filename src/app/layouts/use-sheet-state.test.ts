@@ -31,6 +31,19 @@ describe('useSheetState', () => {
     expect(result.current.rendered).toBe(false)
   })
 
+  it('при возврате поиск следует за шторкой, а повторное открытие отменяет отложенный возврат', () => {
+    const { result, rerender } = renderHook(({ s }) => useSheetState(s), { initialProps: { s: true } })
+    rerender({ s: false })
+    advance(50)
+    expect(result.current.homeSearch).toBe(false)
+    rerender({ s: true })
+    advance(100)
+    expect(result.current.homeSearch).toBe(false)
+    rerender({ s: false })
+    advance(80)
+    expect(result.current.homeSearch).toBe(true)
+  })
+
   it('повторное открытие в течение закрытия отменяет размонтирование', () => {
     const { result, rerender } = renderHook(({ s }) => useSheetState(s), { initialProps: { s: true } })
     rerender({ s: false })

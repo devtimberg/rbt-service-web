@@ -16,13 +16,10 @@ import {
   Button,
   Container,
   IconButton,
-  BagIcon,
   ClearIcon,
   CloseIcon,
   CrossIcon,
   FilterIcon,
-  HeartIcon,
-  ProfileIcon,
   SearchIcon,
   SearchOutlineIcon,
   Image,
@@ -31,6 +28,7 @@ import {
   TextInput,
 } from '@/shared/ui'
 import { getRouteTitle } from '../lib/get-route-title'
+import { useSearchMotion } from '../lib/use-search-motion'
 import styles from './header.module.css'
 
 const CLOSE_BUTTON_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL])
@@ -40,9 +38,11 @@ type HeaderProps = {
   search: ReactNode
   /** Блок под поиском на главной, когда поиск уезжает в центр экрана (плашка MVP). Передаёт app. */
   homeNotice?: ReactNode
+  /** Положение поиска, согласованное с закрытием шторки. */
+  homeSearch?: boolean
 }
 
-export function Header({ search, homeNotice }: HeaderProps) {
+export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
   const [lockedOpen, setLockedOpen] = useState(false)
   const pathname = usePathname()
   const cartCount = useCartStore((s) => s.items.size)
@@ -51,14 +51,14 @@ export function Header({ search, homeNotice }: HeaderProps) {
   const desktopIcons = [
     {
       id: 'favorite',
-      icon: HeartIcon,
+      asset: 'heart',
       href: ROUTES.FAVORITE,
       ariaLabel: 'Избранное',
       counter: favoritesCount || undefined,
     },
     {
       id: 'cart',
-      icon: BagIcon,
+      asset: 'bag',
       href: ROUTES.CART,
       ariaLabel: 'Корзина',
       counter: cartCount || undefined,
@@ -67,6 +67,8 @@ export function Header({ search, homeNotice }: HeaderProps) {
   const router = useRouter()
   const guard = useNavigationGuard()
   const isHomePage = pathname === ROUTES.HOME
+  const searchAtHome = homeSearch ?? isHomePage
+  const { slotRef, motionRef } = useSearchMotion(searchAtHome)
   const isCart = pathname === ROUTES.CART
   const isCatalog = pathname.startsWith(ROUTES.CATALOG)
   const isCatalogSubpage = isCatalog && pathname !== ROUTES.CATALOG
@@ -82,23 +84,35 @@ export function Header({ search, homeNotice }: HeaderProps) {
     <>
       <Box aria-hidden className={styles.spacer} />
       <Container data-layout-header="true" className={styles.root}>
-        {/* Mobile: search input on /search */}
+        {/* Мобильный поиск на странице поиска */}
         {isSearch && (
           <Box className={styles.mobileSearch}>
             <Box className={styles.searchField}>
               <SearchOutlineIcon className={styles.searchIcon} aria-hidden />
-              <TextInput
-                ref={searchInputRef}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                // Страница поиска на мобильном: поле сразу готово к вводу
-                // oxlint-disable-next-line jsx-a11y/no-autofocus
-                autoFocus
-                className={styles.searchInput}
-                placeholder="Поиск запчастей"
-                autoComplete="off"
-              />
-              {searchQuery.length > 0 && (
+              {isLockedSection(ROUTES.SEARCH) ? (
+                <Button
+                  variant="unstyled"
+                  className={styles.lockedSearchInput}
+                  aria-label="Поиск запчастей"
+                  aria-haspopup="dialog"
+                  onClick={() => setLockedOpen(true)}
+                >
+                  Поиск запчастей
+                </Button>
+              ) : (
+                <TextInput
+                  ref={searchInputRef}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  // Страница поиска на мобильном: поле сразу готово к вводу
+                  // oxlint-disable-next-line jsx-a11y/no-autofocus
+                  autoFocus
+                  className={styles.searchInput}
+                  placeholder="Поиск запчастей"
+                  autoComplete="off"
+                />
+              )}
+              {!isLockedSection(ROUTES.SEARCH) && searchQuery.length > 0 && (
                 <IconButton
                   icon={ClearIcon}
                   size="sm"
@@ -126,7 +140,7 @@ export function Header({ search, homeNotice }: HeaderProps) {
           </Box>
         )}
 
-        {/* Mobile: logo on home, title on other pages */}
+        {/* Мобильная шапка: логотип на главной, заголовок на остальных страницах */}
         {!isSearch && isHomePage && (
           <SmartLink href={ROUTES.HOME} className={styles.mobileLogo}>
             <Image
@@ -150,7 +164,7 @@ export function Header({ search, homeNotice }: HeaderProps) {
           </Box>
         )}
 
-        {/* Mobile: close button for wizard flows */}
+        {/* Закрытие формы вызова мастера */}
         {showCloseButton && (
           <Button
             variant="unstyled"
@@ -167,7 +181,7 @@ export function Header({ search, homeNotice }: HeaderProps) {
           </Button>
         )}
 
-        {/* Mobile: search on catalog, search + filter on subcategory */}
+        {/* Поиск в каталоге и фильтры в подразделе */}
         {!isSearch && isCatalog && (
           <Stack direction="row" gap={6} className={styles.catalogActions}>
             <IconButton
@@ -176,7 +190,9 @@ export function Header({ search, homeNotice }: HeaderProps) {
               icon={SearchIcon}
               iconSize={28}
               aria-label="Поиск запчастей"
-              href={ROUTES.SEARCH}
+              {...(isLockedSection(ROUTES.SEARCH)
+                ? { type: 'button' as const, 'aria-haspopup': 'dialog' as const, onClick: () => setLockedOpen(true) }
+                : { href: ROUTES.SEARCH })}
             />
             {isCatalogSubpage && (
               <IconButton variant="inverse" size="sm" icon={FilterIcon} iconSize={28} aria-label="Фильтры" />
@@ -184,28 +200,50 @@ export function Header({ search, homeNotice }: HeaderProps) {
           </Stack>
         )}
 
-        {/* Desktop: logo */}
+        {/* Логотип на десктопе */}
         <SmartLink href={ROUTES.HOME} className={styles.desktopLogo}>
-          <Image src="/brand/logo.svg" alt="ООО ТТЦ Рембыттехника" width={180} height={40} className={styles.logo} />
+          <Image
+            src="/header/logo.svg"
+            alt="ООО ТТЦ Рембыттехника"
+            width={210.4}
+            height={32}
+            className={styles.desktopLogoImage}
+          />
         </SmartLink>
 
-        {/* Desktop: search — one element, CSS-driven expanded/compact */}
-        <Box
-          data-home={isHomePage ? '' : undefined}
-          className={cn(styles.desktopSearch, isHomePage && styles.desktopSearchHome)}
-        >
-          {search}
-          {isHomePage && homeNotice ? <Box className={styles.homeNotice}>{homeNotice}</Box> : null}
+        <Box className={styles.catalogSlot}>
+          <Button
+            {...(isLockedSection(ROUTES.CATALOG)
+              ? { type: 'button' as const, 'aria-haspopup': 'dialog' as const, onClick: () => setLockedOpen(true) }
+              : { href: ROUTES.CATALOG })}
+            variant="primary"
+            icon={<Image src="/header/catalog.svg" alt="" width={24} height={24} />}
+            className={cn(styles.catalogButton, searchAtHome && styles.catalogButtonHidden)}
+            tabIndex={searchAtHome ? -1 : undefined}
+            aria-hidden={searchAtHome || undefined}
+          >
+            Каталог
+          </Button>
         </Box>
 
-        {/* Desktop: icons */}
-        <Stack direction="row" className={styles.desktopIcons} gap={10}>
-          {desktopIcons.map(({ id, icon, href, ariaLabel, counter }) => (
+        {/* Десктоп: поиск на главной перемещается в центр экрана. */}
+        <Box ref={slotRef} className={cn(styles.desktopSearch, searchAtHome && styles.desktopSearchHome)}>
+          <Box ref={motionRef} data-home={searchAtHome ? '' : undefined} className={styles.searchMotion}>
+            {search}
+            {homeNotice ? (
+              <Box className={cn(styles.homeNotice, !searchAtHome && styles.homeNoticeHidden)}>{homeNotice}</Box>
+            ) : null}
+          </Box>
+        </Box>
+
+        {/* Навигация на десктопе */}
+        <Stack direction="row" className={styles.desktopIcons}>
+          {desktopIcons.map(({ id, asset, href, ariaLabel, counter }) => (
             <IconButton
               key={id}
               size="lg"
-              icon={icon}
-              iconSize={28}
+              icon={<Image src={`/header/${asset}.svg`} alt="" width={32} height={32} />}
+              iconSize={32}
               counter={counter ?? null}
               tooltip={ariaLabel}
               className={styles.headerIcon}
@@ -220,8 +258,8 @@ export function Header({ search, homeNotice }: HeaderProps) {
           {/* Профиля в MVP нет (ADR 0010): окно «Этот раздел ещё в работе» */}
           <IconButton
             size="lg"
-            icon={ProfileIcon}
-            iconSize={28}
+            icon={<Image src="/header/profile.svg" alt="" width={32} height={32} />}
+            iconSize={32}
             tooltip="Профиль"
             className={styles.headerIcon}
             aria-label="Профиль"

@@ -24,15 +24,21 @@
     }
 
     @media (--sm) {
-      position: static;
-      z-index: auto;
-      height: 5.5rem;
+      position: relative;
+      z-index: 1;
+      height: 6.625rem;
       border-radius: var(--radius-4xl) var(--radius-4xl) 0 0;
-      padding-top: var(--space-xs);
+      gap: var(--space-2xl);
+      justify-content: center;
+      padding-inline: var(--space-3xl);
     }
 
-    @media (--sm) and (width < 48rem) {
-      padding-inline: var(--space-2xl);
+    @media (--lg) {
+      justify-content: space-between;
+    }
+
+    @media (--xl) {
+      padding-inline: var(--space-4xl);
     }
   }
 
@@ -79,6 +85,12 @@
     &::placeholder {
       color: color-mix(in oklab, var(--color-white) 60%, transparent);
     }
+  }
+
+  .lockedSearchInput {
+    flex: 1;
+    text-align: left;
+    color: color-mix(in oklab, var(--color-white) 60%, transparent);
   }
 
   .clearButton {
@@ -156,6 +168,7 @@
 
   .desktopLogo {
     display: none;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
 
@@ -164,63 +177,141 @@
     }
   }
 
-  .desktopSearch {
-    position: relative;
+  .desktopLogoImage {
+    display: block;
+    width: 13.15rem;
+    height: 2rem;
+  }
+
+  .catalogSlot {
     display: none;
-    flex: 1 1 0%;
-    justify-content: center;
-    padding-inline: var(--space-2xl);
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 500ms;
+    flex-shrink: 0;
+
+    @media (--lg) {
+      display: block;
+    }
+  }
+
+  .catalogButton {
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 2.5rem;
+    padding-inline: var(--space-md);
+    line-height: var(--line-height-body-md);
+
+    & img {
+      filter: brightness(0) invert(1);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--shadow-focus-ring);
+    }
+
+    transition: opacity 140ms ease-out;
+    transition-delay: 160ms;
+  }
+
+  .catalogButtonHidden {
+    pointer-events: none;
+    opacity: 0;
+    transition-delay: 0ms;
+  }
+
+  .desktopSearch {
+    display: none;
+    pointer-events: none;
 
     @media (--sm) {
-      display: flex;
+      display: block;
+      position: absolute;
+      inset: 2.0625rem var(--space-3xl) auto;
+      height: 2.5rem;
+    }
+
+    @media (--lg) {
+      position: relative;
+      inset: auto;
+      flex: 1 1 0%;
+      min-width: 0;
     }
   }
 
-  /* На главной от xl поиск уезжает вниз, в центр экрана (на низких экранах остаётся в шапке).
-     Уже xl в шапке ему тесно между логотипом и иконками: поиск и плашку MVP рисует сама главная */
-  .desktopSearchHome {
-    @media (width < 80rem) {
-      display: none;
-    }
+  /* Один поиск: на главной привязан к её слоту, на внутренних страницах — к шапке. */
+  .searchMotion {
+    position: absolute;
+    left: var(--home-search-left, 0px);
+    top: var(--home-search-top, 0px);
+    width: var(--home-search-width, 100%);
+    height: var(--home-search-height, 2.5rem);
+    transform: translateY(-1.5rem);
+    opacity: 0;
+    pointer-events: none;
 
-    @media (--xl) and (min-height: 700px) {
-      translate: 0 clamp(120px, 18vh, 260px);
+    @media (--lg) {
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 2.5rem;
+      transform: none;
+      opacity: 1;
+      pointer-events: auto;
     }
   }
 
-  /* Под уехавшим вниз поиском главной; в остальных случаях блок рисует сама главная */
+  .desktopSearchHome .searchMotion {
+    left: var(--home-search-left, 0px);
+    top: var(--home-search-top, 0px);
+    width: var(--home-search-width, 100%);
+    height: var(--home-search-height, 2.5rem);
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .homeNotice {
     position: absolute;
     top: calc(100% + 0.5rem);
-    left: 50%;
+    left: 0;
     display: none;
-    width: min(calc(100% - 3rem), 46.25rem);
-    translate: -50% 0;
+    width: 100%;
+    transition: opacity 140ms ease-out;
+    transition-delay: 300ms;
 
     @media (--xl) and (min-height: 700px) {
       display: block;
     }
   }
 
+  .homeNoticeHidden {
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition-delay: 0ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .catalogButton,
+    .homeNotice {
+      transition: none;
+    }
+  }
+
   .desktopIcons {
     display: none;
+    flex-shrink: 0;
+    gap: var(--space-4xl);
+    margin-left: var(--space-lg);
 
-    @media (--sm) {
+    @media (--lg) {
       display: flex;
     }
   }
 
   /* Hover не нужен: цвет уже белый, а фон у ghost при наведении прозрачный */
   .headerIcon {
+    width: 2rem;
+    height: 2.5rem;
     border-radius: var(--radius-sm);
     color: var(--color-icon-inverse);
-
-    &:active {
-      background-color: var(--color-brand-400);
-    }
   }
 
   .headerIconActive {

@@ -12,3 +12,5 @@ export {
 } from './contacts'
 export { getServerEnv, type ServerEnv } from './env'
 export { type AppRoute, HOME_NAV_PATHS, isSheetPath, ROUTES } from './routes'
+
+export { isLockedSection, LOCKED_SECTIONS, LOCKED_SECTION_NOTICE_PARAM } from './locked-sections'

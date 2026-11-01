@@ -16,7 +16,7 @@ export function HomePage() {
           {/* До xl поиск в контенте и плашка MVP под ним; от xl на высоком экране их рисует шапка */}
           <Container className={styles.top}>
             {/* data-home: от sm поиск в контенте крупный, как в шапке главной */}
-            <Box data-home="" className={styles.mobileSearch}>
+            <Box data-home="" data-home-search-anchor="" className={styles.mobileSearch}>
               <CatalogSearch expanded />
             </Box>
             <MvpNotice className={styles.notice} />

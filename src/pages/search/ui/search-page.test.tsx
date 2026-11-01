@@ -2,11 +2,15 @@ import { act, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import { SearchPage } from './search-page'
 
-const state = vi.hoisted(() => ({ query: '' }))
+const state = vi.hoisted(() => ({ query: '', locked: false }))
 
 vi.mock('@/features/search-products', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/features/search-products')>()),
   useSearchStore: (selector: (s: { query: string }) => unknown) => selector({ query: state.query }),
+}))
+vi.mock('@/features/locked-section', () => ({
+  isLockedSection: () => state.locked,
+  LockedSectionDialog: ({ open }: { open: boolean }) => (open ? <dialog open>Раздел недоступен</dialog> : null),
 }))
 vi.mock('@/entities/category', () => ({
   CATALOG_CATEGORIES: [{ items: ['Компрессоры', 'Термостаты', 'Уплотнители двери'] }],
@@ -15,10 +19,23 @@ vi.mock('@/entities/category', () => ({
 describe('SearchPage', () => {
   beforeEach(() => {
     vi.useFakeTimers()
+    state.locked = false
   })
 
   afterEach(() => {
     vi.useRealTimers()
+  })
+
+  it('при блокировке не показывает выдачу даже для сохранённого запроса', () => {
+    state.locked = true
+    state.query = 'компрессор'
+    render(<SearchPage />)
+    act(() => {
+      vi.advanceTimersByTime(600)
+    })
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText('Этот раздел ещё в работе')).toBeInTheDocument()
+    expect(screen.queryByText('Компрессор холодильника Атлант')).not.toBeInTheDocument()
   })
 
   it('без запроса показывает подсказку', () => {

@@ -1,7 +1,9 @@
 'use client'
 
 import * as React from 'react'
+import { isLockedSection, LockedSectionDialog } from '@/features/locked-section'
 import { searchCategories, searchParts, useSearchStore } from '@/features/search-products'
+import { ROUTES } from '@/shared/config'
 import { formatPrice } from '@/shared/lib/format-price'
 import { Box, Button, ChevronRightIcon, Skeleton, Text } from '@/shared/ui'
 import styles from './search-page.module.css'
@@ -9,6 +11,20 @@ import styles from './search-page.module.css'
 const FAKE_DELAY = 600
 
 export function SearchPage() {
+  return isLockedSection(ROUTES.SEARCH) ? <LockedSearchPage /> : <AvailableSearchPage />
+}
+
+function LockedSearchPage() {
+  const [open, setOpen] = React.useState(true)
+  return (
+    <Box className={styles.root}>
+      <Text className={styles.empty}>Этот раздел ещё в работе</Text>
+      <LockedSectionDialog open={open} onClose={() => setOpen(false)} />
+    </Box>
+  )
+}
+
+function AvailableSearchPage() {
   const query = useSearchStore((s) => s.query)
   // Запрос, для которого «ответ пришёл»: обновляется с задержкой, пока он отстаёт от query, идёт загрузка
   const [settledQuery, setSettledQuery] = React.useState('')
