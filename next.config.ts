@@ -4,6 +4,7 @@ import type { NextConfig } from 'next'
 const config: NextConfig = {
   // Node-сервер без node_modules проекта: .next/standalone/server.js (см. Dockerfile)
   output: 'standalone',
+  outputFileTracingIncludes: { '/privacy-policy': ['./src/pages/privacy-policy/content/*.md'] },
   // gzip встроенного сервера
   compress: true,
   poweredByHeader: false,

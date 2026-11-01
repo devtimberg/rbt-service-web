@@ -1,0 +1,106 @@
+@layer components {
+  .root {
+    font-size: var(--font-size-body-md);
+    line-height: 1.75rem;
+    color: var(--color-text-primary);
+    overflow-wrap: anywhere;
+    & > :first-child {
+      margin-top: 0;
+    }
+    & > :last-child {
+      margin-bottom: 0;
+    }
+    & p,
+    & ul,
+    & ol,
+    & blockquote,
+    & pre {
+      margin-block: 0 1rem;
+    }
+    & h1,
+    & h2,
+    & h3,
+    & h4,
+    & h5,
+    & h6 {
+      margin-block: 2rem 0.75rem;
+      font-weight: var(--font-weight-semibold);
+      text-wrap: balance;
+    }
+    & h1 {
+      font-size: 2rem;
+      line-height: 2.5rem;
+    }
+    & h2 {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+    & h3 {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+    & h4,
+    & h5,
+    & h6 {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+    & strong {
+      font-weight: var(--font-weight-bold);
+    }
+    & em {
+      font-style: italic;
+    }
+    & ul,
+    & ol {
+      padding-inline-start: 1.5rem;
+    }
+    & ul {
+      list-style: disc;
+    }
+    & ol {
+      list-style: decimal;
+    }
+    & li {
+      padding-inline-start: 0.25rem;
+      margin-block: 0.5rem;
+    }
+    & li > ul,
+    & li > ol {
+      margin-bottom: 0;
+    }
+    & a {
+      color: var(--color-text-brand);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      &:hover {
+        text-decoration-thickness: 2px;
+      }
+      &:focus-visible {
+        outline: 2px solid var(--color-input-border-focus);
+        outline-offset: 3px;
+        border-radius: var(--radius-xs);
+      }
+    }
+    & hr {
+      margin-block: 2rem;
+      border-color: var(--color-border-default);
+    }
+    & blockquote {
+      padding: var(--space-lg);
+      background: var(--color-surface-subtle);
+      border-radius: var(--radius-md);
+    }
+    & code,
+    & pre {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+    }
+    & pre {
+      padding: var(--space-lg);
+      overflow-x: auto;
+      background: var(--color-input-bg);
+      border-radius: var(--radius-md);
+    }
+  }
+}

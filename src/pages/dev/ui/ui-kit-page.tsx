@@ -26,6 +26,7 @@ import {
   Input,
   List,
   ListItem,
+  Markdown,
   Pagination,
   PhoneField,
   PaginationContent,
@@ -243,6 +244,23 @@ export function UiKitPage() {
             </Fieldset>
             <Output className={styles.mutedSm}>Output: ничего не найдено</Output>
           </Form>
+        </Section>
+
+        <Section title="Markdown">
+          <Markdown>{`## Пример документа
+
+Абзац с **выделением**, *курсивом* и [ссылкой](/privacy-policy).
+
+- Первый пункт
+- Второй пункт
+  - Вложенный пункт
+
+1. Первый шаг
+2. Второй шаг
+
+---
+
+Длинный текст переносится по ширине контейнера.`}</Markdown>
         </Section>
 
         <Section title="Select: список и мобильная шторка">

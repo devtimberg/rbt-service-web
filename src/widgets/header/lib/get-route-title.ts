@@ -10,6 +10,7 @@ const ROUTE_TITLES: Record<string, string> = {
   [ROUTES.ORDERS_STATUS]: 'Статус заказа',
   [ROUTES.PARTS_REQUEST]: 'Заказ запчастей',
   [ROUTES.SERVICES_REPAIR]: 'Услуги ремонта',
+  [ROUTES.PRIVACY_POLICY]: 'Политика конфиденциальности',
   [ROUTES.MASTER_CALL]: 'Вызвать мастера',
   [ROUTES.FEEDBACK]: 'Обратная связь',
   [ROUTES.SEARCH]: 'Поиск',

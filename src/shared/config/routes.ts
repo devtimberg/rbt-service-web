@@ -1,6 +1,7 @@
 /** Таблица путей приложения. Значения — литералы, поэтому подходят и для `Link to`, и для SmartLink href. */
 export const ROUTES = {
   HOME: '/',
+  PRIVACY_POLICY: '/privacy-policy',
   CATALOG: '/catalog',
   FAVORITE: '/favorite',
   COMPARE: '/compare',

@@ -1,0 +1,32 @@
+@layer slices {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xl);
+    padding: var(--space-2xl) var(--space-lg);
+    @media (--md) {
+      padding: var(--space-4xl);
+    }
+  }
+  .document {
+    width: 100%;
+    max-width: 72ch;
+    margin-inline: auto;
+  }
+  .title {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+    font-weight: var(--font-weight-semibold);
+    text-wrap: balance;
+    margin-bottom: 2rem;
+    @media (--md) {
+      font-size: 2.5rem;
+      line-height: 3rem;
+    }
+  }
+  .pending {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-body-md);
+    line-height: 1.5rem;
+  }
+}
