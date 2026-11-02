@@ -15,7 +15,6 @@ import {
   ChevronRightIcon,
   ClearIcon,
   SearchOutlineIcon,
-  Image,
   Input,
   Skeleton,
   SmartLink,
@@ -63,7 +62,7 @@ function LockedCatalogSearch({ expanded = false }: CatalogSearchProps) {
           aria-haspopup="dialog"
           onClick={() => setOpen(true)}
         >
-          <Image src="/header/search.svg" alt="" width={24} height={24} className={styles.icon} />
+          <SearchOutlineIcon className={styles.icon} aria-hidden />
           <Text as="span" className={cn(styles.input, styles.lockedPlaceholder)}>
             Поиск запчастей по каталогу или названию
           </Text>
@@ -257,7 +256,7 @@ function AvailableCatalogSearch({ expanded = false }: CatalogSearchProps) {
       {/* Desktop: search form — each element transitions only its own properties */}
       <search ref={wrapperRef} className={styles.search}>
         <Form suppressHydrationWarning onSubmit={handleSubmit} className={styles.form}>
-          <Image src="/header/search.svg" alt="" width={24} height={24} className={styles.icon} />
+          <SearchOutlineIcon className={styles.icon} aria-hidden />
           {/* Браузерное автозаполнение iOS добавляет служебный __gCrUniqueID до гидратации. */}
           <Input
             suppressHydrationWarning

@@ -19,7 +19,7 @@
     border-radius: 0;
     background-color: var(--color-surface-brand);
 
-    @media (width < 48rem) {
+    @media (--below-md) {
       padding-inline: var(--space-lg);
     }
 
@@ -132,7 +132,7 @@
   .title {
     color: var(--color-text-inverse);
     font-size: 1.5rem;
-    line-height: 1;
+    line-height: 2rem;
     font-weight: var(--font-weight-semibold);
   }
 
@@ -198,10 +198,6 @@
     height: 2.5rem;
     padding-inline: var(--space-md);
     line-height: var(--line-height-body-md);
-
-    & img {
-      filter: brightness(0) invert(1);
-    }
 
     &:focus-visible {
       box-shadow: var(--shadow-focus-ring);

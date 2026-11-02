@@ -11,15 +11,19 @@ import { cn } from '@/shared/lib/cn'
 import { useNavigationGuard } from '@/shared/lib/navigation-guard'
 import { usePathname } from '@/shared/lib/use-pathname'
 import {
+  BagIcon,
   Box,
   Stack,
   Button,
+  CatalogIcon,
   Container,
+  HeartIcon,
   IconButton,
   ClearIcon,
   CloseIcon,
   CrossIcon,
   FilterIcon,
+  ProfileIcon,
   SearchIcon,
   SearchOutlineIcon,
   Image,
@@ -51,14 +55,14 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
   const desktopIcons = [
     {
       id: 'favorite',
-      asset: 'heart',
+      icon: HeartIcon,
       href: ROUTES.FAVORITE,
       ariaLabel: 'Избранное',
       counter: favoritesCount || undefined,
     },
     {
       id: 'cart',
-      asset: 'bag',
+      icon: BagIcon,
       href: ROUTES.CART,
       ariaLabel: 'Корзина',
       counter: cartCount || undefined,
@@ -205,9 +209,9 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
         {/* Логотип на десктопе */}
         <SmartLink href={ROUTES.HOME} className={styles.desktopLogo}>
           <Image
-            src="/header/logo.svg"
+            src="/brand/logo.svg"
             alt="ООО ТТЦ Рембыттехника"
-            width={210.4}
+            width={211}
             height={32}
             className={styles.desktopLogoImage}
           />
@@ -219,7 +223,7 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
               ? { type: 'button' as const, 'aria-haspopup': 'dialog' as const, onClick: () => setLockedOpen(true) }
               : { href: ROUTES.CATALOG })}
             variant="primary"
-            icon={<Image src="/header/catalog.svg" alt="" width={24} height={24} />}
+            icon={<CatalogIcon width={24} height={24} />}
             className={cn(styles.catalogButton, searchAtHome && styles.catalogButtonHidden)}
             tabIndex={searchAtHome ? -1 : undefined}
             aria-hidden={searchAtHome || undefined}
@@ -240,11 +244,11 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
 
         {/* Навигация на десктопе */}
         <Stack direction="row" className={styles.desktopIcons}>
-          {desktopIcons.map(({ id, asset, href, ariaLabel, counter }) => (
+          {desktopIcons.map(({ id, icon, href, ariaLabel, counter }) => (
             <IconButton
               key={id}
               size="lg"
-              icon={<Image src={`/header/${asset}.svg`} alt="" width={32} height={32} />}
+              icon={icon}
               iconSize={32}
               counter={counter ?? null}
               tooltip={ariaLabel}
@@ -260,7 +264,7 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
           {/* Профиля в MVP нет (ADR 0010): окно «Этот раздел ещё в работе» */}
           <IconButton
             size="lg"
-            icon={<Image src="/header/profile.svg" alt="" width={32} height={32} />}
+            icon={ProfileIcon}
             iconSize={32}
             tooltip="Профиль"
             className={styles.headerIcon}
