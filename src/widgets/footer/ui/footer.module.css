@@ -112,13 +112,27 @@
   }
 
   .popover {
-    width: auto;
+    width: min(47.5rem, calc(100vw - var(--space-7xl)));
+    max-height: calc(100dvh - var(--space-7xl));
+    overflow: auto;
     border-style: none;
-    padding: var(--space-4xl);
+    border-radius: var(--radius-3xl);
+    padding: 0;
+    background-color: var(--color-surface-default);
+    box-shadow: var(--shadow-md);
   }
 
-  .sheetBody {
-    padding-inline: var(--space-lg);
-    padding-bottom: var(--space-2xl);
+  .hoursSheet {
+    gap: 0;
+    max-height: 90dvh;
+  }
+
+  .sheetHandle {
+    width: 2.25rem;
+    height: var(--space-xs);
+    flex-shrink: 0;
+    margin: var(--space-sm) auto var(--space-xs);
+    border-radius: var(--radius-full);
+    background-color: var(--color-control-track);
   }
 }

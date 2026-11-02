@@ -1,9 +1,12 @@
 @layer components {
   /* Поверх .root/.bottom из dialog.module.css; отступов у шторки нет (.padded только у Dialog) */
   .content {
-    display: flex;
     flex-direction: column;
     gap: var(--space-lg);
+
+    &[open] {
+      display: flex;
+    }
   }
 
   .close {

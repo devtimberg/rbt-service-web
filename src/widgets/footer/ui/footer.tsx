@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { useIsMobile } from '@/shared/lib/use-media-query'
 import {
@@ -13,8 +13,6 @@ import {
   PopoverTrigger,
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   Text,
 } from '@/shared/ui'
 import { WorkingHoursContent } from './working-hours-content'
@@ -31,8 +29,15 @@ export function Footer({ variant = 'inverse' }: FooterProps) {
   const isInverse = variant === 'inverse'
   const isMobile = useIsMobile()
   const [open, setOpen] = useState(false)
+  const titleId = useId()
+  const triggerRef = useRef<HTMLButtonElement>(null)
   const [greetingIndex, setGreetingIndex] = useState(0)
   const [typedLength, setTypedLength] = useState(0)
+
+  function closeHours() {
+    setOpen(false)
+    triggerRef.current?.focus()
+  }
 
   useEffect(() => {
     const currentGreeting = GREETINGS[greetingIndex] ?? ''
@@ -78,29 +83,38 @@ export function Footer({ variant = 'inverse' }: FooterProps) {
           <Box>
             {isMobile ? (
               <>
-                <Button variant={isInverse ? 'inverse' : 'secondary'} size="lg" onClick={() => setOpen(true)}>
+                <Button
+                  ref={triggerRef}
+                  variant={isInverse ? 'inverse' : 'secondary'}
+                  size="lg"
+                  aria-haspopup="dialog"
+                  aria-expanded={open}
+                  onClick={() => setOpen(true)}
+                >
                   Время работы
                 </Button>
                 <Sheet open={open} onOpenChange={setOpen}>
-                  <SheetContent>
-                    <SheetHeader>
-                      <SheetTitle>Время работы</SheetTitle>
-                    </SheetHeader>
-                    <Box className={styles.sheetBody}>
-                      <WorkingHoursContent />
-                    </Box>
+                  <SheetContent showCloseButton={false} className={styles.hoursSheet}>
+                    <Box aria-hidden="true" className={styles.sheetHandle} />
+                    <WorkingHoursContent mobile titleId={titleId} onClose={closeHours} />
                   </SheetContent>
                 </Sheet>
               </>
             ) : (
-              <Popover open={open} onOpenChange={setOpen}>
+              <Popover open={open} onOpenChange={setOpen} withOverlay>
                 <PopoverTrigger>
-                  <Button variant={isInverse ? 'inverse' : 'secondary'} size="lg">
+                  <Button ref={triggerRef} variant={isInverse ? 'inverse' : 'secondary'} size="lg">
                     Время работы
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent side="top" align="end" sideOffset={16} className={styles.popover}>
-                  <WorkingHoursContent />
+                <PopoverContent
+                  side="top"
+                  align="end"
+                  sideOffset={16}
+                  className={styles.popover}
+                  aria-labelledby={titleId}
+                >
+                  <WorkingHoursContent mobile={false} titleId={titleId} onClose={closeHours} />
                 </PopoverContent>
               </Popover>
             )}

@@ -37,6 +37,8 @@ type PopoverProps = {
   open?: boolean
   defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void
+  /** Затемняет страницу и закрывает поповер при нажатии на подложку. По умолчанию выключен. */
+  withOverlay?: boolean
   children: ReactNode
   className?: string
 }
@@ -47,10 +49,18 @@ type PopoverProps = {
  * Панель не выносится в портал: она позиционируется абсолютно внутри корня и не обрезается,
  * пока у предков нет overflow: hidden.
  */
-export function Popover({ open: openProp, defaultOpen = false, onOpenChange, children, className }: PopoverProps) {
+export function Popover({
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+  withOverlay = false,
+  children,
+  className,
+}: PopoverProps) {
   const [innerOpen, setInnerOpen] = useState(defaultOpen)
   const open = openProp ?? innerOpen
   const rootRef = useRef<HTMLSpanElement>(null)
+  const overlayRef = useRef<HTMLSpanElement>(null)
   const panelId = useId()
 
   function setOpen(next: boolean) {
@@ -64,7 +74,7 @@ export function Popover({ open: openProp, defaultOpen = false, onOpenChange, chi
   useEffect(() => {
     if (!open) return
     function handlePointerDown(event: PointerEvent) {
-      if (!rootRef.current?.contains(event.target as Node)) close()
+      if (event.target === overlayRef.current || !rootRef.current?.contains(event.target as Node)) close()
     }
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') close()
@@ -79,7 +89,8 @@ export function Popover({ open: openProp, defaultOpen = false, onOpenChange, chi
 
   return (
     <PopoverContext value={{ open, setOpen, panelId }}>
-      <span ref={rootRef} className={cn(styles.root, className)}>
+      <span ref={rootRef} className={cn(styles.root, open && withOverlay && styles.withOverlay, className)}>
+        {open && withOverlay ? <span ref={overlayRef} aria-hidden="true" className={styles.overlay} /> : null}
         {children}
       </span>
     </PopoverContext>

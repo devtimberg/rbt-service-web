@@ -484,6 +484,12 @@ export function UiKitPage() {
                 Закрывается Esc и тапом снаружи
               </PopoverContent>
             </Popover>
+            <Popover withOverlay>
+              <PopoverTrigger>
+                <Button variant="secondary">С оверлеем</Button>
+              </PopoverTrigger>
+              <PopoverContent side="top">Закрывается Esc и нажатием на затемнение</PopoverContent>
+            </Popover>
           </Stack>
         </Section>
 
