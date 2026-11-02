@@ -263,6 +263,29 @@
     pointer-events: auto;
   }
 
+  .desktopSearchHome {
+    /* До измерения слота в контенте поиск не должен появляться в шапке. */
+    visibility: hidden;
+
+    &[data-search-positioned] {
+      visibility: visible;
+    }
+
+    @media (--xl) and (min-height: 700px) {
+      /* Начальное положение совпадает с useSearchMotion уже в серверной разметке. */
+      position: absolute;
+      inset: 2.0625rem 0 auto;
+      visibility: visible;
+
+      & .searchMotion {
+        left: var(--home-search-left, calc((100% - 46.25rem) / 2));
+        top: var(--home-search-top, clamp(7.5rem, 18vh, 16.25rem));
+        width: var(--home-search-width, 46.25rem);
+        height: var(--home-search-height, 4.625rem);
+      }
+    }
+  }
+
   .homeNotice {
     position: absolute;
     top: calc(100% + 0.5rem);

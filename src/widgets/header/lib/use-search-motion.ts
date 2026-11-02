@@ -39,6 +39,7 @@ export function useSearchMotion(home: boolean) {
       element.style.setProperty('--home-search-top', `${top - available.top}px`)
       element.style.setProperty('--home-search-width', `${width}px`)
       element.style.setProperty('--home-search-height', `${expanded ? 74 : anchor?.height || 40}px`)
+      slot.setAttribute('data-search-positioned', '')
     }
     const previous = bounds.current
     const previousOpacity = opacity.current
