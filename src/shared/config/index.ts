@@ -11,6 +11,7 @@ export {
   WORK_HOURS,
 } from './contacts'
 export { getServerEnv, type ServerEnv } from './env'
+export { OPEN_GRAPH_BASE } from './open-graph'
 export { BREAKPOINTS_PX } from './breakpoints'
 export { type AppRoute, HOME_NAV_PATHS, isSheetPath, ROUTES } from './routes'
 

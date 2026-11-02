@@ -6,6 +6,7 @@ import type { ReactNode } from 'react'
 import { RootLayout as AppShell } from '@/app/layouts'
 import { AppProviders } from '@/app/root/app-providers'
 import { fontVariables } from '@/app/styles/fonts'
+import { getServerEnv, OPEN_GRAPH_BASE } from '@/shared/config'
 
 // Все маршруты динамические: HTML не кэшируется Next (ADR 0009)
 export const dynamic = 'force-dynamic'
@@ -13,9 +14,19 @@ export const dynamic = 'force-dynamic'
 const DESCRIPTION =
   'На сегодняшний день, практически все люди без исключения пользуются различными видами бытовой техники, компьютерами и смартфонами. Трудно представить дом без стиральной или посудомоечной машины, холодильника или морозильной камеры, водонагревательных приборов или варочной поверхности. Однако любая техника иногда подводит, выходя из строя или отказываясь работать. Причины неисправности могут быть абсолютно разные, от неправильной эксплуатации техники до естественного износа деталей и их поломки. '
 
+// База для абсолютных SEO-адресов (canonical, og:url): домен берём из SITE_URL (по умолчанию боевой rbt74.ru)
+const SITE_URL = getServerEnv().SITE_URL
+
 export const metadata: Metadata = {
-  title: 'Сервисный центр ООО ТТЦ Рембыттехника',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Сервисный центр ООО ТТЦ Рембыттехника',
+    template: '%s — РБТ Сервис',
+  },
   description: DESCRIPTION,
+  // Открытый граф: общая часть в src/shared/config/open-graph.ts (страницы раскладывают её с url)
+  openGraph: { ...OPEN_GRAPH_BASE },
+  twitter: { card: 'summary' },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '16x16 32x32 48x48', type: 'image/x-icon' },

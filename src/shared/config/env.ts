@@ -5,6 +5,8 @@ import { z } from 'zod'
 const serverSchema = z.object({
   // Адрес rbt-service-api для SSR-запросов
   API_INTERNAL_URL: z.url({ error: 'API_INTERNAL_URL должен быть абсолютным URL' }),
+  // Публичный адрес сайта для SEO (metadataBase, canonical, og:url, robots.txt, sitemap.xml)
+  SITE_URL: z.url({ error: 'SITE_URL должен быть абсолютным URL' }).default('https://rbt74.ru'),
 })
 
 export type ServerEnv = z.infer<typeof serverSchema>
