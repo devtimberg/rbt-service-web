@@ -1,0 +1,227 @@
+@layer slices {
+  .inlinePrinter {
+    display: contents;
+    @media (--lg) {
+      display: none;
+    }
+  }
+  .overlayPrinter {
+    display: none;
+    @media (--lg) {
+      display: block;
+    }
+  }
+  .scene {
+    isolation: isolate;
+    position: relative;
+    display: grid;
+    align-content: start;
+    min-width: 0;
+    --mobile-printer-height: calc(min(100vw + 1.375rem, 35.9375rem) * 448 / 424);
+    --scene-scale: clamp(0.6, calc((100vw - 34rem) / 56rem), 1);
+    padding-bottom: calc(var(--mobile-printer-height) - 11rem);
+    @media (--lg) {
+      /* Верх чека не поднимается выше строки заголовка. После этого растёт строка сетки. */
+      padding-bottom: 0;
+      padding-top: 3.75rem;
+      grid-template-rows: minmax(min-content, calc(36.125rem * var(--scene-scale)));
+    }
+  }
+  .paper {
+    z-index: 1;
+    position: relative;
+    width: 100%;
+    max-width: 30rem;
+    margin-inline: auto;
+    @media (--lg) {
+      /* zoom масштабирует и текст чека (transform/calc по ширине сломали бы типографику).
+       * Firefox поддерживает zoom с 126; на 114–125 сцена на десктопе деградирует без масштаба. */
+      zoom: var(--scene-scale);
+      grid-area: 1 / 1;
+      width: 30rem;
+      margin-left: 7rem;
+      align-self: end;
+    }
+  }
+  .anchor {
+    position: absolute;
+    left: 50%;
+    top: calc(100% - var(--mobile-printer-height) * 1.25 + 11rem);
+    width: 0;
+    height: 0;
+    @media (--lg) {
+      position: relative;
+      grid-area: 1 / 1;
+      align-self: end;
+      left: 0;
+      top: calc(-8.6875rem * var(--scene-scale));
+    }
+  }
+  .feedShadow {
+    position: absolute;
+    inset: auto 0 0;
+    height: 4.375rem;
+    background: linear-gradient(rgb(4 9 19 / 0%), rgb(4 9 19 / 6%) 50.481%, rgb(4 9 19 / 13%));
+    border-bottom: 1px solid rgb(4 9 19 / 18%);
+    pointer-events: none;
+    @media (--lg) {
+      height: 5.875rem;
+    }
+  }
+  .printer {
+    --scene-scale: clamp(0.6, calc((100vw - 34rem) / 56rem), 1);
+    position: absolute;
+    width: min(calc(100vw + 1.375rem), 35.9375rem);
+    aspect-ratio: 424 / 448;
+    transform: translateX(-50%);
+
+    @media (--lg) {
+      zoom: var(--scene-scale);
+      width: 56rem;
+      height: 36.0625rem;
+      aspect-ratio: auto;
+      transform: none;
+    }
+  }
+  .body {
+    position: absolute;
+    display: block;
+    width: 147.26%;
+    max-width: none;
+    height: 107.15%;
+    left: -23.63%;
+    top: -3.57%;
+    @media (--lg) {
+      position: static;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+  .sticker {
+    position: absolute;
+    left: 30.9%;
+    top: 48.2%;
+    width: 37.5%;
+    height: auto;
+    @media (--lg) {
+      left: 10.268%;
+      top: 32.929%;
+      width: 21.094%;
+    }
+  }
+  .indicator {
+    --indicator-color: #2761ff;
+    position: absolute;
+    left: calc(50% - 3.1051rem);
+    top: calc(37.05% - 1.55rem);
+    width: 6.2102rem;
+    height: 5.1752rem;
+    isolation: isolate;
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      left: 50%;
+      top: 47.333%;
+      width: 7rem;
+      height: 5.5rem;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(
+        ellipse closest-side,
+        color-mix(in srgb, var(--indicator-color) 70%, transparent) 0%,
+        color-mix(in srgb, var(--indicator-color) 30%, transparent) 40%,
+        transparent 100%
+      );
+      opacity: 0;
+      transition:
+        opacity 400ms ease-out,
+        background 400ms ease-out;
+    }
+    &[data-state="active"]::before {
+      animation: indicatorBlink 900ms ease-in-out;
+    }
+    &[data-state="error"] {
+      --indicator-color: var(--color-danger-500);
+      &::before {
+        opacity: 0.85;
+        animation: indicatorPulse 2400ms ease-in-out infinite;
+      }
+      .indicatorLens {
+        filter: hue-rotate(120deg);
+      }
+    }
+    &[data-state="success"] {
+      --indicator-color: var(--color-feedback-success-solid);
+      &::before {
+        opacity: 0.4;
+      }
+      .indicatorLens {
+        filter: hue-rotate(240deg) saturate(0.8);
+      }
+    }
+    @media (--lg) {
+      left: 19.525rem;
+      top: 11.1375rem;
+    }
+  }
+  .indicatorLens {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition: filter 400ms ease-out;
+  }
+  @keyframes indicatorPulse {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 0.95;
+    }
+  }
+  @keyframes indicatorBlink {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 0.9;
+    }
+  }
+  .created .paper {
+    animation: feed 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    @media (--lg) {
+      align-self: start;
+      margin-top: 0.5625rem;
+    }
+  }
+  .detached {
+    transform: translate(-50%, 8rem);
+    @media (--lg) {
+      transform: translateY(4.75rem);
+    }
+  }
+  @keyframes feed {
+    from {
+      transform: translateY(8.5rem);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .indicator[data-state="active"]::before {
+      animation: none;
+      opacity: 0.5;
+    }
+    .indicator[data-state="error"]::before {
+      animation: none;
+      opacity: 0.65;
+    }
+    .created .paper {
+      animation: none;
+    }
+  }
+}

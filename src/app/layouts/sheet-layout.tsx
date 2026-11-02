@@ -38,7 +38,12 @@ export function SheetLayout({ pathname, active, open, disableOpenAnimation, chil
       className={styles.sheet}
     >
       <SheetExitContent active={active}>
-        <Box className={cn(styles.inner, pathname === ROUTES.MASTER_CALL && styles.masterCall)}>
+        <Box
+          className={cn(
+            styles.inner,
+            (pathname === ROUTES.MASTER_CALL || pathname === ROUTES.PARTS_REQUEST) && styles.masterCall,
+          )}
+        >
           <SheetDecorationSlotTarget />
           <ScrollArea
             data-sheet-scroll="true"

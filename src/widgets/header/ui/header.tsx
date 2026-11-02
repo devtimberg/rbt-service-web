@@ -35,7 +35,7 @@ import { getRouteTitle } from '../lib/get-route-title'
 import { useSearchMotion } from '../lib/use-search-motion'
 import styles from './header.module.css'
 
-const CLOSE_BUTTON_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL])
+const CLOSE_BUTTON_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL, ROUTES.PARTS_REQUEST])
 
 type HeaderProps = {
   /** Поиск по каталогу для десктопа. Виджет не импортирует другой виджет, поэтому его передаёт app. */

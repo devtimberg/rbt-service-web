@@ -9,7 +9,7 @@ import { usePathname } from '@/shared/lib/use-pathname'
 import { Box, IconButton, BagIcon, CatalogIcon, HeartIcon, HomeIcon, ProfileIcon, List, ListItem } from '@/shared/ui'
 import styles from './mobile-bottom-nav.module.css'
 
-const HIDDEN_NAV_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL, ROUTES.SEARCH])
+const HIDDEN_NAV_ROUTES: Set<string> = new Set([ROUTES.MASTER_CALL, ROUTES.PARTS_REQUEST, ROUTES.SEARCH])
 
 type NavItem = {
   label: string

@@ -27,7 +27,7 @@ export function isSheetPath(pathname: string): boolean {
   return (
     pathname === ROUTES.CATALOG ||
     pathname.startsWith(`${ROUTES.CATALOG}/`) ||
-    [ROUTES.CART, ROUTES.COMPARE, ROUTES.FAVORITE, ROUTES.MASTER_CALL, ROUTES.SEARCH].some(
+    [ROUTES.CART, ROUTES.COMPARE, ROUTES.FAVORITE, ROUTES.MASTER_CALL, ROUTES.PARTS_REQUEST, ROUTES.SEARCH].some(
       (route) => route === pathname,
     )
   )

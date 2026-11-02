@@ -11,9 +11,10 @@ describe('isLockedSection', () => {
     expect(isLockedSection(ROUTES.FAVORITE)).toBe(true)
   })
 
-  it('главная и вызов мастера открыты, похожий префикс не считается подразделом', () => {
+  it('главная, вызов мастера и заказ запчасти открыты, похожий префикс не считается подразделом', () => {
     expect(isLockedSection(ROUTES.HOME)).toBe(false)
     expect(isLockedSection(ROUTES.MASTER_CALL)).toBe(false)
+    expect(isLockedSection(ROUTES.PARTS_REQUEST)).toBe(false)
     expect(isLockedSection('/catalogue')).toBe(false)
   })
 })
