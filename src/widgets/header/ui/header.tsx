@@ -38,7 +38,7 @@ type HeaderProps = {
   search: ReactNode
   /** Блок под поиском на главной, когда поиск уезжает в центр экрана (плашка MVP). Передаёт app. */
   homeNotice?: ReactNode
-  /** Положение поиска, согласованное с закрытием шторки. */
+  /** Тайминг домашнего положения поиска при закрытии шторки; действует только на главной. Передаёт app. */
   homeSearch?: boolean
 }
 
@@ -67,7 +67,9 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
   const router = useRouter()
   const guard = useNavigationGuard()
   const isHomePage = pathname === ROUTES.HOME
-  const searchAtHome = homeSearch ?? isHomePage
+  // Домашнее положение поиска — только на главной (ADR 0015): homeSearch согласует лишь тайминг
+  // возврата при закрытии шторки, сам по себе он истинен для любого нешторочного маршрута.
+  const searchAtHome = isHomePage && (homeSearch ?? true)
   const { slotRef, motionRef } = useSearchMotion(searchAtHome)
   const isCart = pathname === ROUTES.CART
   const isCatalog = pathname.startsWith(ROUTES.CATALOG)
