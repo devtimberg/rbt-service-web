@@ -6,17 +6,17 @@
 :root {
   /* ===== Primitives ===== */
   --color-brand-50: #edf3ff;
-  --color-brand-100: #d9e9ff;
-  --color-brand-200: #bdd9ff;
-  --color-brand-300: #93beff;
-  --color-brand-350: #8ba9e1;
-  --color-brand-400: #5790f8;
+  --color-brand-100: #dce9fd;
+  --color-brand-200: #c4d8fb;
+  --color-brand-300: #9dbdf5;
+  --color-brand-350: #81a9ef;
+  --color-brand-400: #6292e8;
   --color-brand-500: #2564d8;
-  --color-brand-600: #1653c3;
-  --color-brand-700: #1146a6;
-  --color-brand-800: #103a88;
-  --color-brand-900: #11316d;
-  --color-brand-950: #011232;
+  --color-brand-600: #2056b9;
+  --color-brand-700: #1b499d;
+  --color-brand-800: #163c81;
+  --color-brand-900: #12326c;
+  --color-brand-950: #05122e;
 
   --color-accent-50: #fff1f3;
   --color-accent-100: #ffe2e6;
@@ -31,19 +31,19 @@
   --color-accent-900: #6f142d;
   --color-accent-950: #410918;
 
-  --color-neutral-50: #f9fafb;
-  --color-neutral-100: #f4f5f7;
-  --color-neutral-200: #e4e5e9;
-  --color-neutral-250: #e2e8f0;
-  --color-neutral-300: #ced1d8;
-  --color-neutral-350: #b5b6c2;
-  --color-neutral-400: #9da1aa;
-  --color-neutral-500: #8a92a5;
-  --color-neutral-600: #767f94;
-  --color-neutral-700: #586278;
-  --color-neutral-800: #3b4254;
-  --color-neutral-900: #232935;
-  --color-neutral-950: #14171e;
+  --color-neutral-50: #f7faff;
+  --color-neutral-100: #f1f5fd;
+  --color-neutral-200: #dfe6f2;
+  --color-neutral-250: #d3dcea;
+  --color-neutral-300: #c7d2e3;
+  --color-neutral-350: #acb7cc;
+  --color-neutral-400: #95a2b7;
+  --color-neutral-500: #8593ac;
+  --color-neutral-600: #707f9a;
+  --color-neutral-700: #53627e;
+  --color-neutral-800: #35435b;
+  --color-neutral-900: #1e293c;
+  --color-neutral-950: #0f1726;
 
   --color-success-50: #f0faf2;
   --color-success-100: #daf5e0;
