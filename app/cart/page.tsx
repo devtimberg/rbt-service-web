@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
 import { CartPage } from '@/pages/cart'
 
-export const metadata: Metadata = { title: 'Корзина — РБТ Сервис' }
+// Служебная страница с личными данными сессии: в выдачу не отдаём
+export const metadata: Metadata = {
+  title: 'Корзина',
+  robots: { index: false, follow: false },
+}
 
 export default function Page() {
   return <CartPage />
