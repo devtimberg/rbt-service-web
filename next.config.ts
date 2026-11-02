@@ -7,8 +7,10 @@ const config: NextConfig = {
   output: 'standalone',
   // Доступ к dev-ресурсам и HMR с устройств в локальной сети: впиши свои origins при разработке с телефона,
   // личные адреса в общий конфиг не коммитим (см. README, «Установка и запуск»).
-  allowedDevOrigins: [],
-  outputFileTracingIncludes: { '/privacy-policy': ['./src/pages/privacy-policy/content/*.md'] },
+  allowedDevOrigins: ['192.168.1.88'],
+  outputFileTracingIncludes: {
+    '/privacy-policy': ['./src/pages/privacy-policy/content/*.md'],
+  },
   // gzip встроенного сервера
   compress: true,
   poweredByHeader: false,
