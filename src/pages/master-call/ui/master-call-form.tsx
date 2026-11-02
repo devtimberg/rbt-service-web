@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { useCreateMasterCallMutation, type MasterCall } from '@/entities/master-call'
-import { UNKNOWN_ERROR_MESSAGE } from '@/shared/api'
 import { ROUTES } from '@/shared/config'
 import { cn } from '@/shared/lib/cn'
 import { useNavigationBlocker } from '@/shared/lib/navigation-guard'
@@ -23,7 +22,7 @@ import {
   TextArea,
   TextField,
 } from '@/shared/ui'
-import { APPLIANCE_CATEGORIES } from '../model/categories'
+import { APPLIANCE_CATEGORIES, OTHER_CATEGORY_LABEL, resolveApplianceCategory } from '../model/categories'
 import {
   clearMasterCallDraft,
   EMPTY_MASTER_CALL,
@@ -56,6 +55,8 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
   const live = useRef(true)
   const discarded = useRef(false)
   const keyboardOpen = useScreenKeyboard()
+  // Ошибка уходит с первой же правки поля: reValidateMode по умолчанию ('onChange') убирал бы её, только когда поле
+  // стало валидным, а телефон валиден лишь на десятой цифре. Поэтому перевалидация по submit, а снимаем clearErrors.
   const {
     register,
     control,
@@ -104,7 +105,7 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
     if (isLoading || !ready) return
     const submitted = {
       ...data,
-      category: data.category === 'Другое' ? data.customCategory?.trim() || 'Другое' : data.category,
+      category: resolveApplianceCategory(data),
       comment: data.comment?.trim() ? data.comment : undefined,
     }
     const result = await createMasterCall({
@@ -157,7 +158,7 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
             />
           )}
         />
-        {values.category === 'Другое' && (
+        {values.category === OTHER_CATEGORY_LABEL && (
           <TextField
             label="Ваш вариант техники"
             maxLength={CUSTOM_CATEGORY_MAX_LENGTH}
@@ -208,7 +209,7 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
             },
           })}
         />
-        <FormAlert message={error ? `${UNKNOWN_ERROR_MESSAGE} Попробуйте отправить заявку ещё раз.` : undefined} />
+        <FormAlert message={error ? 'Не удалось отправить заявку. Попробуйте ещё раз.' : undefined} />
         <Button
           type="submit"
           loading={isLoading}

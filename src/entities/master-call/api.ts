@@ -27,5 +27,3 @@ export const masterCallApi = api.injectEndpoints({
     }),
   }),
 })
-
-export const { useCreateMasterCallMutation } = masterCallApi

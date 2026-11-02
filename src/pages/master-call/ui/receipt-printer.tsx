@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import type { MasterCall } from '@/entities/master-call'
 import { cn } from '@/shared/lib/cn'
 import { Box, Image, SheetDecorationSlot } from '@/shared/ui'
+import { resolveApplianceCategory } from '../model/categories'
 import type { MasterCallFormValues } from '../model/schema'
 import { formatReceiptDate, useReceiptClock } from '../model/use-receipt-clock'
 import { CallReceipt } from './call-receipt'
@@ -21,7 +22,7 @@ export function ReceiptPrinter({ values, call, hasError = false, activity = 0 }:
   const clock = useReceiptClock()
   const anchor = useRef<HTMLDivElement>(null)
   const paper = useRef<HTMLDivElement>(null)
-  const category = values.category === 'Другое' ? values.customCategory?.trim() || 'Другое' : values.category
+  const category = resolveApplianceCategory(values)
   const indicatorState = call ? 'success' : hasError ? 'error' : activity > 0 ? 'active' : 'idle'
   const printer = (
     <Box className={cn(styles.printer, call && styles.detached)} aria-hidden>

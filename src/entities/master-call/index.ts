@@ -1,1 +1,2 @@
-export { type CreateMasterCallArg, type MasterCall, useCreateMasterCallMutation } from './api'
+export { type CreateMasterCallArg, type MasterCall } from './api'
+export { useCreateMasterCallMutation } from './use-create-master-call'

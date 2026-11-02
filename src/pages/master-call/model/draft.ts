@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { PHONE_DIGITS } from '@/shared/lib/phone-mask'
 import { APPLIANCE_CATEGORIES } from './categories'
 import { CUSTOM_CATEGORY_MAX_LENGTH, type MasterCallFormValues } from './schema'
 
@@ -8,7 +9,7 @@ export const EMPTY_MASTER_CALL: MasterCallFormValues = { category: '', customCat
 const draftSchema = z.object({
   category: z.string().refine((value) => !value || APPLIANCE_CATEGORIES.some((category) => category.label === value)),
   customCategory: z.string().max(CUSTOM_CATEGORY_MAX_LENGTH),
-  phone: z.string().regex(/^\d{0,10}$/),
+  phone: z.string().regex(new RegExp(`^\\d{0,${PHONE_DIGITS}}$`)),
   comment: z.string().max(10000),
 })
 
