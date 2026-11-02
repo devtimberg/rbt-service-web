@@ -152,8 +152,8 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
             <Image
               src="/brand/logo.svg"
               alt="ООО ТТЦ Рембыттехника"
-              width={180}
-              height={40}
+              width={201.731}
+              height={32}
               fetchPriority="high"
               className={styles.logo}
             />
@@ -211,7 +211,7 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
           <Image
             src="/brand/logo.svg"
             alt="ООО ТТЦ Рембыттехника"
-            width={211}
+            width={201.731}
             height={32}
             className={styles.desktopLogoImage}
           />

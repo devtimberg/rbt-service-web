@@ -115,7 +115,7 @@
   .logo {
     display: block;
     width: 11.25rem;
-    height: 2.5rem;
+    height: auto;
   }
 
   .mobileTitle {
@@ -179,7 +179,7 @@
 
   .desktopLogoImage {
     display: block;
-    width: 13.15rem;
+    width: 12.6081875rem;
     height: 2rem;
   }
 

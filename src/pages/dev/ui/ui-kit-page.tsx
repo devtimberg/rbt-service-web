@@ -216,13 +216,13 @@ export function UiKitPage() {
 
         <Section title="Image">
           <Stack direction="row" gap={4} align="center" wrap>
-            <Image src="/brand/logo.svg" alt="Логотип" width={180} height={40} className={styles.logo} />
+            <Image src="/brand/logo.svg" alt="Логотип" width={201.731} height={32} className={styles.logo} />
             <Image
               src="/brand/logo.svg"
               alt="Логотип в picture"
               sources={[{ media: '(min-width: 768px)', srcSet: '/brand/logo.svg' }]}
-              width={180}
-              height={40}
+              width={201.731}
+              height={32}
               className={styles.logo}
             />
           </Stack>

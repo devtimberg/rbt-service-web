@@ -129,7 +129,7 @@
   }
 
   .logo {
-    height: 2.5rem;
+    height: auto;
     width: 11.25rem;
     background-color: var(--color-action-primary-bg);
   }
