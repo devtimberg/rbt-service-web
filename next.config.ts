@@ -5,8 +5,9 @@ import { LOCKED_SECTIONS, LOCKED_SECTION_NOTICE_PARAM, ROUTES } from './src/shar
 const config: NextConfig = {
   // Node-сервер без node_modules проекта: .next/standalone/server.js (см. Dockerfile)
   output: 'standalone',
-  // Доступ к dev-ресурсам и HMR с устройств в локальной сети.
-  allowedDevOrigins: ['192.168.1.88', '192.168.1.58'],
+  // Доступ к dev-ресурсам и HMR с устройств в локальной сети: впиши свои origins при разработке с телефона,
+  // личные адреса в общий конфиг не коммитим (см. README, «Установка и запуск»).
+  allowedDevOrigins: [],
   outputFileTracingIncludes: { '/privacy-policy': ['./src/pages/privacy-policy/content/*.md'] },
   // gzip встроенного сервера
   compress: true,

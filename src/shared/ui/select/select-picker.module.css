@@ -45,7 +45,7 @@
   }
   .filled {
     font-size: var(--font-size-caption-md);
-    line-height: 1rem;
+    line-height: var(--line-height-caption-md);
     color: var(--color-input-label-resting);
   }
   .value {
@@ -71,7 +71,7 @@
     padding-left: var(--space-md);
     color: var(--color-input-helper-error);
     font-size: var(--font-size-caption-md);
-    line-height: 1rem;
+    line-height: var(--line-height-caption-md);
   }
   .panel {
     padding: 0;
@@ -122,8 +122,8 @@
     }
   }
   .title {
-    font-size: 1.5rem;
-    line-height: 2rem;
+    font-size: var(--font-size-heading-h3);
+    line-height: var(--line-height-heading-h3);
     font-weight: var(--font-weight-semibold);
     margin-bottom: var(--space-lg);
     @media (--md) {

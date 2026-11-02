@@ -1,7 +1,17 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { createContext, type ReactNode, use, useCallback, useEffect, useEffectEvent, useRef, useState } from 'react'
+import {
+  createContext,
+  type ReactNode,
+  use,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 type Blocker = { discard: () => void }
 type NavigationGuard = {
@@ -85,29 +95,24 @@ export function NavigationGuardProvider({ children }: { children: ReactNode }) {
   }, [request])
 
   const cancel = useCallback(() => setAction(null), [])
-  function confirm() {
+  const confirm = useCallback(() => {
     const next = action
     setAction(null)
     const current = blocker.current
     blocker.current = null
     current?.discard()
     next?.()
-  }
+  }, [action])
 
-  return (
-    <GuardContext
-      value={{
-        register,
-        request,
-        navigate: (href) => request(() => router.push(href)),
-        pending: action !== null,
-        cancel,
-        confirm,
-      }}
-    >
-      {children}
-    </GuardContext>
+  const navigate = useCallback((href: string) => request(() => router.push(href)), [request, router])
+
+  // Стабильное значение контекста: иначе каждая смена маршрута перерисовывает всех потребителей (все SmartLink).
+  const value = useMemo(
+    () => ({ register, request, navigate, pending: action !== null, cancel, confirm }),
+    [register, request, navigate, action, cancel, confirm],
   )
+
+  return <GuardContext value={value}>{children}</GuardContext>
 }
 
 export function useNavigationGuard() {

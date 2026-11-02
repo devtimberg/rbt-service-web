@@ -252,6 +252,7 @@
   --color-navigation-bg: var(--color-surface-sheet);
   --color-navigation-border: var(--color-neutral-200);
   --color-navigation-fg-active: var(--color-brand-500);
+  /* Так в Figma «RS · UiKit»: неактивные подписи навигации brand-200 (контраст ниже WCAG — задумано дизайном). */
   --color-navigation-fg-inactive: var(--color-brand-200);
 
   /* overlay */

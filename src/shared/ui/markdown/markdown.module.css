@@ -15,35 +15,36 @@
     & ol,
     & blockquote,
     & pre {
-      margin-block: 0 1rem;
+      margin-block: 0 var(--space-lg);
     }
+    /* Заголовки документа сдвинуты на ступень ниже кита: h1 страницы рендерит сам документ (headingOffset). */
     & h1,
     & h2,
     & h3,
     & h4,
     & h5,
     & h6 {
-      margin-block: 2rem 0.75rem;
+      margin-block: var(--space-3xl) var(--space-md);
       font-weight: var(--font-weight-semibold);
       text-wrap: balance;
     }
     & h1 {
-      font-size: 2rem;
-      line-height: 2.5rem;
+      font-size: var(--font-size-heading-h2);
+      line-height: var(--line-height-heading-h2);
     }
     & h2 {
-      font-size: 1.5rem;
-      line-height: 2rem;
+      font-size: var(--font-size-heading-h3);
+      line-height: var(--line-height-heading-h3);
     }
     & h3 {
-      font-size: 1.25rem;
-      line-height: 1.75rem;
+      font-size: var(--font-size-heading-h5);
+      line-height: var(--line-height-heading-h5);
     }
     & h4,
     & h5,
     & h6 {
-      font-size: 1.125rem;
-      line-height: 1.75rem;
+      font-size: var(--font-size-heading-h6);
+      line-height: var(--line-height-heading-h5);
     }
     & strong {
       font-weight: var(--font-weight-bold);
@@ -53,7 +54,7 @@
     }
     & ul,
     & ol {
-      padding-inline-start: 1.5rem;
+      padding-inline-start: var(--space-2xl);
     }
     & ul {
       list-style: disc;
@@ -62,8 +63,8 @@
       list-style: decimal;
     }
     & li {
-      padding-inline-start: 0.25rem;
-      margin-block: 0.5rem;
+      padding-inline-start: var(--space-xs);
+      margin-block: var(--space-sm);
     }
     & li > ul,
     & li > ol {
@@ -83,7 +84,7 @@
       }
     }
     & hr {
-      margin-block: 2rem;
+      margin-block: var(--space-3xl);
       border-color: var(--color-border-default);
     }
     & blockquote {
@@ -94,7 +95,7 @@
     & code,
     & pre {
       font-family: var(--font-mono);
-      font-size: 0.875rem;
+      font-size: var(--font-size-body-sm);
     }
     & pre {
       padding: var(--space-lg);

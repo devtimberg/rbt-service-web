@@ -15,6 +15,8 @@ cp .env.example .env   # заполнить значения
 make dev               # http://localhost:3001 (next dev)
 ```
 
+Разработка с телефона в локальной сети: добавь IP машины в `allowedDevOrigins` в [next.config.ts](next.config.ts) — личные адреса в git не коммитим.
+
 ## Переменные окружения
 
 Серверные, в браузер не попадают.
@@ -37,6 +39,8 @@ make dev               # http://localhost:3001 (next dev)
 | `make check`                             | typecheck, lint и lint-fsd, без тестов             |
 | `make ci`                                | `make check` и `make test`, перед коммитом               |
 | `make hooks`                             | поставить git-хуки (обычно ставятся при `install`) |
+
+Автоматики на удалённом репозитории (CI) нет — осознанное решение: типы, линт и тесты проверяются локально, `make check` после каждой задачи и `make ci` перед коммитом.
 | `make icons`                             | пересборка SVGR-иконок                             |
 
 ## Git-хуки

@@ -1,6 +1,7 @@
 'use client'
 
 import { useLayoutEffect, useRef } from 'react'
+import { BREAKPOINTS_PX } from '@/shared/config'
 
 const DURATION = 420
 const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)'
@@ -25,7 +26,8 @@ export function useSearchMotion(home: boolean) {
       const parent = header.getBoundingClientRect()
       const available = slot.getBoundingClientRect()
       const anchor = document.querySelector<HTMLElement>('[data-home-search-anchor]')?.getBoundingClientRect()
-      const expanded = window.matchMedia('(min-width: 1280px) and (min-height: 700px)').matches
+      // Центр экрана — только от --xl (см. BREAKPOINTS_PX и media.css); 700px — высота из макета главной.
+      const expanded = window.matchMedia(`(min-width: ${BREAKPOINTS_PX.xl}px) and (min-height: 700px)`).matches
       const width = expanded ? Math.min(740, window.innerWidth - 80) : anchor?.width || available.width
       const left = expanded ? parent.left + parent.width / 2 - width / 2 : anchor?.width ? anchor.left : available.left
       const top = expanded

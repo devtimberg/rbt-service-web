@@ -10,7 +10,7 @@
   .decorationPoint {
     position: relative;
     z-index: 1;
-    margin: 1rem;
+    margin: var(--space-lg);
   }
   .decorationExample {
     width: 18rem;
