@@ -34,6 +34,8 @@
     max-width: 30rem;
     margin-inline: auto;
     @media (--lg) {
+      /* zoom масштабирует и текст чека (transform/calc по ширине сломали бы типографику).
+       * Firefox поддерживает zoom с 126; на 114–125 сцена на десктопе деградирует без масштаба. */
       zoom: var(--scene-scale);
       grid-area: 1 / 1;
       width: 30rem;
@@ -211,7 +213,8 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .indicator[data-state="active"]::before {
-      animation-duration: 1600ms;
+      animation: none;
+      opacity: 0.5;
     }
     .indicator[data-state="error"]::before {
       animation: none;
@@ -219,9 +222,6 @@
     }
     .created .paper {
       animation: none;
-    }
-    .printer {
-      transition: none;
     }
   }
 }
