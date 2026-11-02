@@ -170,6 +170,10 @@ export function SelectPicker({
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
         aria-describedby={error ? errorId : undefined}
+        // Триггер select-подобного поля: скринридеры объявляют ошибку и на кнопке, хотя ARIA-роль button
+        // атрибут не описывает — поэтому точечное исключение из правила.
+        // oxlint-disable-next-line jsx-a11y/role-supports-aria-props
+        aria-invalid={error ? true : undefined}
         onClick={() => {
           if (open) close()
           else show()
