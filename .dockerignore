@@ -1,14 +1,25 @@
-node_modules
-.next
-next-env.d.ts
-.git
-.github
-.env
-.env.*
-!.env.example
-coverage
-*.log
-.DS_Store
-Dockerfile
-.dockerignore
-.next
+# В контекст попадает только то, что нужно для pnpm install и next build.
+# Документация, env, Git, локальные настройки и результаты проверок исключены по умолчанию.
+**
+
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!next.config.ts
+!postcss.config.js
+!tsconfig.json
+
+!app/
+!app/**
+!src/
+!src/**
+!public/
+!public/**
+# Пустая pages/ нужна Next для совместимости типов маршрутов (см. pages/README.md).
+!pages/
+!pages/README.md
+
+# Тесты и исходники генератора иконок не участвуют в сборке приложения.
+**/*.test.*
+src/shared/ui/icons/raw/
+**/.DS_Store
