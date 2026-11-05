@@ -1,0 +1,36 @@
+# Деплой rbt74-service-web на сервер окружения (docker compose, shell-раннер).
+# Пайплайн кладёт этот файл и .env в /opt/rbt74/apps/rbt74-service-web.
+# Вручную: cd /opt/rbt74/apps/rbt74-service-web && docker compose up -d
+name: rbt74-service-web
+
+services:
+  web:
+    image: rbt74-service-web:${IMAGE_TAG:?}
+    restart: unless-stopped
+    env_file: .env
+    mem_limit: 512m
+    networks:
+      - proxy
+    healthcheck:
+      # в alpine-образе есть node: проверяем, что SSR-сервер отвечает
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    labels:
+      - traefik.enable=true
+      # Сайт на корне основного домена окружения. /api забирает бэкенд: у его правила
+      # PathPrefix длиннее, поэтому приоритет у Traefik выше
+      - traefik.http.routers.rbt74-service-web.rule=Host(`${APP_HOST:?}`)
+      - traefik.http.routers.rbt74-service-web.entrypoints=websecure
+      - traefik.http.services.rbt74-service-web.loadbalancer.server.port=3000
+
+networks:
+  proxy:
+    name: rbt74-proxy
+    external: true
