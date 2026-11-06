@@ -1,28 +1,27 @@
-import { api } from '@/shared/api'
+import { api, toQueryError, type ApiClients } from '@/shared/api'
+import { API_ROUTES } from '@/shared/config'
+import { masterCallResponseSchema, toCreateMasterCallBody, type CreateMasterCallArg } from './contract'
 
-export type CreateMasterCallArg = { category?: string | undefined; phone: string; comment?: string | undefined }
+export type { CreateMasterCallArg } from './contract'
 
+/** Дату API не возвращает: createdAt — время получения успешного ответа для чека. */
 export type MasterCall = { number: string; createdAt: string }
-
-const digits = () => String(Math.floor(Math.random() * 10000)).padStart(4, '0')
 
 export const masterCallApi = api.injectEndpoints({
   endpoints: (build) => ({
     createMasterCall: build.mutation<MasterCall, CreateMasterCallArg>({
-      // shortcut: заглушка без сети, заменить на apiFetch (ошибки ApiError в сериализуемый объект), когда появится API
-      queryFn: async () => {
-        await new Promise((resolve) => setTimeout(resolve, 600))
-        if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
-          try {
-            // Только для ручной проверки ошибки без переключателей в пользовательском интерфейсе.
-            if (sessionStorage.getItem('rbt:master-call:mock-error') === '1') {
-              return { error: { status: 503, message: 'Тестовая ошибка отправки' } }
-            }
-          } catch {
-            // Недоступное хранилище не мешает работе заглушки.
-          }
+      queryFn: async (arg, { extra, signal }) => {
+        try {
+          const { request } = extra as ApiClients
+          const response = await request<unknown>(API_ROUTES.MASTER_CALL, {
+            body: toCreateMasterCallBody(arg),
+            signal,
+          })
+          const data = masterCallResponseSchema.parse(response)
+          return { data: { number: data.requestNumber, createdAt: new Date().toISOString() } }
+        } catch (error) {
+          return { error: toQueryError(error) }
         }
-        return { data: { number: `${digits()}-${digits()}`, createdAt: new Date().toISOString() } }
       },
     }),
   }),

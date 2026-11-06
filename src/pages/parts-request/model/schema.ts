@@ -12,6 +12,7 @@ export const partsRequestSchema = z.object({
   email: z
     .string()
     .trim()
+    .max(320, 'Не больше 320 символов')
     .superRefine((value, ctx) => {
       if (!value) ctx.addIssue({ code: 'custom', message: 'Обязательное поле' })
       else if (!z.email().safeParse(value).success) {

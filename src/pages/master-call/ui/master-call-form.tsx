@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { useCreateMasterCallMutation, type MasterCall } from '@/entities/master-call'
+import { type QueryError } from '@/shared/api'
 import { ROUTES } from '@/shared/config'
 import { cn } from '@/shared/lib/cn'
 import { useNavigationBlocker } from '@/shared/lib/navigation-guard'
@@ -40,6 +41,22 @@ import { useScreenKeyboard } from '../model/use-screen-keyboard'
 import styles from './master-call-form.module.css'
 
 const FORM_ID = 'master-call-form'
+const SEND_ERROR = 'Не удалось отправить заявку. Попробуйте ещё раз.'
+const FIELD_ERRORS = {
+  category: 'Проверьте вид техники',
+  customCategory: 'Проверьте название техники',
+  phone: 'Проверьте номер телефона',
+  comment: 'Проверьте комментарий к заявке',
+} as const
+
+function submissionMessage(error: QueryError): string {
+  if (error.code === 'duplicate') {
+    return 'Повторная отправка доступна через 15 минут.'
+  }
+  if (error.code === 'invalid') return 'Проверьте заполнение полей. Если всё верно, попробуйте отправить заявку позже.'
+  if (error.status === 503) return 'Не удалось связаться с сервером. Попробуйте ещё раз.'
+  return SEND_ERROR
+}
 const OPTIONS = APPLIANCE_CATEGORIES.map((category) => ({ value: category.label, label: category.label }))
 
 type MasterCallFormProps = {
@@ -50,7 +67,7 @@ type MasterCallFormProps = {
 }
 
 export function MasterCallForm({ createdAction, valuesAction, errorAction, activityAction }: MasterCallFormProps) {
-  const [createMasterCall, { isLoading, error }] = useCreateMasterCallMutation()
+  const [createMasterCall, { isLoading, error, reset: resetMutation }] = useCreateMasterCallMutation()
   const [ready, setReady] = useState(false)
   const live = useRef(true)
   const discarded = useRef(false)
@@ -62,6 +79,8 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
     control,
     handleSubmit,
     clearErrors,
+    setError,
+    setFocus,
     reset,
     formState: { errors },
   } = useForm<MasterCallFormValues>({
@@ -71,6 +90,7 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
   })
   const values = useWatch({ control })
   const hasError = Boolean(error) || Object.keys(errors).length > 0
+  const isDuplicate = Boolean(error && 'code' in error && error.code === 'duplicate')
 
   useEffect(() => {
     errorAction?.(hasError)
@@ -101,6 +121,12 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
     reset(EMPTY_MASTER_CALL)
   })
 
+  const clearFieldError = (name: keyof MasterCallFormValues) => {
+    clearErrors(name)
+    if (error) resetMutation()
+    activityAction?.()
+  }
+
   const onValid = async (data: MasterCallFormValues) => {
     if (isLoading || !ready) return
     const submitted = {
@@ -109,11 +135,31 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
       comment: data.comment?.trim() ? data.comment : undefined,
     }
     const result = await createMasterCall({
-      category: submitted.category,
+      category: data.category,
+      customCategory: data.customCategory,
       phone: submitted.phone,
       comment: submitted.comment,
     })
     if (!live.current || discarded.current) return
+    if (result.error && 'status' in result.error) {
+      const fieldNames = {
+        equipmentType: 'category',
+        equipmentName: data.category === OTHER_CATEGORY_LABEL ? 'customCategory' : 'category',
+        phone: 'phone',
+        comment: 'comment',
+      } as const
+      const invalidFields = new Set<keyof MasterCallFormValues>()
+      for (const [attr, name] of Object.entries(fieldNames)) {
+        if (result.error.attrErrors?.some((field) => field.attr === attr)) {
+          setError(name, { type: 'server', message: FIELD_ERRORS[name] })
+          invalidFields.add(name)
+        }
+      }
+      const firstInvalid = (['category', 'customCategory', 'phone', 'comment'] as const).find((name) =>
+        invalidFields.has(name),
+      )
+      if (firstInvalid) setFocus(firstInvalid)
+    }
     if (result.data) {
       discarded.current = true
       clearMasterCallDraft()
@@ -152,8 +198,8 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
               onControlBlur={field.onBlur}
               onValueChange={(value) => {
                 field.onChange(value)
-                clearErrors('category')
-                activityAction?.()
+                clearErrors('customCategory')
+                clearFieldError('category')
               }}
             />
           )}
@@ -167,8 +213,7 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
             className={styles.customField}
             {...register('customCategory', {
               onChange: () => {
-                clearErrors('customCategory')
-                activityAction?.()
+                clearFieldError('customCategory')
               },
             })}
           />
@@ -184,8 +229,7 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
               disabled={!ready}
               onValueChange={(value) => {
                 field.onChange(value)
-                clearErrors('phone')
-                activityAction?.()
+                clearFieldError('phone')
               }}
               onBlur={field.onBlur}
               ref={field.ref}
@@ -204,17 +248,20 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
           textareaClassName={styles.comment}
           {...register('comment', {
             onChange: () => {
-              clearErrors('comment')
-              activityAction?.()
+              clearFieldError('comment')
             },
           })}
         />
-        <FormAlert message={error ? 'Не удалось отправить заявку. Попробуйте ещё раз.' : undefined} />
+        <FormAlert
+          variant={isDuplicate ? 'info' : 'error'}
+          title={isDuplicate ? 'Вы уже отправляли заявку' : undefined}
+          message={error ? ('status' in error ? submissionMessage(error) : SEND_ERROR) : undefined}
+        />
         <Button
           type="submit"
           loading={isLoading}
           loadingIndicator="dots"
-          disabled={!ready}
+          disabled={!ready || isLoading}
           className={styles.desktopSubmit}
         >
           Создать заявку
@@ -234,7 +281,7 @@ export function MasterCallForm({ createdAction, valuesAction, errorAction, activ
           form={FORM_ID}
           loading={isLoading}
           loadingIndicator="dots"
-          disabled={!ready}
+          disabled={!ready || isLoading}
           className={styles.submit}
         >
           Создать заявку

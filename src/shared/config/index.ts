@@ -13,6 +13,6 @@ export {
 export { getServerEnv, type ServerEnv } from './env'
 export { OPEN_GRAPH_BASE } from './open-graph'
 export { BREAKPOINTS_PX } from './breakpoints'
-export { type AppRoute, HOME_NAV_PATHS, isSheetPath, ROUTES } from './routes'
+export { API_ROUTES, type AppRoute, HOME_NAV_PATHS, isSheetPath, ROUTES } from './routes'
 
 export { isLockedSection, LOCKED_SECTIONS, LOCKED_SECTION_NOTICE_PARAM } from './locked-sections'

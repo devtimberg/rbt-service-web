@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { api } from './api'
+import { api, type ApiClients } from './api'
+import { apiFetch } from './client'
 
 /** Стор приложения: пока только RTK Query. На вкладку один (`StoreProvider`). */
-export function makeStore() {
+export function makeStore(clients: ApiClients = { request: apiFetch }) {
   return configureStore({
     reducer: { [api.reducerPath]: api.reducer },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({ thunk: { extraArgument: clients } }).concat(api.middleware),
   })
 }
 

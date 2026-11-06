@@ -1,9 +1,10 @@
-import type { ApiErrorBody } from './types'
+import type { ApiErrorBody, QueryError } from './types'
 
 /** Ошибка, распознанная по телу ответа бэкенда. */
 export class ApiError extends Error {
   readonly status: number
   readonly code: string
+  readonly attrErrors: NonNullable<ApiErrorBody['attrErrors']>
   readonly details: string[]
   /** Секунды до следующей разрешённой попытки — только для 429. */
   readonly retryIn: number | undefined
@@ -13,6 +14,7 @@ export class ApiError extends Error {
     this.name = 'ApiError'
     this.status = status
     this.code = body.code
+    this.attrErrors = body.attrErrors ?? []
     this.details = body.details ?? []
     this.retryIn = body.nextResendIn
   }
@@ -53,4 +55,12 @@ export function toUserMessage(error: unknown): string {
     return error.message
   }
   return UNKNOWN_ERROR_MESSAGE
+}
+
+/** Ошибки клиента превращаются в данные для Redux и Route Handler. */
+export function toQueryError(error: unknown): QueryError {
+  if (error instanceof ApiError) {
+    return { status: error.status, code: error.code, message: error.message, attrErrors: error.attrErrors }
+  }
+  return { status: 503, message: toUserMessage(error) }
 }

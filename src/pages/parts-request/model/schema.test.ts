@@ -26,6 +26,10 @@ describe('partsRequestSchema', () => {
     expect(message({ ...valid, email: '  ' })).toBe('Обязательное поле')
   })
 
+  it('ограничивает email 320 символами по контракту API', () => {
+    expect(message({ ...valid, email: `${'a'.repeat(310)}@example.ru` })).toBe('Не больше 320 символов')
+  })
+
   it('проверяет граничные длины партномера и комментария', () => {
     expect(
       partsRequestSchema.safeParse({ ...valid, partNumber: 'a'.repeat(50), comment: 'a'.repeat(255) }).success,

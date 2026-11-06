@@ -21,4 +21,6 @@
 | [0015](0015-coordinated-page-motion.md) | Согласованный переход поиска и страницы-шторки | accepted |
 | [0016](0016-locked-route-redirects.md) | Серверная блокировка закрытых MVP-разделов | accepted |
 
+| [0017](0017-customer-api-route-handlers.md) | Customer API через Route Handlers Next.js | accepted |
+
 Шаблон нового ADR: [template.md](template.md).

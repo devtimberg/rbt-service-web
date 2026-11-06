@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { useCreatePartsRequestMutation, type PartsRequest } from '@/entities/parts-request'
+import { type QueryError } from '@/shared/api'
 import { ROUTES } from '@/shared/config'
 import { cn } from '@/shared/lib/cn'
 import { useNavigationBlocker } from '@/shared/lib/navigation-guard'
@@ -33,6 +34,22 @@ import { useScreenKeyboard } from '../model/use-screen-keyboard'
 import styles from './parts-request-form.module.css'
 
 const FORM_ID = 'parts-request-form'
+const SEND_ERROR = 'Не удалось отправить заказ. Попробуйте ещё раз.'
+const FIELD_ERRORS = {
+  phone: 'Проверьте номер телефона',
+  email: 'Проверьте адрес электронной почты',
+  partNumber: 'Проверьте партномер запчасти',
+  comment: 'Проверьте комментарий к заказу',
+} as const
+
+function submissionMessage(error: QueryError): string {
+  if (error.code === 'duplicate') {
+    return 'Повторная отправка доступна через 15 минут.'
+  }
+  if (error.code === 'invalid') return 'Проверьте заполнение полей. Если всё верно, попробуйте отправить заказ позже.'
+  if (error.status === 503) return 'Не удалось связаться с сервером. Попробуйте ещё раз.'
+  return SEND_ERROR
+}
 
 type PartsRequestFormProps = {
   createdAction: (call: PartsRequest, values: PartsRequestFormValues) => void
@@ -42,7 +59,7 @@ type PartsRequestFormProps = {
 }
 
 export function PartsRequestForm({ createdAction, valuesAction, errorAction, activityAction }: PartsRequestFormProps) {
-  const [createPartsRequest, { isLoading, error }] = useCreatePartsRequestMutation()
+  const [createPartsRequest, { isLoading, error, reset: resetMutation }] = useCreatePartsRequestMutation()
   const [ready, setReady] = useState(false)
   const live = useRef(true)
   const discarded = useRef(false)
@@ -54,6 +71,7 @@ export function PartsRequestForm({ createdAction, valuesAction, errorAction, act
     control,
     handleSubmit,
     clearErrors,
+    setError,
     setFocus,
     reset,
     formState: { errors },
@@ -65,6 +83,7 @@ export function PartsRequestForm({ createdAction, valuesAction, errorAction, act
   })
   const values = useWatch({ control })
   const hasError = Boolean(error) || Object.keys(errors).length > 0
+  const isDuplicate = Boolean(error && 'code' in error && error.code === 'duplicate')
 
   useEffect(() => {
     errorAction?.(hasError)
@@ -95,6 +114,12 @@ export function PartsRequestForm({ createdAction, valuesAction, errorAction, act
     reset(EMPTY_PARTS_REQUEST)
   })
 
+  const clearFieldError = (name: keyof PartsRequestFormValues) => {
+    clearErrors(name)
+    if (error) resetMutation()
+    activityAction?.()
+  }
+
   const onValid = async (data: PartsRequestFormValues) => {
     if (isLoading || !ready) return
     const submitted = {
@@ -109,6 +134,16 @@ export function PartsRequestForm({ createdAction, valuesAction, errorAction, act
       comment: submitted.comment,
     })
     if (!live.current || discarded.current) return
+    if (result.error && 'status' in result.error) {
+      let firstInvalid: keyof PartsRequestFormValues | undefined
+      for (const name of ['phone', 'email', 'partNumber', 'comment'] as const) {
+        if (result.error.attrErrors?.some((field) => field.attr === name)) {
+          setError(name, { type: 'server', message: FIELD_ERRORS[name] })
+          firstInvalid ??= name
+        }
+      }
+      if (firstInvalid) setFocus(firstInvalid)
+    }
     if (result.data) {
       discarded.current = true
       clearPartsRequestDraft()
@@ -149,8 +184,7 @@ export function PartsRequestForm({ createdAction, valuesAction, errorAction, act
               disabled={!ready}
               onValueChange={(value) => {
                 field.onChange(value)
-                clearErrors('phone')
-                activityAction?.()
+                clearFieldError('phone')
               }}
               onBlur={field.onBlur}
               ref={field.ref}
@@ -169,8 +203,7 @@ export function PartsRequestForm({ createdAction, valuesAction, errorAction, act
           className={styles.field}
           {...register('email', {
             onChange: () => {
-              clearErrors('email')
-              activityAction?.()
+              clearFieldError('email')
             },
           })}
         />
@@ -181,8 +214,7 @@ export function PartsRequestForm({ createdAction, valuesAction, errorAction, act
           className={styles.field}
           {...register('partNumber', {
             onChange: () => {
-              clearErrors('partNumber')
-              activityAction?.()
+              clearFieldError('partNumber')
             },
           })}
         />
@@ -196,12 +228,15 @@ export function PartsRequestForm({ createdAction, valuesAction, errorAction, act
           textareaClassName={styles.comment}
           {...register('comment', {
             onChange: () => {
-              clearErrors('comment')
-              activityAction?.()
+              clearFieldError('comment')
             },
           })}
         />
-        <FormAlert message={error ? 'Не удалось отправить заказ. Попробуйте ещё раз.' : undefined} />
+        <FormAlert
+          variant={isDuplicate ? 'info' : 'error'}
+          title={isDuplicate ? 'Вы уже отправляли заявку' : undefined}
+          message={error ? ('status' in error ? submissionMessage(error) : SEND_ERROR) : undefined}
+        />
         <Button
           type="submit"
           loading={isLoading}

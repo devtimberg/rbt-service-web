@@ -1,4 +1,5 @@
 export { apiFetch } from './client'
-export { ApiError, ApiNetworkError, messageForCode, toUserMessage, UNKNOWN_ERROR_MESSAGE } from './errors'
-export { api } from './api'
+export { ApiError, ApiNetworkError, toQueryError, messageForCode, toUserMessage, UNKNOWN_ERROR_MESSAGE } from './errors'
+export { api, type ApiClients } from './api'
+export type { QueryError } from './types'
 export { type AppDispatch, type AppStore, makeStore, type RootState } from './store'

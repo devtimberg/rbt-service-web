@@ -32,3 +32,9 @@ export function isSheetPath(pathname: string): boolean {
     )
   )
 }
+
+/** Пути customer API относительно API_INTERNAL_URL; в браузере добавляется префикс /api Next.js. */
+export const API_ROUTES = {
+  PARTS_REQUEST: '/customer/spare-part-requests',
+  MASTER_CALL: '/customer/requests',
+} as const

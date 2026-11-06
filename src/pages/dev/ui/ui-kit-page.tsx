@@ -20,6 +20,7 @@ import {
   Legend,
   Output,
   Form,
+  FormAlert,
   Heading,
   IconButton,
   Image,
@@ -329,6 +330,17 @@ export function UiKitPage() {
               defaultValue="Текст"
               error="Сообщение"
             />
+          </Stack>
+        </Section>
+
+        <Section title="FormAlert">
+          <Stack gap={4}>
+            <FormAlert
+              variant="info"
+              title="Вы уже отправляли заявку"
+              message="Повторная отправка доступна через 15 минут."
+            />
+            <FormAlert message="Не удалось отправить заявку. Попробуйте ещё раз." />
           </Stack>
         </Section>
 

@@ -5,16 +5,27 @@ import type { ApiErrorBody } from './types'
 type RequestOptions = {
   method?: 'GET' | 'POST' | 'PATCH' | 'DELETE'
   body?: unknown
+  headers?: Record<string, string>
+  signal?: AbortSignal
 }
 
-/** Единственная точка выхода во внешний API. Вызывать только из серверного кода.
+/** В браузере запрос идёт через Route Handler Next.js, на сервере — во внутренний API.
  * Любой не-2xx превращается в `ApiError`, сетевой сбой — в `ApiNetworkError`. */
-export async function apiFetch<T>(path: string, { method = 'POST', body }: RequestOptions = {}): Promise<T> {
-  const baseUrl = getServerEnv().API_INTERNAL_URL.replace(/\/+$/, '')
-  const headers: Record<string, string> = {}
+export async function apiFetch<T>(
+  path: string,
+  { method = 'POST', body, headers: extraHeaders, signal }: RequestOptions = {},
+): Promise<T> {
+  const baseUrl = typeof window === 'undefined' ? getServerEnv().API_INTERNAL_URL.replace(/\/+$/, '') : '/api'
+  const headers: Record<string, string> = { ...extraHeaders }
   if (body !== undefined) {
     headers['Content-Type'] = 'application/json'
   }
+
+  const controller = new AbortController()
+  const abort = () => controller.abort()
+  const timeout = setTimeout(abort, 10_000)
+  signal?.addEventListener('abort', abort, { once: true })
+  if (signal?.aborted) abort()
 
   let response: Response
   try {
@@ -24,10 +35,13 @@ export async function apiFetch<T>(path: string, { method = 'POST', body }: Reque
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       cache: 'no-store',
       // Зависший API не должен держать SSR-запросы бесконечно; таймаут попадает в catch как сетевой сбой.
-      signal: AbortSignal.timeout(10_000),
+      signal: controller.signal,
     })
   } catch (cause) {
     throw new ApiNetworkError(cause)
+  } finally {
+    clearTimeout(timeout)
+    signal?.removeEventListener('abort', abort)
   }
 
   if (!response.ok) {
@@ -50,7 +64,13 @@ async function readErrorBody(response: Response): Promise<ApiErrorBody> {
     // Не-JSON ответ (502 от прокси, HTML-страница ошибки) — падаем в fallback.
   }
   if (parsed && typeof parsed.code === 'string') {
-    return parsed as ApiErrorBody
+    return {
+      code: parsed.code,
+      message: typeof parsed.message === 'string' ? parsed.message : 'Ошибка сервера',
+      ...(Array.isArray(parsed.attrErrors) ? { attrErrors: parsed.attrErrors } : {}),
+      ...(Array.isArray(parsed.details) ? { details: parsed.details } : {}),
+      ...(typeof parsed.nextResendIn === 'number' ? { nextResendIn: parsed.nextResendIn } : {}),
+    }
   }
   return { code: `http_${response.status}`, message: 'Ошибка сервера' }
 }

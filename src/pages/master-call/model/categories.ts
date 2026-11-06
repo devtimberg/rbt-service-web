@@ -6,16 +6,13 @@ type ApplianceCategory = { key: string; label: string }
 export const OTHER_CATEGORY_LABEL = 'Другое'
 
 export const APPLIANCE_CATEGORIES: ApplianceCategory[] = [
-  { key: 'water-heater', label: 'Водонагреватель' },
-  { key: 'cooktop', label: 'Варочная поверхность' },
-  { key: 'gas-stove', label: 'Газовая плита' },
-  { key: 'dishwasher', label: 'Посудомоечная машина' },
-  { key: 'oven', label: 'Духовой шкаф' },
-  { key: 'freezer', label: 'Морозильная камера' },
-  { key: 'dryer', label: 'Сушильная барабан' },
-  { key: 'fridge', label: 'Холодильник' },
-  { key: 'electric-stove', label: 'Электрическая плита' },
-  { key: 'other', label: OTHER_CATEGORY_LABEL },
+  { key: 'REFRIGERATOR', label: 'Холодильник' },
+  { key: 'WASHING_MACHINE', label: 'Стиральная машина' },
+  { key: 'DISHWASHER', label: 'Посудомоечная машина' },
+  { key: 'OVEN', label: 'Духовой шкаф' },
+  { key: 'COOKTOP', label: 'Варочная поверхность' },
+  { key: 'AIR_CONDITIONER', label: 'Кондиционер' },
+  { key: 'OTHER', label: OTHER_CATEGORY_LABEL },
 ]
 
 /** Категория для заявки и чека: свой вариант техники, если выбрано «Другое» и он заполнен. */

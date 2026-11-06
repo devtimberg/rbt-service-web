@@ -69,7 +69,8 @@
 - [x] Основа: `api` и `makeStore()` в `shared/api`, `StoreProvider` в `app/root`, `renderWithStore` в `@/shared/api/testing`.
 - [x] Удалить TanStack Query.
 - [x] Техдолг, найденный при сверке вёрстки в фазе 1 (2026-10-29): фон `FormAlert` (`--color-danger-100`); `prefers-reduced-motion` у шторки снизу `Dialog`, `LayoutSheet`, `Skeleton`, спиннеров `Button` и ожидания звонка; hover ссылок каталога (`--color-primary-900`). Правило главной `max-height: 760px` уже удалено. `StepSuccess` вызова мастера оставлен недостижимым до API: шаг 3 включит подтверждение звонка.
-- [ ] Эндпоинты в `entities/<entity>/api.ts`, стор на запрос и `Hydrate` по сегментам, `prefetch`: с первым эндпоинтом, когда появится API (образец: rbt-web, раздел «Итог фазы 3»). Сейчас это был бы мёртвый код.
+- [x] Реальные мутации: заявка на запчасть и вызов мастера в `entities/parts-request/api.ts` и `entities/master-call/api.ts`, клиент в `extraArgument`, сериализуемые ошибки и Route Handler Next.js (2026-11-06, ADR 0017).
+- [ ] С первым серверным query: стор на запрос, `Hydrate` по сегментам и `prefetch` (образец: rbt-web, раздел «Итог фазы 3»). У мутации создания заявки нет данных для предварительной загрузки и гидрации.
 
 ### Итог фазы 3 (2026-10-29, RTK Query 2.13, react-redux 9.3)
 
