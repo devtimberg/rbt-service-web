@@ -9,7 +9,7 @@
     @media (--lg) {
       grid-template-columns: minmax(20rem, min(30rem, 37.5%)) minmax(0, 1fr);
       gap: 2.5rem;
-      padding: 1rem 1.75rem 0;
+      padding: 1rem var(--space-4xl) 0;
     }
   }
 }

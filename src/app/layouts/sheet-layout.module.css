@@ -81,6 +81,8 @@
   .masterCall .viewport {
     padding-bottom: 0;
     @media (--lg) {
+      /* Боковые поля задаёт Container страницы, как в шапке. */
+      padding-inline: 0;
       padding-bottom: var(--space-3xl);
     }
   }
