@@ -249,7 +249,7 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
               key={id}
               size="lg"
               icon={icon}
-              iconSize={32}
+              iconSize={24}
               counter={counter ?? null}
               tooltip={ariaLabel}
               className={styles.headerIcon}
@@ -265,7 +265,7 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
           <IconButton
             size="lg"
             icon={ProfileIcon}
-            iconSize={32}
+            iconSize={24}
             tooltip="Профиль"
             className={styles.headerIcon}
             aria-label="Профиль"

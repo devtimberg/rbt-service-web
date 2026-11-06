@@ -317,7 +317,7 @@
   .desktopIcons {
     display: none;
     flex-shrink: 0;
-    gap: var(--space-4xl);
+    gap: 1.75rem;
     margin-left: var(--space-lg);
 
     @media (--lg) {
@@ -327,8 +327,8 @@
 
   /* Hover не нужен: цвет уже белый, а фон у ghost при наведении прозрачный */
   .headerIcon {
-    width: 2rem;
-    height: 2.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: var(--radius-sm);
     color: var(--color-icon-inverse);
   }
