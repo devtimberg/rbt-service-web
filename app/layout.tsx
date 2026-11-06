@@ -30,10 +30,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '16x16 32x32 48x48', type: 'image/x-icon' },
-      { url: '/favicon-96.png', sizes: '96x96', type: 'image/png' },
-      { url: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' },
+      { url: '/icons/favicon-96.webp', sizes: '96x96', type: 'image/webp' },
+      { url: '/icons/favicon.svg', sizes: 'any', type: 'image/svg+xml' },
     ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+    apple: [{ url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
   manifest: '/site.webmanifest',
   formatDetection: { telephone: false, email: false, address: false },

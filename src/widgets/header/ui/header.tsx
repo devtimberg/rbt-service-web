@@ -149,9 +149,9 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
         {/* Мобильная шапка: логотип на главной, заголовок на остальных страницах */}
         {!isSearch && isHomePage && (
           <SmartLink href={ROUTES.HOME} className={styles.mobileLogo}>
-            <Image src="/brand/emblem.svg" alt="" width={48} height={48} className={styles.emblem} />
+            <Image src="/images/brand/emblem.svg" alt="" width={48} height={48} className={styles.emblem} />
             <Image
-              src="/brand/logo.svg"
+              src="/images/brand/logo.svg"
               alt="ООО ТТЦ Рембыттехника"
               width={201.731}
               height={32}
@@ -209,9 +209,9 @@ export function Header({ search, homeNotice, homeSearch }: HeaderProps) {
 
         {/* Логотип на десктопе */}
         <SmartLink href={ROUTES.HOME} className={styles.desktopLogo}>
-          <Image src="/brand/emblem.svg" alt="" width={48} height={48} className={styles.emblem} />
+          <Image src="/images/brand/emblem.svg" alt="" width={48} height={48} className={styles.emblem} />
           <Image
-            src="/brand/logo.svg"
+            src="/images/brand/logo.svg"
             alt="ООО ТТЦ Рембыттехника"
             width={201.731}
             height={32}

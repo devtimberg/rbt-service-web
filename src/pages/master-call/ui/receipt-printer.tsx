@@ -27,8 +27,10 @@ export function ReceiptPrinter({ values, call, hasError = false, activity = 0 }:
   const printer = (
     <Box className={cn(styles.printer, call && styles.detached)} aria-hidden>
       <Image
-        src="/master-call/printer.webp"
-        sources={[{ media: '(width < 64rem)', srcSet: '/master-call/printer-mobile.webp', width: 1150, height: 884 }]}
+        src="/images/receipt-printer/printer.webp"
+        sources={[
+          { media: '(width < 64rem)', srcSet: '/images/receipt-printer/printer-mobile.webp', width: 1150, height: 884 },
+        ]}
         width={1562}
         height={1007}
         alt=""
@@ -36,7 +38,7 @@ export function ReceiptPrinter({ values, call, hasError = false, activity = 0 }:
         className={styles.body}
       />
       <Image
-        src="/master-call/sticker.webp"
+        src="/images/receipt-printer/sticker-master-call.webp"
         width={700}
         height={500}
         alt=""
@@ -49,7 +51,7 @@ export function ReceiptPrinter({ values, call, hasError = false, activity = 0 }:
         data-state={indicatorState}
       >
         <Image
-          src="/master-call/indicator.svg"
+          src="/images/receipt-printer/indicator.svg"
           width={99.3631}
           height={82.8026}
           alt=""

@@ -54,3 +54,9 @@ make docker-build      # образ rbt-service-web:local
 make docker-run        # контейнер на порту 3001 с env из .env
 make docker-stop
 ```
+
+## Изображения
+
+Статические изображения лежат в `public/images`: `brand` — логотипы, `benefits` — иконки преимуществ, `contacts` — карты, `receipt-printer` — общая сцена принтера и наклейки форм. Растровые изображения — WebP, векторные — SVG.
+
+Служебные иконки лежат в `public/icons`. Два PNG сохранены для совместимости: `apple-touch-icon.png` для iOS и `icon-512.png` для Open Graph (также используется манифестом). `favicon.ico` и `site.webmanifest` остаются в корне `public`. При переносе файлов обновляйте ссылки в коде и манифесте.

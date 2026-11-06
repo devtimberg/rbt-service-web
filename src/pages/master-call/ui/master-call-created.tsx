@@ -12,7 +12,7 @@ export function MasterCallCreated({ call }: { call: MasterCall }) {
       <Box className={styles.result} aria-live="polite">
         <Box className={styles.status}>
           <Box className={styles.badge}>
-            <Image src="/master-call/success.svg" width={72} height={72} alt="" className={styles.check} />
+            <Image src="/images/receipt-printer/success.svg" width={72} height={72} alt="" className={styles.check} />
           </Box>
           <Heading level={1} className={styles.title}>
             Заявка создана

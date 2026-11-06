@@ -63,8 +63,8 @@ export function WorkingHoursContent({ mobile, titleId, onClose }: WorkingHoursCo
         </Text>
       </Box>
       <Image
-        src="/contacts/map-mobile.png"
-        sources={[{ media: '(min-width: 768px)', srcSet: '/contacts/map-desktop.png' }]}
+        src="/images/contacts/map-mobile.webp"
+        sources={[{ media: '(min-width: 768px)', srcSet: '/images/contacts/map-desktop.webp' }]}
         alt="Схема расположения сервиса: Челябинск, улица Производственная, 8Б"
         width={450}
         height={220}
