@@ -8,11 +8,11 @@ export type BenefitItem = {
 
 export const HOME_BENEFITS: BenefitItem[] = [
   {
-    key: 'payment',
-    iconSrc: '/images/benefits/wallet.webp',
-    iconWidth: 48,
-    iconHeight: 48,
-    text: 'Наличный или\nбезналичный расчет',
+    key: 'trust',
+    iconSrc: '/images/benefits/handshake.webp',
+    iconWidth: 32,
+    iconHeight: 32,
+    text: 'Нам доверяют ведущие\nпроизводители техники',
   },
   {
     key: 'delivery',
@@ -20,13 +20,6 @@ export const HOME_BENEFITS: BenefitItem[] = [
     iconWidth: 24,
     iconHeight: 24,
     text: 'Доставка\nпо всей России',
-  },
-  {
-    key: 'return',
-    iconSrc: '/images/benefits/return-30.webp',
-    iconWidth: 24,
-    iconHeight: 24,
-    text: 'Возврат товара\nв течение 30 дней',
   },
   {
     key: 'guarantee',
@@ -40,6 +33,6 @@ export const HOME_BENEFITS: BenefitItem[] = [
     iconSrc: '/images/benefits/free-call.webp',
     iconWidth: 24,
     iconHeight: 24,
-    text: 'Бесплатный звонок\n8-800-333-555-6',
+    text: 'Звоните нам\n8-800-333-555-6',
   },
 ]

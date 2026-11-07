@@ -28,10 +28,12 @@ export const HOME_QUICK_ACTIONS: QuickActionItem[] = [
     icon: CatalogIcon,
   },
   {
-    key: 'order-status',
-    text: 'Статус\nзаказа',
-    href: ROUTES.ORDERS_STATUS,
-    icon: OrderStatusIcon,
+    key: 'call-master',
+    text: 'Вызвать\nмастера',
+    href: ROUTES.MASTER_CALL,
+    icon: MasterIcon,
+    isAccent: true,
+    colorVariant: 'accent',
   },
   {
     key: 'order-parts',
@@ -40,18 +42,16 @@ export const HOME_QUICK_ACTIONS: QuickActionItem[] = [
     icon: OrderDetailIcon,
   },
   {
+    key: 'order-status',
+    text: 'Статус\nзаказа',
+    href: ROUTES.ORDERS_STATUS,
+    icon: OrderStatusIcon,
+  },
+  {
     key: 'repair-services',
     text: 'Услуги\nремонта',
     href: ROUTES.SERVICES_REPAIR,
     icon: ServicesRepairIcon,
-  },
-  {
-    key: 'call-master',
-    text: 'Вызвать\nмастера',
-    href: ROUTES.MASTER_CALL,
-    icon: MasterIcon,
-    isAccent: true,
-    colorVariant: 'accent',
   },
   {
     key: 'feedback',

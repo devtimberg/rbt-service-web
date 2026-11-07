@@ -27,13 +27,13 @@
     display: flex;
     width: 100%;
     flex-direction: column;
-    gap: clamp(28px, 7.5vh, 144px);
+    gap: var(--space-2xl);
 
     @media (--sm) {
       gap: clamp(24px, 5vh, 80px);
     }
 
-    @media (min-height: 900px) {
+    @media (--sm) and (min-height: 900px) {
       gap: clamp(80px, 8vh, 160px);
     }
   }
