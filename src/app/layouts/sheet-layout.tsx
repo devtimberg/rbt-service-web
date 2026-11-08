@@ -41,6 +41,7 @@ export function SheetLayout({ pathname, active, open, disableOpenAnimation, chil
         <Box
           className={cn(
             styles.inner,
+            pathname === ROUTES.PRIVACY_POLICY && styles.privacyPolicy,
             (pathname === ROUTES.MASTER_CALL || pathname === ROUTES.PARTS_REQUEST) && styles.masterCall,
           )}
         >

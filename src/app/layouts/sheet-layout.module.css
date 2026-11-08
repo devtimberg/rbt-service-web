@@ -87,6 +87,14 @@
     }
   }
 
+  .privacyPolicy .viewport {
+    /* Поля документа задаёт Container, выровненный с содержимым шапки. */
+    padding: 0 0 calc(env(safe-area-inset-bottom) + 100px);
+    @media (--sm) {
+      padding: 0;
+    }
+  }
+
   .viewport {
     overflow-x: hidden;
     display: flex;
