@@ -7,6 +7,8 @@ name: ${STACK_NAME:?}
 services:
   web:
     image: rbt74-service-web:${IMAGE_TAG:?}
+    # Образ собирается на этом же хосте; в registry его нет, поэтому никогда не тянем
+    pull_policy: never
     restart: unless-stopped
     env_file: .env
     mem_limit: 512m
