@@ -1,7 +1,8 @@
-# Деплой rbt74-service-web на сервер окружения (docker compose, shell-раннер).
-# Пайплайн кладёт этот файл и .env в /opt/rbt74/apps/rbt74-service-web.
-# Вручную: cd /opt/rbt74/apps/rbt74-service-web && docker compose up -d
-name: rbt74-service-web
+# Деплой rbt74-service-web (docker compose, shell-раннер). test и prod живут на одном сервере:
+# окружения различаются переменными из deploy/<окружение>.env (STACK_NAME, APP_HOST, API_INTERNAL_URL).
+# Пайплайн кладёт этот файл и .env в /opt/rbt74/apps/$STACK_NAME.
+# Вручную: cd /opt/rbt74/apps/<STACK_NAME> && docker compose up -d
+name: ${STACK_NAME:?}
 
 services:
   web:
@@ -26,9 +27,11 @@ services:
       - traefik.enable=true
       # Сайт на корне основного домена окружения. /api забирает бэкенд: у его правила
       # PathPrefix длиннее, поэтому приоритет у Traefik выше
-      - traefik.http.routers.rbt74-service-web.rule=Host(`${APP_HOST:?}`)
-      - traefik.http.routers.rbt74-service-web.entrypoints=websecure
-      - traefik.http.services.rbt74-service-web.loadbalancer.server.port=3000
+      - traefik.http.routers.${STACK_NAME}.rule=Host(`${APP_HOST:?}`)
+      - traefik.http.routers.${STACK_NAME}.entrypoints=websecure
+      # Белый список домена (middleware определён в stacks/traefik инфраструктуры)
+      - traefik.http.routers.${STACK_NAME}.middlewares=${ACCESS_MIDDLEWARE:?}
+      - traefik.http.services.${STACK_NAME}.loadbalancer.server.port=3000
 
 networks:
   proxy:
