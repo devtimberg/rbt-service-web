@@ -14,7 +14,7 @@
     background-color: var(--color-surface-default);
     color: var(--color-text-primary);
     font-family: var(--font-mono);
-    /* Слои: зубцы сверху, сплошная середина (ниже зубцов) */
+    /* Сплошная часть перекрывает зубцы на 1px: без перекрытия при дробном zoom виден шов. */
     mask:
       radial-gradient(
           circle at 50% 0,
@@ -22,7 +22,7 @@
           #000 calc(var(--receipt-edge-radius) + 0.5px)
         )
         top / var(--receipt-edge-step) var(--tooth) repeat-x,
-      linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - var(--tooth)) no-repeat;
+      linear-gradient(#000, #000) 0 calc(var(--tooth) - 1px) / 100% calc(100% - var(--tooth) + 1px) no-repeat;
     -webkit-mask:
       radial-gradient(
           circle at 50% 0,
@@ -30,7 +30,7 @@
           #000 calc(var(--receipt-edge-radius) + 0.5px)
         )
         top / var(--receipt-edge-step) var(--tooth) repeat-x,
-      linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - var(--tooth)) no-repeat;
+      linear-gradient(#000, #000) 0 calc(var(--tooth) - 1px) / 100% calc(100% - var(--tooth) + 1px) no-repeat;
   }
 
   .both {
@@ -48,7 +48,7 @@
           #000 calc(var(--receipt-edge-radius) + 0.5px)
         )
         bottom / var(--receipt-edge-step) var(--tooth) repeat-x,
-      linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - 2 * var(--tooth)) no-repeat;
+      linear-gradient(#000, #000) 0 calc(var(--tooth) - 1px) / 100% calc(100% - 2 * var(--tooth) + 2px) no-repeat;
     -webkit-mask:
       radial-gradient(
           circle at 50% 0,
@@ -62,7 +62,7 @@
           #000 calc(var(--receipt-edge-radius) + 0.5px)
         )
         bottom / var(--receipt-edge-step) var(--tooth) repeat-x,
-      linear-gradient(#000, #000) 0 var(--tooth) / 100% calc(100% - 2 * var(--tooth)) no-repeat;
+      linear-gradient(#000, #000) 0 calc(var(--tooth) - 1px) / 100% calc(100% - 2 * var(--tooth) + 2px) no-repeat;
   }
 
   .text {
