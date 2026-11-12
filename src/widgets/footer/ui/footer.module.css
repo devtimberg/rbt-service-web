@@ -49,6 +49,10 @@
     }
   }
 
+  .policyLink {
+    text-decoration: underline;
+  }
+
   .inverse {
     color: var(--color-text-inverse);
   }

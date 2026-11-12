@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useId, useRef, useState } from 'react'
+import { ROUTES } from '@/shared/config'
 import { cn } from '@/shared/lib/cn'
 import { useIsMobile } from '@/shared/lib/use-media-query'
 import {
@@ -13,6 +14,7 @@ import {
   PopoverTrigger,
   Sheet,
   SheetContent,
+  SmartLink,
   Text,
 } from '@/shared/ui'
 import { WorkingHoursContent } from './working-hours-content'
@@ -63,7 +65,11 @@ export function Footer({ variant = 'inverse' }: FooterProps) {
     <Container className={styles.root}>
       <Stack direction="row" className={styles.row}>
         <Text className={cn(styles.copyright, isInverse ? styles.inverse : styles.tertiary)}>
-          {`© 1995 — 2026 ТТЦ Рембыттехника.\nВсе права защищены. Условия использования. Политика конфиденциальности.\nАдрес: г. Челябинск, ул. Производственная д. 8Б, Тел.: +7(351)239-39-39 Email: service@rbt.ru`}
+          {`© 1995 — 2026 ТТЦ Рембыттехника.\nВсе права защищены. Условия использования. `}
+          <SmartLink href={ROUTES.PRIVACY_POLICY} className={styles.policyLink}>
+            Политика конфиденциальности
+          </SmartLink>
+          {`.\nАдрес: г. Челябинск, ул. Производственная д. 8Б, Тел.: +7(351)239-39-39 Email: service@rbt.ru`}
         </Text>
         <Stack direction="row" align="center" justify="center" className={styles.hours} gap={4}>
           <Text className={styles.greeting}>
