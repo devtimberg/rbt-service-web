@@ -1,40 +1,40 @@
-# Сборка и деплой rbt74-service-web shell-раннером прямо на сервере окружения.
+# Сборка и деплой rbt74-service-web shell-раннером. test и prod живут на одном сервере.
 # Node на сервере не нужен: зависимости и next build выполняются внутри Dockerfile (multi-stage).
 #
-#   ветки main и devops -> test (раннер с тегом rbt74-test, https://test.rbt74.ru/)
+#   ветки main и devops       -> build + deploy-test (автоматически, https://test.rbt74.ru/)
+#   ветка main (по умолчанию) -> deploy-prod кнопкой: тот же образ, что прошёл test (https://rbt74.ru/)
 #
 # Образ собирается локальным docker и в registry не пушится: деплой идёт на том же хосте.
-# Все настройки окружения берутся из deploy/<окружение>.env.
+# Все настройки окружения берутся из deploy/<test|prod>.env (в рантайме, образ один на оба окружения).
 
 variables:
   APP_NAME: rbt74-service-web
-  DEPLOY_DIR: /opt/rbt74/apps/rbt74-service-web
   IMAGE_TAG: $CI_COMMIT_SHORT_SHA
-  # Сколько последних образов сервиса хранить на сервере для отката
-  KEEP_IMAGES: "3"
+  # Сколько последних образов хранить на сервере. С запасом: prod выкатывается позже test тем же образом
+  KEEP_IMAGES: "10"
 
 stages: [build, deploy]
 
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "devops"
-      variables: { RUNNER_TAG: rbt74-test, DEPLOY_ENV_NAME: test }
 
 default:
-  tags: [$RUNNER_TAG]
+  tags: [rbt74-test]
 
 build:
   stage: build
   script:
     - docker build --pull -t "$APP_NAME:$IMAGE_TAG" .
 
-deploy:
+.deploy:
   stage: deploy
-  environment:
-    name: $DEPLOY_ENV_NAME
-    url: https://test.rbt74.ru/
-  resource_group: $DEPLOY_ENV_NAME
   script:
+    - |
+      docker image inspect "$APP_NAME:$IMAGE_TAG" >/dev/null 2>&1 || {
+        echo "Образа $APP_NAME:$IMAGE_TAG уже нет на сервере (почищен). Перезапустите пайплайн целиком."; exit 1; }
+    - STACK_NAME=$(grep -m1 '^STACK_NAME=' "deploy/$DEPLOY_ENV_NAME.env" | cut -d= -f2)
+    - DEPLOY_DIR="/opt/rbt74/apps/$STACK_NAME"
     - mkdir -p "$DEPLOY_DIR"
     - cp deploy/compose.yml "$DEPLOY_DIR/compose.yml"
     - |
@@ -45,7 +45,30 @@ deploy:
     - chmod 600 "$DEPLOY_DIR/.env.new" && mv "$DEPLOY_DIR/.env.new" "$DEPLOY_DIR/.env"
     - cd "$DEPLOY_DIR"
     - docker compose up -d --wait --wait-timeout 180 || { docker compose logs --tail=200; exit 1; }
-    # Старые образы сервиса: оставляем KEEP_IMAGES последних, используемый docker удалить не даст
+    # Старые образы: оставляем KEEP_IMAGES последних; используемые test и prod docker удалить не даст
     - >-
       docker image ls "$APP_NAME" --format '{{.CreatedAt}}|{{.Repository}}:{{.Tag}}' | sort -r |
-      tail -n +$((KEEP_IMAGES + 1)) | cut -d'|' -f2 | xargs -r docker rmi || true
+      tail -n +$((KEEP_IMAGES + 1)) | cut -d'|' -f2 | xargs -r docker rmi 2>/dev/null || true
+
+deploy-test:
+  extends: .deploy
+  variables: { DEPLOY_ENV_NAME: test }
+  environment:
+    name: test
+    url: https://test.rbt74.ru/
+  resource_group: service-web-test
+
+deploy-prod:
+  extends: .deploy
+  tags: [rbt74-prod]
+  needs: [build, deploy-test]
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+      # без этого пайплайн висит в статусе blocked, пока prod не выкачен
+      allow_failure: true
+  variables: { DEPLOY_ENV_NAME: prod }
+  environment:
+    name: production
+    url: https://rbt74.ru/
+  resource_group: service-web-prod
